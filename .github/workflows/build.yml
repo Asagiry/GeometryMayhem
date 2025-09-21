@@ -23,7 +23,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: windows-build
-          path: builds/Windows Desktop/*
+          path: build/windows/*
 
   release:
     needs: build        
@@ -33,7 +33,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: windows-build
-          path: ./Windows
+          path: ./windows
 
       - name: Upload to GitHub Release
         uses: softprops/action-gh-release@v1
