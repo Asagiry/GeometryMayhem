@@ -17,14 +17,13 @@ jobs:
           godot_executable_download_url: https://github.com/godotengine/godot-builds/releases/download/4.5-stable/Godot_v4.5-stable_linux.x86_64.zip
           godot_export_templates_download_url: https://github.com/godotengine/godot-builds/releases/download/4.5-stable/Godot_v4.5-stable_export_templates.tpz
           presets_to_export: "Windows Desktop"
-          output_path: builds/Windows Desktop/GeometryMayhem.exe
           cache: true
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: windows-build
-          path: builds/Windows Desktop/*
+	uses: actions/upload-artifact@v4
+	with:
+  	  name: windows-build
+  	  path: ~/.local/share/godot/builds/Windows Desktop/*
 
   release:
     needs: build        
