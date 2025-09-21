@@ -2,7 +2,8 @@ name: Build and Release
 
 on:
   push:
-    tags: [ "v*" ] 
+    tags:
+      - "v*"
 
 jobs:
   build:
@@ -11,33 +12,31 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Export Windows build
+      - name: Export Godot project (Windows Desktop)
         uses: firebelley/godot-export@v7.0.0
         with:
-          godot_executable_download_url: https://github.com/godotengine/godot-builds/releases/download/4.5-stable/Godot_v4.5-stable_linux.x86_64.zip
-          godot_export_templates_download_url: https://github.com/godotengine/godot-builds/releases/download/4.5-stable/Godot_v4.5-stable_export_templates.tpz
-          presets_to_export: "Windows Desktop"
-          cache: true
+          presets: "Windows Desktop"
+          output-path: build/windows/GeometryMayhem.exe
 
-      - name: Upload build artifact
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: windows-build
           path: build/windows/*
 
   release:
-    needs: build        
+    needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Download build artifact
+      - name: Download artifact
         uses: actions/download-artifact@v4
         with:
           name: windows-build
-          path: ./windows
+          path: build/windows
 
-      - name: Upload to GitHub Release
+      - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: ./windows/*
+          files: build/windows/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
