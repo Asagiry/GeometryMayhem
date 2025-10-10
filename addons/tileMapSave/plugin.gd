@@ -73,8 +73,7 @@ func _export_tilemap_via_viewport(root: Node2D):
 	await get_tree().process_frame
 	var img = sub_vp.get_texture().get_image()
 	img.flip_y()
-	var path = "res://exported_map.png"
-	img.save_png(path)
+	img.save_png("res://exported_map.png")
 	sub_vp.queue_free()
 
 func _activate_camera(cam: Camera2D):
