@@ -1,14 +1,10 @@
 63f7b34db8d8cdea90c76aacccf841ec
-::res://::1760140401
+::res://::1760140478
 DESICIONS.md::TextFile::-1::1758484342::0::1::::<><><>0<>0<><>::
 exported_map.png::CompressedTexture2D::3564604567468571399::1760138101::1760137879::1::::<><><>0<>0<>636898cb9f5b20745bd17f39edb7b3ce<>res://.godot/imported/exported_map.png-822c3c6cb7f4cdaac057c45e85bcd215.ctex::
 export_presets.cfg::TextFile::-1::1758490237::0::1::::<><><>0<>0<><>::
 icon.svg::CompressedTexture2D::606587060707526893::1760105434::1760137879::1::::<><><>0<>0<>d72219b20d1b4182b9917d197b48e3ea<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
 README.md::TextFile::-1::1758490237::0::1::::<><><>0<>0<><>::
-::res://addons/::1760135674
-::res://addons/tileMapSave/::1760139960
-plugin.cfg::TextFile::-1::1760135578::0::1::::<><><>0<>0<><>::
-plugin.gd::GDScript::1172169870920914421::1760139960::0::1::::<>EditorPlugin<><>0<>1<><>::
 ::res://assets/::1760108815
 ::res://assets/map/::1760133704
 ::res://assets/map/basicFloor/::1760139954
