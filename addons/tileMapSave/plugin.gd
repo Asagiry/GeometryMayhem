@@ -1,6 +1,5 @@
 @tool
 extends EditorPlugin
-
 var export_button: Button = null
 
 func _enter_tree():
