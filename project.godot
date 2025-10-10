@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="GeometryMayhem"
-run/main_scene="uid://51iiguo1dl6c"
+run/main_scene="uid://cgblk87y45i5x"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
