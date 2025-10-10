@@ -1,25 +1,24 @@
 @tool
 extends EditorPlugin
 
-var export_button: Button
+var export_button: Button = null
 
 func _enter_tree():
-	export_button = Button.new()
-	export_button.text = "Export Full TileMap PNG"
-	export_button.pressed.connect(self._on_export_pressed)
-	add_control_to_container(EditorPlugin.CONTAINER_CANVAS_EDITOR_MENU, export_button)
+	if export_button == null:
+		export_button = Button.new()
+		export_button.text = "Export Full TileMap PNG"
+		export_button.pressed.connect(_on_export_pressed)
+		add_control_to_container(EditorPlugin.CONTAINER_CANVAS_EDITOR_MENU, export_button)
 
 func _exit_tree():
-	remove_control_from_container(EditorPlugin.CONTAINER_CANVAS_EDITOR_MENU, export_button)
-	export_button.free()
+	if export_button:
+		remove_control_from_container(EditorPlugin.CONTAINER_CANVAS_EDITOR_MENU, export_button)
+		export_button.queue_free()
+		export_button = null
 
 func _on_export_pressed():
 	var selection = get_editor_interface().get_selection()
 	var selected_nodes = selection.get_selected_nodes()
-	if selected_nodes.size() == 0:
-		print("⚠️ Выберите Node2D с TileMapLayer!")
-		return
-
 	for node in selected_nodes:
 		if node is Node2D:
 			_export_tilemap_via_viewport(node)
@@ -51,46 +50,31 @@ func _get_tilemap_bounds(layers: Array) -> Rect2:
 
 func _export_tilemap_via_viewport(root: Node2D):
 	var layers = _get_all_tilemap_layers(root)
-	if layers.size()==0:
-		print("⚠️ Нет TileMapLayer для экспорта!")
+	if layers.size() == 0:
 		return
-
 	var bounds = _get_tilemap_bounds(layers)
 	var img_size = bounds.size
-
-	# SubViewport для рендера
 	var sub_vp = SubViewport.new()
 	sub_vp.size = img_size
 	sub_vp.transparent_bg = true
 	sub_vp.render_target_update_mode = SubViewport.UPDATE_ONCE
-
 	var container = Node2D.new()
 	container.position = -bounds.position
 	sub_vp.add_child(container)
-
-	# Копируем все слои (без обращения к устаревшим методам)
 	for layer in layers:
-		var copy = layer.duplicate()  # дублируем слой как есть
+		var copy = layer.duplicate()
 		container.add_child(copy)
-
-	# Камера
 	var cam = Camera2D.new()
 	cam.position = Vector2.ZERO
 	container.add_child(cam)
 	call_deferred("_activate_camera", cam)
-
-	# Добавляем SubViewport в сцену, ждём один кадр
 	root.get_tree().get_root().add_child(sub_vp)
 	await get_tree().process_frame
 	await get_tree().process_frame
-
-	# Получаем изображение и сохраняем PNG
 	var img = sub_vp.get_texture().get_image()
 	img.flip_y()
 	var path = "res://exported_map.png"
 	img.save_png(path)
-	print("✅ Full TileMap Exported:", path)
-
 	sub_vp.queue_free()
 
 func _activate_camera(cam: Camera2D):
