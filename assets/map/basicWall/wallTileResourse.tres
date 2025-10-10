@@ -1,0 +1,26 @@
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://cs5sou708m1ri"]
+
+[ext_resource type="Texture2D" uid="uid://vxi41vgu6gxe" path="res://assets/map/basicWall/basicWallTileSet.png" id="1_ffm5x"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wijl4"]
+texture = ExtResource("1_ffm5x")
+0:0/0 = 0
+2:0/0 = 0
+0:2/0 = 0
+2:2/0 = 0
+6:2/0 = 0
+0:4/0 = 0
+2:4/0 = 0
+4:4/0 = 0
+6:4/0 = 0
+4:6/0 = 0
+2:6/0 = 0
+0:6/0 = 0
+
+[resource]
+physics_layer_0/collision_layer = 1
+physics_layer_0/collision_mask = 0
+terrain_set_0/mode = 0
+terrain_set_0/terrain_0/name = "Terrain 0"
+terrain_set_0/terrain_0/color = Color(0.5, 0.34375, 0.25, 1)
+sources/0 = SubResource("TileSetAtlasSource_wijl4")
