@@ -36,7 +36,8 @@ func activate_dash():
 	cooldown_timer.wait_time = attack_cd
 	cooldown_timer.start()
 
-	start_dash_tween(player, player.global_position + forward * dash_attack_range, dash_attack_instance)
+	start_dash_tween(player, player.global_position + forward * dash_attack_range, \
+	 dash_attack_instance)
 
 
 func disable_player_hurt_box(disable: bool):
