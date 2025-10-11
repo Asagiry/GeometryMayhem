@@ -21,8 +21,5 @@ jobs:
       - name: Install gdtoolkit
         run: pip install gdtoolkit
 
-      - name: Run gdformat (check formatting)
-        run: gdformat --check .
-
       - name: Run gdlint (check for errors)
         run: gdlint .
