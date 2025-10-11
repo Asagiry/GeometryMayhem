@@ -62,7 +62,6 @@ func push_enemy(enemy: Node2D, facing_direction: Vector2) -> void:
 	.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
 
 
-#TODO тут пока не ясно, как отражать урон от projectile мобу, который его вызвал(AI)
 func _on_projectile_detected(projectile: Area2D):
 	if not is_parrying:
 		return

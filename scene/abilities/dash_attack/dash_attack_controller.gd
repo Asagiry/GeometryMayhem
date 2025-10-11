@@ -10,10 +10,6 @@ extends Node
 @onready var hurt_box_shape: CollisionShape2D = %HurtBoxShape
 @onready var cooldown_timer = $CooldownTimer
 
-#TODO можно дешнуться за карту - исправить(AI)
-#решение 1 - кидать рейкаст и не давать нажать деш
-#решение 2 - деш укорачивается до стены
-
 
 func _process(delta):
 	if Input.is_action_just_pressed("left_mouse_click"):
@@ -47,7 +43,6 @@ func disable_player_hurt_box(disable: bool):
 	hurt_box_shape.disabled = disable
 
 
-#TODO посмотреть, не дохнут ли крипы до дэша, если дохнут до дэша - исправить тут(AI)
 func start_dash_tween(player: Node2D, target_position, dash_attack_instance: DashAttack):
 	var tween = create_tween()
 	tween.tween_property(player, "global_position", target_position, 0.2) \
