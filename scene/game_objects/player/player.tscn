@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://d2bd4ujy5qv0c" path="res://scene/game_objects/player/player.gd" id="1_u6ae3"]
 [ext_resource type="Texture2D" uid="uid://clqw3fttw3cl1" path="res://assets/player/block.png" id="2_c7mlt"]
-[ext_resource type="PackedScene" uid="uid://b0xrjstrhdb1c" path="res://scene/abilities/default_attack/dash_attack_controller.tscn" id="2_jxsrc"]
+[ext_resource type="PackedScene" uid="uid://b0xrjstrhdb1c" path="res://scene/abilities/dash_attack/dash_attack_controller.tscn" id="2_jxsrc"]
 [ext_resource type="Texture2D" uid="uid://c0iehayvefpw" path="res://assets/player/idle.png" id="2_sg6kp"]
 [ext_resource type="PackedScene" uid="uid://qrs7simtre66" path="res://scene/components/movement_component.tscn" id="3_4vals"]
 [ext_resource type="Texture2D" uid="uid://ce80rc1mselg1" path="res://assets/player/run.png" id="3_6qri3"]

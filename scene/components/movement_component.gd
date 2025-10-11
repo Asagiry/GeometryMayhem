@@ -1,6 +1,6 @@
 extends Node
 
-#TODO (AI) Общий компонент для плеера и для крипов, возможно придется сделать разделение 
+#TODO (AI) Общий компонент для плеера и для крипов, возможно придется сделать разделение
 #на два мувмент компонента для крипов и для плеера
 #Или переделать тут логику.
 
@@ -9,11 +9,13 @@ extends Node
 
 var current_velocity = Vector2.ZERO
 
+
 func move_to_player(mob: CharacterBody2D):
 	var direction = get_direction()
 	var velocity = accelerate_to_direction(direction)
 	mob.velocity = velocity
 	mob.move_and_slide()
+
 
 func get_direction():
 	var mob = owner as Node2D
@@ -21,6 +23,7 @@ func get_direction():
 	if player != null:
 		return (player.global_position - mob.global_position).normalized()
 	return Vector2.ZERO
+
 
 func accelerate_to_direction(direction: Vector2):
 	var final_velocity = max_speed * direction

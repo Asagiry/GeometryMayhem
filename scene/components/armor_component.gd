@@ -1,7 +1,9 @@
 extends Node
+
 class_name ArmorComponent
 
 @export var physical_armor: float = 0.0
+
 
 #формула дота2, 10 армора = 37% снижение физического урона
 func calculate_reduced_damage(damage):

@@ -4,6 +4,7 @@ signal melee_detected(enemy_melee_targets: Array[Node2D])
 
 var melee_targets: Array[Node2D] = []
 
+
 func _on_area_entered(area: Area2D) -> void:
 	if area is EnemyHurtBoxComponent:
 		if area.owner.is_in_group("enemy"):

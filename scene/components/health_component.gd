@@ -1,4 +1,5 @@
 extends Node
+
 class_name HealthComponent
 
 signal died
@@ -9,6 +10,7 @@ signal health_decreased
 @onready var armor_component: ArmorComponent = %ArmorComponent
 
 var current_health: float
+
 
 func _ready():
 	current_health = max_health
