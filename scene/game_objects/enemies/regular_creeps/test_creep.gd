@@ -5,11 +5,11 @@ extends CharacterBody2D
 
 
 func _ready():
-	health_component.died.connect(on_died)
+	health_component.died.connect(_on_died)
 	
 func _process(delta):
 	var direction = movement_component.get_direction()
 	movement_component.move_to_player(self)
 	
-func on_died():
+func _on_died():
 	queue_free()

@@ -18,6 +18,9 @@ unique_name_in_owner = true
 [node name="TestCreep" parent="BackLayer" instance=ExtResource("3_s8ale")]
 position = Vector2(180, -142)
 
+[node name="TestCreep2" parent="BackLayer" instance=ExtResource("3_s8ale")]
+position = Vector2(117, -142)
+
 [node name="FrontLayer" type="Node2D" parent="." groups=["front_layer"]]
 
 [node name="Camera2D" type="Camera2D" parent="."]

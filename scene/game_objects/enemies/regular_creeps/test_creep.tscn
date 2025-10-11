@@ -17,7 +17,7 @@ size = Vector2(13, 13)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h3cmp"]
 size = Vector2(12, 11)
 
-[node name="TestCreep" type="CharacterBody2D"]
+[node name="TestCreep" type="CharacterBody2D" groups=["enemy"]]
 collision_layer = 4
 collision_mask = 5
 script = ExtResource("1_reyus")
@@ -40,6 +40,8 @@ texture = ExtResource("2_h424k")
 shape = SubResource("RectangleShape2D_h424k")
 
 [node name="EnemyHurtBoxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("6_ylj4q")]
+collision_layer = 128
+collision_mask = 20
 health_component = NodePath("../HealthComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyHurtBoxComponent"]

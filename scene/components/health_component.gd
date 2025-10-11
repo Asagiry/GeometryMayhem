@@ -19,7 +19,7 @@ func take_damage(damage):
 	if armor_component != null:
 		reduced_damage = armor_component.calculate_reduced_damage(damage)
 	current_health = max(current_health - reduced_damage, 0)
-	print(owner," = ", current_health)
+	#print(owner.get_groups()," = ", current_health)
 	health_decreased.emit()
 	Callable(check_death).call_deferred()
 

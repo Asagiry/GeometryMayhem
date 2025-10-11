@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://ci75yoy6kjcwn"]
+
+[ext_resource type="PackedScene" uid="uid://cyw5eh2f6od3a" path="res://scene/components/ParryComponent/parry_projectile_area.tscn" id="1_hdh3h"]
+[ext_resource type="Script" uid="uid://cb1mp10rfqq01" path="res://scene/components/ParryComponent/parry_component.gd" id="1_hdo3e"]
+[ext_resource type="PackedScene" uid="uid://coyi634oh0btg" path="res://scene/components/ParryComponent/parry_melee_area.tscn" id="2_6yw5m"]
+
+[node name="ParryComponent" type="Node2D"]
+script = ExtResource("1_hdo3e")
+
+[node name="ParryCooldown" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="ParryProjectileArea" parent="." instance=ExtResource("1_hdh3h")]
+unique_name_in_owner = true
+disable_mode = 2
+
+[node name="ParryMeleeArea" parent="." instance=ExtResource("2_6yw5m")]
+unique_name_in_owner = true
+disable_mode = 2
+collision_layer = 16
+collision_mask = 128
