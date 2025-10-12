@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://b0xrjstrhdb1c"]
+
+[ext_resource type="Script" uid="uid://dtbmwbs1guttp" path="res://scene/abilities/dash_attack/dash_attack_controller.gd" id="1_knd67"]
+[ext_resource type="PackedScene" uid="uid://b4wk63m80ss3y" path="res://scene/abilities/dash_attack/dash_attack.tscn" id="2_irrc7"]
+
+[node name="DashAttackController" type="Node"]
+script = ExtResource("1_knd67")
+dash_attack_scene = ExtResource("2_irrc7")
+dash_attack_damage = null
+dash_attack_range = null
+damage_multiplier = null
+attack_cd = null
+dash_attack_width = null
+
+[node name="CooldownTimer" type="Timer" parent="."]
+one_shot = true

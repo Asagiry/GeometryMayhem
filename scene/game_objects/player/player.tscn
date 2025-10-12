@@ -133,6 +133,7 @@ points = PackedVector2Array(8, 7, -8, 7, 0, -8)
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 2
 script = ExtResource("1_u6ae3")
+rotation_speed = 15.0
 
 [node name="AbilityManager" type="Node" parent="."]
 
@@ -147,7 +148,7 @@ unique_name_in_owner = true
 [node name="MovementComponent" parent="." instance=ExtResource("3_4vals")]
 unique_name_in_owner = true
 max_speed = 200
-acceleration = 7.5
+acceleration = 15.0
 
 [node name="HealthComponent" parent="." instance=ExtResource("4_48qb4")]
 unique_name_in_owner = true
@@ -163,6 +164,7 @@ one_shot = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
+texture_filter = 3
 sprite_frames = SubResource("SpriteFrames_heqc5")
 animation = &"block"
 autoplay = "idle"

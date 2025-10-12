@@ -4,7 +4,7 @@ extends Node2D
 
 @export var parry_cd: float = 0.2  #кулдаун парирования
 @export var push_duration: float = 0.3 #время перемещения моба от точка А до точки Б(отталкивание)
-@export var push_distance: float = 80.0 
+@export var push_distance: float = 80.0
 
 var push_angle_range: float = 30.0 #угол в который могут отталкиваться мобы перед игроком
 var melee_targets: Array[Node2D]
