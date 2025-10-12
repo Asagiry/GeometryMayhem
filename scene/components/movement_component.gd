@@ -23,5 +23,6 @@ func get_direction():
 
 func accelerate_to_direction(direction: Vector2):
 	var final_velocity = max_speed * direction
-	current_velocity = current_velocity.lerp(final_velocity, 1 - exp(-acceleration * get_process_delta_time()))
+	current_velocity = current_velocity.lerp(final_velocity, 1 - \
+	exp(-acceleration * get_process_delta_time()))
 	return current_velocity
