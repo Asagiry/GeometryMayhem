@@ -137,7 +137,12 @@ script = ExtResource("1_u6ae3")
 [node name="AbilityManager" type="Node" parent="."]
 
 [node name="DashAttackController" parent="AbilityManager" instance=ExtResource("2_jxsrc")]
+unique_name_in_owner = true
 dash_attack_damage = 0.1
+attack_cd = 0.01
+
+[node name="ParryComponent" parent="." instance=ExtResource("6_tyng1")]
+unique_name_in_owner = true
 
 [node name="MovementComponent" parent="." instance=ExtResource("3_4vals")]
 unique_name_in_owner = true
@@ -149,9 +154,6 @@ unique_name_in_owner = true
 max_health = 50.0
 
 [node name="ArmorComponent" parent="." instance=ExtResource("5_ju00n")]
-unique_name_in_owner = true
-
-[node name="ParryComponent" parent="." instance=ExtResource("6_tyng1")]
 unique_name_in_owner = true
 
 [node name="GracePeriod" type="Timer" parent="."]
