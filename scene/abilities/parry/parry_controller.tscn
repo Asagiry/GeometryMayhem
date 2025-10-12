@@ -9,5 +9,4 @@ parry_scene = ExtResource("2_kb46s")
 
 [node name="ParryCooldown" type="Timer" parent="."]
 unique_name_in_owner = true
-wait_time = 0.5
 one_shot = true
