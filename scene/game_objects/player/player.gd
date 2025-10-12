@@ -32,7 +32,7 @@ var dash_from_mouse := false
 func _ready():
 	_enter_variables()
 	_connect_signals()
-	Engine.time_scale = 0.3
+	#Engine.time_scale = 0.3
 
 
 func _enter_variables():
