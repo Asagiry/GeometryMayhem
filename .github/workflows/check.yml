@@ -9,14 +9,11 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Setup Python
+      - name: Install Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.x'
@@ -24,28 +21,5 @@ jobs:
       - name: Install gdtoolkit
         run: pip install gdtoolkit
 
-      - name: Auto-format GDScript
-        run: |
-          # Форматируем только .gd файлы
-          files_to_format=$(git ls-files '*.gd')
-          if [[ -z "$files_to_format" ]]; then
-            echo "✅ No GDScript files found."
-          else
-            gdformat $files_to_format
-            if [[ $(git status --porcelain) ]]; then
-              echo "🔧 Formatting changes detected. Committing..."
-              git config user.name "github-actions[bot]"
-              git config user.email "github-actions[bot]@users.noreply.github.com"
-              git add $files_to_format
-              git commit -m "Auto-format GDScript code"
-              # Определяем текущую ветку PR или push
-              branch_name=${GITHUB_HEAD_REF:-$(git rev-parse --abbrev-ref HEAD)}
-              git push origin HEAD:$branch_name
-              echo "📌 Changes pushed to branch '$branch_name'."
-            else
-              echo "✅ No formatting changes needed."
-            fi
-          fi
-
-      - name: Run gdlint
+      - name: Run gdlint (check for errors)	
         run: gdlint .
