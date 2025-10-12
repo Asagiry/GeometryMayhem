@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@export var rotation_speed: float = 9.0
+@export var rotation_speed: float = 30.0 #9.0(AI)
 @export var grace_period_time: float = 0.5
 
 var last_direction: Vector2 = Vector2.ZERO
