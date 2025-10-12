@@ -5,12 +5,14 @@ extends Node
 @export var parry_cd: float = 0.2 #кулдаун парирования
 @export var push_duration: float = 0.2 #время перемещения моба от точка А до точки Б(отталкивание)
 @export var push_distance: float = 80.0
+@export var parry_duration: float = 0.1
 
 var push_angle_range: float = 30.0 #угол в который могут отталкиваться мобы перед игроком
 var melee_targets: Array[Node2D]
 var is_parrying: bool = false
 var parry_instance: Parry
-var player
+var player: Node2D
+var is_parry_from_mouse: bool
 
 @onready var parry_cooldown: Timer = $ParryCooldown
 
@@ -37,12 +39,22 @@ func _connect_signals():
 	parry_instance.melee_detected.connect(_on_melee_detected)
 
 
-func activate_parry():
+func activate_parry(input_state:bool):
 	if is_parrying or !parry_cooldown.is_stopped():
 		return
 	parry_cooldown.start(parry_cd)
 	is_parrying = true
-	await melee_parry()
+	is_parry_from_mouse = input_state
+
+	if is_parry_from_mouse:
+		var mouse_dir = player.global_position.direction_to(player.get_global_mouse_position())
+		player.rotation = mouse_dir.angle() + deg_to_rad(90)
+		player.last_direction = mouse_dir
+
+	for i in range(2):
+		await melee_parry()
+		await get_tree().create_timer(parry_duration/2).timeout
+
 	is_parrying = false
 
 

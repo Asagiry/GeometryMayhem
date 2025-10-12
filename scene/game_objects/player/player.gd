@@ -17,6 +17,7 @@ var base_speed: float
 var current_player_state: PlayerStates
 var is_input_blocked: bool
 var dash_from_mouse := false
+var parry_from_mouse := false
 
 @onready var animated_sprite_2d = %AnimatedSprite2D
 @onready var grace_period = %GracePeriod
@@ -61,7 +62,7 @@ func _handle_input(delta: float):
 
 		#func _change_current_state():
 		#if Input.is_action_just_pressed("left_mouse_click_dash") or \
-		#Input.is_action_just_pressed("space_dash"):
+		#Input.is_action_just_pressed("shift_dash"):
 		#current_player_state = PlayerStates.DASH_STATE
 		#elif Input.is_action_just_pressed("parry"):
 		#current_player_state = PlayerStates.PARRY_STATE
@@ -79,24 +80,32 @@ func _handle_move_state(delta: float):
 		animated_sprite_2d.play("run")
 	else:
 		animated_sprite_2d.play("idle")
-	var target_angle = last_direction.angle() + PI / 2
-	rotation = lerp_angle(rotation, target_angle, rotation_speed * delta)
+	if direction!=Vector2.ZERO:
+		var target_angle = last_direction.angle() + PI / 2
+		rotation = lerp_angle(rotation, target_angle, rotation_speed * delta)
 	move_and_slide()
 
 	if Input.is_action_just_pressed("left_mouse_click_dash"):
 		dash_from_mouse = true
 		current_player_state = PlayerStates.DASH_STATE
-	elif Input.is_action_just_pressed("space_dash"):
+	elif Input.is_action_just_pressed("shift_dash"):
 		dash_from_mouse = false
 		current_player_state = PlayerStates.DASH_STATE
-	elif Input.is_action_just_pressed("parry"):
+	elif Input.is_action_just_pressed("right_mouse_click_parry"):
+		parry_from_mouse = true
+		current_player_state = PlayerStates.PARRY_STATE
+	elif Input.is_action_just_pressed("space_parry"):
+		parry_from_mouse = false
 		current_player_state = PlayerStates.PARRY_STATE
 
 
 func _handle_parry_state():
-	animated_sprite_2d.speed_scale = 1 / (parry_controller.push_duration)
+	animated_sprite_2d.speed_scale = 2 / (parry_controller.push_duration)
+	animated_sprite_2d.speed_scale = 2 / (parry_controller.push_duration)
 	animated_sprite_2d.play("block")
-	parry_controller.activate_parry()
+
+	parry_controller.activate_parry(parry_from_mouse)
+
 	await animated_sprite_2d.animation_finished
 	animated_sprite_2d.speed_scale = 1
 	current_player_state = PlayerStates.MOVE_STATE
@@ -112,6 +121,7 @@ func _handle_dash_state():
 		dash_attack_controller.dash_duration,
 	) \
 	.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
+
 	dash_attack_controller.activate_dash(dash_from_mouse)
 
 	tween2.finished.connect(
