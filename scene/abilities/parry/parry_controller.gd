@@ -1,9 +1,8 @@
 class_name ParryController
-
 extends Node
 
 @export var parry_scene: PackedScene
-@export var parry_cd: float = 0.2  #кулдаун парирования
+@export var parry_cd: float = 0.2 #кулдаун парирования
 @export var push_duration: float = 0.2 #время перемещения моба от точка А до точки Б(отталкивание)
 @export var push_distance: float = 80.0
 
@@ -15,9 +14,11 @@ var player
 
 @onready var parry_cooldown: Timer = $ParryCooldown
 
+
 func _ready():
 	_enter_variables()
 	_connect_signals()
+
 
 func _process(_delta):
 	if parry_instance and is_instance_valid(player):
@@ -29,6 +30,7 @@ func _enter_variables():
 	player = get_tree().get_first_node_in_group("player") as Node2D
 	parry_instance = parry_scene.instantiate() as Parry
 	get_tree().get_first_node_in_group("front_layer").add_child(parry_instance)
+
 
 func _connect_signals():
 	parry_instance.projectile_detected.connect(_on_projectile_detected)
@@ -55,6 +57,7 @@ func _push_enemy(enemy: Node2D, facing_direction: Vector2) -> void:
 	var target_pos = _calculate_push_target(enemy, facing_direction)
 	_animate_enemy_push(enemy, target_pos)
 
+
 func _calculate_push_target(enemy: Node2D, facing_direction: Vector2) -> Vector2:
 	var direction = facing_direction.normalized()
 	var to_enemy = (enemy.global_position - parry_instance.global_position).normalized()
@@ -80,32 +83,37 @@ func _calculate_push_target(enemy: Node2D, facing_direction: Vector2) -> Vector2
 func _animate_enemy_push(enemy: Node2D, target_pos: Vector2) -> void:
 	var tween = create_tween()
 	tween.tween_property(enemy, "global_position", target_pos, push_duration) \
-		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUINT)
+	.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUINT)
 
 	var tilt_tween = create_tween()
 	tilt_tween.tween_property(
 		enemy.animated_sprite_2d,
 		"rotation",
 		deg_to_rad(-10.0),
-		push_duration / 3) \
-		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
-	tilt_tween.finished.connect(func():
-		var back_tween = create_tween()
-		back_tween.tween_property(
-		enemy.animated_sprite_2d,
-		 "rotation",
-		 deg_to_rad(10.0),
-		 push_duration / 3) \
-		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
-		back_tween.finished.connect(func():
-			var reset_tween = create_tween()
-			reset_tween.tween_property(
+		push_duration / 3,
+	) \
+	.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
+	tilt_tween.finished.connect(
+		func():
+			var back_tween = create_tween()
+			back_tween.tween_property(
 				enemy.animated_sprite_2d,
-				"rotation", 
-				0.0,
-				push_duration / 3) \
-				.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
-		)
+				"rotation",
+				deg_to_rad(10.0),
+				push_duration / 3,
+			) \
+			.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
+			back_tween.finished.connect(
+				func():
+					var reset_tween = create_tween()
+					reset_tween.tween_property(
+						enemy.animated_sprite_2d,
+						"rotation",
+						0.0,
+						push_duration / 3,
+					) \
+					.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
+			)
 	)
 	_shake_enemy(enemy)
 
@@ -119,9 +127,17 @@ func _shake_enemy(enemy: Node2D) -> void:
 	var shake_strength = 6.5
 	var shake_speed = 0.05
 
-	for i in range(4): 
-		shake_tween.tween_property(sprite, "position:x", sprite.position.x + randf_range(-shake_strength, shake_strength), shake_speed)
-		shake_tween.tween_property(sprite, "position:x", sprite.position.x, shake_speed)
+	for i in range(4):
+		shake_tween.tween_property(
+			sprite,
+			"position:x",
+			sprite.position.x + randf_range(-shake_strength, shake_strength),
+			shake_speed)
+		shake_tween.tween_property(
+			sprite,
+			"position:x",
+			sprite.position.x,
+			shake_speed)
 
 
 func _on_projectile_detected(projectile: Area2D):

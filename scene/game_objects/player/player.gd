@@ -27,7 +27,6 @@ var dash_from_mouse := false
 
 #endregion
 
-
 func _ready():
 	_enter_variables()
 	_connect_signals()
@@ -60,14 +59,13 @@ func _handle_input(delta: float):
 			PlayerStates.DASH_STATE:
 				_handle_dash_state()
 
-
-#func _change_current_state():
-	#if Input.is_action_just_pressed("left_mouse_click_dash") or \
-	#Input.is_action_just_pressed("space_dash"):
+		#func _change_current_state():
+		#if Input.is_action_just_pressed("left_mouse_click_dash") or \
+		#Input.is_action_just_pressed("space_dash"):
 		#current_player_state = PlayerStates.DASH_STATE
-	#elif Input.is_action_just_pressed("parry"):
+		#elif Input.is_action_just_pressed("parry"):
 		#current_player_state = PlayerStates.PARRY_STATE
-	#else:
+		#else:
 		#current_player_state = PlayerStates.MOVE_STATE
 
 
@@ -94,6 +92,7 @@ func _handle_move_state(delta: float):
 	elif Input.is_action_just_pressed("parry"):
 		current_player_state = PlayerStates.PARRY_STATE
 
+
 func _handle_parry_state():
 	animated_sprite_2d.speed_scale = 1 / (parry_controller.push_duration)
 	animated_sprite_2d.play("block")
@@ -108,21 +107,24 @@ func _handle_dash_state():
 
 	tween2.tween_property(
 		animated_sprite_2d,
-		"scale", 
-		Vector2(0.25, 1), 
-		dash_attack_controller.dash_duration) \
-		.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
+		"scale",
+		Vector2(0.25, 1),
+		dash_attack_controller.dash_duration,
+	) \
+	.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
 	dash_attack_controller.activate_dash(dash_from_mouse)
 
-	tween2.finished.connect(func():
-		var back_tween = create_tween()
-		back_tween.tween_property(
-			animated_sprite_2d, 
-			"scale", 
-			Vector2(1, 1),  
-			dash_attack_controller.dash_duration / 2) \
+	tween2.finished.connect(
+		func():
+			var back_tween = create_tween()
+			back_tween.tween_property(
+				animated_sprite_2d,
+				"scale",
+				Vector2(1, 1),
+				dash_attack_controller.dash_duration / 2,
+			) \
 			.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
-		current_player_state = PlayerStates.MOVE_STATE
+			current_player_state = PlayerStates.MOVE_STATE
 	)
 
 
