@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 @onready var movement_component: Node = %MovementComponent
 @onready var health_component: HealthComponent = %HealthComponent
+@onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
 
 
 func _ready():

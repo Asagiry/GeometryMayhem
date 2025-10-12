@@ -4,12 +4,12 @@
 [ext_resource type="Texture2D" uid="uid://clqw3fttw3cl1" path="res://assets/player/block.png" id="2_c7mlt"]
 [ext_resource type="PackedScene" uid="uid://b0xrjstrhdb1c" path="res://scene/abilities/dash_attack/dash_attack_controller.tscn" id="2_jxsrc"]
 [ext_resource type="Texture2D" uid="uid://c0iehayvefpw" path="res://assets/player/idle.png" id="2_sg6kp"]
-[ext_resource type="PackedScene" uid="uid://qrs7simtre66" path="res://scene/components/movement_component.tscn" id="3_4vals"]
+[ext_resource type="PackedScene" uid="uid://qrs7simtre66" path="res://scene/components/movement_component/movement_component.tscn" id="3_4vals"]
 [ext_resource type="Texture2D" uid="uid://ce80rc1mselg1" path="res://assets/player/run.png" id="3_6qri3"]
 [ext_resource type="Texture2D" uid="uid://gkeval76usey" path="res://assets/player/takeDamage.png" id="3_jxsrc"]
-[ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component.tscn" id="4_48qb4"]
-[ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component.tscn" id="5_ju00n"]
-[ext_resource type="PackedScene" uid="uid://ci75yoy6kjcwn" path="res://scene/components/ParryComponent/parry_component.tscn" id="6_tyng1"]
+[ext_resource type="PackedScene" uid="uid://brb3xhgavq8gl" path="res://scene/abilities/parry/parry_controller.tscn" id="3_tyng1"]
+[ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="4_48qb4"]
+[ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component/armor_component.tscn" id="5_ju00n"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_heqc5"]
 atlas = ExtResource("2_c7mlt")
@@ -80,7 +80,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"block",
-"speed": 7.0
+"speed": 4.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -94,7 +94,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"hit",
-"speed": 5.0
+"speed": 7.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -132,6 +132,7 @@ points = PackedVector2Array(8, 7, -8, 7, 0, -8)
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 2
+collision_mask = 5
 script = ExtResource("1_u6ae3")
 rotation_speed = 15.0
 
@@ -142,7 +143,7 @@ unique_name_in_owner = true
 dash_attack_damage = 0.1
 attack_cd = 0.01
 
-[node name="ParryComponent" parent="." instance=ExtResource("6_tyng1")]
+[node name="ParryController" parent="AbilityManager" instance=ExtResource("3_tyng1")]
 unique_name_in_owner = true
 
 [node name="MovementComponent" parent="." instance=ExtResource("3_4vals")]
@@ -168,6 +169,8 @@ texture_filter = 3
 sprite_frames = SubResource("SpriteFrames_heqc5")
 animation = &"block"
 autoplay = "idle"
+frame = 3
+frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_lfjyr")

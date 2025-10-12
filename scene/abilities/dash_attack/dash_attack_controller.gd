@@ -27,7 +27,7 @@ func activate_dash(input_state: bool):
 		return
 
 	var dash_attack_instance = _create_dash_instance()
-	var forward: = Vector2.UP.rotated(player.rotation)
+
 	_set_damage(dash_attack_instance)
 	_disable_player(true)
 
@@ -90,7 +90,6 @@ func _start_dash_tween(target_position, dash_attack_instance: DashAttack):
 	var direction = player.global_position.direction_to(target_position)
 	var distance = player.global_position.distance_to(target_position)
 
-	# Создаем временный KinematicBody для проверки столкновений
 	var test_body = CharacterBody2D.new()
 	var collision_shape = CollisionShape2D.new()
 	collision_shape.shape = RectangleShape2D.new()
@@ -100,7 +99,6 @@ func _start_dash_tween(target_position, dash_attack_instance: DashAttack):
 	test_body.collision_mask = 1 << 0 # Environment слой
 	add_child(test_body)
 
-	# Проверяем столкновение
 	var collision = test_body.move_and_collide(direction * distance)
 
 	var final_target_position = target_position
@@ -114,21 +112,12 @@ func _start_dash_tween(target_position, dash_attack_instance: DashAttack):
 	tween.tween_property(player, "global_position", final_target_position, dash_duration) \
 		.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
 
-	var tween2 = create_tween()
-	tween2.tween_property(player.animated_sprite_2d, "scale", Vector2(0.25, 1), dash_duration) \
-		.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
-
-	tween2.finished.connect(func():
-		var back_tween = create_tween()
-		back_tween.tween_property(player.animated_sprite_2d, "scale", \
-		Vector2(1, 1), dash_duration / 2) \
-			.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
-	)
 
 	tween.tween_callback(Callable(dash_attack_instance, "queue_free"))
 	tween.finished.connect(func():
 		_disable_player(false)
 	)
+
 
 func _set_dash(dash_attack: DashAttack):
 	var forward = Vector2.UP.rotated(player.rotation)

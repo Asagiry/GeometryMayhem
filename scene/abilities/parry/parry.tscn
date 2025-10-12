@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://ci75yoy6kjcwn"]
+
+[ext_resource type="Script" uid="uid://cb1mp10rfqq01" path="res://scene/abilities/parry/parry.gd" id="1_xmdqr"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8c52s"]
+radius = 35.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3xmqk"]
+size = Vector2(38, 20)
+
+[node name="Parry" type="Node2D"]
+script = ExtResource("1_xmdqr")
+
+[node name="ParryProjectileArea" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 16
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ParryProjectileArea"]
+shape = SubResource("CircleShape2D_8c52s")
+
+[node name="ParryMeleeArea" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 16
+collision_mask = 128
+
+[node name="CollisionPushBack" type="CollisionShape2D" parent="ParryMeleeArea"]
+position = Vector2(0, -10)
+shape = SubResource("RectangleShape2D_3xmqk")
+
+[connection signal="area_entered" from="ParryProjectileArea" to="." method="_on_parry_projectile_area_area_entered"]
+[connection signal="area_entered" from="ParryMeleeArea" to="." method="_on_parry_melee_area_area_entered"]
+[connection signal="area_exited" from="ParryMeleeArea" to="." method="_on_parry_melee_area_area_exited"]
