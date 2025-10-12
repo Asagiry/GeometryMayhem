@@ -91,20 +91,18 @@ func _handle_move_state(delta: float):
 	elif Input.is_action_just_pressed("shift_dash"):
 		dash_from_mouse = false
 		current_player_state = PlayerStates.DASH_STATE
-	elif Input.is_action_just_pressed("right_mouse_click_parry"):
+	elif Input.is_action_just_pressed("right_mouse_click_parry") \
+		and parry_controller.parry_cooldown.is_stopped():
 		parry_from_mouse = true
 		current_player_state = PlayerStates.PARRY_STATE
-	elif Input.is_action_just_pressed("space_parry"):
+	elif Input.is_action_just_pressed("space_parry") \
+		and parry_controller.parry_cooldown.is_stopped():
 		parry_from_mouse = false
 		current_player_state = PlayerStates.PARRY_STATE
 
 
 func _handle_parry_state():
-	if parry_controller.is_parrying or !parry_controller.parry_cooldown.is_stopped():
-		current_player_state = PlayerStates.MOVE_STATE
-		return
-
-	animated_sprite_2d.speed_scale = 2 /parry_controller.push_duration
+	animated_sprite_2d.speed_scale = 2 / parry_controller.push_duration
 	animated_sprite_2d.play("block")
 	parry_controller.activate_parry(parry_from_mouse)
 	await animated_sprite_2d.animation_finished
