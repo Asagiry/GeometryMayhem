@@ -10,7 +10,7 @@ enum PlayerStates {
 @export var rotation_speed: float = 9.0 #9.0(AI)
 @export var grace_period_time: float = 0.5
 
-var last_direction: Vector2 = Vector2.ZERO
+var last_direction: Vector2 = Vector2.UP
 var enemies_colliding: int
 var enemy_damage: float
 var base_speed: float
@@ -100,12 +100,13 @@ func _handle_move_state(delta: float):
 
 
 func _handle_parry_state():
-	animated_sprite_2d.speed_scale = 2 / (parry_controller.push_duration)
-	animated_sprite_2d.speed_scale = 2 / (parry_controller.push_duration)
+	if parry_controller.is_parrying or !parry_controller.parry_cooldown.is_stopped():
+		current_player_state = PlayerStates.MOVE_STATE
+		return
+
+	animated_sprite_2d.speed_scale = 2 /parry_controller.push_duration
 	animated_sprite_2d.play("block")
-
 	parry_controller.activate_parry(parry_from_mouse)
-
 	await animated_sprite_2d.animation_finished
 	animated_sprite_2d.speed_scale = 1
 	current_player_state = PlayerStates.MOVE_STATE

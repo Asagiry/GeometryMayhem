@@ -2,7 +2,7 @@ class_name ParryController
 extends Node
 
 @export var parry_scene: PackedScene
-@export var parry_cd: float = 0.2 #кулдаун парирования
+@export var parry_cd: float = 2.0 #кулдаун парирования
 @export var push_duration: float = 0.2 #время перемещения моба от точка А до точки Б(отталкивание)
 @export var push_distance: float = 80.0
 @export var parry_duration: float = 0.1
@@ -42,9 +42,12 @@ func _connect_signals():
 func activate_parry(input_state:bool):
 	if is_parrying or !parry_cooldown.is_stopped():
 		return
+
 	parry_cooldown.start(parry_cd)
+
 	is_parrying = true
 	is_parry_from_mouse = input_state
+
 
 	if is_parry_from_mouse:
 		var mouse_dir = player.global_position.direction_to(player.get_global_mouse_position())
@@ -52,13 +55,14 @@ func activate_parry(input_state:bool):
 		player.last_direction = mouse_dir
 
 	for i in range(2):
-		await melee_parry()
+		await _melee_parry()
 		await get_tree().create_timer(parry_duration/2).timeout
 
 	is_parrying = false
 
 
-func melee_parry():
+
+func _melee_parry():
 	for enemy in melee_targets.duplicate():
 		if not is_instance_valid(enemy):
 			continue

@@ -145,9 +145,6 @@ attack_cd = 0.01
 
 [node name="ParryController" parent="AbilityManager" instance=ExtResource("3_tyng1")]
 unique_name_in_owner = true
-parry_cd = 0.2
-push_duration = 0.2
-push_distance = 80.0
 
 [node name="MovementComponent" parent="." instance=ExtResource("3_4vals")]
 unique_name_in_owner = true
@@ -170,10 +167,8 @@ one_shot = true
 unique_name_in_owner = true
 texture_filter = 3
 sprite_frames = SubResource("SpriteFrames_heqc5")
-animation = &"block"
+animation = &"idle"
 autoplay = "idle"
-frame = 3
-frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_lfjyr")
