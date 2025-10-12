@@ -27,6 +27,7 @@ func activate_dash(input_state: bool):
 		return
 
 	var dash_attack_instance = _create_dash_instance()
+
 	_set_damage(dash_attack_instance)
 	_disable_player(true)
 
@@ -102,12 +103,15 @@ func _start_dash_tween(target_position, dash_attack_instance: DashAttack):
 
 	var final_target_position = target_position
 	if collision:
-		final_target_position = player.global_position + direction * (collision.get_travel().length() - 10)
+		final_target_position = player.global_position + direction * \
+		(collision.get_travel().length() - 10)
 
 	test_body.queue_free()
+
 	var tween = create_tween()
 	tween.tween_property(player, "global_position", final_target_position, dash_duration) \
 		.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
+
 
 	tween.tween_callback(Callable(dash_attack_instance, "queue_free"))
 	tween.finished.connect(func():

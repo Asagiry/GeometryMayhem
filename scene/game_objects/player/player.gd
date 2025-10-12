@@ -1,6 +1,5 @@
 extends CharacterBody2D
 
-
 #region var
 enum PlayerStates {
 	DASH_STATE,
@@ -53,7 +52,6 @@ func _process(delta: float):
 
 func _handle_input(delta: float):
 	if !is_input_blocked:
-		#_change_current_state()
 		match current_player_state:
 			PlayerStates.MOVE_STATE:
 				_handle_move_state(delta)
@@ -116,6 +114,7 @@ func _handle_dash_state():
 			.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
 		current_player_state = PlayerStates.MOVE_STATE
 	)
+
 
 func _get_movement_vector() -> Vector2:
 	var vector = Input.get_vector("move_left", "move_right", "move_up", "move_down")
