@@ -10,7 +10,7 @@ extends Node
 var push_angle_range: float = 30.0 #угол в который могут отталкиваться мобы перед игроком
 var melee_targets: Array[Node2D]
 var is_parrying: bool = false
-var parry_instance: Parry 
+var parry_instance: Parry
 var player
 
 @onready var parry_cooldown: Timer = $ParryCooldown
@@ -83,19 +83,30 @@ func _animate_enemy_push(enemy: Node2D, target_pos: Vector2) -> void:
 		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUINT)
 
 	var tilt_tween = create_tween()
-	tilt_tween.tween_property(enemy.animated_sprite_2d, "rotation", deg_to_rad(-10.0), push_duration / 3) \
+	tilt_tween.tween_property(
+		enemy.animated_sprite_2d,
+		"rotation",
+		deg_to_rad(-10.0),
+		push_duration / 3) \
 		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
 	tilt_tween.finished.connect(func():
 		var back_tween = create_tween()
-		back_tween.tween_property(enemy.animated_sprite_2d, "rotation", deg_to_rad(10.0), push_duration / 3) \
-			.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
+		back_tween.tween_property(
+		enemy.animated_sprite_2d,
+		 "rotation",
+		 deg_to_rad(10.0),
+		 push_duration / 3) \
+		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
 		back_tween.finished.connect(func():
 			var reset_tween = create_tween()
-			reset_tween.tween_property(enemy.animated_sprite_2d, "rotation", 0.0, push_duration / 3) \
+			reset_tween.tween_property(
+				enemy.animated_sprite_2d,
+				"rotation", 
+				0.0,
+				push_duration / 3) \
 				.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
 		)
 	)
-
 	_shake_enemy(enemy)
 
 

@@ -84,7 +84,7 @@ func _handle_move_state(delta: float):
 	var target_angle = last_direction.angle() + PI / 2
 	rotation = lerp_angle(rotation, target_angle, rotation_speed * delta)
 	move_and_slide()
-	
+
 	if Input.is_action_just_pressed("left_mouse_click_dash"):
 		dash_from_mouse = true
 		current_player_state = PlayerStates.DASH_STATE
@@ -105,12 +105,22 @@ func _handle_parry_state():
 
 func _handle_dash_state():
 	var tween2 = create_tween()
-	tween2.tween_property(animated_sprite_2d, "scale", Vector2(0.25, 1), dash_attack_controller.dash_duration) \
+
+	tween2.tween_property(
+		animated_sprite_2d,
+		"scale", 
+		Vector2(0.25, 1), 
+		dash_attack_controller.dash_duration) \
 		.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
 	dash_attack_controller.activate_dash(dash_from_mouse)
+
 	tween2.finished.connect(func():
 		var back_tween = create_tween()
-		back_tween.tween_property(animated_sprite_2d, "scale", Vector2(1, 1),  dash_attack_controller.dash_duration / 2) \
+		back_tween.tween_property(
+			animated_sprite_2d, 
+			"scale", 
+			Vector2(1, 1),  
+			dash_attack_controller.dash_duration / 2) \
 			.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
 		current_player_state = PlayerStates.MOVE_STATE
 	)
