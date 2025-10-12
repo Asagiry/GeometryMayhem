@@ -22,4 +22,4 @@ jobs:
         run: pip install gdtoolkit
 
       - name: Run gdlint (check for errors)
-	run: gdlint . --disable=class-definitions-order --disable=unused-argument
+		run: gdlint . --disable=class-definitions-order --disable=unused-argument
