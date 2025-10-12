@@ -105,7 +105,8 @@ func _start_dash_tween(target_position, dash_attack_instance: DashAttack):
 
 	var final_target_position = target_position
 	if collision:
-		final_target_position = player.global_position + direction * (collision.get_travel().length() - 10)
+		final_target_position = player.global_position + direction * \
+		(collision.get_travel().length() - 10)
 
 	test_body.queue_free()
 
@@ -119,7 +120,8 @@ func _start_dash_tween(target_position, dash_attack_instance: DashAttack):
 
 	tween2.finished.connect(func():
 		var back_tween = create_tween()
-		back_tween.tween_property(player.animated_sprite_2d, "scale", Vector2(1, 1), dash_duration / 2) \
+		back_tween.tween_property(player.animated_sprite_2d, "scale", \
+		Vector2(1, 1), dash_duration / 2) \
 			.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
 	)
 
@@ -127,28 +129,6 @@ func _start_dash_tween(target_position, dash_attack_instance: DashAttack):
 	tween.finished.connect(func():
 		_disable_player(false)
 	)
-
-
-#func _start_dash_tween(target_position, dash_attack_instance: DashAttack):
-	#var tween = create_tween()
-	#tween.tween_property(player, "global_position", target_position, dash_duration) \
-		#.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
-#
-	#var tween2 = create_tween()
-	#tween2.tween_property(player.animated_sprite_2d, "scale", Vector2(0.25, 1), dash_duration) \
-		#.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
-#
-	#tween2.finished.connect(func():
-		#var back_tween = create_tween()
-		#back_tween.tween_property(player.animated_sprite_2d, "scale", Vector2(1, 1), dash_duration / 2) \
-			#.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
-	#)
-#
-	#tween.tween_callback(Callable(dash_attack_instance, "queue_free"))
-	#tween.finished.connect(func():
-		#_disable_player(false)
-	#)
-
 
 func _set_dash(dash_attack: DashAttack):
 	var forward = Vector2.UP.rotated(player.rotation)
