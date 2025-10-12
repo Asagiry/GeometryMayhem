@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://brb3xhgavq8gl"]
+
+[ext_resource type="Script" uid="uid://b8f52kscpst56" path="res://parry_controller.gd" id="1_kf0uu"]
+[ext_resource type="PackedScene" uid="uid://ci75yoy6kjcwn" path="res://scene/abilities/parry/parry.tscn" id="2_kb46s"]
+
+[node name="ParryController" type="Node"]
+script = ExtResource("1_kf0uu")
+parry_scene = ExtResource("2_kb46s")
+
+[node name="ParryCooldown" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.5
+one_shot = true

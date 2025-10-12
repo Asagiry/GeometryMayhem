@@ -1,12 +1,23 @@
-[gd_scene load_steps=11 format=3 uid="uid://dgv8d4dbcuqbj"]
+[gd_scene load_steps=12 format=3 uid="uid://dgv8d4dbcuqbj"]
 
-[ext_resource type="PackedScene" uid="uid://qrs7simtre66" path="res://scene/components/movement_component.tscn" id="1_i6udn"]
+[ext_resource type="PackedScene" uid="uid://qrs7simtre66" path="res://scene/components/movement_component/movement_component.tscn" id="1_i6udn"]
 [ext_resource type="Script" uid="uid://b6d2xxtpdtr5b" path="res://scene/game_objects/enemies/regular_creeps/test_creep.gd" id="1_reyus"]
 [ext_resource type="Texture2D" uid="uid://iv3nuycmos6x" path="res://icon.svg" id="2_h424k"]
-[ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component.tscn" id="3_83mdm"]
-[ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component.tscn" id="4_ylj4q"]
-[ext_resource type="PackedScene" uid="uid://djb2bixsc65n6" path="res://scene/components/enemy_hurt_box_component.tscn" id="6_ylj4q"]
-[ext_resource type="PackedScene" uid="uid://c1lovskq0daeo" path="res://scene/components/enemy_hit_box_component.tscn" id="7_h3cmp"]
+[ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="3_83mdm"]
+[ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component/armor_component.tscn" id="4_ylj4q"]
+[ext_resource type="PackedScene" uid="uid://djb2bixsc65n6" path="res://scene/components/enemy_hurt_box_component/enemy_hurt_box_component.tscn" id="6_ylj4q"]
+[ext_resource type="PackedScene" uid="uid://c1lovskq0daeo" path="res://scene/components/enemy_hit_box_component/enemy_hit_box_component.tscn" id="7_h3cmp"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_h3cmp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_h424k")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h424k"]
 size = Vector2(10, 10)
@@ -32,9 +43,10 @@ max_health = 50.0
 [node name="ArmorComponent" parent="." instance=ExtResource("4_ylj4q")]
 unique_name_in_owner = true
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
 scale = Vector2(0.1, 0.1)
-texture = ExtResource("2_h424k")
+sprite_frames = SubResource("SpriteFrames_h3cmp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_h424k")
