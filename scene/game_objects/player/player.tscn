@@ -167,7 +167,7 @@ one_shot = true
 unique_name_in_owner = true
 texture_filter = 3
 sprite_frames = SubResource("SpriteFrames_heqc5")
-animation = &"idle"
+animation = &"block"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
