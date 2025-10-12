@@ -8,4 +8,5 @@ script = ExtResource("1_knd67")
 dash_attack_scene = ExtResource("2_irrc7")
 
 [node name="CooldownTimer" type="Timer" parent="."]
+unique_name_in_owner = true
 one_shot = true
