@@ -2,12 +2,11 @@ class_name ParryComponent
 
 extends Node2D
 
-@export var parry_cd: float = 0.2
-@export var parry_window: float = 0.25
-@export var push_duration: float = 0.3
-@export var push_angle_range: float = 30.0
+@export var parry_cd: float = 0.2  #кулдаун парирования
+@export var push_duration: float = 0.3 #время перемещения моба от точка А до точки Б(отталкивание)
 @export var push_distance: float = 80.0
 
+var push_angle_range: float = 30.0 #угол в который могут отталкиваться мобы перед игроком
 var melee_targets: Array[Node2D]
 var is_parrying: bool = false
 
@@ -25,8 +24,7 @@ func activate_parry():
 		return
 	parry_cooldown.start(parry_cd)
 	is_parrying = true
-	melee_parry()
-	await get_tree().create_timer(parry_window).timeout
+	await melee_parry()
 	is_parrying = false
 
 
@@ -40,7 +38,10 @@ func melee_parry():
 
 func push_enemy(enemy: Node2D, facing_direction: Vector2) -> void:
 	var direction = facing_direction.normalized()
-	var angle_offset = deg_to_rad(randf_range(-push_angle_range, push_angle_range))
+	var to_enemy = (enemy.global_position - global_position).normalized()
+	var angle_offset = direction.angle_to(to_enemy)
+	var max_angle = deg_to_rad(push_angle_range)
+	angle_offset = clamp(angle_offset, -max_angle, max_angle)
 	direction = direction.rotated(angle_offset)
 
 	var ray = RayCast2D.new()
