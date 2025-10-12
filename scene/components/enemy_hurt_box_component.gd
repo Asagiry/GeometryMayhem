@@ -1,6 +1,6 @@
-extends Area2D
-
 class_name EnemyHurtBoxComponent
+
+extends Area2D
 
 @export var health_component: HealthComponent
 

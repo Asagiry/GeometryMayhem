@@ -8,7 +8,7 @@ func _ready():
 	health_component.died.connect(_on_died)
 
 
-func _process(delta):
+func _process(_delta):
 	var direction = movement_component.get_direction()
 	movement_component.move_to_player(self)
 

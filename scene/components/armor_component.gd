@@ -1,6 +1,6 @@
-extends Node
-
 class_name ArmorComponent
+
+extends Node
 
 @export var physical_armor: float = 0.0
 

@@ -1,11 +1,5 @@
 extends CharacterBody2D
 
-@onready var animated_sprite_2d = %AnimatedSprite2D
-@onready var grace_period = %GracePeriod
-@onready var movement_component = %MovementComponent
-@onready var health_component: HealthComponent = %HealthComponent
-@onready var parry_component: ParryComponent = %ParryComponent
-
 @export var rotation_speed: float = 9.0
 @export var grace_period_time: float = 0.5
 
@@ -15,6 +9,11 @@ var enemy_damage = 0
 var base_speed = 0
 var is_parrying: bool = false
 
+@onready var animated_sprite_2d = %AnimatedSprite2D
+@onready var grace_period = %GracePeriod
+@onready var movement_component = %MovementComponent
+@onready var health_component: HealthComponent = %HealthComponent
+@onready var parry_component: ParryComponent = %ParryComponent
 
 func _ready():
 	base_speed = movement_component.max_speed
@@ -70,7 +69,7 @@ func _on_player_hurt_box_area_entered(area: Area2D) -> void:
 	check_if_damaged()
 
 
-func _on_player_hurt_box_area_exited(area: Area2D) -> void:
+func _on_player_hurt_box_area_exited(_area: Area2D) -> void:
 	enemies_colliding -= 1
 
 

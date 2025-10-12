@@ -1,15 +1,15 @@
-extends Node
-
 class_name HealthComponent
+
+extends Node
 
 signal died
 signal health_decreased
 
 @export var max_health: float = 0
 
-@onready var armor_component: ArmorComponent = %ArmorComponent
-
 var current_health: float
+
+@onready var armor_component: ArmorComponent = %ArmorComponent
 
 
 func _ready():

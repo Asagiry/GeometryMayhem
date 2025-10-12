@@ -11,7 +11,7 @@ extends Node
 @onready var cooldown_timer = $CooldownTimer
 
 
-func _process(delta):
+func _process(_delta):
 	if Input.is_action_just_pressed("left_mouse_click"):
 		activate_dash()
 
@@ -37,7 +37,7 @@ func activate_dash():
 	cooldown_timer.start()
 
 	start_dash_tween(player, player.global_position + forward * dash_attack_range, \
-	 dash_attack_instance)
+	dash_attack_instance)
 
 
 func disable_player_hurt_box(disable: bool):

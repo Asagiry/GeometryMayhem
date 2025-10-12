@@ -1,10 +1,6 @@
-extends Node2D
-
 class_name ParryComponent
 
-@onready var parry_projectile_area: Area2D = %ParryProjectileArea
-@onready var parry_melee_area: Area2D = %ParryMeleeArea
-@onready var parry_cooldown: Timer = $ParryCooldown
+extends Node2D
 
 @export var parry_cd: float = 0.2
 @export var parry_window: float = 0.25
@@ -15,6 +11,9 @@ class_name ParryComponent
 var melee_targets: Array[Node2D]
 var is_parrying: bool = false
 
+@onready var parry_projectile_area: Area2D = %ParryProjectileArea
+@onready var parry_melee_area: Area2D = %ParryMeleeArea
+@onready var parry_cooldown: Timer = $ParryCooldown
 
 func _ready():
 	parry_projectile_area.projectile_detected.connect(_on_projectile_detected)
