@@ -1,8 +1,29 @@
-[gd_scene load_steps=2 format=3 uid="uid://cgblk87y45i5x"]
+[gd_scene load_steps=5 format=3 uid="uid://cgblk87y45i5x"]
 
 [ext_resource type="PackedScene" uid="uid://cn0xxo2ifv50j" path="res://scene/map/map.tscn" id="1_1c01b"]
+[ext_resource type="PackedScene" uid="uid://dpvptcshibxt0" path="res://scene/game_objects/player/player.tscn" id="2_hm7p5"]
+[ext_resource type="Script" uid="uid://b3w4epa6tgic2" path="res://scene/level/camera_2d.gd" id="3_5lpb7"]
+[ext_resource type="PackedScene" uid="uid://dgv8d4dbcuqbj" path="res://scene/game_objects/enemies/regular_creeps/test_creep.tscn" id="3_s8ale"]
 
 [node name="Level" type="Node"]
 
 [node name="Map" parent="." instance=ExtResource("1_1c01b")]
 script = null
+
+[node name="BackLayer" type="Node2D" parent="." groups=["back_layer"]]
+
+[node name="Player" parent="BackLayer" instance=ExtResource("2_hm7p5")]
+unique_name_in_owner = true
+
+[node name="TestCreep" parent="BackLayer" instance=ExtResource("3_s8ale")]
+position = Vector2(180, -142)
+
+[node name="TestCreep2" parent="BackLayer" instance=ExtResource("3_s8ale")]
+position = Vector2(117, -142)
+
+[node name="FrontLayer" type="Node2D" parent="." groups=["front_layer"]]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
+position_smoothing_enabled = true
+script = ExtResource("3_5lpb7")
