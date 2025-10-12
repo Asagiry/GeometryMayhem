@@ -35,7 +35,7 @@ func activate_dash(input_state: bool):
 	if is_dash_from_mouse:
 		_activate_mouse_click_dash(dash_attack_instance)
 	else:
-		_activate_space_dash(dash_attack_instance)
+		_activate_shift_dash(dash_attack_instance)
 
 
 func _create_dash_instance():
@@ -57,17 +57,21 @@ func _activate_mouse_click_dash(dash_attack_instance):
 	var mouse_pos = player.get_global_mouse_position()
 	var direction = mouse_pos - player.global_position
 	var distance = direction.length()
-	mouse_pos = player.global_position + direction.normalized() * dash_attack_range
+	if distance > dash_attack_range:
+		mouse_pos = player.global_position + direction.normalized() * dash_attack_range
+		distance = dash_attack_range
+
+
 	player.last_direction = (mouse_pos - player.global_position).normalized()
 	player.rotation = player.last_direction.angle() + PI / 2
-	_set_dash(dash_attack_instance)
+	_set_dash(dash_attack_instance,distance)
 	_start_cooldown_timer()
 	_start_dash_tween(mouse_pos, dash_attack_instance)
 
 
-func _activate_space_dash(dash_attack_instance):
+func _activate_shift_dash(dash_attack_instance):
 	var forward = Vector2.UP.rotated(player.rotation)
-	_set_dash(dash_attack_instance)
+	_set_dash(dash_attack_instance,dash_attack_range)
 	_start_cooldown_timer()
 	_start_dash_tween(player.global_position + forward * dash_attack_range, \
 	dash_attack_instance)
@@ -119,9 +123,9 @@ func _start_dash_tween(target_position, dash_attack_instance: DashAttack):
 	)
 
 
-func _set_dash(dash_attack: DashAttack):
+func _set_dash(dash_attack: DashAttack,distance: float):
 	var forward = Vector2.UP.rotated(player.rotation)
 	dash_attack.global_position = player.global_position
-	dash_attack.dash_hit_box_shape.shape.size = Vector2(dash_attack_width, dash_attack_range)
-	dash_attack.global_position = player.global_position + forward * (dash_attack_range / 2.0)
+	dash_attack.dash_hit_box_shape.shape.size = Vector2(dash_attack_width, distance)
+	dash_attack.global_position = player.global_position + forward * (distance/ 2.0)
 	dash_attack.rotation = player.rotation

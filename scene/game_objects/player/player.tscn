@@ -145,6 +145,9 @@ attack_cd = 0.01
 
 [node name="ParryController" parent="AbilityManager" instance=ExtResource("3_tyng1")]
 unique_name_in_owner = true
+parry_cd = 0.2
+push_duration = 0.2
+push_distance = 80.0
 
 [node name="MovementComponent" parent="." instance=ExtResource("3_4vals")]
 unique_name_in_owner = true
