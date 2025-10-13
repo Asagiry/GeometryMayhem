@@ -85,6 +85,10 @@ space_parry={
 2d_physics/layer_7="pickup"
 2d_physics/layer_8="enemy_hurtbox"
 
+[physics]
+
+common/physics_ticks_per_second=320
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=3
