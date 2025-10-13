@@ -1,4 +1,4 @@
-class_name PlayerParryState 
+class_name PlayerParryState
 
 extends PlayerState
 
@@ -24,7 +24,7 @@ func process(delta: float):
 
 
 func exit() -> void:
-	animated_sprite_2d.speed_scale = 1 
+	animated_sprite_2d.speed_scale = 1
 
 
 func get_state_name() -> String:

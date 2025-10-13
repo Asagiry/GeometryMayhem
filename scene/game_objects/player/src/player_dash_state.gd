@@ -1,4 +1,4 @@
-class_name PlayerDashState 
+class_name PlayerDashState
 
 extends PlayerState
 
@@ -31,7 +31,7 @@ func _play_animation():
 		player.dash_attack_controller.dash_duration,
 	) \
 	.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
-	
+
 	tween2.finished.connect(
 		func():
 			var back_tween = player.create_tween()
@@ -43,6 +43,7 @@ func _play_animation():
 			) \
 			.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
 	)
-	
+
+
 func get_state_name() -> String:
 	return state_name

@@ -1,4 +1,4 @@
-class_name StateMachine 
+class_name StateMachine
 
 extends Node
 
@@ -13,15 +13,15 @@ var _parent_node_name: String
 # Start this state machine
 func start_machine(init_states: Array[State]) -> void:
 	_parent_node_name = get_parent().name
-	
+
 	for state in init_states:
 		states[state.get_state_name()] = state
 
 	current_state = init_states[0]
-	
+
 	if is_log_enabled:
 		print("[%s]: Entering state \"%s\"" % [_parent_node_name, current_state.get_state_name()])
-	
+
 	current_state.enter()
 	is_running = true
 
@@ -45,18 +45,19 @@ func transition(new_state_name: String) -> void:
 	var current_state_name = current_state.get_state_name()
 
 	if new_state == null:
-		push_error("An attempt has been made to transition to a non-existent state (%s)." % new_state_name)
+		push_error("An attempt has been made to transition to a non-existent state \
+		(%s)." % new_state_name)
 	elif new_state != current_state:
-		
+
 		if is_log_enabled:
 			print("[%s]: Exiting state \"%s\"" % [_parent_node_name, current_state_name])
-		
+
 		current_state.exit()
 		current_state = states[new_state.get_state_name()]
-		
+
 		if is_log_enabled:
 			print("[%s]: Entering state \"%s\"" % [_parent_node_name, current_state.get_state_name()])
-		
+
 		current_state.enter()
 	else:
 		push_warning("An attempt to transition to the current state has been made. Ignoring request.")

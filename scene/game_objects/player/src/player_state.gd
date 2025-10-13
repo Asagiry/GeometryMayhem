@@ -1,4 +1,4 @@
-class_name PlayerState 
+class_name PlayerState
 
 extends State
 

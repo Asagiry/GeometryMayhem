@@ -32,8 +32,8 @@ func _ready():
 
 func _enter_variables():
 	var states: Array[State] = [
-		PlayerIdleState.new(self), 
-		PlayerMovementState.new(self), 
+		PlayerIdleState.new(self),
+		PlayerMovementState.new(self),
 		PlayerDashState.new(self),
 		PlayerParryState.new(self)]
 	main_state_machine.start_machine(states)
@@ -46,13 +46,8 @@ func _connect_signals():
 	health_component.health_decreased.connect(_on_health_decreased)
 
 
-func _process(delta: float):
-	_handle_input(delta)
+func _process(_delta: float):
 	check_if_damaged()
-
-
-func _handle_input(delta: float):
-	pass
 
 
 func handle_movement(delta: float):
