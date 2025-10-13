@@ -1,0 +1,48 @@
+class_name PlayerDashState 
+
+extends PlayerState
+
+static var state_name = "PlayerDashState"
+
+var dash_timer := 0.0
+
+func enter() -> void:
+	_play_animation()
+	player.dash_attack_controller.start_cooldown()
+	dash_timer = player.dash_attack_controller.dash_duration
+	player.dash_attack_controller.activate_dash(player.dash_from_mouse)
+
+
+func process(delta: float):
+	dash_timer -= delta
+	if dash_timer <= 0.0:
+		if player.get_movement_vector().normalized() == Vector2.ZERO:
+			main_state_machine.transition(PlayerIdleState.state_name)
+		else:
+			main_state_machine.transition(PlayerMovementState.state_name)
+
+
+func _play_animation():
+	var tween2 = player.create_tween()
+	tween2.tween_property(
+		animated_sprite_2d,
+		"scale",
+		Vector2(0.25, 1),
+		player.dash_attack_controller.dash_duration,
+	) \
+	.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
+	
+	tween2.finished.connect(
+		func():
+			var back_tween = player.create_tween()
+			back_tween.tween_property(
+				animated_sprite_2d,
+				"scale",
+				Vector2(1, 1),
+				player.dash_attack_controller.dash_duration / 2,
+			) \
+			.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
+	)
+	
+func get_state_name() -> String:
+	return state_name

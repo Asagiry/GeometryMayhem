@@ -18,13 +18,15 @@ func _on_parry_projectile_area_area_entered(area: Area2D) -> void:
 
 func _on_parry_melee_area_area_entered(area: Area2D) -> void:
 	if area is EnemyHurtBoxComponent:
-		if area.owner.is_in_group("enemy"):
-			melee_targets.append(area.owner)
-			melee_detected.emit(melee_targets)
+		if area.owner != null:
+			if area.owner.is_in_group("enemy"):
+				melee_targets.append(area.owner)
+				melee_detected.emit(melee_targets)
 
 
 func _on_parry_melee_area_area_exited(area: Area2D) -> void:
 	if area is EnemyHurtBoxComponent:
-		if area.owner.is_in_group("enemy"):
-			melee_targets.erase(area.owner)
-			melee_detected.emit(melee_targets)
+		if area.owner != null:
+			if area.owner.is_in_group("enemy"):
+				melee_targets.erase(area.owner)
+				melee_detected.emit(melee_targets)

@@ -10,3 +10,5 @@ dash_attack_scene = ExtResource("2_irrc7")
 [node name="CooldownTimer" type="Timer" parent="."]
 unique_name_in_owner = true
 one_shot = true
+
+[connection signal="timeout" from="CooldownTimer" to="." method="_on_cooldown_timer_timeout"]

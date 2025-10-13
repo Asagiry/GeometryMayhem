@@ -3,16 +3,17 @@ extends Node
 
 @export var parry_scene: PackedScene
 @export var parry_cd: float = 2.0 #кулдаун парирования
-@export var push_duration: float = 0.2 #время перемещения моба от точка А до точки Б(отталкивание)
 @export var push_distance: float = 80.0
-@export var parry_duration: float = 0.1
 
+var push_duration: float = 0.2 #время перемещения моба от точка А до точки Б(отталкивание)
+var parry_duration: float = 0.3
 var push_angle_range: float = 30.0 #угол в который могут отталкиваться мобы перед игроком
 var melee_targets: Array[Node2D]
 var is_parrying: bool = false
 var parry_instance: Parry
 var player: Node2D
 var is_parry_from_mouse: bool
+var is_on_cooldown: bool
 
 @onready var parry_cooldown: Timer = $ParryCooldown
 
@@ -39,15 +40,13 @@ func _connect_signals():
 	parry_instance.melee_detected.connect(_on_melee_detected)
 
 
-func activate_parry(input_state:bool):
-	if is_parrying or !parry_cooldown.is_stopped():
-		return
-
+func start_cooldown():
+	is_on_cooldown = true
 	parry_cooldown.start(parry_cd)
 
-	is_parrying = true
-	is_parry_from_mouse = input_state
 
+func activate_parry(input_state:bool):
+	is_parry_from_mouse = input_state
 
 	if is_parry_from_mouse:
 		var mouse_dir = player.global_position.direction_to(player.get_global_mouse_position())
@@ -56,10 +55,7 @@ func activate_parry(input_state:bool):
 
 	for i in range(2):
 		await _melee_parry()
-		await get_tree().create_timer(parry_duration/2).timeout
-
-	is_parrying = false
-
+		await get_tree().create_timer(parry_duration / 2).timeout
 
 
 func _melee_parry():
@@ -165,3 +161,7 @@ func _on_projectile_detected(projectile: Area2D):
 
 func _on_melee_detected(enemies: Array[Node2D]):
 	melee_targets = enemies.duplicate()
+
+
+func _on_parry_cooldown_timeout() -> void:
+	is_on_cooldown = false

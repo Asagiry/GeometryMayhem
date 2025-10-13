@@ -12,7 +12,6 @@ var enemy_damage: float
 var base_speed: float
 var dash_from_mouse := false
 var parry_from_mouse := false
-var is_input_blocked := false
 
 @onready var main_state_machine: StateMachine = $MainStateMachine
 @onready var animated_sprite_2d = %AnimatedSprite2D

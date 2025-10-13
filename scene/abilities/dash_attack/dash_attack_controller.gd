@@ -13,6 +13,7 @@ extends Node
 var is_dash_from_mouse: bool = false
 var dash_duration: float = 0.2
 var player
+var is_on_cooldown: bool
 
 @onready var hurt_box_shape: CollisionShape2D = %HurtBoxShape
 @onready var cooldown_timer: Timer = %CooldownTimer
@@ -23,9 +24,6 @@ func _ready():
 
 
 func activate_dash(input_state: bool):
-	if !cooldown_timer.is_stopped():
-		return
-
 	var dash_attack_instance = _create_dash_instance()
 
 	_set_damage(dash_attack_instance)
@@ -36,6 +34,10 @@ func activate_dash(input_state: bool):
 		_activate_mouse_click_dash(dash_attack_instance)
 	else:
 		_activate_shift_dash(dash_attack_instance)
+
+func start_cooldown():
+	is_on_cooldown = true
+	cooldown_timer.start(attack_cd)
 
 
 func _create_dash_instance():
@@ -129,3 +131,7 @@ func _set_dash(dash_attack: DashAttack,distance: float):
 	dash_attack.dash_hit_box_shape.shape.size = Vector2(dash_attack_width, distance)
 	dash_attack.global_position = player.global_position + forward * (distance/ 2.0)
 	dash_attack.rotation = player.rotation
+
+
+func _on_cooldown_timer_timeout() -> void:
+	is_on_cooldown = false

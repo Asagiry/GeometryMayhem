@@ -1,6 +1,6 @@
 [gd_scene load_steps=28 format=3 uid="uid://dpvptcshibxt0"]
 
-[ext_resource type="Script" uid="uid://d2bd4ujy5qv0c" path="res://scene/game_objects/player/player.gd" id="1_u6ae3"]
+[ext_resource type="Script" uid="uid://d2bd4ujy5qv0c" path="res://scene/game_objects/player/src/player.gd" id="1_u6ae3"]
 [ext_resource type="Texture2D" uid="uid://clqw3fttw3cl1" path="res://assets/player/block.png" id="2_c7mlt"]
 [ext_resource type="PackedScene" uid="uid://b0xrjstrhdb1c" path="res://scene/abilities/dash_attack/dash_attack_controller.tscn" id="2_jxsrc"]
 [ext_resource type="Texture2D" uid="uid://c0iehayvefpw" path="res://assets/player/idle.png" id="2_sg6kp"]
@@ -141,6 +141,8 @@ rotation_speed = 15.0
 
 [node name="DashAttackController" parent="AbilityManager" instance=ExtResource("2_jxsrc")]
 unique_name_in_owner = true
+dash_attack_damage = 0.1
+attack_cd = 0.01
 
 [node name="ParryController" parent="AbilityManager" instance=ExtResource("3_tyng1")]
 unique_name_in_owner = true
@@ -159,6 +161,7 @@ unique_name_in_owner = true
 
 [node name="MainStateMachine" type="Node" parent="."]
 script = ExtResource("7_heqc5")
+is_log_enabled = true
 
 [node name="GracePeriod" type="Timer" parent="."]
 unique_name_in_owner = true
