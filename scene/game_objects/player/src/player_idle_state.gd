@@ -1,4 +1,4 @@
-class_name PlayerIdleState 
+class_name PlayerIdleState
 
 extends PlayerState
 
@@ -10,7 +10,7 @@ func enter() -> void:
 
 func process(delta: float) -> void:
 	player.handle_movement(delta)
-	
+
 	if player.get_movement_vector().normalized() != Vector2.ZERO:
 		main_state_machine.transition(PlayerMovementState.state_name)
 	if Input.is_action_just_pressed("left_mouse_click_dash") and \

@@ -45,8 +45,8 @@ func transition(new_state_name: String) -> void:
 	var current_state_name = current_state.get_state_name()
 
 	if new_state == null:
-		push_error("An attempt has been made to transition to a non-existent state \
-		(%s)." % new_state_name)
+		push_error("An attempt has \
+		been made to transition to a non-existent state (%s)." % new_state_name)
 	elif new_state != current_state:
 
 		if is_log_enabled:

@@ -31,11 +31,9 @@ func _ready():
 
 
 func _enter_variables():
-	var states: Array[State] = [
-		PlayerIdleState.new(self),
-		PlayerMovementState.new(self),
-		PlayerDashState.new(self),
-		PlayerParryState.new(self)]
+	var states: Array[State] = [PlayerIdleState.new(self), \
+	PlayerMovementState.new(self), PlayerDashState.new(self), \
+	PlayerParryState.new(self)]
 	main_state_machine.start_machine(states)
 	enemies_colliding = 0
 	base_speed = movement_component.max_speed
@@ -50,7 +48,7 @@ func _process(_delta: float):
 	check_if_damaged()
 
 
-func handle_movement(delta: float):
+func handle_movement(_delta: float):
 	var movement_vector = get_movement_vector()
 	var direction = movement_vector.normalized()
 	if direction != Vector2.ZERO:
@@ -58,7 +56,7 @@ func handle_movement(delta: float):
 	velocity = movement_component.accelerate_to_direction(direction)
 	if direction!=Vector2.ZERO:
 		var target_angle = last_direction.angle() + PI / 2
-		rotation = lerp_angle(rotation, target_angle, rotation_speed * delta)
+		rotation = lerp_angle(rotation, target_angle, rotation_speed * _delta)
 	move_and_slide()
 
 
