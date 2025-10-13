@@ -31,8 +31,8 @@ func _ready():
 
 
 func _enter_variables():
-	var states: Array[State] = [PlayerIdleState.new(self), \
-	PlayerMovementState.new(self), PlayerDashState.new(self), \
+	var states: Array[State] = [PlayerIdleState.new(self),\
+	PlayerMovementState.new(self), PlayerDashState.new(self),\
 	PlayerParryState.new(self)]
 	main_state_machine.start_machine(states)
 	enemies_colliding = 0
