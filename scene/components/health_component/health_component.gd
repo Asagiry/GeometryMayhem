@@ -5,7 +5,7 @@ extends Node
 signal died
 signal health_changed(current_health, max_health)
 
-const rounding_accuracy: float = 0.1 
+const ROUNDING_ACCURACY: float = 0.1
 
 @export var max_health: float = 0
 
@@ -20,7 +20,7 @@ func _ready():
 
 func take_damage(damage: DamageData):
 	var final_damage = damage.amount
-	current_health = snappedf(max(current_health - final_damage, 0), rounding_accuracy)
+	current_health = snappedf(max(current_health - final_damage, 0), ROUNDING_ACCURACY)
 	emit_signal("health_changed", current_health, max_health)
 	print(owner, "=", current_health)
 	if current_health <= 0:

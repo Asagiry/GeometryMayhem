@@ -14,7 +14,7 @@ func _ready():
 
 func handle_movement(delta: float):
 	var direction = get_movement_vector().normalized()
-	
+
 	if direction != Vector2.ZERO:
 		last_direction = direction
 	player.velocity = accelerate_to_direction(direction)
