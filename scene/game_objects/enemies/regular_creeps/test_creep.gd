@@ -1,9 +1,11 @@
 extends CharacterBody2D
 
-@onready var movement_component: Node = %EnemyMovementComponent
+@export var effects: Array[Effect]
+
+@onready var movement_component: EnemyMeleeMovementComponent = %MovementComponent
 @onready var health_component: HealthComponent = %HealthComponent
 @onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
-@onready var effect_receiver: Node2D = $EffectReceiver
+@onready var effect_receiver: EffectReceiver = %EffectReceiver
 @onready var progress_bar: ProgressBar = $TestProgressBarOnlyForTest
 
 func _ready():

@@ -9,9 +9,9 @@ func enter() -> void:
 
 
 func process(delta: float) -> void:
-	player.handle_movement(delta)
+	player.movement_component.handle_movement(delta)
 
-	if player.get_movement_vector().normalized() != Vector2.ZERO:
+	if player.movement_component.get_movement_vector().normalized() != Vector2.ZERO:
 		player_state_machine.transition(PlayerMovementState.state_name)
 	if Input.is_action_just_pressed("left_mouse_click_dash") and \
 	!player.dash_attack_controller.is_on_cooldown:

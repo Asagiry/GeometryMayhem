@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" uid="uid://c6b5vvqmuda5h" path="res://scene/components/effect_receiver/effect_receviver.gd" id="1_5lde6"]
 
-[node name="EffectReceiver" type="Node2D"]
+[node name="EffectReceiver" type="Node"]
 script = ExtResource("1_5lde6")

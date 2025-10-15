@@ -5,7 +5,6 @@
 [ext_resource type="Script" uid="uid://l1drqp64gju1" path="res://resource/effect.gd" id="2_fpv3a"]
 [ext_resource type="PackedScene" uid="uid://b0xrjstrhdb1c" path="res://scene/abilities/dash_attack/dash_attack_controller.tscn" id="2_jxsrc"]
 [ext_resource type="Texture2D" uid="uid://c0iehayvefpw" path="res://assets/player/idle.png" id="2_sg6kp"]
-[ext_resource type="PackedScene" uid="uid://qrs7simtre66" path="res://scene/components/movement_component/movement_component.tscn" id="3_4vals"]
 [ext_resource type="Texture2D" uid="uid://ce80rc1mselg1" path="res://assets/player/run.png" id="3_6qri3"]
 [ext_resource type="Script" uid="uid://quc7gap4plyv" path="res://resource/stat_modifier_data.gd" id="3_fpv3a"]
 [ext_resource type="Texture2D" uid="uid://gkeval76usey" path="res://assets/player/takeDamage.png" id="3_jxsrc"]
@@ -13,15 +12,9 @@
 [ext_resource type="Script" uid="uid://cyitjknl16852" path="res://resource/damage_data.gd" id="4_1tyhs"]
 [ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="4_48qb4"]
 [ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component/armor_component.tscn" id="5_ju00n"]
+[ext_resource type="Script" uid="uid://derbmady170hu" path="res://scene/components/movement_component/player_movement_component.gd" id="7_1tyhs"]
 [ext_resource type="Script" uid="uid://5m7cpflvnie8" path="res://base/state_machine.gd" id="7_heqc5"]
-
-[sub_resource type="Resource" id="Resource_bjes5"]
-script = ExtResource("2_fpv3a")
-name = "KnockBack"
-effect_type = 5
-behavior = 1
-knockback_strength = 500.0
-metadata/_custom_type_script = "uid://l1drqp64gju1"
+[ext_resource type="PackedScene" uid="uid://bl380xv78onc8" path="res://scene/components/effect_receiver/effect_receiver.tscn" id="10_0ygly"]
 
 [sub_resource type="Resource" id="Resource_1tyhs"]
 script = ExtResource("3_fpv3a")
@@ -39,6 +32,7 @@ metadata/_custom_type_script = "uid://l1drqp64gju1"
 
 [sub_resource type="Resource" id="Resource_wfn55"]
 script = ExtResource("4_1tyhs")
+amount = 5.0
 metadata/_custom_type_script = "uid://cyitjknl16852"
 
 [sub_resource type="Resource" id="Resource_p0vsu"]
@@ -173,7 +167,7 @@ points = PackedVector2Array(8, 7, -8, 7, 0, -8)
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_heqc5")
-effects = Array[ExtResource("2_fpv3a")]([SubResource("Resource_bjes5"), SubResource("Resource_0ygly"), SubResource("Resource_p0vsu")])
+effects = Array[ExtResource("2_fpv3a")]([SubResource("Resource_0ygly"), SubResource("Resource_p0vsu")])
 
 [node name="AbilityManager" type="Node" parent="."]
 
@@ -186,10 +180,11 @@ attack_cd = 0.1
 [node name="ParryController" parent="AbilityManager" instance=ExtResource("3_tyng1")]
 unique_name_in_owner = true
 
-[node name="MovementComponent" parent="." instance=ExtResource("3_4vals")]
+[node name="MovementComponent" type="Node" parent="."]
 unique_name_in_owner = true
-max_speed = 200
-acceleration = 15.0
+script = ExtResource("7_1tyhs")
+max_speed = 200.0
+acceleration = 7.5
 
 [node name="HealthComponent" parent="." instance=ExtResource("4_48qb4")]
 unique_name_in_owner = true
@@ -197,6 +192,8 @@ max_health = 50.0
 
 [node name="ArmorComponent" parent="." instance=ExtResource("5_ju00n")]
 unique_name_in_owner = true
+
+[node name="EffectReceiver" parent="." instance=ExtResource("10_0ygly")]
 
 [node name="PlayerStateMachine" type="Node" parent="."]
 unique_name_in_owner = true

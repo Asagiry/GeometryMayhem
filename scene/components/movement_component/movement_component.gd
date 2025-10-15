@@ -1,9 +1,16 @@
+class_name MovementComponent
+
 extends Node
 
-@export var max_speed: int = 50
-@export var acceleration: float = 5.0
+@export var max_speed: float = 0
+@export var acceleration: float = 0
 
+var current_speed: float
 var current_velocity = Vector2.ZERO
+
+
+func _ready() -> void:
+	current_speed = max_speed
 
 
 func accelerate_to_direction(direction: Vector2):

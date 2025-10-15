@@ -1,6 +1,6 @@
 class_name EffectReceiver
 
-extends Node2D
+extends Node
 
 signal effect_started(effect_type: Util.EffectType)
 signal effect_ended(effect_type: Util.EffectType)
