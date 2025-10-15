@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://dpvptcshibxt0"]
+[gd_scene load_steps=37 format=3 uid="uid://dpvptcshibxt0"]
 
 [ext_resource type="Script" uid="uid://d2bd4ujy5qv0c" path="res://scene/game_objects/player/src/player.gd" id="1_heqc5"]
 [ext_resource type="Texture2D" uid="uid://clqw3fttw3cl1" path="res://assets/player/block.png" id="2_c7mlt"]
@@ -15,6 +15,7 @@
 [ext_resource type="Script" uid="uid://derbmady170hu" path="res://scene/components/movement_component/player_movement_component.gd" id="7_1tyhs"]
 [ext_resource type="Script" uid="uid://5m7cpflvnie8" path="res://base/state_machine.gd" id="7_heqc5"]
 [ext_resource type="PackedScene" uid="uid://bl380xv78onc8" path="res://scene/components/effect_receiver/effect_receiver.tscn" id="10_0ygly"]
+[ext_resource type="PackedScene" uid="uid://csmleslly1twg" path="res://scene/game_objects/player/player_hurt_box.tscn" id="16_wfn55"]
 
 [sub_resource type="Resource" id="Resource_1tyhs"]
 script = ExtResource("3_fpv3a")
@@ -160,7 +161,7 @@ animations = [{
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_lfjyr"]
 
-[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_ju00n"]
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_p0vsu"]
 points = PackedVector2Array(8, 7, -8, 7, 0, -8)
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
@@ -214,10 +215,10 @@ autoplay = "idle"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_lfjyr")
 
-[node name="PlayerHurtBox" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 8
+[node name="PlayerHurtBox" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("16_wfn55")]
+unique_name_in_owner = true
+health_component = NodePath("../HealthComponent")
 
 [node name="HurtBoxShape" type="CollisionShape2D" parent="PlayerHurtBox"]
 unique_name_in_owner = true
-shape = SubResource("ConvexPolygonShape2D_ju00n")
+shape = SubResource("ConvexPolygonShape2D_p0vsu")

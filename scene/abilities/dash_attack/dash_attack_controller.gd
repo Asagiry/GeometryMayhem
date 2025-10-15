@@ -16,7 +16,7 @@ var dash_duration: float = 0.2
 var player
 var is_on_cooldown: bool
 
-@onready var hurt_box_shape: CollisionShape2D = %HurtBoxShape
+@onready var player_hurt_box: PlayerHurtBox = %PlayerHurtBox
 @onready var cooldown_timer: Timer = %CooldownTimer
 #endregion variables
 
@@ -90,7 +90,7 @@ func _start_cooldown_timer():
 
 
 func _disable_player_hurt_box(disable: bool):
-	hurt_box_shape.disabled = disable
+	player_hurt_box.hurt_box_shape.disabled = disable
 
 
 func _disable_player_inputs(disable: bool):
