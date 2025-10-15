@@ -224,3 +224,6 @@ collision_mask = 8
 [node name="HurtBoxShape" type="CollisionShape2D" parent="PlayerHurtBox"]
 unique_name_in_owner = true
 shape = SubResource("ConvexPolygonShape2D_ju00n")
+
+[connection signal="area_entered" from="PlayerHurtBox" to="." method="_on_player_hurt_box_area_entered"]
+[connection signal="area_exited" from="PlayerHurtBox" to="." method="_on_player_hurt_box_area_exited"]

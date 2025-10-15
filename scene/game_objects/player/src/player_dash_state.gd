@@ -17,9 +17,9 @@ func process(delta: float):
 	dash_timer -= delta
 	if dash_timer <= 0.0:
 		if player.get_movement_vector().normalized() == Vector2.ZERO:
-			main_state_machine.transition(PlayerIdleState.state_name)
+			player_state_machine.transition(PlayerIdleState.state_name)
 		else:
-			main_state_machine.transition(PlayerMovementState.state_name)
+			player_state_machine.transition(PlayerMovementState.state_name)
 
 
 func _play_animation():

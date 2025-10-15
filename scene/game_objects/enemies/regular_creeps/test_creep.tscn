@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dgv8d4dbcuqbj"]
+[gd_scene load_steps=14 format=3 uid="uid://dgv8d4dbcuqbj"]
 
 [ext_resource type="Script" uid="uid://b6d2xxtpdtr5b" path="res://scene/game_objects/enemies/regular_creeps/test_creep.gd" id="1_reyus"]
 [ext_resource type="PackedScene" uid="uid://c3fejjn03ygjd" path="res://scene/components/movement_component/enemy_movement_component.tscn" id="2_h3cmp"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="3_83mdm"]
 [ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component/armor_component.tscn" id="4_ylj4q"]
 [ext_resource type="PackedScene" uid="uid://bl380xv78onc8" path="res://scene/components/effect_receiver/effect_receiver.tscn" id="5_3nns4"]
+[ext_resource type="Script" uid="uid://5m7cpflvnie8" path="res://base/state_machine.gd" id="6_q6hwk"]
 [ext_resource type="PackedScene" uid="uid://djb2bixsc65n6" path="res://scene/components/enemy_hurt_box_component/enemy_hurt_box_component.tscn" id="6_ylj4q"]
 [ext_resource type="PackedScene" uid="uid://c1lovskq0daeo" path="res://scene/components/enemy_hit_box_component/enemy_hit_box_component.tscn" id="7_h3cmp"]
 
@@ -45,6 +46,9 @@ max_health = 60.0
 unique_name_in_owner = true
 
 [node name="EffectReceiver" parent="." instance=ExtResource("5_3nns4")]
+
+[node name="EnemyStateMachine" type="Node" parent="."]
+script = ExtResource("6_q6hwk")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true

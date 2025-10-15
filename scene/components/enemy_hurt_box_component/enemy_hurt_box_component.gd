@@ -7,8 +7,8 @@ extends Area2D
 func deal_damage(damage_data: DamageData):
 	health_component.take_damage(damage_data)
 
-func apply_effect(effects: Array[Effect], source: Node):
+func apply_effect(effects: Array[Effect]):
 	if owner == null:
 		return
 	for effect in effects:
-		owner.effect_receiver.apply_effect(effect, source)
+		owner.effect_receiver.apply_effect(effect)

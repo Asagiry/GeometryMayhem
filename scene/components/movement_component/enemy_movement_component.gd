@@ -14,7 +14,6 @@ func _ready() -> void:
 func move_to_player(mob: CharacterBody2D):
 	var direction = get_direction()
 	mob.velocity = accelerate_to_direction(direction)
-	mob.velocity += mob.effect_receiver.velocity_knockback
 	mob.move_and_slide()
 
 
