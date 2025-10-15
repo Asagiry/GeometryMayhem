@@ -11,9 +11,11 @@ script = ExtResource("1_l5s61")
 
 [node name="HitBoxComponent" parent="." instance=ExtResource("2_okiir")]
 unique_name_in_owner = true
-collision_layer = 4
-collision_mask = 0
+collision_layer = 0
+collision_mask = 132
 
 [node name="DashHitBoxShape" type="CollisionShape2D" parent="HitBoxComponent"]
 unique_name_in_owner = true
 shape = SubResource("RectangleShape2D_okiir")
+
+[connection signal="area_entered" from="HitBoxComponent" to="." method="_on_hit_box_component_area_entered"]

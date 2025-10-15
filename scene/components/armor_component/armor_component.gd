@@ -7,4 +7,4 @@ extends Node
 
 #формула дота2, 10 армора = 37% снижение физического урона
 func calculate_reduced_damage(damage):
-	return damage - (damage * ((0.052 * physical_armor) / (0.9 + 0.048 * physical_armor)))
+	return snappedf(damage - (damage * ((0.052 * physical_armor) / (0.9 + 0.048 * physical_armor))), 0.1)

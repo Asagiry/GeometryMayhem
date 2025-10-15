@@ -5,6 +5,7 @@ extends Node
 
 @export var dash_attack_scene: PackedScene
 @export var dash_attack_damage: float = 10.0
+@export var damage_type: Util.DamageCategory
 @export var dash_attack_range: float = 100.0
 @export var damage_multiplier: float = 1.0
 @export var attack_cd: float = 1.0
@@ -35,6 +36,7 @@ func activate_dash(input_state: bool):
 	else:
 		_activate_shift_dash(dash_attack_instance)
 
+
 func start_cooldown():
 	is_on_cooldown = true
 	cooldown_timer.start(attack_cd)
@@ -52,7 +54,10 @@ func _disable_player(disable:bool):
 
 
 func _set_damage(dash_attack_instance: DashAttack):
-	dash_attack_instance.hit_box_component.damage = dash_attack_damage * damage_multiplier
+	var damage_data: DamageData = DamageData.new()
+	damage_data.amount = dash_attack_damage * damage_multiplier
+	damage_data.damage_categoty = damage_type
+	dash_attack_instance.hit_box_component.damage_data = damage_data
 
 
 func _activate_mouse_click_dash(dash_attack_instance):

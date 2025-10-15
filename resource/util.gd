@@ -1,0 +1,36 @@
+class_name Util
+
+extends Resource
+
+#enum AttackType {
+	#ALL,
+	#BLUNT,
+	#SLASH,
+	#PIERCE,
+#}
+
+enum EffectType {
+	NONE,
+	STUN, SLOW, FREEZE, ROOT, KNOCKBACK,
+	SILENCE, BLIND, FEAR, 
+	BURN, POISON, BLEED, CURSE,
+	SPEED_BOOST, ATTACK_BOOST, DEFENSE_BOOST, REGENERATION, INVULNERABLE,
+	CRIT_RATE_UP, COOLDOWN_REDUCTION, TAUNT, TORNS, REFLECT
+}
+
+enum EffectBehavior{
+	NONE,
+	INSTANT,
+	DOT,
+	BUFF,
+	DEBUFF,
+	MOVEMENT,
+	AURA,
+}
+
+enum DamageCategory {
+	NONE,
+	PHYSICAL,
+	MAGICAL,
+	TRUE
+}

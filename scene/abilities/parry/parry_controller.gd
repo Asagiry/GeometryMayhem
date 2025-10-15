@@ -95,14 +95,14 @@ func _calculate_push_target(enemy: Node2D, facing_direction: Vector2) -> Vector2
 func _animate_enemy_push(enemy: Node2D, target_pos: Vector2) -> void:
 	var tween = create_tween()
 	tween.tween_property(enemy, "global_position", target_pos, push_duration) \
-	.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUINT)
+	.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CIRC)
 
 	var tilt_tween = create_tween()
 	tilt_tween.tween_property(
 		enemy.animated_sprite_2d,
 		"rotation",
 		deg_to_rad(-10.0),
-		push_duration / 3,
+		push_duration / 2,
 	) \
 	.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
 	tilt_tween.finished.connect(
@@ -112,7 +112,7 @@ func _animate_enemy_push(enemy: Node2D, target_pos: Vector2) -> void:
 				enemy.animated_sprite_2d,
 				"rotation",
 				deg_to_rad(10.0),
-				push_duration / 3,
+				push_duration / 2,
 			) \
 			.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
 			back_tween.finished.connect(
@@ -122,7 +122,7 @@ func _animate_enemy_push(enemy: Node2D, target_pos: Vector2) -> void:
 						enemy.animated_sprite_2d,
 						"rotation",
 						0.0,
-						push_duration / 3,
+						push_duration / 2,
 					) \
 					.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
 			)

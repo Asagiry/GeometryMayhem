@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://dgv8d4dbcuqbj"]
+[gd_scene load_steps=13 format=3 uid="uid://dgv8d4dbcuqbj"]
 
-[ext_resource type="PackedScene" uid="uid://qrs7simtre66" path="res://scene/components/movement_component/movement_component.tscn" id="1_i6udn"]
 [ext_resource type="Script" uid="uid://b6d2xxtpdtr5b" path="res://scene/game_objects/enemies/regular_creeps/test_creep.gd" id="1_reyus"]
+[ext_resource type="PackedScene" uid="uid://c3fejjn03ygjd" path="res://scene/components/movement_component/enemy_movement_component.tscn" id="2_h3cmp"]
 [ext_resource type="Texture2D" uid="uid://iv3nuycmos6x" path="res://icon.svg" id="2_h424k"]
 [ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="3_83mdm"]
 [ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component/armor_component.tscn" id="4_ylj4q"]
+[ext_resource type="PackedScene" uid="uid://bl380xv78onc8" path="res://scene/components/effect_receiver/effect_receiver.tscn" id="5_3nns4"]
 [ext_resource type="PackedScene" uid="uid://djb2bixsc65n6" path="res://scene/components/enemy_hurt_box_component/enemy_hurt_box_component.tscn" id="6_ylj4q"]
 [ext_resource type="PackedScene" uid="uid://c1lovskq0daeo" path="res://scene/components/enemy_hit_box_component/enemy_hit_box_component.tscn" id="7_h3cmp"]
 
@@ -33,15 +34,17 @@ collision_layer = 4
 collision_mask = 5
 script = ExtResource("1_reyus")
 
-[node name="MovementComponent" parent="." instance=ExtResource("1_i6udn")]
+[node name="EnemyMovementComponent" parent="." instance=ExtResource("2_h3cmp")]
 unique_name_in_owner = true
 
 [node name="HealthComponent" parent="." instance=ExtResource("3_83mdm")]
 unique_name_in_owner = true
-max_health = 50.0
+max_health = 60.0
 
 [node name="ArmorComponent" parent="." instance=ExtResource("4_ylj4q")]
 unique_name_in_owner = true
+
+[node name="EffectReceiver" parent="." instance=ExtResource("5_3nns4")]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
@@ -51,9 +54,9 @@ sprite_frames = SubResource("SpriteFrames_h3cmp")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_h424k")
 
-[node name="EnemyHurtBoxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("6_ylj4q")]
+[node name="EnemyHurtBoxComponent" parent="." node_paths=PackedStringArray("health_component") groups=["enemy_hurt_box"] instance=ExtResource("6_ylj4q")]
 collision_layer = 128
-collision_mask = 20
+collision_mask = 16
 health_component = NodePath("../HealthComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyHurtBoxComponent"]
@@ -66,3 +69,11 @@ damage = 0.1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyHitBoxComponent"]
 shape = SubResource("RectangleShape2D_h3cmp")
+
+[node name="TestProgressBarOnlyForTest" type="ProgressBar" parent="."]
+offset_left = -9.0
+offset_top = -15.0
+offset_right = 91.0
+offset_bottom = 12.0
+scale = Vector2(0.2, 0.2)
+max_value = 60.0

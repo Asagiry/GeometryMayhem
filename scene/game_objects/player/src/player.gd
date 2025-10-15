@@ -12,6 +12,8 @@ var enemy_damage: float
 var base_speed: float
 var dash_from_mouse := false
 var parry_from_mouse := false
+var is_input_blocked := false
+@export var effects: Array[Effect]
 
 @onready var main_state_machine: StateMachine = $MainStateMachine
 @onready var animated_sprite_2d = %AnimatedSprite2D
@@ -42,7 +44,7 @@ func _enter_variables():
 
 func _connect_signals():
 	health_component.died.connect(_on_died)
-	health_component.health_decreased.connect(_on_health_decreased)
+	health_component.health_changed.connect(_on_health_decreased)
 
 
 func _process(delta: float):
@@ -70,11 +72,11 @@ func get_movement_vector() -> Vector2:
 	var vector = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	return vector
 
-
+#TODO логика теперь другая как конвейре удар -> effect_receiver -> health_component
 func check_if_damaged():
 	if enemies_colliding == 0 || !grace_period.is_stopped():
 		return
-	health_component.take_damage(enemy_damage)
+	#health_component.take_damage(enemy_damage)
 	grace_period.start(grace_period_time)
 
 

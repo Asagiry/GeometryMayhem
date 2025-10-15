@@ -4,11 +4,11 @@ extends Area2D
 
 @export var health_component: HealthComponent
 
+func deal_damage(damage_data: DamageData):
+	health_component.take_damage(damage_data)
 
-func _on_area_entered(area: Area2D):
-	if not area is HitBoxComponent:
+func apply_effect(effects: Array[Effect], source: Node):
+	if owner == null:
 		return
-	if health_component == null:
-		return
-	var hit_box_component = area as HitBoxComponent
-	health_component.take_damage(hit_box_component.damage)
+	for effect in effects:
+		owner.effect_receiver.apply_effect(effect, source)
