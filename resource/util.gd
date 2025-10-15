@@ -2,13 +2,6 @@ class_name Util
 
 extends Resource
 
-#enum AttackType {
-	#ALL,
-	#BLUNT,
-	#SLASH,
-	#PIERCE,
-#}
-
 enum EffectType {
 	NONE,
 	STUN, SLOW, FREEZE, ROOT,

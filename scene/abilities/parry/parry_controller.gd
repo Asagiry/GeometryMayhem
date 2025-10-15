@@ -51,7 +51,7 @@ func activate_parry(input_state:bool):
 	if is_parry_from_mouse:
 		var mouse_dir = player.global_position.direction_to(player.get_global_mouse_position())
 		player.rotation = mouse_dir.angle() + deg_to_rad(90)
-		player.last_direction = mouse_dir
+		player.movement_component.last_direction = mouse_dir
 
 	for i in range(2):
 		await _melee_parry()
@@ -62,7 +62,7 @@ func _melee_parry():
 	for enemy in melee_targets.duplicate():
 		if not is_instance_valid(enemy):
 			continue
-		_push_enemy(enemy, player.last_direction)
+		_push_enemy(enemy, player.movement_component.last_direction)
 
 
 func _push_enemy(enemy: Node2D, facing_direction: Vector2) -> void:

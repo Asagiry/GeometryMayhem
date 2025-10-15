@@ -69,8 +69,8 @@ func _activate_mouse_click_dash(dash_attack_instance):
 		distance = dash_attack_range
 
 
-	player.last_direction = (mouse_pos - player.global_position).normalized()
-	player.rotation = player.last_direction.angle() + PI / 2
+	player.movement_component.last_direction = (mouse_pos - player.global_position).normalized()
+	player.rotation = player.movement_component.last_direction.angle() + PI / 2
 	_set_dash(dash_attack_instance,distance)
 	_start_cooldown_timer()
 	_start_dash_tween(mouse_pos, dash_attack_instance)
