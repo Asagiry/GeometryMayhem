@@ -18,9 +18,9 @@ func process(delta: float):
 	parry_timer -= delta
 	if parry_timer <= 0.0:
 		if player.get_movement_vector().normalized() == Vector2.ZERO:
-			main_state_machine.transition(PlayerIdleState.state_name)
+			player_state_machine.transition(PlayerIdleState.state_name)
 		else:
-			main_state_machine.transition(PlayerMovementState.state_name)
+			player_state_machine.transition(PlayerMovementState.state_name)
 
 
 func exit() -> void:

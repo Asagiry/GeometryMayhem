@@ -27,26 +27,32 @@ func start_machine(init_states: Array[State]) -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if not is_running or current_state == null:
+		return
 	current_state.input(event)
 
 
 func _process(delta: float) -> void:
+	if not is_running or current_state == null:
+		return
 	current_state.process(delta)
 
 
 func _physics_process(delta: float) -> void:
+	if not is_running or current_state == null:
+		return
 	current_state.physics_process(delta)
 
 
 # Attempt a transition to the new state.
 # @param new_state The name of the new state to transition to.
-func transition(new_state_name: String) -> void:	
+func transition(new_state_name: String) -> void:
 	var new_state: State = states.get(new_state_name)
 	var current_state_name = current_state.get_state_name()
 
 	if new_state == null:
-		push_error("An attempt has \
-		been made to transition to a non-existent state (%s)." % new_state_name)
+		push_error("""An attempt has
+		been made to transition to a non-existent state (%s).""" % new_state_name)
 	elif new_state != current_state:
 
 		if is_log_enabled:

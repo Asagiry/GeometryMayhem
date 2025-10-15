@@ -1,15 +1,54 @@
-[gd_scene load_steps=27 format=3 uid="uid://dpvptcshibxt0"]
+[gd_scene load_steps=36 format=3 uid="uid://dpvptcshibxt0"]
 
-[ext_resource type="Script" uid="uid://d2bd4ujy5qv0c" path="res://scene/game_objects/player/player.gd" id="1_u6ae3"]
+[ext_resource type="Script" uid="uid://d2bd4ujy5qv0c" path="res://scene/game_objects/player/src/player.gd" id="1_heqc5"]
 [ext_resource type="Texture2D" uid="uid://clqw3fttw3cl1" path="res://assets/player/block.png" id="2_c7mlt"]
-[ext_resource type="PackedScene" uid="uid://b0xrjstrhdb1c" path="res://scene/abilities/default_attack/dash_attack_controller.tscn" id="2_jxsrc"]
+[ext_resource type="Script" uid="uid://l1drqp64gju1" path="res://resource/effect.gd" id="2_fpv3a"]
+[ext_resource type="PackedScene" uid="uid://b0xrjstrhdb1c" path="res://scene/abilities/dash_attack/dash_attack_controller.tscn" id="2_jxsrc"]
 [ext_resource type="Texture2D" uid="uid://c0iehayvefpw" path="res://assets/player/idle.png" id="2_sg6kp"]
-[ext_resource type="PackedScene" uid="uid://qrs7simtre66" path="res://scene/components/movement_component.tscn" id="3_4vals"]
+[ext_resource type="PackedScene" uid="uid://qrs7simtre66" path="res://scene/components/movement_component/movement_component.tscn" id="3_4vals"]
 [ext_resource type="Texture2D" uid="uid://ce80rc1mselg1" path="res://assets/player/run.png" id="3_6qri3"]
+[ext_resource type="Script" uid="uid://quc7gap4plyv" path="res://resource/stat_modifier_data.gd" id="3_fpv3a"]
 [ext_resource type="Texture2D" uid="uid://gkeval76usey" path="res://assets/player/takeDamage.png" id="3_jxsrc"]
-[ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component.tscn" id="4_48qb4"]
-[ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component.tscn" id="5_ju00n"]
-[ext_resource type="PackedScene" uid="uid://ci75yoy6kjcwn" path="res://scene/components/ParryComponent/parry_component.tscn" id="6_tyng1"]
+[ext_resource type="PackedScene" uid="uid://brb3xhgavq8gl" path="res://scene/abilities/parry/parry_controller.tscn" id="3_tyng1"]
+[ext_resource type="Script" uid="uid://cyitjknl16852" path="res://resource/damage_data.gd" id="4_1tyhs"]
+[ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="4_48qb4"]
+[ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component/armor_component.tscn" id="5_ju00n"]
+[ext_resource type="Script" uid="uid://5m7cpflvnie8" path="res://base/state_machine.gd" id="7_heqc5"]
+
+[sub_resource type="Resource" id="Resource_bjes5"]
+script = ExtResource("2_fpv3a")
+name = "KnockBack"
+effect_type = 5
+behavior = 1
+knockback_strength = 500.0
+metadata/_custom_type_script = "uid://l1drqp64gju1"
+
+[sub_resource type="Resource" id="Resource_1tyhs"]
+script = ExtResource("3_fpv3a")
+speed_multiplier = 0.3
+metadata/_custom_type_script = "uid://quc7gap4plyv"
+
+[sub_resource type="Resource" id="Resource_0ygly"]
+script = ExtResource("2_fpv3a")
+name = "Slow"
+effect_type = 2
+behavior = 4
+stat_modifiers = SubResource("Resource_1tyhs")
+duration = 3.0
+metadata/_custom_type_script = "uid://l1drqp64gju1"
+
+[sub_resource type="Resource" id="Resource_wfn55"]
+script = ExtResource("4_1tyhs")
+metadata/_custom_type_script = "uid://cyitjknl16852"
+
+[sub_resource type="Resource" id="Resource_p0vsu"]
+script = ExtResource("2_fpv3a")
+name = "Burn"
+effect_type = 10
+behavior = 2
+damage = SubResource("Resource_wfn55")
+duration = 3.0
+metadata/_custom_type_script = "uid://l1drqp64gju1"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_heqc5"]
 atlas = ExtResource("2_c7mlt")
@@ -78,9 +117,9 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_1tyhs")
 }],
-"loop": true,
+"loop": false,
 "name": &"block",
-"speed": 7.0
+"speed": 4.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -92,9 +131,9 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_p0vsu")
 }],
-"loop": true,
+"loop": false,
 "name": &"hit",
-"speed": 5.0
+"speed": 7.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -132,16 +171,25 @@ points = PackedVector2Array(8, 7, -8, 7, 0, -8)
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 2
-script = ExtResource("1_u6ae3")
+collision_mask = 5
+script = ExtResource("1_heqc5")
+effects = Array[ExtResource("2_fpv3a")]([SubResource("Resource_bjes5"), SubResource("Resource_0ygly"), SubResource("Resource_p0vsu")])
 
 [node name="AbilityManager" type="Node" parent="."]
 
 [node name="DashAttackController" parent="AbilityManager" instance=ExtResource("2_jxsrc")]
+unique_name_in_owner = true
+dash_attack_damage = 0.1
+damage_type = 1
+attack_cd = 0.1
+
+[node name="ParryController" parent="AbilityManager" instance=ExtResource("3_tyng1")]
+unique_name_in_owner = true
 
 [node name="MovementComponent" parent="." instance=ExtResource("3_4vals")]
 unique_name_in_owner = true
 max_speed = 200
-acceleration = 7.5
+acceleration = 15.0
 
 [node name="HealthComponent" parent="." instance=ExtResource("4_48qb4")]
 unique_name_in_owner = true
@@ -150,13 +198,9 @@ max_health = 50.0
 [node name="ArmorComponent" parent="." instance=ExtResource("5_ju00n")]
 unique_name_in_owner = true
 
-[node name="ParryComponent" parent="." instance=ExtResource("6_tyng1")]
+[node name="PlayerStateMachine" type="Node" parent="."]
 unique_name_in_owner = true
-parry_cd = 0.5
-parry_window = 0.25
-push_duration = 0.25
-push_angle_range = 30.0
-push_distance = 120.0
+script = ExtResource("7_heqc5")
 
 [node name="GracePeriod" type="Timer" parent="."]
 unique_name_in_owner = true
@@ -165,11 +209,10 @@ one_shot = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
+texture_filter = 3
 sprite_frames = SubResource("SpriteFrames_heqc5")
-animation = &"idle"
+animation = &"block"
 autoplay = "idle"
-frame = 1
-frame_progress = 0.096701816
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_lfjyr")
@@ -181,6 +224,3 @@ collision_mask = 8
 [node name="HurtBoxShape" type="CollisionShape2D" parent="PlayerHurtBox"]
 unique_name_in_owner = true
 shape = SubResource("ConvexPolygonShape2D_ju00n")
-
-[connection signal="area_entered" from="PlayerHurtBox" to="." method="_on_player_hurt_box_area_entered"]
-[connection signal="area_exited" from="PlayerHurtBox" to="." method="_on_player_hurt_box_area_exited"]

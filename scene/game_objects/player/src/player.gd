@@ -5,15 +5,15 @@ extends CharacterBody2D
 #region var
 @export var rotation_speed: float = 9.0 #9.0(AI)
 @export var grace_period_time: float = 0.5
+@export var effects: Array[Effect]
 
 var last_direction: Vector2 = Vector2.UP
-var enemies_colliding: int
-var enemy_damage: float
 var base_speed: float
 var dash_from_mouse := false
 var parry_from_mouse := false
+var is_input_blocked := false
 
-@onready var main_state_machine: StateMachine = $MainStateMachine
+@onready var player_state_machine: StateMachine = %PlayerStateMachine
 @onready var animated_sprite_2d = %AnimatedSprite2D
 @onready var grace_period = %GracePeriod
 @onready var movement_component = %MovementComponent
@@ -31,27 +31,16 @@ func _ready():
 
 func _enter_variables():
 	var states: Array[State] = [
-		PlayerIdleState.new(self), 
-		PlayerMovementState.new(self), 
+		PlayerIdleState.new(self),
+		PlayerMovementState.new(self),
 		PlayerDashState.new(self),
 		PlayerParryState.new(self)]
-	main_state_machine.start_machine(states)
-	enemies_colliding = 0
+	player_state_machine.start_machine(states)
 	base_speed = movement_component.max_speed
 
 
 func _connect_signals():
 	health_component.died.connect(_on_died)
-	health_component.health_decreased.connect(_on_health_decreased)
-
-
-func _process(delta: float):
-	_handle_input(delta)
-	check_if_damaged()
-
-
-func _handle_input(delta: float):
-	pass
 
 
 func handle_movement(delta: float):
@@ -71,28 +60,5 @@ func get_movement_vector() -> Vector2:
 	return vector
 
 
-func check_if_damaged():
-	if enemies_colliding == 0 || !grace_period.is_stopped():
-		return
-	health_component.take_damage(enemy_damage)
-	grace_period.start(grace_period_time)
-
-
-func _on_player_hurt_box_area_entered(area: Area2D) -> void:
-	if not area.has_method("enemy_damage"):
-		return
-	enemy_damage = area.enemy_damage()
-	enemies_colliding += 1
-	check_if_damaged()
-
-
-func _on_player_hurt_box_area_exited(_area: Area2D) -> void:
-	enemies_colliding -= 1
-
-
 func _on_died():
 	queue_free()
-
-
-func _on_health_decreased():
-	pass

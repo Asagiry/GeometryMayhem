@@ -2,4 +2,4 @@ class_name HitBoxComponent
 
 extends Area2D
 
-var damage = 0
+var damage_data: DamageData
