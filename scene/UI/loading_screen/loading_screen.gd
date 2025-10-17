@@ -12,7 +12,7 @@ func _ready():
 	transition_screen_instance = transition_scene.instantiate()
 	transition_screen_instance.transitioned.connect(_on_transition_screen_transitioned)
 	ResourceLoader.load_threaded_request(level_scene_path)
-	
+
 func _process(_delta):
 	scene_load_status = ResourceLoader.load_threaded_get_status(level_scene_path, progress)
 	if scene_load_status == ResourceLoader.THREAD_LOAD_LOADED:
