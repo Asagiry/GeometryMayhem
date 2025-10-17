@@ -1,0 +1,100 @@
+[gd_scene load_steps=2 format=3 uid="uid://ndi3eyvfibw0"]
+
+[ext_resource type="Script" uid="uid://8y0brmm34oa5" path="res://scene/UI/main_menu/main_menu.gd" id="1_vf4kd"]
+
+[node name="MainMenu" type="CanvasLayer"]
+script = ExtResource("1_vf4kd")
+
+[node name="MainMarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MainMarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_constants/margin_top = 80
+
+[node name="CenterContainer" type="CenterContainer" parent="MainMarginContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="GameNameLabel" type="Label" parent="MainMarginContainer/MarginContainer/CenterContainer"]
+layout_mode = 2
+theme_override_constants/outline_size = 20
+theme_override_font_sizes/font_size = 80
+text = "GEOMETRY MAYHEM"
+
+[node name="ButtonMarginContainer" type="MarginContainer" parent="MainMarginContainer"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 250
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="CenterContainer" type="CenterContainer" parent="MainMarginContainer/ButtonMarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMarginContainer/ButtonMarginContainer/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="PlayButton" type="Button" parent="MainMarginContainer/ButtonMarginContainer/CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 40
+text = "Play"
+
+[node name="ArtefactButton" type="Button" parent="MainMarginContainer/ButtonMarginContainer/CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 40
+text = "Artefacts"
+
+[node name="TalantsButton" type="Button" parent="MainMarginContainer/ButtonMarginContainer/CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 40
+text = "Talants"
+
+[node name="SettingsButton2" type="Button" parent="MainMarginContainer/ButtonMarginContainer/CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 40
+text = "Settings"
+
+[node name="ExitButton" type="Button" parent="MainMarginContainer/ButtonMarginContainer/CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 40
+text = "Exit"
+
+[node name="VersionMarginContainer" type="MarginContainer" parent="MainMarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_constants/margin_left = 20
+
+[node name="VersionLabel" type="Label" parent="MainMarginContainer/VersionMarginContainer"]
+layout_mode = 2
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 20
+text = "v 0.1"
+
+[connection signal="pressed" from="MainMarginContainer/ButtonMarginContainer/CenterContainer/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="MainMarginContainer/ButtonMarginContainer/CenterContainer/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
