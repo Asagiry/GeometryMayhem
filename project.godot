@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="GeometryMayhem"
-run/main_scene="uid://cgblk87y45i5x"
+run/main_scene="uid://ndi3eyvfibw0"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -22,8 +22,8 @@ gdscript/warnings/unused_parameter=0
 
 [display]
 
-window/size/viewport_width=1200
-window/size/viewport_height=900
+window/size/viewport_width=1280
+window/size/viewport_height=720
 window/stretch/mode="viewport"
 window/stretch/scale_mode="integer"
 
