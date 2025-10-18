@@ -1,13 +1,9 @@
-[gd_scene load_steps=37 format=3 uid="uid://dpvptcshibxt0"]
+[gd_scene load_steps=33 format=3 uid="uid://dpvptcshibxt0"]
 
 [ext_resource type="Script" uid="uid://d2bd4ujy5qv0c" path="res://scene/game_objects/player/src/player.gd" id="1_heqc5"]
-[ext_resource type="Texture2D" uid="uid://clqw3fttw3cl1" path="res://assets/player/block.png" id="2_c7mlt"]
 [ext_resource type="Script" uid="uid://l1drqp64gju1" path="res://resource/effect.gd" id="2_fpv3a"]
 [ext_resource type="PackedScene" uid="uid://b0xrjstrhdb1c" path="res://scene/abilities/dash_attack/dash_attack_controller.tscn" id="2_jxsrc"]
-[ext_resource type="Texture2D" uid="uid://c0iehayvefpw" path="res://assets/player/idle.png" id="2_sg6kp"]
-[ext_resource type="Texture2D" uid="uid://ce80rc1mselg1" path="res://assets/player/run.png" id="3_6qri3"]
 [ext_resource type="Script" uid="uid://quc7gap4plyv" path="res://resource/stat_modifier_data.gd" id="3_fpv3a"]
-[ext_resource type="Texture2D" uid="uid://gkeval76usey" path="res://assets/player/takeDamage.png" id="3_jxsrc"]
 [ext_resource type="PackedScene" uid="uid://brb3xhgavq8gl" path="res://scene/abilities/parry/parry_controller.tscn" id="3_tyng1"]
 [ext_resource type="Script" uid="uid://cyitjknl16852" path="res://resource/damage_data.gd" id="4_1tyhs"]
 [ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="4_48qb4"]
@@ -15,7 +11,20 @@
 [ext_resource type="Script" uid="uid://derbmady170hu" path="res://scene/components/movement_component/player_movement_component.gd" id="7_1tyhs"]
 [ext_resource type="Script" uid="uid://5m7cpflvnie8" path="res://base/state_machine.gd" id="7_heqc5"]
 [ext_resource type="PackedScene" uid="uid://bl380xv78onc8" path="res://scene/components/effect_receiver/effect_receiver.tscn" id="10_0ygly"]
+[ext_resource type="Texture2D" uid="uid://dhp5osadbdkr5" path="res://assets/player/PARRY/PARRY1.png" id="12_vedbf"]
+[ext_resource type="Texture2D" uid="uid://bki6nmequas25" path="res://assets/player/PARRY/PARRY2.png" id="13_siiro"]
+[ext_resource type="Texture2D" uid="uid://w350vu7k8qr0" path="res://assets/player/PARRY/PARRY3.png" id="14_rlg5u"]
+[ext_resource type="Texture2D" uid="uid://cn77e8twpbo18" path="res://assets/player/PARRY/PARRY4.png" id="15_k07tp"]
+[ext_resource type="Texture2D" uid="uid://d4h4hbl1awmct" path="res://assets/player/TAKE_DAMAGE/TAKE_DAMAGE1.png" id="16_plpdn"]
 [ext_resource type="PackedScene" uid="uid://csmleslly1twg" path="res://scene/game_objects/player/player_hurt_box.tscn" id="16_wfn55"]
+[ext_resource type="Texture2D" uid="uid://cruub30w2sp85" path="res://assets/player/TAKE_DAMAGE/TAKE_DAMAGE2.png" id="17_t526v"]
+[ext_resource type="Texture2D" uid="uid://bpjpcvpp0hyai" path="res://assets/player/TAKE_DAMAGE/TAKE_DAMAGE3.png" id="18_uufy7"]
+[ext_resource type="Texture2D" uid="uid://bela1taq0jaww" path="res://assets/player/IDLE/IDLE1.png" id="19_edl67"]
+[ext_resource type="Texture2D" uid="uid://dghf3ps4535s5" path="res://assets/player/IDLE/IDLE2.png" id="20_t4lt5"]
+[ext_resource type="Texture2D" uid="uid://bw40qjgannsa5" path="res://assets/player/IDLE/IDLE3.png" id="21_jyiia"]
+[ext_resource type="Texture2D" uid="uid://dwu4r1do2wjtw" path="res://assets/player/MOVEMENT/MOVEMENT1.png" id="22_dx8m4"]
+[ext_resource type="Texture2D" uid="uid://hhptcad8220n" path="res://assets/player/MOVEMENT/MOVEMENT2.png" id="23_jpk7t"]
+[ext_resource type="Texture2D" uid="uid://bhralc6qy0wmp" path="res://assets/player/MOVEMENT/MOVEMENT3.png" id="24_y1s0g"]
 
 [sub_resource type="Resource" id="Resource_1tyhs"]
 script = ExtResource("3_fpv3a")
@@ -45,72 +54,20 @@ damage = SubResource("Resource_wfn55")
 duration = 3.0
 metadata/_custom_type_script = "uid://l1drqp64gju1"
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_heqc5"]
-atlas = ExtResource("2_c7mlt")
-region = Rect2(0, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_bjes5"]
-atlas = ExtResource("2_c7mlt")
-region = Rect2(16, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fpv3a"]
-atlas = ExtResource("2_c7mlt")
-region = Rect2(32, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_1tyhs"]
-atlas = ExtResource("2_c7mlt")
-region = Rect2(48, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0ygly"]
-atlas = ExtResource("3_jxsrc")
-region = Rect2(0, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wfn55"]
-atlas = ExtResource("3_jxsrc")
-region = Rect2(16, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_p0vsu"]
-atlas = ExtResource("3_jxsrc")
-region = Rect2(32, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_c7mlt"]
-atlas = ExtResource("2_sg6kp")
-region = Rect2(0, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_jxsrc"]
-atlas = ExtResource("2_sg6kp")
-region = Rect2(16, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_4vals"]
-atlas = ExtResource("2_sg6kp")
-region = Rect2(32, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_48qb4"]
-atlas = ExtResource("3_6qri3")
-region = Rect2(0, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ju00n"]
-atlas = ExtResource("3_6qri3")
-region = Rect2(16, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_tyng1"]
-atlas = ExtResource("3_6qri3")
-region = Rect2(32, 0, 16, 16)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_heqc5"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_heqc5")
+"texture": ExtResource("12_vedbf")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_bjes5")
+"texture": ExtResource("13_siiro")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_fpv3a")
+"texture": ExtResource("14_rlg5u")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_1tyhs")
+"texture": ExtResource("15_k07tp")
 }],
 "loop": false,
 "name": &"block",
@@ -118,13 +75,13 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_0ygly")
+"texture": ExtResource("16_plpdn")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_wfn55")
+"texture": ExtResource("17_t526v")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_p0vsu")
+"texture": ExtResource("18_uufy7")
 }],
 "loop": false,
 "name": &"hit",
@@ -132,13 +89,13 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_c7mlt")
+"texture": ExtResource("19_edl67")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_jxsrc")
+"texture": ExtResource("20_t4lt5")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_4vals")
+"texture": ExtResource("21_jyiia")
 }],
 "loop": true,
 "name": &"idle",
@@ -146,13 +103,13 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_48qb4")
+"texture": ExtResource("22_dx8m4")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ju00n")
+"texture": ExtResource("23_jpk7t")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_tyng1")
+"texture": ExtResource("24_y1s0g")
 }],
 "loop": true,
 "name": &"run",
@@ -209,8 +166,9 @@ one_shot = true
 unique_name_in_owner = true
 texture_filter = 3
 sprite_frames = SubResource("SpriteFrames_heqc5")
-animation = &"block"
+animation = &"run"
 autoplay = "idle"
+frame_progress = 0.71018
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_lfjyr")
