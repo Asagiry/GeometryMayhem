@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://d3vhitwmdlmwa"]
+
+[ext_resource type="Texture2D" uid="uid://iv3nuycmos6x" path="res://icon.svg" id="1_bdkok"]
+
+[node name="ArtefactSlot" type="Control"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="IconTextureRect" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 128.0
+scale = Vector2(0.625, 0.625)
+texture = ExtResource("1_bdkok")
+
+[node name="HighLightColorRect" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(1, 1, 1, 0.047058824)
