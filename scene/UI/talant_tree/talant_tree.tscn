@@ -1,0 +1,188 @@
+[gd_scene load_steps=5 format=3 uid="uid://dh1qy3t25dbmd"]
+
+[ext_resource type="PackedScene" uid="uid://c5qyq1tm6e6ma" path="res://scene/UI/talant_tree/talant_tree_element.tscn" id="1_k2r6l"]
+[ext_resource type="Script" uid="uid://lflpuxxfi604" path="res://scene/UI/talant_tree/talant_tree.gd" id="1_yqkjx"]
+[ext_resource type="Texture2D" uid="uid://bdyoysnbmtli7" path="res://scene/UI/main_menu/Background.png" id="2_05fl1"]
+[ext_resource type="PackedScene" uid="uid://dnplkiahlulhf" path="res://scene/UI/talant_tree/talant_tree_arrow.tscn" id="2_yqkjx"]
+
+[node name="TalantTree" type="CanvasLayer"]
+script = ExtResource("1_yqkjx")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_05fl1")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/CenterContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/CenterContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 16
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0\\50 talants"
+
+[node name="Label2" type="Label" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Current points = 1"
+
+[node name="ExitButton" type="Button" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "X
+"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(1000, 500)
+layout_mode = 2
+vertical_scroll_mode = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 42
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 36
+theme_override_constants/margin_bottom = 30
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 100
+
+[node name="DashTree" type="HBoxContainer" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="TalantTreeElement" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/DashTree" instance=ExtResource("1_k2r6l")]
+layout_mode = 2
+
+[node name="TalantTreeArrow" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/DashTree" instance=ExtResource("2_yqkjx")]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="TalantTreeElement2" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/DashTree" instance=ExtResource("1_k2r6l")]
+layout_mode = 2
+
+[node name="TalantTreeArrow2" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/DashTree" instance=ExtResource("2_yqkjx")]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="TalantTreeElement3" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/DashTree" instance=ExtResource("1_k2r6l")]
+layout_mode = 2
+
+[node name="TalantTreeArrow3" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/DashTree" instance=ExtResource("2_yqkjx")]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="TalantTreeElement4" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/DashTree" instance=ExtResource("1_k2r6l")]
+layout_mode = 2
+
+[node name="TalantTreeArrow4" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/DashTree" instance=ExtResource("2_yqkjx")]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="TalantTreeElement6" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/DashTree" instance=ExtResource("1_k2r6l")]
+layout_mode = 2
+
+[node name="TalantTreeArrow5" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/DashTree" instance=ExtResource("2_yqkjx")]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="ParryTree" type="HBoxContainer" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="TalantTreeElement" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/ParryTree" instance=ExtResource("1_k2r6l")]
+layout_mode = 2
+
+[node name="TalantTreeArrow" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/ParryTree" instance=ExtResource("2_yqkjx")]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="TalantTreeElement2" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/ParryTree" instance=ExtResource("1_k2r6l")]
+layout_mode = 2
+
+[node name="TalantTreeArrow2" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/ParryTree" instance=ExtResource("2_yqkjx")]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="TalantTreeElement3" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/ParryTree" instance=ExtResource("1_k2r6l")]
+layout_mode = 2
+
+[node name="TalantTreeArrow3" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/ParryTree" instance=ExtResource("2_yqkjx")]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="TalantTreeElement4" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/ParryTree" instance=ExtResource("1_k2r6l")]
+layout_mode = 2
+
+[node name="TalantTreeArrow4" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/ParryTree" instance=ExtResource("2_yqkjx")]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="TalantTreeElement6" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/ParryTree" instance=ExtResource("1_k2r6l")]
+layout_mode = 2
+
+[node name="TalantTreeArrow5" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/ParryTree" instance=ExtResource("2_yqkjx")]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="MovementTree" type="HBoxContainer" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="TalantTreeElement" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/MovementTree" instance=ExtResource("1_k2r6l")]
+layout_mode = 2
+
+[node name="TalantTreeArrow" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/MovementTree" instance=ExtResource("2_yqkjx")]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="TalantTreeElement2" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/MovementTree" instance=ExtResource("1_k2r6l")]
+layout_mode = 2
+
+[node name="TalantTreeArrow2" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/MovementTree" instance=ExtResource("2_yqkjx")]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="TalantTreeElement3" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/MovementTree" instance=ExtResource("1_k2r6l")]
+layout_mode = 2
+
+[node name="TalantTreeArrow3" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/MovementTree" instance=ExtResource("2_yqkjx")]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="TalantTreeElement4" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/MovementTree" instance=ExtResource("1_k2r6l")]
+layout_mode = 2
+
+[node name="TalantTreeArrow4" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/MovementTree" instance=ExtResource("2_yqkjx")]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="TalantTreeElement5" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/MovementTree" instance=ExtResource("1_k2r6l")]
+layout_mode = 2
+
+[node name="TalantTreeArrow5" parent="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/MovementTree" instance=ExtResource("2_yqkjx")]
+layout_mode = 2
+size_flags_vertical = 4
+
+[connection signal="pressed" from="MarginContainer/CenterContainer/PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]

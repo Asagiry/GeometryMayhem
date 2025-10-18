@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://c5qyq1tm6e6ma"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_pqdjc"]
+
+[node name="TalantTreeElement" type="Control"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = SubResource("PlaceholderTexture2D_pqdjc")
