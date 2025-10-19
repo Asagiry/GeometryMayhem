@@ -25,7 +25,7 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uvpif"]
 
 [node name="SettingsMenu" type="CanvasLayer"]
-layer = 2
+layer = 3
 script = ExtResource("1_0s88c")
 
 [node name="TextureRect" type="TextureRect" parent="."]

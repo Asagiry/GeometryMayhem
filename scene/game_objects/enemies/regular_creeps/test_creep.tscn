@@ -1,6 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://dgv8d4dbcuqbj"]
+[gd_scene load_steps=13 format=3 uid="uid://dgv8d4dbcuqbj"]
 
 [ext_resource type="Script" uid="uid://b6d2xxtpdtr5b" path="res://scene/game_objects/enemies/regular_creeps/test_creep.gd" id="1_reyus"]
+[ext_resource type="PackedScene" uid="uid://d1g17l4ahse68" path="res://scene/game_objects/enemies/regular_creeps/creep_attack_controller.tscn" id="2_g5q6p"]
 [ext_resource type="Texture2D" uid="uid://iv3nuycmos6x" path="res://icon.svg" id="2_h424k"]
 [ext_resource type="Script" uid="uid://ceoapo7p64piu" path="res://scene/components/movement_component/enemy_melee_movement_component.gd" id="2_q6hwk"]
 [ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="3_83mdm"]
@@ -8,7 +9,6 @@
 [ext_resource type="PackedScene" uid="uid://bl380xv78onc8" path="res://scene/components/effect_receiver/effect_receiver.tscn" id="5_3nns4"]
 [ext_resource type="Script" uid="uid://5m7cpflvnie8" path="res://base/state_machine.gd" id="6_q6hwk"]
 [ext_resource type="PackedScene" uid="uid://djb2bixsc65n6" path="res://scene/components/enemy_hurt_box_component/enemy_hurt_box_component.tscn" id="6_ylj4q"]
-[ext_resource type="PackedScene" uid="uid://c1lovskq0daeo" path="res://scene/components/enemy_hit_box_component/enemy_hit_box_component.tscn" id="7_h3cmp"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_h3cmp"]
 animations = [{
@@ -27,13 +27,12 @@ size = Vector2(10, 10)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ylj4q"]
 size = Vector2(13, 13)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_h3cmp"]
-size = Vector2(12, 11)
-
 [node name="TestCreep" type="CharacterBody2D" groups=["enemy"]]
 collision_layer = 4
 collision_mask = 5
 script = ExtResource("1_reyus")
+
+[node name="creep_attack_controller" parent="." instance=ExtResource("2_g5q6p")]
 
 [node name="MovementComponent" type="Node" parent="."]
 unique_name_in_owner = true
@@ -69,14 +68,6 @@ health_component = NodePath("../HealthComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyHurtBoxComponent"]
 shape = SubResource("RectangleShape2D_ylj4q")
-
-[node name="EnemyHitBoxComponent" parent="." instance=ExtResource("7_h3cmp")]
-collision_layer = 8
-collision_mask = 0
-damage = 0.1
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyHitBoxComponent"]
-shape = SubResource("RectangleShape2D_h3cmp")
 
 [node name="TestProgressBarOnlyForTest" type="ProgressBar" parent="."]
 offset_left = -9.0

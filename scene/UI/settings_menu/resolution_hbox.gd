@@ -9,10 +9,8 @@ func _ready() -> void:
 
 
 func _get_and_update_resolution_size():
-	print("123")
 	var window_size = DisplayServer.window_get_size()
 	resolution_label.text = str(window_size.x) + "x" + str(window_size.y)
-	print(str(window_size.x) + "x" + str(window_size.y))
 
 
 func _on_resolution_changed():

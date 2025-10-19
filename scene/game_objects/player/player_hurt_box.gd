@@ -12,5 +12,7 @@ func deal_damage(damage_data: DamageData):
 func apply_effect(effects: Array[Effect]):
 	if owner == null:
 		return
+	if effects == null:
+		return
 	for effect in effects:
 		owner.effect_receiver.apply_effect(effect)
