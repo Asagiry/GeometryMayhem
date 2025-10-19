@@ -1,25 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://d3vhitwmdlmwa"]
+[gd_scene load_steps=3 format=3 uid="uid://d3vhitwmdlmwa"]
 
-[ext_resource type="Texture2D" uid="uid://iv3nuycmos6x" path="res://icon.svg" id="1_bdkok"]
+[ext_resource type="Script" uid="uid://cmpudsxbubxh3" path="res://scene/UI/artefacts_inventory/artefact_slot.gd" id="1_0rctx"]
+[ext_resource type="Texture2D" uid="uid://c2tfbbqltfbwa" path="res://assets/mobs/melee/Easy/1/ATTACK/ATTACK_INSTANCE1.png" id="2_na6nx"]
 
-[node name="ArtefactSlot" type="Control"]
-custom_minimum_size = Vector2(80, 80)
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="ArtefactSlot" type="PanelContainer"]
+offset_right = 16.0
+offset_bottom = 16.0
+script = ExtResource("1_0rctx")
 
-[node name="IconTextureRect" type="TextureRect" parent="."]
-custom_minimum_size = Vector2(16, 16)
-layout_mode = 0
-offset_right = 128.0
-offset_bottom = 128.0
-scale = Vector2(0.625, 0.625)
-texture = ExtResource("1_bdkok")
+[node name="TextureButton" type="TextureButton" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture_normal = ExtResource("2_na6nx")
+stretch_mode = 0
 
-[node name="HighLightColorRect" type="ColorRect" parent="."]
-custom_minimum_size = Vector2(80, 80)
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-color = Color(1, 1, 1, 0.047058824)
+[connection signal="pressed" from="TextureButton" to="." method="_on_texture_button_pressed"]

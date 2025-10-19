@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://b8bcfd1s8lrai"]
+
+[ext_resource type="Script" uid="uid://o8jofs66y630" path="res://scene/UI/artefacts_inventory/radial_container.gd" id="1_0fbet"]
+
+[node name="RadialContainer" type="Container"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0fbet")
