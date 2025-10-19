@@ -147,7 +147,6 @@ size_flags_vertical = 4
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
-ArrowDownVisible = false
 
 [node name="AttackContainer" type="VBoxContainer" parent="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer/ScrollContainer/Tier1Container"]
 unique_name_in_owner = true
@@ -178,7 +177,6 @@ size_flags_vertical = 4
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
-ArrowDownVisible = false
 
 [node name="SpeedContainer" type="VBoxContainer" parent="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer/ScrollContainer/Tier1Container"]
 unique_name_in_owner = true
@@ -219,7 +217,6 @@ size_flags_vertical = 4
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
-ArrowDownVisible = false
 
 [connection signal="pressed" from="Control/VBoxContainer/ToolbarContainer/MarginContainer/HBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
 [connection signal="child_entered_tree" from="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer/ScrollContainer/Tier1Container/DefContainer" to="." method="_on_def_container_child_entered_tree"]
