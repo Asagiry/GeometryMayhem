@@ -1,0 +1,227 @@
+[gd_scene load_steps=4 format=3 uid="uid://css5vcfh5voyi"]
+
+[ext_resource type="Script" uid="uid://or7rxtbvb0og" path="res://scene/UI/talents_menu/talents_menu.gd" id="1_p50it"]
+[ext_resource type="Texture2D" uid="uid://bdyoysnbmtli7" path="res://scene/UI/main_menu/Background.png" id="2_w0rxn"]
+[ext_resource type="PackedScene" uid="uid://drs5o4adassu2" path="res://scene/UI/talents_menu/talent_slot.tscn" id="3_m0l5t"]
+
+[node name="TalentsMenu" type="CanvasLayer"]
+script = ExtResource("1_p50it")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_w0rxn")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchor_left = 0.05
+anchor_top = 0.1
+anchor_right = 0.95
+anchor_bottom = 0.85
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ToolbarContainer" type="PanelContainer" parent="Control/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/VBoxContainer/ToolbarContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer/ToolbarContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="MenuName" type="Label" parent="Control/VBoxContainer/ToolbarContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Talents menu"
+
+[node name="QuitButton" type="Button" parent="Control/VBoxContainer/ToolbarContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "X"
+
+[node name="TalentsContainer" type="PanelContainer" parent="Control/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/VBoxContainer/TalentsContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/VBoxContainer/TalentsContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="StatisticContainer" type="HBoxContainer" parent="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CurrentPoints" type="Label" parent="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer/StatisticContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Current talent-points = 0"
+horizontal_alignment = 1
+
+[node name="YourTalents" type="Label" parent="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer/StatisticContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Your talents = 0\\25"
+horizontal_alignment = 1
+
+[node name="LabelsContainer" type="HBoxContainer" parent="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DefLabel" type="Label" parent="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer/LabelsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Defence"
+horizontal_alignment = 1
+
+[node name="AttackLabel" type="Label" parent="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer/LabelsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Attack"
+horizontal_alignment = 1
+
+[node name="SpeedLabel" type="Label" parent="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer/LabelsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Speed"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Tier1Container" type="HBoxContainer" parent="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="DefContainer" type="VBoxContainer" parent="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer/ScrollContainer/Tier1Container"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TalentSlot" parent="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer/ScrollContainer/Tier1Container/DefContainer" instance=ExtResource("3_m0l5t")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="TalentSlot2" parent="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer/ScrollContainer/Tier1Container/DefContainer" instance=ExtResource("3_m0l5t")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="TalentSlot3" parent="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer/ScrollContainer/Tier1Container/DefContainer" instance=ExtResource("3_m0l5t")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="TalentSlot4" parent="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer/ScrollContainer/Tier1Container/DefContainer" instance=ExtResource("3_m0l5t")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="TalentSlot5" parent="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer/ScrollContainer/Tier1Container/DefContainer" instance=ExtResource("3_m0l5t")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+ArrowDownVisible = false
+
+[node name="AttackContainer" type="VBoxContainer" parent="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer/ScrollContainer/Tier1Container"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TalentSlot" parent="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer/ScrollContainer/Tier1Container/AttackContainer" instance=ExtResource("3_m0l5t")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="TalentSlot2" parent="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer/ScrollContainer/Tier1Container/AttackContainer" instance=ExtResource("3_m0l5t")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="TalentSlot3" parent="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer/ScrollContainer/Tier1Container/AttackContainer" instance=ExtResource("3_m0l5t")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="TalentSlot4" parent="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer/ScrollContainer/Tier1Container/AttackContainer" instance=ExtResource("3_m0l5t")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="TalentSlot5" parent="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer/ScrollContainer/Tier1Container/AttackContainer" instance=ExtResource("3_m0l5t")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+ArrowDownVisible = false
+
+[node name="SpeedContainer" type="VBoxContainer" parent="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer/ScrollContainer/Tier1Container"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TalentSlot" parent="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer/ScrollContainer/Tier1Container/SpeedContainer" instance=ExtResource("3_m0l5t")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="TalentSlot2" parent="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer/ScrollContainer/Tier1Container/SpeedContainer" instance=ExtResource("3_m0l5t")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="TalentSlot3" parent="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer/ScrollContainer/Tier1Container/SpeedContainer" instance=ExtResource("3_m0l5t")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="TalentSlot4" parent="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer/ScrollContainer/Tier1Container/SpeedContainer" instance=ExtResource("3_m0l5t")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="TalentSlot5" parent="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer/ScrollContainer/Tier1Container/SpeedContainer" instance=ExtResource("3_m0l5t")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="TalentSlot6" parent="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer/ScrollContainer/Tier1Container/SpeedContainer" instance=ExtResource("3_m0l5t")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="TalentSlot7" parent="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer/ScrollContainer/Tier1Container/SpeedContainer" instance=ExtResource("3_m0l5t")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+ArrowDownVisible = false
+
+[connection signal="pressed" from="Control/VBoxContainer/ToolbarContainer/MarginContainer/HBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="child_entered_tree" from="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer/ScrollContainer/Tier1Container/DefContainer" to="." method="_on_def_container_child_entered_tree"]
+[connection signal="child_entered_tree" from="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer/ScrollContainer/Tier1Container/AttackContainer" to="." method="_on_attack_container_child_entered_tree"]
+[connection signal="child_entered_tree" from="Control/VBoxContainer/TalentsContainer/MarginContainer/VBoxContainer/ScrollContainer/Tier1Container/SpeedContainer" to="." method="_on_speed_container_child_entered_tree"]

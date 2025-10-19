@@ -12,7 +12,6 @@ func _process(delta:float):
 func _notification(what):
 	match what:
 		NOTIFICATION_SORT_CHILDREN:
-			# Требуется пересортировка детей
 			_sort_children()
 
 func _sort_children():

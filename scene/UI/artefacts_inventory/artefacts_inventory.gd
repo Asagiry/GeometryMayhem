@@ -29,16 +29,16 @@ func _on_artefact_slots_child_entered_tree(node: Node) -> void:
 		node.artefact_selected.connect(_on_artefact_selected_from_slots)
 
 
-func _on_artefact_selected(name,description,stats,texture):
-	self.artefact_name.text = name
+func _on_artefact_selected(artname,description,stats,texture):
+	self.artefact_name.text = artname
 	self.artefact_description.text = description
 	self.artefact_stats.text = stats
 	self.artefact_texture.texture = texture
 	self.equip_buttion.text = "Equip"
 
 
-func _on_artefact_selected_from_slots(name,description,stats,texture):
-	self.artefact_name.text = name
+func _on_artefact_selected_from_slots(artname,description,stats,texture):
+	self.artefact_name.text = artname
 	self.artefact_description.text = description
 	self.artefact_stats.text = stats
 	self.artefact_texture.texture = texture

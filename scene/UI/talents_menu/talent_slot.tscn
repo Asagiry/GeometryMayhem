@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3 uid="uid://drs5o4adassu2"]
+
+[ext_resource type="Script" uid="uid://cehxw8gapeyvd" path="res://scene/UI/talents_menu/talent_slot.gd" id="1_6dq7v"]
+[ext_resource type="Texture2D" uid="uid://c2tfbbqltfbwa" path="res://assets/mobs/melee/Easy/1/ATTACK/ATTACK_INSTANCE1.png" id="2_6pan7"]
+[ext_resource type="Texture2D" uid="uid://k5312emp6ni3" path="res://TalentsArrow1.png" id="3_6pan7"]
+
+[node name="TalentSlot" type="VBoxContainer"]
+offset_right = 64.0
+offset_bottom = 158.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_6dq7v")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="TextureButton" type="TextureButton" parent="PanelContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture_normal = ExtResource("2_6pan7")
+stretch_mode = 0
+
+[node name="AddedPoints" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0/5"
+horizontal_alignment = 1
+
+[node name="ArrowDown" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("3_6pan7")
+stretch_mode = 2
+flip_v = true
+
+[connection signal="pressed" from="PanelContainer/TextureButton" to="." method="_on_texture_button_pressed"]

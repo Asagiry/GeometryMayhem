@@ -37,25 +37,25 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="Control/VBoxContainer"]
+[node name="ToolbarContainer" type="PanelContainer" parent="Control/VBoxContainer"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="Control/VBoxContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Control/VBoxContainer/ToolbarContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer/PanelContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer/ToolbarContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="MenuName" type="Label" parent="Control/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="MenuName" type="Label" parent="Control/VBoxContainer/ToolbarContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Artefacts inventory"
 
-[node name="QuitButton" type="Button" parent="Control/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="QuitButton" type="Button" parent="Control/VBoxContainer/ToolbarContainer/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 text = "X"
@@ -226,6 +226,7 @@ layout_mode = 2
 [node name="EquipContainer" type="PanelContainer" parent="Control/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.75
 
 [node name="MarginContainer" type="MarginContainer" parent="Control/VBoxContainer/HBoxContainer/EquipContainer"]
 layout_mode = 2
@@ -235,6 +236,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="Control/VBoxContainer/HBoxContainer/EquipContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 0
 text = "Equiped"
 label_settings = SubResource("LabelSettings_w4oxd")
 horizontal_alignment = 1
@@ -261,6 +263,6 @@ layout_mode = 2
 [node name="ArtefactSlot4" parent="Control/VBoxContainer/HBoxContainer/EquipContainer/MarginContainer/VBoxContainer/EquipBackground/ArtefactSlots" instance=ExtResource("1_15igh")]
 layout_mode = 2
 
-[connection signal="pressed" from="Control/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/ToolbarContainer/MarginContainer/HBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
 [connection signal="child_entered_tree" from="Control/VBoxContainer/HBoxContainer/InventoryContainer/MarginContainer/VBoxContainer/ScrollContainer/ArtefactsInventory" to="." method="_on_artefacts_inventory_child_entered_tree"]
 [connection signal="child_entered_tree" from="Control/VBoxContainer/HBoxContainer/EquipContainer/MarginContainer/VBoxContainer/EquipBackground/ArtefactSlots" to="." method="_on_artefact_slots_child_entered_tree"]
