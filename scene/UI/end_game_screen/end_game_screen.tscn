@@ -1,0 +1,72 @@
+[gd_scene load_steps=5 format=3 uid="uid://dhjgcauyebhkx"]
+
+[ext_resource type="Script" uid="uid://dqxjxn3wx0rl6" path="res://scene/UI/end_game_screen/end_game_screen.gd" id="1_uxcox"]
+[ext_resource type="PackedScene" uid="uid://nsiig3ea8c3r" path="res://scene/UI/transition_screen/transition_screen.tscn" id="2_2rxlo"]
+[ext_resource type="Texture2D" uid="uid://iv3nuycmos6x" path="res://icon.svg" id="2_yf3nm"]
+[ext_resource type="PackedScene" uid="uid://ndi3eyvfibw0" path="res://scene/UI/main_menu/main_menu.tscn" id="3_rgidp"]
+
+[node name="EndGameScreen" type="CanvasLayer"]
+script = ExtResource("1_uxcox")
+transition_scene = ExtResource("2_2rxlo")
+main_menu_scene = ExtResource("3_rgidp")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer"]
+layout_mode = 2
+color = Color(0.019607844, 0.050980393, 0.05490196, 1)
+
+[node name="MarginContainer2" type="MarginContainer" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_bottom = 40
+
+[node name="OkButton" type="Button" parent="MarginContainer2"]
+layout_mode = 2
+text = "Подтвердить"
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 400)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/HBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/HBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Награды"
+
+[node name="TextureRect" type="TextureRect" parent="CenterContainer/HBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_yf3nm")
+
+[connection signal="pressed" from="MarginContainer2/OkButton" to="." method="_on_ok_button_pressed"]

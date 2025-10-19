@@ -1,0 +1,110 @@
+[gd_scene load_steps=9 format=3 uid="uid://wd0ae536cgs3"]
+
+[ext_resource type="Shader" uid="uid://depo5to1gregr" path="res://scene/UI/end_game_screen/player_death_transition_screen/player_death_shader.gdshader" id="1_da3ov"]
+[ext_resource type="Script" uid="uid://bmebiuddaihil" path="res://scene/UI/end_game_screen/player_death_transition_screen/player_death_transition_screen.gd" id="1_f6kv8"]
+[ext_resource type="Script" uid="uid://bbxescdoehj8l" path="res://scene/UI/end_game_screen/player_death_transition_screen/color_rect.gd" id="2_0movq"]
+
+[sub_resource type="Animation" id="Animation_yf3nm"]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MarginContainer:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_uxcox"]
+resource_name = "button_in"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MarginContainer:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.23333333, 0.6),
+"transitions": PackedFloat32Array(1, 0.6597542, 0.46651655),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(1.5, 1.5), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_6slh4"]
+resource_name = "button_out"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MarginContainer:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.16666667, 0.4),
+"transitions": PackedFloat32Array(1, 1.5157166, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(2, 2), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2rxlo"]
+_data = {
+&"RESET": SubResource("Animation_yf3nm"),
+&"button_in": SubResource("Animation_uxcox"),
+&"button_out": SubResource("Animation_6slh4")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2rxlo"]
+shader = ExtResource("1_da3ov")
+shader_parameter/progress = 0.0
+shader_parameter/columns = 12
+shader_parameter/rows = 8
+shader_parameter/fill_color = Color(0, 0, 0, 1)
+shader_parameter/empty_color = Color(1, 1, 1, 1)
+
+[node name="PlayerDeathTransitionScreen" type="Control"]
+top_level = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_f6kv8")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_2rxlo")
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_2rxlo")
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+script = ExtResource("2_0movq")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_left = 582.0
+offset_top = 629.0
+offset_right = 702.0
+offset_bottom = 729.0
+pivot_offset = Vector2(60, 50)
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_constants/margin_bottom = 60
+
+[node name="OkButton" type="Button" parent="MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Подтвердить"
+
+[connection signal="pressed" from="MarginContainer/OkButton" to="." method="_on_ok_button_pressed"]

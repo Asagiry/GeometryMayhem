@@ -40,4 +40,5 @@ func _connect_signals():
 
 
 func _on_died():
+	Global.player_died.emit()
 	queue_free()
