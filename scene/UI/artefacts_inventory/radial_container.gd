@@ -1,5 +1,6 @@
-extends Container
 class_name CircularContainer
+
+extends Container
 
 var process_angle = 0
 

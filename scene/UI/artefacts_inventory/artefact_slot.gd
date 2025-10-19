@@ -1,5 +1,7 @@
-extends Control
 class_name ArtefactSlot
+
+extends Control
+
 
 signal artefact_selected(artefact_name,description,stats,image)
 
