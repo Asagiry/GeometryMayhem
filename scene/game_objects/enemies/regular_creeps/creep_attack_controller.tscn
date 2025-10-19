@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://d1g17l4ahse68"]
+
+[ext_resource type="Script" uid="uid://bbsci71gpxsfc" path="res://scene/game_objects/enemies/regular_creeps/creep_attack_controller.gd" id="1_5r8ty"]
+[ext_resource type="PackedScene" uid="uid://k7wit66llh8p" path="res://scene/game_objects/enemies/regular_creeps/creep_attack.tscn" id="2_346w0"]
+
+[node name="creep_attack_controller" type="Node"]
+script = ExtResource("1_5r8ty")
+creep_attack_scene = ExtResource("2_346w0")
+creep_attack_damage = 30.0

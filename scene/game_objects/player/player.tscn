@@ -173,8 +173,10 @@ frame_progress = 0.71018
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_lfjyr")
 
-[node name="PlayerHurtBox" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("16_wfn55")]
+[node name="PlayerHurtBox" parent="." node_paths=PackedStringArray("health_component") groups=["player_hurt_box"] instance=ExtResource("16_wfn55")]
 unique_name_in_owner = true
+collision_layer = 256
+collision_mask = 0
 health_component = NodePath("../HealthComponent")
 
 [node name="HurtBoxShape" type="CollisionShape2D" parent="PlayerHurtBox"]
