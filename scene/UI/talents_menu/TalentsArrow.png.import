@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://mu4aj6ulepft"
-path="res://.godot/imported/TalentsArrow.png-23680e5f48f753448bd3b55ba6583db4.ctex"
+path="res://.godot/imported/TalentsArrow.png-7737db6c4ca77ffee952c0d576b54729.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TalentsArrow.png"
-dest_files=["res://.godot/imported/TalentsArrow.png-23680e5f48f753448bd3b55ba6583db4.ctex"]
+source_file="res://scene/UI/talents_menu/TalentsArrow.png"
+dest_files=["res://.godot/imported/TalentsArrow.png-7737db6c4ca77ffee952c0d576b54729.ctex"]
 
 [params]
 

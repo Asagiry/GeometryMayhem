@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cehxw8gapeyvd" path="res://scene/UI/talents_menu/talent_slot.gd" id="1_6dq7v"]
 [ext_resource type="Texture2D" uid="uid://c2tfbbqltfbwa" path="res://assets/mobs/melee/Easy/1/ATTACK/ATTACK_INSTANCE1.png" id="2_6pan7"]
-[ext_resource type="Texture2D" uid="uid://k5312emp6ni3" path="res://TalentsArrow1.png" id="3_6pan7"]
+[ext_resource type="Texture2D" uid="uid://k5312emp6ni3" path="res://scene/UI/talents_menu/TalentsArrow1.png" id="3_6pan7"]
 
 [node name="TalentSlot" type="VBoxContainer"]
 offset_right = 64.0
