@@ -1,3 +1,5 @@
+class_name DeathScreen
+
 extends Control
 
 @onready var color_rect: ColorRect = %ColorRect
@@ -12,6 +14,7 @@ func _ready():
 	#var window_size = DisplayServer.window_get_size()
 	#pivot_offset.x = window_size.x / 2
 	#pivot_offset.y = window_size.y / 2
+
 
 func _on_transition_complete():
 	ok_button.disabled = false

@@ -15,13 +15,21 @@ func _input(event):
 
 
 func _on_player_died():
-	var screen = transition_end_screen.instantiate()
+	var screen = transition_end_screen.instantiate() as DeathScreen
 	add_child(screen)
-	get_tree().change_scene_to_packed(transition_end_screen)
-	#var screen = transition_end_screen.instantiate()
-	#add_child(screen)
-	#var position_screen = camera_2d.get_screen_center_position()
-	#position_screen.x -= 720 / 2.0
-	#position_screen.y -= 1280 / 2.0
-	#print(camera_2d.get_screen_center_position())
-	#screen.global_position = position_screen
+
+	# Получаем размер видимой области камеры
+	var viewport_size = get_viewport().get_visible_rect().size
+	var camera_visible_size = viewport_size / camera_2d.zoom
+
+	# Добавляем отступы со всех сторон (можно регулировать значение)
+	var margin = 25/camera_2d.zoom.x  # или любой другой размер отступа
+	var expanded_size = camera_visible_size + Vector2(margin * 2, margin * 2)
+
+	# Центрируем screen в позиции камеры
+	screen.global_position = camera_2d.global_position
+
+	# Устанавливаем увеличенный размер color_rect и центрируем его
+	screen.color_rect.size = expanded_size
+	screen.color_rect.position = -expanded_size / 2  # центрируем относительно родителя
+	screen.color_rect.scale = Vector2.ONE

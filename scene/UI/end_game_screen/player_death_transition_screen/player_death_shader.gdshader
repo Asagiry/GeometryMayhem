@@ -4,7 +4,7 @@ uniform float progress : hint_range(0.0, 1.0) = 0.0;
 uniform int columns = 12;
 uniform int rows = 8;
 uniform vec4 fill_color : source_color = vec4(0.0, 0.0, 0.0, 1.0);
-uniform vec4 empty_color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
+uniform vec4 empty_color : source_color = vec4(1.0, 1.0, 1.0, 0.0);
 
 void fragment() {
     vec2 uv = UV;
