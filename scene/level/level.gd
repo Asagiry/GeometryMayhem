@@ -9,6 +9,7 @@ var pause_menu_scene = preload("res://scene/UI/pause_menu/pause_menu.tscn")
 func _ready() -> void:
 	Global.player_died.connect(_on_player_died)
 
+
 func _input(event):
 	if event.is_action_pressed("pause"):
 		add_child(pause_menu_scene.instantiate())

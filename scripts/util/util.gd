@@ -25,3 +25,11 @@ enum DamageCategory {
 	MAGICAL,
 	TRUE
 }
+
+enum ArtefactRarity {
+	COMMON,
+	RARE,
+	LEGENDARY,
+	MYTHIC,
+	MAYHEM,
+}
