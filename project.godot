@@ -34,6 +34,8 @@ window/stretch/scale_mode="integer"
 [gui]
 
 theme/default_font_multichannel_signed_distance_field=true
+theme/custom="uid://caj3ydm5u76vh"
+theme/custom_font="uid://bmqsjvhb05si5"
 
 [input]
 
