@@ -7,7 +7,6 @@ extends Resource
 @export var description: String
 @export var icon: Texture2D
 @export var rarity: Util.ArtefactRarity
-
 @export_enum("always", "achievement", "random_drop") var unlock_condition: String = "always"
 @export var unlock_achievement_id: String = ""
 #TODO понять, как это будем взаимодействовать с artefact_pool
