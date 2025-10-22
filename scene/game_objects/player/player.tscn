@@ -1,9 +1,7 @@
-[gd_scene load_steps=33 format=3 uid="uid://dpvptcshibxt0"]
+[gd_scene load_steps=28 format=3 uid="uid://dpvptcshibxt0"]
 
 [ext_resource type="Script" uid="uid://d2bd4ujy5qv0c" path="res://scene/game_objects/player/src/player.gd" id="1_heqc5"]
-[ext_resource type="Script" uid="uid://l1drqp64gju1" path="res://scripts/data/effect/effect.gd" id="2_fpv3a"]
 [ext_resource type="PackedScene" uid="uid://b0xrjstrhdb1c" path="res://scene/abilities/dash_attack/dash_attack_controller.tscn" id="2_jxsrc"]
-[ext_resource type="Script" uid="uid://quc7gap4plyv" path="res://scripts/data/effect/stat_modifier_data.gd" id="3_fpv3a"]
 [ext_resource type="PackedScene" uid="uid://brb3xhgavq8gl" path="res://scene/abilities/parry/parry_controller.tscn" id="3_tyng1"]
 [ext_resource type="Script" uid="uid://cyitjknl16852" path="res://scripts/data/damage/damage_data.gd" id="4_1tyhs"]
 [ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="4_48qb4"]
@@ -26,33 +24,10 @@
 [ext_resource type="Texture2D" uid="uid://hhptcad8220n" path="res://assets/player/MOVEMENT/MOVEMENT2.png" id="23_jpk7t"]
 [ext_resource type="Texture2D" uid="uid://bhralc6qy0wmp" path="res://assets/player/MOVEMENT/MOVEMENT3.png" id="24_y1s0g"]
 
-[sub_resource type="Resource" id="Resource_1tyhs"]
-script = ExtResource("3_fpv3a")
-speed_multiplier = 0.3
-metadata/_custom_type_script = "uid://quc7gap4plyv"
-
-[sub_resource type="Resource" id="Resource_0ygly"]
-script = ExtResource("2_fpv3a")
-name = "Slow"
-effect_type = 2
-behavior = 4
-stat_modifiers = SubResource("Resource_1tyhs")
-duration = 3.0
-metadata/_custom_type_script = "uid://l1drqp64gju1"
-
-[sub_resource type="Resource" id="Resource_wfn55"]
+[sub_resource type="Resource" id="Resource_siiro"]
 script = ExtResource("4_1tyhs")
-amount = 5.0
+amount = 1.0
 metadata/_custom_type_script = "uid://cyitjknl16852"
-
-[sub_resource type="Resource" id="Resource_p0vsu"]
-script = ExtResource("2_fpv3a")
-name = "Burn"
-effect_type = 10
-behavior = 2
-damage = SubResource("Resource_wfn55")
-duration = 3.0
-metadata/_custom_type_script = "uid://l1drqp64gju1"
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_heqc5"]
 animations = [{
@@ -125,13 +100,12 @@ points = PackedVector2Array(8, 7, -8, 7, 0, -8)
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_heqc5")
-effects = Array[ExtResource("2_fpv3a")]([SubResource("Resource_0ygly"), SubResource("Resource_p0vsu")])
 
 [node name="AbilityManager" type="Node" parent="."]
 
 [node name="DashAttackController" parent="AbilityManager" instance=ExtResource("2_jxsrc")]
 unique_name_in_owner = true
-dash_attack_damage = 0.1
+damage_data = SubResource("Resource_siiro")
 damage_type = 1
 attack_cd = 0.1
 

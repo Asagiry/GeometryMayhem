@@ -16,5 +16,6 @@ func _on_ok_button_pressed() -> void:
 
 
 func _on_transition_screen_transitioned():
+	Global.game_ended.emit()
 	get_tree().change_scene_to_packed(main_menu_scene)
 	transition_screen_instance.queue_free()

@@ -21,6 +21,7 @@ var is_input_blocked: bool = false
 #endregion
 
 func _ready():
+	Global.player_spawned.emit(self)
 	_enter_variables()
 	_connect_signals()
 	#Engine.time_scale = 0.3

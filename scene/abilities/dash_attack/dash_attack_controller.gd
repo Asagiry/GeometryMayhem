@@ -4,13 +4,13 @@ class_name DashAttackController
 extends Node
 
 @export var dash_attack_scene: PackedScene
-@export var dash_attack_damage: float = 10.0
+@export var damage_data: DamageData
 @export var damage_type: Util.DamageCategory
 @export var dash_attack_range: float = 100.0
-@export var damage_multiplier: float = 1.0
 @export var attack_cd: float = 1.0
 @export var dash_attack_width = 25.0
 
+var damage_multiplier: float = 1.0
 var is_dash_from_mouse: bool = false
 var dash_duration: float = 0.2
 var player
@@ -54,9 +54,7 @@ func _disable_player(disable:bool):
 
 
 func _set_damage(dash_attack_instance: DashAttack):
-	var damage_data: DamageData = DamageData.new()
-	damage_data.amount = dash_attack_damage * damage_multiplier
-	damage_data.damage_categoty = damage_type
+	damage_data.amount *= damage_multiplier
 	dash_attack_instance.hit_box_component.damage_data = damage_data
 
 

@@ -2,7 +2,7 @@ extends ColorRect
 
 signal transition_complete()
 
-var speed := 0.4
+var speed := 0.5
 var progress := 0.0
 var finished := false
 
