@@ -8,6 +8,7 @@ extends CharacterBody2D
 @onready var effect_receiver: EffectReceiver = %EffectReceiver
 @onready var progress_bar: ProgressBar = $TestProgressBarOnlyForTest
 
+
 func _ready():
 	health_component.died.connect(_on_died)
 
