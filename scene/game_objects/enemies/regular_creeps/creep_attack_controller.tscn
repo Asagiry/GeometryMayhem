@@ -6,4 +6,3 @@
 [node name="creep_attack_controller" type="Node"]
 script = ExtResource("1_5r8ty")
 creep_attack_scene = ExtResource("2_346w0")
-creep_attack_damage = 30.0

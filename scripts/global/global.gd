@@ -39,6 +39,8 @@ func _save():
 
 
 func _on_game_cycle_meta_ui_hide():
+	if meta_ui_instance == null:
+		return
 	meta_ui_instance.queue_free()
 
 
