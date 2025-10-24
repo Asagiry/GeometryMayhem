@@ -90,6 +90,10 @@ func save_inventory():
 		_database.insert_player_artefact(art)
 
 
+func get_all_artefacts():
+	return inventory.duplicate()
+
+
 func _on_player_spawned(player: PlayerController):
 	for player_art in equipped_queue:
 		if player_art.artefact and player_art.artefact.behavior_script:

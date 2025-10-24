@@ -1,14 +1,20 @@
-[gd_scene load_steps=13 format=3 uid="uid://dgv8d4dbcuqbj"]
+[gd_scene load_steps=15 format=3 uid="uid://dgv8d4dbcuqbj"]
 
 [ext_resource type="Script" uid="uid://b6d2xxtpdtr5b" path="res://scene/game_objects/enemies/regular_creeps/test_creep.gd" id="1_reyus"]
 [ext_resource type="PackedScene" uid="uid://d1g17l4ahse68" path="res://scene/game_objects/enemies/regular_creeps/creep_attack_controller.tscn" id="2_g5q6p"]
 [ext_resource type="Texture2D" uid="uid://iv3nuycmos6x" path="res://icon.svg" id="2_h424k"]
 [ext_resource type="Script" uid="uid://ceoapo7p64piu" path="res://scene/components/movement_component/enemy_melee_movement_component.gd" id="2_q6hwk"]
 [ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="3_83mdm"]
+[ext_resource type="Script" uid="uid://cyitjknl16852" path="res://scripts/data/damage/damage_data.gd" id="3_g5q6p"]
 [ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component/armor_component.tscn" id="4_ylj4q"]
 [ext_resource type="PackedScene" uid="uid://bl380xv78onc8" path="res://scene/components/effect_receiver/effect_receiver.tscn" id="5_3nns4"]
 [ext_resource type="Script" uid="uid://5m7cpflvnie8" path="res://base/state_machine.gd" id="6_q6hwk"]
 [ext_resource type="PackedScene" uid="uid://djb2bixsc65n6" path="res://scene/components/enemy_hurt_box_component/enemy_hurt_box_component.tscn" id="6_ylj4q"]
+
+[sub_resource type="Resource" id="Resource_g5q6p"]
+script = ExtResource("3_g5q6p")
+amount = 10.0
+metadata/_custom_type_script = "uid://cyitjknl16852"
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_h3cmp"]
 animations = [{
@@ -33,6 +39,8 @@ collision_mask = 5
 script = ExtResource("1_reyus")
 
 [node name="creep_attack_controller" parent="." instance=ExtResource("2_g5q6p")]
+damage_data = SubResource("Resource_g5q6p")
+damage_type = 1
 
 [node name="MovementComponent" type="Node" parent="."]
 unique_name_in_owner = true

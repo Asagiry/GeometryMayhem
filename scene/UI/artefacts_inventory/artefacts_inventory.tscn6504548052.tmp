@@ -1,0 +1,228 @@
+[gd_scene load_steps=9 format=3 uid="uid://be6mmqa5bttix"]
+
+[ext_resource type="Script" uid="uid://tylse3jaqo3q" path="res://scene/UI/artefacts_inventory/artefacts_inventory.gd" id="1_3fi1b"]
+[ext_resource type="Texture2D" uid="uid://bdyoysnbmtli7" path="res://scene/UI/main_menu/Background.png" id="1_6gyya"]
+[ext_resource type="PackedScene" uid="uid://d3vhitwmdlmwa" path="res://scene/UI/artefacts_inventory/artefact_slot.tscn" id="1_15igh"]
+[ext_resource type="Texture2D" uid="uid://dgoc374vsftf0" path="res://assets/mobs/melee/Easy/1/IDLE/IDLE1.png" id="2_jk8qr"]
+[ext_resource type="Texture2D" uid="uid://3jn3afb3rwqj" path="res://scene/UI/loading_screen/loading_sprite.png" id="3_a4ecu"]
+[ext_resource type="Texture2D" uid="uid://dhp5osadbdkr5" path="res://assets/player/PARRY/PARRY1.png" id="5_1j4se"]
+[ext_resource type="PackedScene" uid="uid://b8bcfd1s8lrai" path="res://scene/UI/artefacts_inventory/radial_container.tscn" id="6_dkvfy"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_w4oxd"]
+font_size = 30
+
+[node name="ArtefactsInventory" type="CanvasLayer"]
+script = ExtResource("1_3fi1b")
+artefact_slot_scene = ExtResource("1_15igh")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_6gyya")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchor_left = 0.05
+anchor_top = 0.1
+anchor_right = 0.95
+anchor_bottom = 0.85
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ToolbarContainer" type="PanelContainer" parent="Control/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/VBoxContainer/ToolbarContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer/ToolbarContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="MenuName" type="Label" parent="Control/VBoxContainer/ToolbarContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Artefacts inventory"
+
+[node name="QuitButton" type="Button" parent="Control/VBoxContainer/ToolbarContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "X"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="DescriptionContainer" type="PanelContainer" parent="Control/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_stretch_ratio = 0.5
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/VBoxContainer/HBoxContainer/DescriptionContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/VBoxContainer/HBoxContainer/DescriptionContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="ArtefactTexture" type="TextureRect" parent="Control/VBoxContainer/HBoxContainer/DescriptionContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+texture = ExtResource("2_jk8qr")
+expand_mode = 2
+stretch_mode = 6
+
+[node name="ArtefactName" type="Label" parent="Control/VBoxContainer/HBoxContainer/DescriptionContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Name"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/VBoxContainer/HBoxContainer/DescriptionContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ArtefactDescription" type="Label" parent="Control/VBoxContainer/HBoxContainer/DescriptionContainer/MarginContainer/VBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(248, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+text = "Artefact description
+long
+long
+long"
+vertical_alignment = 1
+autowrap_mode = 1
+
+[node name="ScrollContainer2" type="ScrollContainer" parent="Control/VBoxContainer/HBoxContainer/DescriptionContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="ArtefactStats" type="Label" parent="Control/VBoxContainer/HBoxContainer/DescriptionContainer/MarginContainer/VBoxContainer/ScrollContainer2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(248, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+text = "Бонус к урону 25% -> 50%
+Скорость перезарядки 30% -> 60%"
+vertical_alignment = 1
+autowrap_mode = 1
+
+[node name="EquipButtion" type="Button" parent="Control/VBoxContainer/HBoxContainer/DescriptionContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Equip"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer/HBoxContainer/DescriptionContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="UpgradeButton" type="Button" parent="Control/VBoxContainer/HBoxContainer/DescriptionContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Upgrade"
+
+[node name="TextureRect" type="TextureRect" parent="Control/VBoxContainer/HBoxContainer/DescriptionContainer/MarginContainer/VBoxContainer/HBoxContainer/UpgradeButton"]
+layout_mode = 0
+offset_left = 234.0
+offset_top = 6.0
+offset_right = 250.0
+offset_bottom = 37.0
+texture = ExtResource("3_a4ecu")
+expand_mode = 1
+stretch_mode = 2
+
+[node name="CostLabel" type="Label" parent="Control/VBoxContainer/HBoxContainer/DescriptionContainer/MarginContainer/VBoxContainer/HBoxContainer/UpgradeButton"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 190.0
+offset_top = 4.0
+offset_right = 233.0
+offset_bottom = 26.333334
+text = "1-999"
+
+[node name="InventoryContainer" type="PanelContainer" parent="Control/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/VBoxContainer/HBoxContainer/InventoryContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/VBoxContainer/HBoxContainer/InventoryContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="SearchEdit" type="LineEdit" parent="Control/VBoxContainer/HBoxContainer/InventoryContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Поиск"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/VBoxContainer/HBoxContainer/InventoryContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ArtefactsInventory" type="FlowContainer" parent="Control/VBoxContainer/HBoxContainer/InventoryContainer/MarginContainer/VBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="EquipContainer" type="PanelContainer" parent="Control/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.75
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/VBoxContainer/HBoxContainer/EquipContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/VBoxContainer/HBoxContainer/EquipContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/VBoxContainer/HBoxContainer/EquipContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Equiped"
+label_settings = SubResource("LabelSettings_w4oxd")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EquipBackground" type="TextureRect" parent="Control/VBoxContainer/HBoxContainer/EquipContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("5_1j4se")
+
+[node name="ArtefactSlots" parent="Control/VBoxContainer/HBoxContainer/EquipContainer/MarginContainer/VBoxContainer/EquipBackground" instance=ExtResource("6_dkvfy")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="ArtefactSlot" parent="Control/VBoxContainer/HBoxContainer/EquipContainer/MarginContainer/VBoxContainer/EquipBackground/ArtefactSlots" instance=ExtResource("1_15igh")]
+layout_mode = 2
+
+[connection signal="pressed" from="Control/VBoxContainer/ToolbarContainer/MarginContainer/HBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/HBoxContainer/DescriptionContainer/MarginContainer/VBoxContainer/EquipButtion" to="." method="_on_equip_buttion_pressed"]
+[connection signal="child_entered_tree" from="Control/VBoxContainer/HBoxContainer/InventoryContainer/MarginContainer/VBoxContainer/ScrollContainer/ArtefactsInventory" to="." method="_on_artefacts_inventory_child_entered_tree"]
+[connection signal="child_entered_tree" from="Control/VBoxContainer/HBoxContainer/EquipContainer/MarginContainer/VBoxContainer/EquipBackground/ArtefactSlots" to="." method="_on_artefact_slots_child_entered_tree"]
