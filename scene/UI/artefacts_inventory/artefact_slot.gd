@@ -7,9 +7,9 @@ signal artefact_selected(artefact_slot, player_artefact)
 @export var shake_duration: float = 0.15
 
 var player_artefact: PlayerArtefact
-var _tween: Tween
 var stop_tween: bool = true
 var start_tween: bool = true
+var _tween: Tween
 
 @onready var texture_button: TextureButton = %TextureButton
 
@@ -34,11 +34,11 @@ func start_shake(shake_intensity_import = shake_intensity):
 	if _tween:
 		_tween.kill()
 	_tween = create_tween()
-	_tween.set_loops() 
+	_tween.set_loops()
 	scale = Vector2(1.1, 1.1)
 	var base_rotation := rotation
 	var base_scale := scale
-	var rotation_amplitude := deg_to_rad(shake_intensity_import)                   
+	var rotation_amplitude := deg_to_rad(shake_intensity_import)
 
 	_tween.tween_property(self, "rotation", base_rotation + rotation_amplitude, shake_duration * 0.5)\
 		.set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
@@ -50,7 +50,7 @@ func start_shake(shake_intensity_import = shake_intensity):
 		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 
 
-func stop_shake(not_stop_shake_status = null):
+func stop_shake():
 	if not stop_tween:
 		return
 	scale = Vector2(1.0, 1.0)

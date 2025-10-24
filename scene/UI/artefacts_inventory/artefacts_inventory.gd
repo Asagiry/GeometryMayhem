@@ -77,7 +77,7 @@ func _on_artefact_slots_child_entered_tree(node: Node) -> void:
 		node.artefact_selected.connect(_on_artefact_selected_from_slots)
 
 
-func _on_artefact_selected(artefact_slot, player_artefact: PlayerArtefact):
+func _on_artefact_selected(_artefact_slot, player_artefact: PlayerArtefact):
 	if player_artefact not in Global.inventory.equipped_queue:
 		equip_button.show()
 	else:
