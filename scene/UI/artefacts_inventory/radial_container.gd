@@ -2,6 +2,8 @@ class_name CircularContainer
 
 extends Container
 
+const SHAKE_INTENSITY: float = 5.0
+
 var process_angle = 0
 
 func _process(delta:float):
@@ -35,3 +37,15 @@ func _sort_children():
 		var pos = center + Vector2(cos(angle_rad), sin(angle_rad)) * radius
 		var child_size = child.get_combined_minimum_size()
 		child.position = pos - child_size / 2  # центрируем элемент
+
+func start_shake():
+	for child in get_children():
+		child.start_shake(SHAKE_INTENSITY)
+		child.start_tween = false
+		child.stop_tween = false
+
+func stop_shake():
+	for child in get_children():
+		child.start_tween = true
+		child.stop_tween = true
+		child.stop_shake()

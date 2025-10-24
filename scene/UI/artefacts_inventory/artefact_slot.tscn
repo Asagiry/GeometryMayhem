@@ -1,18 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://d3vhitwmdlmwa"]
+[gd_scene load_steps=2 format=3 uid="uid://d3vhitwmdlmwa"]
 
 [ext_resource type="Script" uid="uid://cmpudsxbubxh3" path="res://scene/UI/artefacts_inventory/artefact_slot.gd" id="1_0rctx"]
-[ext_resource type="Texture2D" uid="uid://c2tfbbqltfbwa" path="res://assets/mobs/melee/Easy/1/ATTACK/ATTACK_INSTANCE1.png" id="2_na6nx"]
 
 [node name="ArtefactSlot" type="PanelContainer"]
 offset_right = 16.0
 offset_bottom = 16.0
+pivot_offset = Vector2(32, 32)
 script = ExtResource("1_0rctx")
 
 [node name="TextureButton" type="TextureButton" parent="."]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
-texture_normal = ExtResource("2_na6nx")
 stretch_mode = 0
 
 [connection signal="pressed" from="TextureButton" to="." method="_on_texture_button_pressed"]
