@@ -175,7 +175,6 @@ theme_override_constants/margin_bottom = 5
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/VBoxContainer/HBoxContainer/InventoryContainer/MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 10
 
 [node name="SearchEdit" type="LineEdit" parent="Control/VBoxContainer/HBoxContainer/InventoryContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
@@ -186,22 +185,11 @@ placeholder_text = "Поиск"
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="Control/VBoxContainer/HBoxContainer/InventoryContainer/MarginContainer/VBoxContainer/ScrollContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
-
-[node name="ArtefactsInventory" type="FlowContainer" parent="Control/VBoxContainer/HBoxContainer/InventoryContainer/MarginContainer/VBoxContainer/ScrollContainer/MarginContainer"]
+[node name="ArtefactsInventory" type="FlowContainer" parent="Control/VBoxContainer/HBoxContainer/InventoryContainer/MarginContainer/VBoxContainer/ScrollContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/h_separation = 10
-theme_override_constants/v_separation = 10
 
 [node name="EquipContainer" type="PanelContainer" parent="Control/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -231,7 +219,10 @@ texture = ExtResource("5_1j4se")
 unique_name_in_owner = true
 layout_mode = 1
 
+[node name="ArtefactSlot" parent="Control/VBoxContainer/HBoxContainer/EquipContainer/MarginContainer/VBoxContainer/EquipBackground/ArtefactSlots" instance=ExtResource("1_15igh")]
+layout_mode = 2
+
 [connection signal="pressed" from="Control/VBoxContainer/ToolbarContainer/MarginContainer/HBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/HBoxContainer/DescriptionContainer/MarginContainer/VBoxContainer/EquipButtion" to="." method="_on_equip_buttion_pressed"]
-[connection signal="child_entered_tree" from="Control/VBoxContainer/HBoxContainer/InventoryContainer/MarginContainer/VBoxContainer/ScrollContainer/MarginContainer/ArtefactsInventory" to="." method="_on_artefacts_inventory_child_entered_tree"]
+[connection signal="child_entered_tree" from="Control/VBoxContainer/HBoxContainer/InventoryContainer/MarginContainer/VBoxContainer/ScrollContainer/ArtefactsInventory" to="." method="_on_artefacts_inventory_child_entered_tree"]
 [connection signal="child_entered_tree" from="Control/VBoxContainer/HBoxContainer/EquipContainer/MarginContainer/VBoxContainer/EquipBackground/ArtefactSlots" to="." method="_on_artefact_slots_child_entered_tree"]
