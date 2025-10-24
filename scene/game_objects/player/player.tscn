@@ -26,7 +26,6 @@
 
 [sub_resource type="Resource" id="Resource_siiro"]
 script = ExtResource("4_1tyhs")
-amount = 1.0
 metadata/_custom_type_script = "uid://cyitjknl16852"
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_heqc5"]

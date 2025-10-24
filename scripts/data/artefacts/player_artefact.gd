@@ -8,3 +8,4 @@ extends Node
 var artefact: ArtefactData
 var equipped: bool = false
 var level: int = 1
+var params: Dictionary = {}

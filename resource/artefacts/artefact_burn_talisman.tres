@@ -13,10 +13,12 @@ icon = ExtResource("2_wno5j")
 unlock_condition = "random_drop"
 drop_chance = 1.0
 behavior_script = ExtResource("1_wno5j")
-params = {
-"damage": "5.0",
-"duration": "5.0",
-"name": "burn_talisman_effect",
-"tick_interval": "1.0"
+base_params = {
+0: {
+"damage": 2.0,
+"duration": 5.0,
+"effect_name": "BURN",
+"tick_interval": 1.0
+}
 }
 metadata/_custom_type_script = "uid://b5uac14bnb7s2"
