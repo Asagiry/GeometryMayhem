@@ -31,11 +31,18 @@ func _load_inventory():
 				id,
 				row.equipped == 1,
 				row.level,
+				row.params
 			)
 		)
 
 
-func _init_player_artefact(res: ArtefactData, id: String, equipped: bool, level: int):
+func _init_player_artefact(
+	res: ArtefactData,
+	id: String,
+	equipped: bool,
+	level: int,
+	params
+	):
 	if res == null:
 		push_warning("Missing artefact resource: %s" % id)
 		return
@@ -43,6 +50,13 @@ func _init_player_artefact(res: ArtefactData, id: String, equipped: bool, level:
 	player_artefact.artefact = res
 	update_equipped(player_artefact, equipped)
 	player_artefact.level = level
+	if params:
+		if not params.is_empty():
+			player_artefact.params = JSON.parse_string(params)
+		else:
+			player_artefact.params = res.base_params
+	else:
+		player_artefact.params = res.base_params
 	return player_artefact
 
 
@@ -55,17 +69,19 @@ func update_equipped(player_artefact: PlayerArtefact, status: bool):
 
 
 func add_artefact(artefact_id: String):
+	var artefact = _artefact_db.get_artefact_by_id(artefact_id)
 	inventory.append(
 		_init_player_artefact(
-			_artefact_db.get_artefact_by_id(artefact_id),
+			artefact,
 			artefact_id,
 			DEFAULT_EQUIPPED_STATUS,
-			DEFAULT_LEVEL
+			DEFAULT_LEVEL,
+			artefact.artefact.base_params
 		)
 	)
 
 
-func get_player_artefact_by_id(id: String):
+func get_player_artefact_by_id(id: String) -> PlayerArtefact:
 	for art in inventory:
 		if art.artefact.id == id:
 			return art
@@ -76,7 +92,8 @@ func inventory_to_string():
 	var data = ""
 	for art in inventory:
 		data += "id = " + str(art.artefact.id) + "; equipped = " + \
-		str(art.equipped) + "; level = " + str(art.level)
+		str(art.equipped) + "; level = " + str(art.level) + \
+		"; params: " + str(art.params)
 		data += "\n"
 	return data
 
@@ -98,4 +115,4 @@ func _on_player_spawned(player: PlayerController):
 	for player_art in equipped_queue:
 		if player_art.artefact and player_art.artefact.behavior_script:
 			var behavior_instance = player_art.artefact.behavior_script.new()
-			behavior_instance.apply_to_player(player, player_art.artefact.params)
+			behavior_instance.apply_to_player(player, player_art.params)

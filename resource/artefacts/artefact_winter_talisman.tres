@@ -11,4 +11,11 @@ display_name = "Winter Talisman"
 description = "Slows Enemies by 50% after hit"
 icon = ExtResource("1_qt50t")
 behavior_script = ExtResource("1_y2k07")
+base_params = {
+0: {
+"duration": 3.0,
+"effect_name": "SLOW",
+"speed_multiplier": 0.5
+}
+}
 metadata/_custom_type_script = "uid://b5uac14bnb7s2"

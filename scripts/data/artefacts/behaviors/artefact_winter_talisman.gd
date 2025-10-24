@@ -3,10 +3,19 @@ extends ArtefactBehavior
 var runtime_effects: Array[Effect] = []
 
 func apply_to_player(player: PlayerController, params: Dictionary) -> void:
-	var effect = EffectFactory.create_slow(params)
-	player.effects.append(effect)
-	runtime_effects.append(effect)
+	runtime_effects = EffectFactory.create_effect(params)
+	print("RUNTIME EFFECTS: ", runtime_effects[0].name)
+	for e in runtime_effects:
+		player.effects.append(e)
 
 func remove_from_player(player: PlayerController, _params: Dictionary) -> void:
 	for e in runtime_effects:
 		player.effects.erase(e)
+
+func _effect_to_string():
+	var data: String = ""
+	for e in runtime_effects:
+		data += "name: " + e.name + "; type: " + str(e.effect_type) + \
+		"; duration:  " + str(e.duration)
+		data += "\n"
+	return data

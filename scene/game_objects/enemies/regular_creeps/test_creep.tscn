@@ -50,7 +50,7 @@ acceleration = 5.0
 
 [node name="HealthComponent" parent="." instance=ExtResource("3_83mdm")]
 unique_name_in_owner = true
-max_health = 60.0
+max_health = 500.0
 
 [node name="ArmorComponent" parent="." instance=ExtResource("4_ylj4q")]
 unique_name_in_owner = true

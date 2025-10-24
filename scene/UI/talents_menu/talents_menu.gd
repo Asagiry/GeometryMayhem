@@ -31,4 +31,4 @@ func connect_talent(node):
 
 
 func _on_talent_selected():
-	print(123)
+	print("TALENT SELECTED")

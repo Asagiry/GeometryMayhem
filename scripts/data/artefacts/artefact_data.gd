@@ -18,4 +18,4 @@ extends Resource
 	#"clone_damage_mult": 0.5,
 	#"clone_count": 1
 #}
-@export var params := {}
+@export var base_params := {}
