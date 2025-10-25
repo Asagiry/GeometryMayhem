@@ -54,7 +54,6 @@ func enable_range(enable: bool):
 
 func activate_dash(input_state: bool):
 	var dash_attack_instance = _create_dash_instance()
-
 	_set_damage(dash_attack_instance)
 	_disable_player(true)
 

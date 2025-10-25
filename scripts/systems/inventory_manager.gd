@@ -31,7 +31,6 @@ func _load_inventory():
 				id,
 				row.equipped == 1,
 				row.level,
-				row.params
 			)
 		)
 
@@ -40,8 +39,7 @@ func _init_player_artefact(
 	res: ArtefactData,
 	id: String,
 	equipped: bool,
-	level: int,
-	params
+	level: int
 	):
 	if res == null:
 		push_warning("Missing artefact resource: %s" % id)
@@ -50,14 +48,23 @@ func _init_player_artefact(
 	player_artefact.artefact = res
 	update_equipped(player_artefact, equipped)
 	player_artefact.level = level
-	if params:
-		if not params.is_empty():
-			player_artefact.params = JSON.parse_string(params)
-		else:
-			player_artefact.params = res.base_params
-	else:
-		player_artefact.params = res.base_params
+
+	player_artefact.params = _calculate_params(
+		res.base_params,
+		level,
+	)
+
 	return player_artefact
+
+
+func _calculate_params(base_params: Dictionary, level) -> Dictionary:
+	var params: Dictionary = {}
+	for number_of_effect in base_params:
+		var effect: Dictionary = {}
+		for key in base_params[number_of_effect]:
+			effect[key] = base_params[number_of_effect][key][level - 1]
+		params[number_of_effect] = effect
+	return params
 
 
 func update_equipped(player_artefact: PlayerArtefact, status: bool):
@@ -75,8 +82,7 @@ func add_artefact(artefact_id: String):
 			artefact,
 			artefact_id,
 			DEFAULT_EQUIPPED_STATUS,
-			DEFAULT_LEVEL,
-			artefact.base_params
+			DEFAULT_LEVEL
 		)
 	)
 
