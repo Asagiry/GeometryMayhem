@@ -54,8 +54,8 @@ func activate_parry(input_state:bool):
 		player.movement_component.last_direction = mouse_dir
 
 	for i in range(2):
-		await _melee_parry()
 		await get_tree().create_timer(parry_duration / 2).timeout
+		await _melee_parry()
 
 
 func _melee_parry():
@@ -102,7 +102,7 @@ func _animate_enemy_push(enemy: Node2D, target_pos: Vector2) -> void:
 		enemy.animated_sprite_2d,
 		"rotation",
 		deg_to_rad(-10.0),
-		push_duration / 2,
+		push_duration / 3,
 	) \
 	.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
 	tilt_tween.finished.connect(
@@ -112,7 +112,7 @@ func _animate_enemy_push(enemy: Node2D, target_pos: Vector2) -> void:
 				enemy.animated_sprite_2d,
 				"rotation",
 				deg_to_rad(10.0),
-				push_duration / 2,
+				push_duration / 3,
 			) \
 			.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
 			back_tween.finished.connect(
@@ -122,7 +122,7 @@ func _animate_enemy_push(enemy: Node2D, target_pos: Vector2) -> void:
 						enemy.animated_sprite_2d,
 						"rotation",
 						0.0,
-						push_duration / 2,
+						push_duration / 3,
 					) \
 					.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
 			)
