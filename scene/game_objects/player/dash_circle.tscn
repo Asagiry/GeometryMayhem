@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://d02fu0af3348x"]
+
+[ext_resource type="Script" uid="uid://c3a3kbpktq1bf" path="res://scene/game_objects/player/dash_circle.gd" id="1_78k7w"]
+
+[node name="DashCircle" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_78k7w")
