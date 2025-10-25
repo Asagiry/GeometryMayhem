@@ -23,6 +23,9 @@ func process(delta: float):
 
 
 func _play_animation():
+	player.animated_sprite_2d.play("attack")
+	player.animated_sprite_2d.speed_scale = 1/player.dash_attack_controller\
+	.dash_duration
 	var tween2 = player.create_tween()
 	tween2.tween_property(
 		animated_sprite_2d,
@@ -42,6 +45,7 @@ func _play_animation():
 				player.dash_attack_controller.dash_duration / 2,
 			) \
 			.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
+			player.animated_sprite_2d.speed_scale = 1
 	)
 
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=83 format=3 uid="uid://dpvptcshibxt0"]
+[gd_scene load_steps=96 format=3 uid="uid://dpvptcshibxt0"]
 
 [ext_resource type="Script" uid="uid://d2bd4ujy5qv0c" path="res://scene/game_objects/player/src/player.gd" id="1_heqc5"]
 [ext_resource type="PackedScene" uid="uid://b0xrjstrhdb1c" path="res://scene/abilities/dash_attack/dash_attack_controller.tscn" id="2_jxsrc"]
@@ -9,24 +9,37 @@
 [ext_resource type="Script" uid="uid://derbmady170hu" path="res://scene/components/movement_component/player_movement_component.gd" id="7_1tyhs"]
 [ext_resource type="Script" uid="uid://5m7cpflvnie8" path="res://base/state_machine.gd" id="7_heqc5"]
 [ext_resource type="PackedScene" uid="uid://bl380xv78onc8" path="res://scene/components/effect_receiver/effect_receiver.tscn" id="10_0ygly"]
+[ext_resource type="Texture2D" uid="uid://dpt52h75g2kh4" path="res://assets/player/ATTACK/ATTACK1.png" id="10_ddgj3"]
+[ext_resource type="Texture2D" uid="uid://dmayqab17g1bo" path="res://assets/player/ATTACK/ATTACK2.png" id="11_kl1g4"]
+[ext_resource type="Texture2D" uid="uid://tp54cpr3amvt" path="res://assets/player/ATTACK/ATTACK3.png" id="12_3v612"]
 [ext_resource type="Texture2D" uid="uid://d1jl5wnv3ilfe" path="res://assets/player/PARRY/PARRY1.png" id="12_vedbf"]
+[ext_resource type="Texture2D" uid="uid://bmgf2qqytpcy6" path="res://assets/player/ATTACK/ATTACK4.png" id="13_itr6r"]
 [ext_resource type="Texture2D" uid="uid://b1nsmu2k6qt2v" path="res://assets/player/PARRY/PARRY2.png" id="13_siiro"]
+[ext_resource type="Texture2D" uid="uid://cfagdgdmyo2hj" path="res://assets/player/ATTACK/ATTACK5.png" id="14_cykr3"]
 [ext_resource type="Texture2D" uid="uid://b1j30k78loydq" path="res://assets/player/PARRY/PARRY5.png" id="14_nafj1"]
 [ext_resource type="Texture2D" uid="uid://lp1glob6npsn" path="res://assets/player/PARRY/PARRY3.png" id="14_rlg5u"]
 [ext_resource type="Texture2D" uid="uid://ytfjxkrumqwd" path="res://assets/player/PARRY/PARRY6.png" id="15_dhf6o"]
 [ext_resource type="Texture2D" uid="uid://dg0xbe0vhya6t" path="res://assets/player/PARRY/PARRY4.png" id="15_k07tp"]
+[ext_resource type="Texture2D" uid="uid://brnm2qsp0tqmt" path="res://assets/player/ATTACK/ATTACK6.png" id="15_lduo2"]
+[ext_resource type="Texture2D" uid="uid://v4l5c74drq5n" path="res://assets/player/ATTACK/ATTACK7.png" id="16_hfat0"]
 [ext_resource type="Texture2D" uid="uid://c002l7k1m513i" path="res://assets/player/PARRY/PARRY7.png" id="16_pi2fi"]
 [ext_resource type="Texture2D" uid="uid://d4h4hbl1awmct" path="res://assets/player/TAKE_DAMAGE/TAKE_DAMAGE1.png" id="16_plpdn"]
 [ext_resource type="PackedScene" uid="uid://csmleslly1twg" path="res://scene/game_objects/player/player_hurt_box.tscn" id="16_wfn55"]
+[ext_resource type="Texture2D" uid="uid://biaod0xrnq5p1" path="res://assets/player/ATTACK/ATTACK8.png" id="17_38wc0"]
 [ext_resource type="Texture2D" uid="uid://bq5i7g8qqkr6o" path="res://assets/player/IDLE/Idle1.png" id="17_a8ci5"]
 [ext_resource type="Texture2D" uid="uid://cruub30w2sp85" path="res://assets/player/TAKE_DAMAGE/TAKE_DAMAGE2.png" id="17_t526v"]
+[ext_resource type="Texture2D" uid="uid://bahe2wgws7cu4" path="res://assets/player/ATTACK/ATTACK9.png" id="18_2cies"]
 [ext_resource type="Texture2D" uid="uid://8y2ltyblakht" path="res://assets/player/IDLE/Idle2.png" id="18_fleld"]
 [ext_resource type="Texture2D" uid="uid://bpjpcvpp0hyai" path="res://assets/player/TAKE_DAMAGE/TAKE_DAMAGE3.png" id="18_uufy7"]
+[ext_resource type="Texture2D" uid="uid://dby1ftfj7qn1n" path="res://assets/player/ATTACK/ATTACK10.png" id="19_fc348"]
 [ext_resource type="Texture2D" uid="uid://brl3hrmqasqq2" path="res://assets/player/IDLE/Idle3.png" id="19_ixc71"]
 [ext_resource type="Texture2D" uid="uid://bfvqv5om0igkf" path="res://assets/player/IDLE/Idle4.png" id="20_dqgk5"]
+[ext_resource type="Texture2D" uid="uid://copynie6usoc5" path="res://assets/player/ATTACK/ATTACK11.png" id="20_u2y0a"]
 [ext_resource type="Texture2D" uid="uid://bv4pt1othcp6r" path="res://assets/player/IDLE/Idle5.png" id="21_mxd4y"]
+[ext_resource type="Texture2D" uid="uid://vmjwo2pbd2da" path="res://assets/player/ATTACK/ATTACK12.png" id="21_qq53u"]
 [ext_resource type="Texture2D" uid="uid://mb2yuw2yrf7f" path="res://assets/player/IDLE/Idle6.png" id="22_2vfwf"]
 [ext_resource type="Texture2D" uid="uid://dwu4r1do2wjtw" path="res://assets/player/MOVEMENT/MOVEMENT1.png" id="22_dx8m4"]
+[ext_resource type="Texture2D" uid="uid://2lgydpsyih7c" path="res://assets/player/ATTACK/ATTACK13.png" id="22_fl3kv"]
 [ext_resource type="Texture2D" uid="uid://hhptcad8220n" path="res://assets/player/MOVEMENT/MOVEMENT2.png" id="23_jpk7t"]
 [ext_resource type="Texture2D" uid="uid://c4xrsj46yjbel" path="res://assets/player/IDLE/Idle7.png" id="23_lqpfa"]
 [ext_resource type="Texture2D" uid="uid://cv1mo5cwqf4yr" path="res://assets/player/IDLE/Idle8.png" id="24_nafj1"]
@@ -85,6 +98,50 @@ metadata/_custom_type_script = "uid://cyitjknl16852"
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_heqc5"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_ddgj3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_kl1g4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_3v612")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_itr6r")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_cykr3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_lduo2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_hfat0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_38wc0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_2cies")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_fc348")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_u2y0a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_qq53u")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_fl3kv")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 12.0
+}, {
 "frames": [{
 "duration": 0.5,
 "texture": ExtResource("12_vedbf")
@@ -361,8 +418,10 @@ one_shot = true
 unique_name_in_owner = true
 texture_filter = 3
 sprite_frames = SubResource("SpriteFrames_heqc5")
-animation = &"run"
+animation = &"attack"
 autoplay = "idle"
+frame = 12
+frame_progress = 1.0
 offset = Vector2(0, -1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
