@@ -15,22 +15,41 @@ var is_dash_from_mouse: bool = false
 var dash_duration: float = 0.2
 var player: PlayerController
 var is_on_cooldown: bool
+var is_range_enable: bool = true
 
 var _distance: float = 0
 var _direction: Vector2 = Vector2.ZERO
 var _target_position: Vector2 = Vector2.ZERO
+var _dash_circle: DashCircle
 
 @onready var player_hurt_box: PlayerHurtBox = %PlayerHurtBox
 @onready var cooldown_timer: Timer = %CooldownTimer
 #endregion variables
 
-func _ready():
-	player = get_tree().get_first_node_in_group("player") as Node2D
-
 
 func start_cooldown():
 	is_on_cooldown = true
 	cooldown_timer.start(attack_cd)
+
+
+func _ready():
+	player = get_tree().get_first_node_in_group("player") as Node2D
+	_setup_dash_cirlce()
+
+
+func _setup_dash_cirlce():
+	_dash_circle = preload("res://scene/game_objects/player/dash_circle.tscn")\
+	.instantiate() as DashCircle
+	player.add_child.call_deferred(_dash_circle)
+	enable_range(is_range_enable)
+
+
+func enable_range(enable: bool):
+	if (enable):
+		_dash_circle.set_range(dash_range)
+		_dash_circle.show_dash_range()
+	else:
+		_dash_circle.hide_dash_range()
 
 
 func activate_dash(input_state: bool):

@@ -1,7 +1,8 @@
-[gd_scene load_steps=28 format=3 uid="uid://dpvptcshibxt0"]
+[gd_scene load_steps=29 format=3 uid="uid://dpvptcshibxt0"]
 
 [ext_resource type="Script" uid="uid://d2bd4ujy5qv0c" path="res://scene/game_objects/player/src/player.gd" id="1_heqc5"]
 [ext_resource type="PackedScene" uid="uid://b0xrjstrhdb1c" path="res://scene/abilities/dash_attack/dash_attack_controller.tscn" id="2_jxsrc"]
+[ext_resource type="PackedScene" uid="uid://d02fu0af3348x" path="res://scene/game_objects/player/dash_circle.tscn" id="3_lm3u3"]
 [ext_resource type="PackedScene" uid="uid://brb3xhgavq8gl" path="res://scene/abilities/parry/parry_controller.tscn" id="3_tyng1"]
 [ext_resource type="Script" uid="uid://cyitjknl16852" path="res://scripts/data/damage/damage_data.gd" id="4_1tyhs"]
 [ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="4_48qb4"]
@@ -104,9 +105,10 @@ script = ExtResource("1_heqc5")
 
 [node name="DashAttackController" parent="AbilityManager" instance=ExtResource("2_jxsrc")]
 unique_name_in_owner = true
+dash_circle_scene = ExtResource("3_lm3u3")
 damage_data = SubResource("Resource_siiro")
 damage_type = 1
-dash_range = 1000.0
+dash_range = 150.0
 attack_cd = 0.1
 
 [node name="ParryController" parent="AbilityManager" instance=ExtResource("3_tyng1")]
