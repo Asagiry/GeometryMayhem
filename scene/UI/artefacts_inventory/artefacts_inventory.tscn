@@ -111,7 +111,7 @@ long
 long
 long"
 vertical_alignment = 1
-autowrap_mode = 1
+autowrap_mode = 3
 
 [node name="ScrollContainer2" type="ScrollContainer" parent="Control/VBoxContainer/HBoxContainer/DescriptionContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2

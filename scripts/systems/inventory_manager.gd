@@ -76,7 +76,7 @@ func add_artefact(artefact_id: String):
 			artefact_id,
 			DEFAULT_EQUIPPED_STATUS,
 			DEFAULT_LEVEL,
-			artefact.artefact.base_params
+			artefact.base_params
 		)
 	)
 
