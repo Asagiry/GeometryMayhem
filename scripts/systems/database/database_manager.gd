@@ -50,8 +50,7 @@ func _create_tables_if_needed():
 		CREATE TABLE IF NOT EXISTS player_artefacts (
 			id TEXT PRIMARY KEY UNIQUE,
 			equipped INTEGER DEFAULT 0,
-			level INTEGER DEFAULT 1,
-			params TEXT
+			level INTEGER DEFAULT 1
 		);
 	""")
 
@@ -68,17 +67,15 @@ func _create_player_record_if_needed():
 
 func insert_player_artefact(player_art: PlayerArtefact):
 	_database.query("""
-	INSERT INTO player_artefacts (id, equipped, level, params)
-	VALUES ('%s', %d, %d, '%s')
+	INSERT INTO player_artefacts (id, equipped, level)
+	VALUES ('%s', %d, %d)
 	ON CONFLICT(id) DO UPDATE SET
 	equipped = excluded.equipped,
-	level = excluded.level,
-	params = excluded.params;
+	level = excluded.level;
 	""" % [
 	player_art.artefact.id,
 	1 if player_art.equipped else 0,
-	player_art.level,
-	JSON.stringify(player_art.params)
+	player_art.level
 	])
 
 

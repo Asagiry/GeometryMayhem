@@ -106,6 +106,7 @@ script = ExtResource("1_heqc5")
 unique_name_in_owner = true
 damage_data = SubResource("Resource_siiro")
 damage_type = 1
+dash_attack_range = 2000.0
 attack_cd = 0.1
 
 [node name="ParryController" parent="AbilityManager" instance=ExtResource("3_tyng1")]
