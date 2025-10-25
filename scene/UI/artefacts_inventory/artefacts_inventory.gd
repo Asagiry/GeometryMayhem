@@ -114,7 +114,11 @@ func _on_equip_buttion_pressed() -> void:
 #     ЛОГИКА ЭКИПИРОВКИ
 # =========================
 
-func _equip_artefact(artefact: PlayerArtefact, target_slot: ArtefactSlot, replaced_artefact: PlayerArtefact):
+func _equip_artefact(
+	artefact: PlayerArtefact,
+	target_slot: ArtefactSlot,
+	replaced_artefact: PlayerArtefact
+	):
 	if not artefact:
 		return
 

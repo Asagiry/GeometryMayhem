@@ -48,7 +48,7 @@ func _init_player_artefact(
 	player_artefact.artefact = res
 	update_equipped(player_artefact, equipped)
 	player_artefact.level = level
-	
+
 	player_artefact.params = _calculate_params(
 		res.base_params,
 		level,
