@@ -6,6 +6,10 @@
 [node name="ParryController" type="Node"]
 script = ExtResource("1_kf0uu")
 parry_scene = ExtResource("2_kb46s")
+parry_cd = null
+push_distance = null
+parry_angle = null
+parry_radius = null
 
 [node name="ParryCooldown" type="Timer" parent="."]
 unique_name_in_owner = true

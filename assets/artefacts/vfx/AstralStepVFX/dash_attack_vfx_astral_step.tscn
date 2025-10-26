@@ -9,8 +9,8 @@
 shader = ExtResource("2_lrele")
 shader_parameter/fade_time = 1.0000000475
 shader_parameter/intensity = 1.0
-shader_parameter/trail_color = Color(0.26189843, 3.5850786e-07, 7.0381915e-08, 1)
-shader_parameter/core_color = Color(1.3544171, 0.007976336, 3.1456725e-06, 1)
+shader_parameter/trail_color = Color(0, 0, 0, 0.67058825)
+shader_parameter/core_color = Color(1.354, 0.008, 0, 0.192)
 shader_parameter/noise_tex = ExtResource("3_lrele")
 shader_parameter/pulse_speed = 4.0
 shader_parameter/core_width = 0.1

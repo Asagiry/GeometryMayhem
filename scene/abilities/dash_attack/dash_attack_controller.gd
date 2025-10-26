@@ -7,7 +7,7 @@ extends Node
 @export var damage_data: DamageData
 @export var damage_type: Util.DamageCategory
 @export var dash_range: float = 100.0
-@export var attack_cd: float = 0.1
+@export var dash_cd: float = 0.1
 @export var dash_width: float = 25.0
 
 var dash_effect = \
@@ -36,7 +36,7 @@ func _create_vfx_effect(start_pos: Vector2, end_pos: Vector2):
 
 func start_cooldown():
 	is_on_cooldown = true
-	cooldown_timer.start(attack_cd)
+	cooldown_timer.start(dash_cd)
 
 
 func _ready():
