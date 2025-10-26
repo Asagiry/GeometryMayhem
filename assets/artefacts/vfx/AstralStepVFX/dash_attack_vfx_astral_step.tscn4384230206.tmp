@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://cgdl81q4nyvhx"]
+
+[ext_resource type="Script" uid="uid://b6ylh5441i8l1" path="res://assets/artefacts/vfx/AstralStepVFX/dash_attack_vfx_astral_step.gd" id="1_07gtp"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_i281q"]
+
+[node name="DashAttackVFXAstralStep" type="Node2D"]
+z_index = 10
+script = ExtResource("1_07gtp")
+trail_color = null
+core_color = null
+pulse_speed = null
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("PlaceholderTexture2D_i281q")

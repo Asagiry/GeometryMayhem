@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://cgdl81q4nyvhx"]
+
+[ext_resource type="Script" uid="uid://b6ylh5441i8l1" path="res://assets/artefacts/vfx/AstralStepVFX/dash_attack_vfx_astral_step.gd" id="1_07gtp"]
+[ext_resource type="Shader" uid="uid://cgvoxh0h3i2eb" path="res://assets/artefacts/vfx/AstralStepVFX/dash_vfx_astral_step.gdshader" id="2_lrele"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_07gtp"]
+shader = ExtResource("2_lrele")
+shader_parameter/fade_time = 1.0
+shader_parameter/intensity = 1.0
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_i281q"]
+
+[node name="DashAttackVFXAstralStep" type="Node2D"]
+z_index = 10
+script = ExtResource("1_07gtp")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_07gtp")
+texture = SubResource("PlaceholderTexture2D_i281q")

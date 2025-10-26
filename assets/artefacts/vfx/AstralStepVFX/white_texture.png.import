@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dtfe4p713yeql"
-path="res://.godot/imported/winter_talisman.png-afc216db34a23d695548ff91b45807f1.ctex"
+uid="uid://dj34yqe42em0m"
+path="res://.godot/imported/white_texture.png-e3f24884cce4c76211e2cdbf40f8f543.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/artefacts/winter_talisman.png"
-dest_files=["res://.godot/imported/winter_talisman.png-afc216db34a23d695548ff91b45807f1.ctex"]
+source_file="res://assets/artefacts/vfx/AstralStepVFX/white_texture.png"
+dest_files=["res://.godot/imported/white_texture.png-e3f24884cce4c76211e2cdbf40f8f543.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://do3y6j8e78dxj"
-path="res://.godot/imported/burn_talisman_icon.png-9ba9c5825c142feb57920f748fbc1e1f.ctex"
+uid="uid://b3ny0qsc708od"
+path="res://.godot/imported/noiseTexture.png-8946641920529e696178105970eb78eb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/artefacts/burn_talisman_icon.png"
-dest_files=["res://.godot/imported/burn_talisman_icon.png-9ba9c5825c142feb57920f748fbc1e1f.ctex"]
+source_file="res://assets/artefacts/vfx/AstralStepVFX/noiseTexture.png"
+dest_files=["res://.godot/imported/noiseTexture.png-8946641920529e696178105970eb78eb.ctex"]
 
 [params]
 

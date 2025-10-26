@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://cgdl81q4nyvhx"]
+
+[ext_resource type="Script" uid="uid://b6ylh5441i8l1" path="res://assets/artefacts/vfx/AstralStepVFX/dash_attack_vfx_astral_step.gd" id="1_07gtp"]
+[ext_resource type="Shader" uid="uid://cgvoxh0h3i2eb" path="res://assets/artefacts/vfx/AstralStepVFX/dash_vfx_astral_step.gdshader" id="2_lrele"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_heubq"]
+shader = ExtResource("2_lrele")
+shader_parameter/fade_time = 1.0
+shader_parameter/trail_color = Color(0.6, 0.2, 1, 1)
+shader_parameter/distortion_strength = 0.03
+shader_parameter/crack_width = 0.1
+shader_parameter/crack_darkness = 0.85
+
+[node name="DashAttackVFXAstralStep" type="Node2D"]
+script = ExtResource("1_07gtp")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+material = SubResource("ShaderMaterial_heubq")
+color = Color(0.00011382803, 0.00011382803, 0.00011382803, 1)
+polygon = PackedVector2Array(-5, -1, 5, -1, 5, 1, -5, 1)
