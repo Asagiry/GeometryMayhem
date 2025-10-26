@@ -2,6 +2,8 @@ class_name PlayerMovementComponent
 
 extends MovementComponent
 
+signal movement_started(pos: Vector2)
+
 @export var rotation_speed: float = 9.0 #9.0(AI)
 
 var last_direction: Vector2 = Vector2.UP
@@ -22,6 +24,10 @@ func handle_movement(delta: float):
 	if direction!=Vector2.ZERO:
 		var target_angle = last_direction.angle() + PI / 2
 		player.rotation = lerp_angle(player.rotation, target_angle, rotation_speed * delta)
+
+	if direction!=Vector2.ZERO:
+		movement_started.emit(player.global_position)
+
 	player.move_and_slide()
 
 

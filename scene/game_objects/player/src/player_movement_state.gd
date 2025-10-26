@@ -2,9 +2,13 @@ class_name PlayerMovementState
 
 extends PlayerState
 
+signal movement_started()
+signal movement_ended()
+
 static var state_name = "PlayerMovementState"
 
 func enter() -> void:
+	movement_started.emit()
 	animated_sprite_2d.play("run")
 
 
@@ -33,3 +37,7 @@ func process(delta: float) -> void:
 
 func get_state_name() -> String:
 	return state_name
+
+
+func exit() -> void:
+	movement_ended.emit()

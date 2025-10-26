@@ -3,6 +3,7 @@ class_name DashAttackController
 #region variables
 extends Node
 
+
 @export var dash_attack_scene: PackedScene
 @export var damage_data: DamageData
 @export var damage_type: Util.DamageCategory
@@ -10,8 +11,6 @@ extends Node
 @export var dash_cd: float = 0.1
 @export var dash_width: float = 25.0
 
-var dash_effect = \
-preload("res://assets/artefacts/vfx/AstralStepVFX/dash_attack_vfx_astral_step.tscn")
 var damage_multiplier: float = 1.0
 var is_dash_from_mouse: bool = false
 var dash_duration: float = 0.2
@@ -19,19 +18,16 @@ var player: PlayerController
 var is_on_cooldown: bool
 var is_range_enable: bool = true
 
-var _distance: float = 0
-var _direction: Vector2 = Vector2.ZERO
-var _target_position: Vector2 = Vector2.ZERO
+var _distance: float
+var _direction: Vector2
 var _dash_circle: DashCircle
+var start_pos: Vector2
+var end_pos: Vector2
 
 @onready var player_hurt_box: PlayerHurtBox = %PlayerHurtBox
 @onready var cooldown_timer: Timer = %CooldownTimer
 #endregion variables
 
-func _create_vfx_effect(start_pos: Vector2, end_pos: Vector2):
-	var dash_effect_instance = dash_effect.instantiate()
-	get_tree().get_first_node_in_group("back_layer").add_child(dash_effect_instance)
-	dash_effect_instance.setup(start_pos, end_pos)
 
 
 func start_cooldown():
@@ -62,12 +58,17 @@ func enable_range(enable: bool):
 func activate_dash(input_state: bool):
 	var dash_attack_instance = _create_dash_instance()
 	_set_damage(dash_attack_instance)
+
 	_disable_player(true)
+
+	start_pos = player.global_position
+
 	is_dash_from_mouse = input_state
 	if is_dash_from_mouse:
 		_activate_mouse_click_dash(dash_attack_instance)
 	else:
 		_activate_keyboard_dash(dash_attack_instance)
+
 
 
 func _create_dash_instance():
@@ -95,44 +96,43 @@ func _disable_player_inputs(disable: bool):
 
 
 func _activate_mouse_click_dash(dash_attack_instance):
-	_set_target_position_from_mouse()
+	_set_end_pos_from_mouse()
 	_rotate_player_to_dash()
 	_start_dash_tween(dash_attack_instance)
 
 
-func _set_target_position_from_mouse():
-	_target_position = player.get_global_mouse_position()
-	var direction = _target_position - player.global_position
+func _set_end_pos_from_mouse():
+	end_pos = player.get_global_mouse_position()
+	var direction = end_pos - player.global_position
 	var distance = direction.length()
 	if distance > dash_range:
-		_target_position = player.global_position + direction.normalized() * dash_range
+		end_pos = player.global_position + direction.normalized() * dash_range
 		distance = dash_range
 
 
 func _rotate_player_to_dash():
-	player.movement_component.last_direction = (_target_position - player.global_position).normalized()
+	player.movement_component.last_direction = (end_pos - player.global_position).normalized()
 	player.rotation = player.movement_component.last_direction.angle() + PI / 2
 
 
 func _activate_keyboard_dash(dash_attack_instance):
-	_set_target_position_from_keyboard()
+	_set_end_pos_from_keyboard()
 	_start_dash_tween(dash_attack_instance)
 
 
-func _set_target_position_from_keyboard():
+func _set_end_pos_from_keyboard():
 	var forward = Vector2.UP.rotated(player.rotation)
-	_target_position = player.global_position + forward * dash_range
+	end_pos = player.global_position + forward * dash_range
 
 
 func _start_dash_tween(dash_attack_instance: DashAttack):
-	_set_final_target_position()
-	_direction = player.global_position.direction_to(_target_position)
-	_distance = player.global_position.distance_to(_target_position)
+	_set_final_end_pos()
+	_direction = player.global_position.direction_to(end_pos)
+	_distance = player.global_position.distance_to(end_pos)
 	var tween = create_tween()
-	tween.tween_property(player, "global_position", _target_position, dash_duration) \
+	tween.tween_property(player, "global_position", end_pos, dash_duration) \
 		.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
 
-	var start_position = player.global_position
 	var start_size = Vector2(dash_width, 0)
 	var end_size = Vector2(dash_width, _distance)
 	dash_attack_instance.dash_hit_box_shape.shape.size = start_size
@@ -142,7 +142,8 @@ func _start_dash_tween(dash_attack_instance: DashAttack):
 		func(size_value: Vector2):
 			var safe_size = Vector2(max(0, size_value.x), max(0, size_value.y))
 			dash_attack_instance.dash_hit_box_shape.shape.size = safe_size
-			dash_attack_instance.global_position = start_position + _direction * (size_value.y / 2.0),
+			dash_attack_instance.global_position = start_pos + _direction \
+			* (size_value.y / 2.0),
 		start_size,
 		end_size,
 		dash_duration
@@ -151,12 +152,10 @@ func _start_dash_tween(dash_attack_instance: DashAttack):
 	tween.tween_callback(Callable(dash_attack_instance, "queue_free"))
 	tween.finished.connect(func():
 		_disable_player(false)
-		print(start_position)
-		_create_vfx_effect(start_position, _target_position)
 	)
 
 #Проверка на столкновение со стенами и пересчёт если столкнулись
-func _set_final_target_position():
+func _set_final_end_pos():
 	var test_body = CharacterBody2D.new()
 	var collision_shape = CollisionShape2D.new()
 	collision_shape.shape = RectangleShape2D.new()
@@ -165,12 +164,12 @@ func _set_final_target_position():
 	test_body.global_position = player.global_position
 	test_body.collision_mask = 1 << 0 # Environment слой
 	add_child(test_body)
-	var direction = player.global_position.direction_to(_target_position)
-	var distance = player.global_position.distance_to(_target_position)
+	var direction = player.global_position.direction_to(end_pos)
+	var distance = player.global_position.distance_to(end_pos)
 	var collision = test_body.move_and_collide(direction * distance)
 
 	if collision:
-		_target_position = player.global_position + direction * \
+		end_pos = player.global_position + direction * \
 		(collision.get_travel().length() - 10)
 	test_body.queue_free()
 
