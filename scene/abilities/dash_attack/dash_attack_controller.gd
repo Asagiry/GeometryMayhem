@@ -10,7 +10,8 @@ extends Node
 @export var attack_cd: float = 0.1
 @export var dash_width: float = 25.0
 
-var dash_effect = preload("res://assets/artefacts/vfx/AstralStepVFX/dash_attack_vfx_astral_step.tscn")
+var dash_effect = \
+preload("res://assets/artefacts/vfx/AstralStepVFX/dash_attack_vfx_astral_step.tscn")
 var damage_multiplier: float = 1.0
 var is_dash_from_mouse: bool = false
 var dash_duration: float = 0.2
