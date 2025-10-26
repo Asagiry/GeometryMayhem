@@ -16,7 +16,7 @@ func enter() -> void:
 	player.dash_attack_controller.start_cooldown()
 	dash_timer = player.dash_attack_controller.dash_duration
 	player.dash_attack_controller.activate_dash(player.dash_from_mouse)
-	start_pos = player.dash_attack_controller.start_pos
+	start_pos = player.dash_attack_controller.get_start_pos()
 	dash_started.emit(start_pos)
 
 
@@ -30,7 +30,7 @@ func process(delta: float):
 
 
 func exit() -> void:
-	end_pos = player.dash_attack_controller.end_pos
+	end_pos = player.dash_attack_controller.get_end_pos()
 	dash_finished.emit(start_pos,end_pos)
 
 
