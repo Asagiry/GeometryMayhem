@@ -26,13 +26,13 @@
 [ext_resource type="Texture2D" uid="uid://d4h4hbl1awmct" path="res://assets/player/TAKE_DAMAGE/TAKE_DAMAGE1.png" id="16_plpdn"]
 [ext_resource type="PackedScene" uid="uid://csmleslly1twg" path="res://scene/game_objects/player/player_hurt_box.tscn" id="16_wfn55"]
 [ext_resource type="Texture2D" uid="uid://biaod0xrnq5p1" path="res://assets/player/ATTACK/ATTACK8.png" id="17_38wc0"]
-[ext_resource type="Texture2D" uid="uid://bq5i7g8qqkr6o" path="res://assets/player/IDLE/Idle1.png" id="17_a8ci5"]
+[ext_resource type="Texture2D" uid="uid://bq5i7g8qqkr6o" path="res://assets/player/IDLE/IDLE1.png" id="17_a8ci5"]
 [ext_resource type="Texture2D" uid="uid://cruub30w2sp85" path="res://assets/player/TAKE_DAMAGE/TAKE_DAMAGE2.png" id="17_t526v"]
 [ext_resource type="Texture2D" uid="uid://bahe2wgws7cu4" path="res://assets/player/ATTACK/ATTACK9.png" id="18_2cies"]
-[ext_resource type="Texture2D" uid="uid://8y2ltyblakht" path="res://assets/player/IDLE/Idle2.png" id="18_fleld"]
+[ext_resource type="Texture2D" uid="uid://8y2ltyblakht" path="res://assets/player/IDLE/IDLE2.png" id="18_fleld"]
 [ext_resource type="Texture2D" uid="uid://bpjpcvpp0hyai" path="res://assets/player/TAKE_DAMAGE/TAKE_DAMAGE3.png" id="18_uufy7"]
 [ext_resource type="Texture2D" uid="uid://dby1ftfj7qn1n" path="res://assets/player/ATTACK/ATTACK10.png" id="19_fc348"]
-[ext_resource type="Texture2D" uid="uid://brl3hrmqasqq2" path="res://assets/player/IDLE/Idle3.png" id="19_ixc71"]
+[ext_resource type="Texture2D" uid="uid://brl3hrmqasqq2" path="res://assets/player/IDLE/IDLE3.png" id="19_ixc71"]
 [ext_resource type="Texture2D" uid="uid://bfvqv5om0igkf" path="res://assets/player/IDLE/Idle4.png" id="20_dqgk5"]
 [ext_resource type="Texture2D" uid="uid://copynie6usoc5" path="res://assets/player/ATTACK/ATTACK11.png" id="20_u2y0a"]
 [ext_resource type="Texture2D" uid="uid://bv4pt1othcp6r" path="res://assets/player/IDLE/Idle5.png" id="21_mxd4y"]
@@ -388,6 +388,10 @@ dash_range = 150.0
 
 [node name="ParryController" parent="AbilityManager" instance=ExtResource("3_tyng1")]
 unique_name_in_owner = true
+parry_cd = 2.0
+push_distance = 100.0
+parry_angle = 120.0
+parry_radius = 30.0
 
 [node name="MovementComponent" type="Node" parent="."]
 unique_name_in_owner = true

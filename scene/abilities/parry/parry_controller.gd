@@ -2,12 +2,13 @@ class_name ParryController
 extends Node
 
 @export var parry_scene: PackedScene
-@export var parry_cd: float = 2.0 #кулдаун парирования
-@export var push_distance: float = 80.0
+@export var parry_cd: float
+@export var push_distance: float
+@export var parry_angle: float
+@export var parry_radius: float
 
 var push_duration: float = 0.2 #время перемещения моба от точка А до точки Б(отталкивание)
 var parry_duration: float = 0.3
-var push_angle_range: float = 30.0 #угол в который могут отталкиваться мобы перед игроком
 var melee_targets: Array[Node2D]
 var is_parrying: bool = false
 var parry_instance: Parry
@@ -32,6 +33,7 @@ func _process(_delta):
 func _enter_variables():
 	player = get_tree().get_first_node_in_group("player") as Node2D
 	parry_instance = parry_scene.instantiate() as Parry
+	parry_instance.init(parry_angle,parry_radius)
 	get_tree().get_first_node_in_group("front_layer").add_child(parry_instance)
 
 
@@ -74,7 +76,7 @@ func _calculate_push_target(enemy: Node2D, facing_direction: Vector2) -> Vector2
 	var direction = facing_direction.normalized()
 	var to_enemy = (enemy.global_position - parry_instance.global_position).normalized()
 	var angle_offset = direction.angle_to(to_enemy)
-	var max_angle = deg_to_rad(push_angle_range)
+	var max_angle = deg_to_rad(parry_angle)
 	angle_offset = clamp(angle_offset, -max_angle, max_angle)
 	direction = direction.rotated(angle_offset)
 
