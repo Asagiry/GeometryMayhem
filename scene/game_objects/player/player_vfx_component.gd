@@ -13,24 +13,24 @@ func _ready() -> void:
 
 func _on_machine_started():
 	player_states = player_state_machine.states
-	connectDashState()
-	connectParryState()
-	connectMovementState()
+	connect_dash_state()
+	connect_parry_state()
+	connect_movement_state()
 
 
-func connectDashState():
+func connect_dash_state():
 	var dash_state = player_states["PlayerDashState"] as PlayerDashState
 	dash_state.dash_started.connect(_on_dash_started)
 	dash_state.dash_finished.connect(_on_dash_finished)
 
 
-func connectParryState():
+func connect_parry_state():
 	var parry_state = player_states["PlayerParryState"] as PlayerParryState
 	parry_state.parry_started.connect(_on_parry_started)
 	parry_state.parry_finished.connect(_on_parry_finished)
 
 
-func connectMovementState():
+func connect_movement_state():
 	var movement_state = player_states["PlayerMovementState"] as PlayerMovementState
 	movement_state.movement_started.connect(_on_movement_started)
 	movement_state.movement_ended.connect(_on_movement_ended)
