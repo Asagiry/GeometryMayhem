@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://d3vhitwmdlmwa" path="res://scene/UI/artefacts_inventory/artefact_slot.tscn" id="1_15igh"]
 [ext_resource type="Texture2D" uid="uid://dgoc374vsftf0" path="res://assets/mobs/melee/Easy/1/IDLE/IDLE1.png" id="2_jk8qr"]
 [ext_resource type="Texture2D" uid="uid://3jn3afb3rwqj" path="res://scene/UI/loading_screen/loading_sprite.png" id="3_a4ecu"]
-[ext_resource type="Texture2D" uid="uid://dhp5osadbdkr5" path="res://assets/player/PARRY/PARRY1.png" id="5_1j4se"]
+[ext_resource type="Texture2D" uid="uid://bq5i7g8qqkr6o" path="res://assets/player/IDLE/Idle1.png" id="6_a4ecu"]
 [ext_resource type="PackedScene" uid="uid://b8bcfd1s8lrai" path="res://scene/UI/artefacts_inventory/radial_container.tscn" id="6_dkvfy"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_w4oxd"]
@@ -225,7 +225,7 @@ vertical_alignment = 1
 [node name="EquipBackground" type="TextureRect" parent="Control/VBoxContainer/HBoxContainer/EquipContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-texture = ExtResource("5_1j4se")
+texture = ExtResource("6_a4ecu")
 
 [node name="ArtefactSlots" parent="Control/VBoxContainer/HBoxContainer/EquipContainer/MarginContainer/VBoxContainer/EquipBackground" instance=ExtResource("6_dkvfy")]
 unique_name_in_owner = true
