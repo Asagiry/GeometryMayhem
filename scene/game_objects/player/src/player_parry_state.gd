@@ -2,11 +2,15 @@ class_name PlayerParryState
 
 extends PlayerState
 
+signal parry_started
+signal parry_finished
+
 static var state_name = "PlayerParryState"
 
 var parry_timer := 0.0
 
 func enter() -> void:
+	parry_started.emit()
 	animated_sprite_2d.speed_scale = 1 / player.parry_controller.parry_duration
 	animated_sprite_2d.play("block")
 	player.parry_controller.start_cooldown()
@@ -24,6 +28,7 @@ func process(delta: float):
 
 
 func exit() -> void:
+	parry_finished.emit()
 	animated_sprite_2d.speed_scale = 1
 
 

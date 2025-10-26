@@ -59,7 +59,6 @@ func activate_parry(input_state:bool):
 		await get_tree().create_timer(parry_duration / 2).timeout
 		await _melee_parry()
 
-
 func _melee_parry():
 	for enemy in melee_targets.duplicate():
 		if not is_instance_valid(enemy):

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dduoept83q8vm"]
+
+[ext_resource type="Script" uid="uid://cvs0m6qgikwcb" path="res://scene/game_objects/player/player_vfx_component.gd" id="1_rbucx"]
+
+[node name="VFXComponent" type="Node"]
+script = ExtResource("1_rbucx")
