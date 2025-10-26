@@ -7,9 +7,10 @@ extends Node
 @export var damage_data: DamageData
 @export var damage_type: Util.DamageCategory
 @export var dash_range: float = 100.0
-@export var attack_cd: float = 1.0
+@export var attack_cd: float = 0.1
 @export var dash_width: float = 25.0
 
+var dash_effect = preload("res://assets/artefacts/vfx/AstralStepVFX/dash_attack_vfx_astral_step.tscn")
 var damage_multiplier: float = 1.0
 var is_dash_from_mouse: bool = false
 var dash_duration: float = 0.2
@@ -25,6 +26,11 @@ var _dash_circle: DashCircle
 @onready var player_hurt_box: PlayerHurtBox = %PlayerHurtBox
 @onready var cooldown_timer: Timer = %CooldownTimer
 #endregion variables
+
+func _create_vfx_effect(start_pos: Vector2, end_pos: Vector2):
+	var dash_effect_instance = dash_effect.instantiate()
+	get_tree().get_first_node_in_group("back_layer").add_child(dash_effect_instance)
+	dash_effect_instance.setup(start_pos, end_pos)
 
 
 func start_cooldown():
@@ -56,7 +62,6 @@ func activate_dash(input_state: bool):
 	var dash_attack_instance = _create_dash_instance()
 	_set_damage(dash_attack_instance)
 	_disable_player(true)
-
 	is_dash_from_mouse = input_state
 	if is_dash_from_mouse:
 		_activate_mouse_click_dash(dash_attack_instance)
@@ -122,7 +127,6 @@ func _start_dash_tween(dash_attack_instance: DashAttack):
 	_set_final_target_position()
 	_direction = player.global_position.direction_to(_target_position)
 	_distance = player.global_position.distance_to(_target_position)
-
 	var tween = create_tween()
 	tween.tween_property(player, "global_position", _target_position, dash_duration) \
 		.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
@@ -143,10 +147,11 @@ func _start_dash_tween(dash_attack_instance: DashAttack):
 		dash_duration
 	).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
 
-
 	tween.tween_callback(Callable(dash_attack_instance, "queue_free"))
 	tween.finished.connect(func():
 		_disable_player(false)
+		print(start_position)
+		_create_vfx_effect(start_position, _target_position)
 	)
 
 #Проверка на столкновение со стенами и пересчёт если столкнулись

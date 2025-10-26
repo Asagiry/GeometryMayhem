@@ -1,0 +1,26 @@
+[gd_scene load_steps=6 format=3 uid="uid://cgdl81q4nyvhx"]
+
+[ext_resource type="Script" uid="uid://b6ylh5441i8l1" path="res://assets/artefacts/vfx/AstralStepVFX/dash_attack_vfx_astral_step.gd" id="1_07gtp"]
+[ext_resource type="Shader" uid="uid://cgvoxh0h3i2eb" path="res://assets/artefacts/vfx/AstralStepVFX/dash_vfx_astral_step.gdshader" id="2_lrele"]
+[ext_resource type="Texture2D" uid="uid://b3ny0qsc708od" path="res://assets/artefacts/vfx/AstralStepVFX/noiseTexture.png" id="3_lrele"]
+[ext_resource type="Texture2D" uid="uid://dj34yqe42em0m" path="res://assets/artefacts/vfx/AstralStepVFX/white_texture.png" id="4_heubq"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i281q"]
+shader = ExtResource("2_lrele")
+shader_parameter/fade_time = 1.0000000475
+shader_parameter/intensity = 1.0
+shader_parameter/trail_color = Color(0.26189843, 3.5850786e-07, 7.0381915e-08, 1)
+shader_parameter/core_color = Color(1.3544171, 0.007976336, 3.1456725e-06, 1)
+shader_parameter/noise_tex = ExtResource("3_lrele")
+shader_parameter/pulse_speed = 4.0
+shader_parameter/core_width = 0.1
+shader_parameter/glow_width = 0.5
+shader_parameter/edge_softness = 0.9
+
+[node name="Node2D" type="Node2D"]
+show_behind_parent = true
+script = ExtResource("1_07gtp")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_i281q")
+texture = ExtResource("4_heubq")
