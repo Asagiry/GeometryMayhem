@@ -10,7 +10,7 @@ func _on_play_button_pressed() -> void:
 
 
 func _on_exit_button_pressed() -> void:
-	Global.save_and_quit()
+	Global.request_quit()
 
 
 func _on_settings_button_pressed() -> void:

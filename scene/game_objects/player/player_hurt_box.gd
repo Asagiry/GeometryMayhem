@@ -9,6 +9,7 @@ extends Area2D
 func deal_damage(damage_data: DamageData):
 	health_component.take_damage(damage_data)
 
+
 func apply_effect(effects: Array[Effect]):
 	if owner == null:
 		return

@@ -28,6 +28,7 @@ func _ready():
 
 func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		get_tree().set_auto_accept_quit(false)
 		save_and_quit()
 
 
@@ -36,6 +37,10 @@ func _save():
 	print(meta_progression.player_data_to_string())
 	inventory.save_inventory()
 	meta_progression.save_player_data()
+
+
+func request_quit():
+	_notification(NOTIFICATION_WM_CLOSE_REQUEST)
 
 
 func _on_game_cycle_meta_ui_hide():

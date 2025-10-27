@@ -14,6 +14,7 @@ extends Node
 var damage_multiplier: float = 1.0
 var is_dash_from_mouse: bool = false
 var dash_duration: float = 0.2
+var dash_duration_multiplier = 1.0
 var player: PlayerController
 var is_on_cooldown: bool
 var is_range_enable: bool = true
@@ -135,8 +136,11 @@ func _start_dash_tween(dash_attack_instance: DashAttack):
 	_direction = player.global_position.direction_to(_end_pos)
 	_distance = player.global_position.distance_to(_end_pos)
 	var tween = create_tween()
-	tween.tween_property(player, "global_position", _end_pos, dash_duration) \
-		.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
+
+	tween.tween_property(player, "global_position", _target_position, \
+	dash_duration * dash_duration_multiplier) \
+	.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
+
 
 	var start_size = Vector2(dash_width, 0)
 	var end_size = Vector2(dash_width, _distance)
@@ -151,7 +155,7 @@ func _start_dash_tween(dash_attack_instance: DashAttack):
 			* (size_value.y / 2.0),
 		start_size,
 		end_size,
-		dash_duration
+		dash_duration * dash_duration_multiplier
 	).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
 
 	tween.tween_callback(Callable(dash_attack_instance, "queue_free"))

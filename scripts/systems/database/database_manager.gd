@@ -65,22 +65,26 @@ func _create_player_record_if_needed():
 		_database.query("INSERT INTO player_meta (id) VALUES('%s')" % [PLAYER_ID])
 
 
-func insert_player_artefact(player_art: PlayerArtefact):
-	_database.query("""
-	INSERT INTO player_artefacts (id, equipped, level)
-	VALUES ('%s', %d, %d)
-	ON CONFLICT(id) DO UPDATE SET
-	equipped = excluded.equipped,
-	level = excluded.level;
-	""" % [
-	player_art.artefact.id,
-	1 if player_art.equipped else 0,
-	player_art.level
-	])
+func insert_player_artefact(player_arts: Array[PlayerArtefact]):
+	var ok: bool = false
+	for art in player_arts:
+		ok = _database.query("""
+		INSERT INTO player_artefacts (id, equipped, level)
+		VALUES ('%s', %d, %d)
+		ON CONFLICT(id) DO UPDATE SET
+		equipped = excluded.equipped,
+		level = excluded.level;
+		""" % [
+		art.artefact.id,
+		1 if art.equipped else 0,
+		art.level
+		])
+		if !ok:
+			push_warning("Ошибка при сохранении player_artefacts")
 
 
 func insert_player_data(player_data: PlayerData):
-	_database.query("""
+	var ok := _database.query("""
 	INSERT INTO player_meta (id, currency, level, talent_points)
 	VALUES ('%s', %d, %d, %d)
 	ON CONFLICT(id) DO UPDATE SET
@@ -94,6 +98,9 @@ func insert_player_data(player_data: PlayerData):
 		player_data.talent_points
 		]
 	)
+	if !ok:
+		push_warning("Ошибка при сохранении player_meta")
+
 
 #возвращает массив словарей такого вида { "id":..., "equipped": 1/0, "level": 1-4}
 func get_player_artefacts():
