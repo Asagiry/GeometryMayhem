@@ -32,7 +32,8 @@ func _enter_variables():
 		PlayerIdleState.new(self),
 		PlayerMovementState.new(self),
 		PlayerDashState.new(self),
-		PlayerParryState.new(self)]
+		PlayerParryState.new(self),
+		PlayerStunState.new(self)]
 	player_state_machine.start_machine(states)
 
 
