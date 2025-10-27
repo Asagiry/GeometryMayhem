@@ -5,12 +5,12 @@ extends CharacterBody2D
 #region var
 @export var grace_period_time: float = 0.5
 @export var effects: Array[Effect]
+@export var effect_receiver: EffectReceiver
 
 var dash_from_mouse: bool = false
 var parry_from_mouse: bool = false
 var is_input_blocked: bool = false
 
-@onready var effect_receiver: EffectReceiver = %EffectReceiver
 @onready var player_state_machine: StateMachine = %PlayerStateMachine
 @onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
 @onready var grace_period: Timer = %GracePeriod

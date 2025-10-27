@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://d2bd4ujy5qv0c" path="res://scene/game_objects/player/src/player.gd" id="1_heqc5"]
 [ext_resource type="PackedScene" uid="uid://b0xrjstrhdb1c" path="res://scene/abilities/dash_attack/dash_attack_controller.tscn" id="2_jxsrc"]
-[ext_resource type="Script" uid="uid://l1drqp64gju1" path="res://scripts/data/effect/base/effect.gd" id="2_kl1g4"]
 [ext_resource type="PackedScene" uid="uid://brb3xhgavq8gl" path="res://scene/abilities/parry/parry_controller.tscn" id="3_tyng1"]
 [ext_resource type="Script" uid="uid://cyitjknl16852" path="res://scripts/data/damage/damage_data.gd" id="4_1tyhs"]
 [ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="4_48qb4"]
@@ -93,14 +92,6 @@
 [ext_resource type="Texture2D" uid="uid://7aop0lsb3p2p" path="res://assets/player/MOVEMENT/MOVEMENT28.png" id="72_2vfwf"]
 [ext_resource type="Texture2D" uid="uid://cafq80qsg14ga" path="res://assets/player/MOVEMENT/MOVEMENT29.png" id="73_lqpfa"]
 [ext_resource type="Texture2D" uid="uid://tose632d1w67" path="res://assets/player/MOVEMENT/MOVEMENT30.png" id="74_nafj1"]
-
-[sub_resource type="Resource" id="Resource_kl1g4"]
-script = ExtResource("2_kl1g4")
-name = "fear"
-effect_type = 11
-behavior = 5
-duration = 10.0
-metadata/_custom_type_script = "uid://l1drqp64gju1"
 
 [sub_resource type="Resource" id="Resource_siiro"]
 script = ExtResource("4_1tyhs")
@@ -383,11 +374,15 @@ radius = 21.0
 [sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_p0vsu"]
 points = PackedVector2Array(-15, 15, -7, -1, 0, -14, 7, -1, 15, 15, 0, 11)
 
-[node name="Player" type="CharacterBody2D" groups=["player"]]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("effect_receiver") groups=["player"]]
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_heqc5")
+<<<<<<< HEAD
 effects = [SubResource("Resource_kl1g4")]
+=======
+effect_receiver = NodePath("EffectReceiver")
+>>>>>>> e4772fc (GM-96: Добавить silence, blind, phased)
 
 [node name="AbilityManager" type="Node" parent="."]
 
@@ -399,10 +394,14 @@ dash_range = 150.0
 
 [node name="ParryController" parent="AbilityManager" instance=ExtResource("3_tyng1")]
 unique_name_in_owner = true
+<<<<<<< HEAD
 parry_cd = 2.0
 push_distance = 100.0
 parry_angle = 120.0
 parry_radius = 30.0
+=======
+parry_cd = 1.0
+>>>>>>> e4772fc (GM-96: Добавить silence, blind, phased)
 
 [node name="MovementComponent" type="Node" parent="."]
 unique_name_in_owner = true

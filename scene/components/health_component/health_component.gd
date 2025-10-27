@@ -11,15 +11,20 @@ const ROUNDING_ACCURACY: float = 0.1
 
 var current_health: float
 var forward_damage_multiplier: float = 1.0
+var invulnerable: bool = false
 
 @onready var armor_component: ArmorComponent = %ArmorComponent
+@onready var effect_receiver: EffectReceiver = %EffectReceiver
 
 
 func _ready():
 	current_health = max_health
-
+	effect_receiver.invulnerability_changed.connect(_on_invulnerability_changed)
 
 func take_damage(damage: DamageData):
+	if invulnerable:
+		return
+
 	var final_damage = armor_component.calculate_reduced_damage(
 		damage.amount * forward_damage_multiplier,
 	)
@@ -28,3 +33,6 @@ func take_damage(damage: DamageData):
 	#print(owner, "=", current_health)
 	if current_health <= 0:
 		died.emit()
+
+func _on_invulnerability_changed(status: bool) -> void:
+	invulnerable = status

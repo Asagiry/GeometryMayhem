@@ -11,8 +11,6 @@ func _ready():
 	color_rect.transition_complete.connect(_on_transition_complete)
 	ok_button.disabled = true
 	ok_button.visible = false
-	print("Viewport disabled input:", get_viewport().is_input_disabled())
-	print("Tree paused:", get_tree().paused)
 	#var window_size = DisplayServer.window_get_size()
 	#pivot_offset.x = window_size.x / 2
 	#pivot_offset.y = window_size.y / 2

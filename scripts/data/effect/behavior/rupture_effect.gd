@@ -5,7 +5,7 @@ var last_position: Vector2
 func apply(receiver: EffectReceiver, effect: Effect) -> void:
 	super.apply(receiver, effect)
 	last_position = receiver.player.global_position
-	print("🩸 Rupture started")
+	print("🩸 Rupture applied for ", effect.duration, " seconds")
 
 func tick(delta: float) -> void:
 	var current_position = _receiver.player.global_position

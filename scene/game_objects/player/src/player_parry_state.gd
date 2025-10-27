@@ -11,10 +11,12 @@ var parry_timer := 0.0
 
 func enter() -> void:
 	parry_started.emit()
-	animated_sprite_2d.speed_scale = 1 / player.parry_controller.parry_duration
+	var multiplier = player.parry_controller.parry_duration_multiplier
+	animated_sprite_2d.speed_scale = 1 / \
+	(player.parry_controller.parry_duration * multiplier)
 	animated_sprite_2d.play("block")
 	player.parry_controller.start_cooldown()
-	parry_timer = player.parry_controller.parry_duration
+	parry_timer = player.parry_controller.parry_duration * multiplier
 	player.parry_controller.activate_parry(player.parry_from_mouse)
 
 

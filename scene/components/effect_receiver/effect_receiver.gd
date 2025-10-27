@@ -6,16 +6,25 @@ signal effect_started(effect_type: Util.EffectType)
 signal effect_ended(effect_type: Util.EffectType)
 signal stats_changed(updated_stats: Dictionary)
 signal input_disabled(status: bool)
+signal attack_disabled(status: bool)
+signal player_stats_changed(updated_stats: Dictionary)
+signal invulnerability_changed(status: bool)
 
 const NUMBER_OF_BUFFS_AND_DEBUFFS: float = 6.0
+const MAXIMUM_MULTIPLIER: float = 10.0
 
 var active_dots: Array[Dictionary] = []
 var active_stat_modifiers: Dictionary = {}
 
+var invulnerable: bool = false
 var speed_multiplier: float = 1.0
 var attack_multiplier: float = 1.0
 var armor_multiplier: float = 1.0
 var forward_receiving_damage_multiplier: float = 1.0
+var attack_duration_multiplier: float = 1.0
+var attack_cd_multiplier: float = 1.0
+
+var parry_duration_multiplier: float = 1.0
 
 var active_special_states: Dictionary = {}     # { EffectType: true }
 var active_special_timers: Dictionary = {}      # { EffectType: float }
@@ -26,6 +35,7 @@ var player: PlayerController
 
 func _ready() -> void:
 	player = get_tree().get_first_node_in_group("player") as PlayerController
+
 
 func _process(delta: float) -> void:
 	_process_dots(delta)
@@ -220,14 +230,18 @@ func _is_new_debuff_stronger(old_mod: StatModifierData, new_mod: StatModifierDat
 		old_mod.speed_multiplier +
 		old_mod.attack_multiplier +
 		old_mod.armor_multiplier +
-		old_mod.forward_receiving_damage_multiplier
+		old_mod.forward_receiving_damage_multiplier +
+		(MAXIMUM_MULTIPLIER - old_mod.attack_duration_multiplier) +
+		(MAXIMUM_MULTIPLIER - old_mod.attack_cd_multiplier)
 	) / NUMBER_OF_BUFFS_AND_DEBUFFS
 
 	var new_total := (
 		new_mod.speed_multiplier +
 		new_mod.attack_multiplier +
 		new_mod.armor_multiplier +
-		new_mod.forward_receiving_damage_multiplier
+		new_mod.forward_receiving_damage_multiplier +
+		(MAXIMUM_MULTIPLIER - new_mod.attack_duration_multiplier) +
+		(MAXIMUM_MULTIPLIER - new_mod.attack_cd_multiplier)
 	) / NUMBER_OF_BUFFS_AND_DEBUFFS
 
 	# Чем меньше средний множитель — тем сильнее дебафф
@@ -239,14 +253,18 @@ func _is_new_buff_stronger(old_mod: StatModifierData, new_mod: StatModifierData)
 		old_mod.speed_multiplier +
 		old_mod.attack_multiplier +
 		old_mod.armor_multiplier +
-		old_mod.forward_receiving_damage_multiplier
+		old_mod.forward_receiving_damage_multiplier +
+		(1.0 - old_mod.attack_duration_multiplier) +
+		(1.0 - old_mod.attack_cd_multiplier)
 	) / NUMBER_OF_BUFFS_AND_DEBUFFS
 
 	var new_total := (
 		new_mod.speed_multiplier +
 		new_mod.attack_multiplier +
 		new_mod.armor_multiplier +
-		new_mod.forward_receiving_damage_multiplier
+		new_mod.forward_receiving_damage_multiplier +
+		(1.0 - new_mod.attack_duration_multiplier) +
+		(1.0 - new_mod.attack_cd_multiplier)
 	) / NUMBER_OF_BUFFS_AND_DEBUFFS
 
 	# Чем больше средний множитель — тем сильнее бафф
@@ -258,3 +276,29 @@ func set_speed_multiplier(value: float) -> void:
 	emit_signal("stats_changed", {
 		"speed_multiplier": speed_multiplier
 	})
+
+
+func set_parry_duration_multiplier(value: float) -> void:
+	parry_duration_multiplier = value
+	emit_signal("player_stats_changed", {
+		"parry_duration_multiplier": parry_duration_multiplier
+	})
+
+
+func set_attack_cd_multiplier(value: float) -> void:
+	attack_cd_multiplier = value
+	stats_changed.emit({
+		"attack_cd_multiplier": attack_cd_multiplier
+	})
+
+
+func set_attack_duration_multiplier(value: float) -> void:
+	attack_duration_multiplier = value
+	stats_changed.emit({
+		"attack_duration_multiplier": attack_duration_multiplier
+	})
+
+
+func set_invulnerability(value: bool) -> void:
+	invulnerable = value
+	invulnerability_changed.emit(invulnerable)
