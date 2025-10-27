@@ -5,10 +5,9 @@ extends PlayerState
 signal stun_started
 signal stun_finished
 
-var stun_duration:float
-
 static var state_name = "PlayerStunState"
 
+var stun_duration:float
 
 func set_duration(duration: float):
 	stun_duration = duration
