@@ -8,26 +8,26 @@ var previous_position: Vector2
 var pivot_offset: Vector2
 var length: int
 
-func init(entityNode:Node2D,
+func init(entity_node:Node2D,
 offset: Vector2,
 color: Color,
 trail_length: int,
 trail_width: int):
-	entity = entityNode
+	entity = entity_node
 	default_color = color
 	pivot_offset = offset
 	length = trail_length
 	width = trail_width
-	previous_position = entityNode.global_position
+	previous_position = entity_node.global_position
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if (is_enabled):
 		var current_position = entity.global_position
 		var direction = (current_position - previous_position).normalized()
 
 		var right_vector = Vector2(direction.y, -direction.x)
-		var offset_position = current_position - (pivot_offset.y * direction)\
-		 + (pivot_offset.x * right_vector)
+		var offset_position = current_position - \
+		(pivot_offset.y * direction)+ (pivot_offset.x * right_vector)
 
 		add_point(offset_position)
 		previous_position = current_position
