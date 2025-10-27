@@ -44,8 +44,13 @@ func connect_parry_state():
 func connect_movement_state():
 	var movement_state = player_states["PlayerMovementState"] as PlayerMovementState
 	movement_state.movement_started.connect(_on_movement_started)
-	movement_state.movement_ended.connect(_on_movement_ended)
+	movement_state.movement_ended.connect(_on_movement_finished)
 
+
+func connect_stun_state():
+	var stun_state = player_states["PlayerStunState"] as PlayerStunState
+	stun_state.stun_started.connect(_on_stun_started)
+	stun_state.stun_finished.connect(_on_stun_finished)
 
 func _on_dash_started(_start_position: Vector2):
 	pass
@@ -76,6 +81,14 @@ func _on_movement_started():
 	get_tree().get_first_node_in_group("back_layer").add_child(right_trail)
 
 
-func _on_movement_ended():
+func _on_movement_finished():
 	left_trail.destroy()
 	right_trail.destroy()
+
+
+func _on_stun_started():
+	pass
+
+
+func _on_stun_finished():
+	pass
