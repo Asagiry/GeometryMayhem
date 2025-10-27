@@ -3,12 +3,23 @@ class_name PlayerVFXComponent
 extends Node
 
 @export var player_state_machine: StateMachine
+@export var trail_color: Color
+@export var trail_width: int
+
 var player_states: Dictionary
+var player: PlayerController
+
+var right_trail: TrailLine
+var left_trail: TrailLine
+
 @onready var dash_attack_vfx = \
 preload("res://assets/artefacts/vfx/AstralStepVFX/dash_attack_vfx_astral_step.tscn")
+@onready var trail_line_scene = \
+preload("res://scene/game_objects/player/vfx/MovementTrailVFX/trail_line.tscn")
 
 func _ready() -> void:
 	player_state_machine.machine_started.connect(_on_machine_started)
+	player = player_state_machine.get_parent()
 
 
 func _on_machine_started():
@@ -55,8 +66,16 @@ func _on_parry_finished():
 
 
 func _on_movement_started():
-	pass
+	var trail_length = player.movement_component.max_speed*0.2
+	left_trail = trail_line_scene.instantiate() as TrailLine
+	left_trail.init(player,Vector2(10,10),trail_color,trail_length,trail_width)
+	get_tree().get_first_node_in_group("back_layer").add_child(left_trail)
+
+	right_trail = trail_line_scene.instantiate() as TrailLine
+	right_trail.init(player,Vector2(-10,10),trail_color,trail_length,trail_width)
+	get_tree().get_first_node_in_group("back_layer").add_child(right_trail)
 
 
 func _on_movement_ended():
-	pass
+	left_trail.destroy()
+	right_trail.destroy()

@@ -7,7 +7,7 @@ signal dash_finished(start_pos: Vector2, end_pos: Vector2)
 
 static var state_name = "PlayerDashState"
 
-var dash_timer := 0.0
+var dash_timer: float = 0.0
 var start_pos: Vector2
 var end_pos: Vector2
 
