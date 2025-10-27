@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://blfupdd83c7ha"]
+
+[ext_resource type="Script" uid="uid://cinvem543vigr" path="res://scene/game_objects/player/vfx/MovementTrailVFX/trail_line.gd" id="1_2akwo"]
+
+[node name="TrailLine" type="Line2D"]
+texture_mode = 1
+antialiased = true
+script = ExtResource("1_2akwo")

@@ -409,12 +409,14 @@ unique_name_in_owner = true
 
 [node name="EffectReceiver" parent="." instance=ExtResource("10_0ygly")]
 
+[node name="VFXComponent" parent="." node_paths=PackedStringArray("player_state_machine") instance=ExtResource("10_3v612")]
+player_state_machine = NodePath("../PlayerStateMachine")
+trail_color = Color(1.5547132, 3.0505266, 6.810317, 1)
+trail_width = 2
+
 [node name="PlayerStateMachine" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("7_heqc5")
-
-[node name="VFXComponent" parent="." node_paths=PackedStringArray("player_state_machine") instance=ExtResource("10_3v612")]
-player_state_machine = NodePath("../PlayerStateMachine")
 
 [node name="GracePeriod" type="Timer" parent="."]
 unique_name_in_owner = true
