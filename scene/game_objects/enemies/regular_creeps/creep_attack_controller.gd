@@ -8,8 +8,8 @@ var damage_multiplier: float = 1.0
 
 
 func _ready() -> void:
-	_create_attack_instance()
-
+	pass
+	#_create_attack_instance()
 
 func _create_attack_instance():
 	var creep_attack_instance = creep_attack_scene.instantiate() as CreepAttack

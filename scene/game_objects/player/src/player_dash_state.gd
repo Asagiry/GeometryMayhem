@@ -24,7 +24,9 @@ func enter() -> void:
 func process(delta: float):
 	dash_timer -= delta
 	if dash_timer <= 0.0:
-		if player.movement_component.get_movement_vector().normalized() == Vector2.ZERO:
+		if player.is_stunned:
+			player_state_machine.transition(PlayerStunState.state_name)
+		elif player.movement_component.get_movement_vector().normalized() == Vector2.ZERO:
 			player_state_machine.transition(PlayerIdleState.state_name)
 		else:
 			player_state_machine.transition(PlayerMovementState.state_name)
@@ -32,6 +34,7 @@ func process(delta: float):
 
 func exit() -> void:
 	end_pos = player.dash_attack_controller.get_end_pos()
+	#end_pos = player.global_position
 	dash_finished.emit(start_pos,end_pos)
 
 

@@ -1,0 +1,244 @@
+[gd_scene load_steps=8 format=3 uid="uid://vwuw6r5inl58"]
+
+[ext_resource type="Script" uid="uid://iyvadf7lx683" path="res://scene/test_level/effect_choose.gd" id="1_m7682"]
+[ext_resource type="Script" uid="uid://crr37x8e18o8b" path="res://scene/test_level/player_receive.gd" id="1_ua26r"]
+[ext_resource type="Script" uid="uid://ctd343g7w8ayi" path="res://scene/test_level/behavior_choose.gd" id="2_ljpay"]
+[ext_resource type="Script" uid="uid://0n7yfkwgwees" path="res://scene/test_level/stat_choose.gd" id="3_uyd4g"]
+[ext_resource type="Script" uid="uid://djbasrloc7dxg" path="res://scene/test_level/damage_edit.gd" id="4_foe47"]
+[ext_resource type="Script" uid="uid://6bk2jivovjb1" path="res://scene/test_level/duration_edit.gd" id="6_gh5sb"]
+[ext_resource type="Script" uid="uid://dgi7it0l8lj6s" path="res://scene/test_level/tick_edit.gd" id="7_61gd2"]
+
+[node name="Test_ui" type="CanvasLayer"]
+script = ExtResource("1_ua26r")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="PlayerReceive" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.25
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PlayerReceive"]
+layout_mode = 2
+text = "Player effect"
+
+[node name="EffectChoose" type="MenuButton" parent="MarginContainer/HBoxContainer/PlayerReceive"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 1
+text = "EFFECT"
+alignment = 0
+script = ExtResource("1_m7682")
+
+[node name="BehaviorChoose" type="MenuButton" parent="MarginContainer/HBoxContainer/PlayerReceive"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "BEHAVIOR"
+alignment = 0
+script = ExtResource("2_ljpay")
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/PlayerReceive"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/PlayerReceive/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PlayerReceive/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PlayerReceive/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "DAMAGE"
+
+[node name="DamageEdit" type="LineEdit" parent="MarginContainer/HBoxContainer/PlayerReceive/PanelContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0.0"
+alignment = 1
+max_length = 4
+script = ExtResource("4_foe47")
+
+[node name="StatChoose" type="MenuButton" parent="MarginContainer/HBoxContainer/PlayerReceive"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "STAT_MODIFIERS"
+alignment = 0
+script = ExtResource("3_uyd4g")
+
+[node name="PanelContainer2" type="PanelContainer" parent="MarginContainer/HBoxContainer/PlayerReceive"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/PlayerReceive/PanelContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PlayerReceive/PanelContainer2/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PlayerReceive/PanelContainer2/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "DURATION"
+
+[node name="DurationEdit" type="LineEdit" parent="MarginContainer/HBoxContainer/PlayerReceive/PanelContainer2/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "5"
+alignment = 1
+script = ExtResource("6_gh5sb")
+
+[node name="PanelContainer3" type="PanelContainer" parent="MarginContainer/HBoxContainer/PlayerReceive"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/PlayerReceive/PanelContainer3"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PlayerReceive/PanelContainer3/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PlayerReceive/PanelContainer3/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "TICK_INTERVAL"
+
+[node name="TickEdit" type="LineEdit" parent="MarginContainer/HBoxContainer/PlayerReceive/PanelContainer3/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1.0"
+alignment = 1
+script = ExtResource("7_61gd2")
+
+[node name="ApplyButton" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "APPLY"
+
+[node name="Label2" type="Label" parent="MarginContainer/HBoxContainer/PlayerReceive"]
+layout_mode = 2
+text = "PRESET EFFECTS"
+
+[node name="FlowContainer" type="FlowContainer" parent="MarginContainer/HBoxContainer/PlayerReceive"]
+layout_mode = 2
+
+[node name="SlowPreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+layout_mode = 2
+text = "SLOW"
+
+[node name="CursePreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+layout_mode = 2
+text = "CURSE"
+
+[node name="BurnPreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+layout_mode = 2
+text = "BURN"
+
+[node name="SilencePreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+layout_mode = 2
+text = "SILENCE"
+
+[node name="FreezePreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+layout_mode = 2
+text = "FREEZE"
+
+[node name="RupturePreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+layout_mode = 2
+text = "RUPTURE"
+
+[node name="PhasedPreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+layout_mode = 2
+text = "PHASED"
+
+[node name="SonicPreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+layout_mode = 2
+text = "SONIC"
+
+[node name="AppliedEffectsContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PlayerReceive"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PlayerReceive/AppliedEffectsContainer"]
+layout_mode = 2
+text = "APPLIED EFFECTS:"
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/HBoxContainer"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -31.0
+offset_top = -44.0
+offset_right = 31.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="FreezeButton" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "FREEZE"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="Max_heatlh_label" type="Label" parent="HBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1000"
+
+[node name="Label3" type="Label" parent="HBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "/"
+
+[node name="Current_health_label" type="Label" parent="HBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1000"
+
+[node name="HealPlayer" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "HealPlayer"
+
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/ApplyButton" to="." method="_on_apply_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/SlowPreset" to="." method="_on_slow_preset_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/CursePreset" to="." method="_on_curse_preset_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/BurnPreset" to="." method="_on_burn_preset_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/SilencePreset" to="." method="_on_silence_preset_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/FreezePreset" to="." method="_on_freeze_preset_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/RupturePreset" to="." method="_on_rupture_preset_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/PhasedPreset" to="." method="_on_phased_preset_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/SonicPreset" to="." method="_on_sonic_preset_pressed"]
+[connection signal="pressed" from="HBoxContainer/HealPlayer" to="." method="_on_heal_player_pressed"]

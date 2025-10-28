@@ -8,7 +8,7 @@ extends CharacterBody2D
 @onready var health_component: HealthComponent = %HealthComponent
 @onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
 @onready var progress_bar: ProgressBar = $TestProgressBarOnlyForTest
-@onready var enemy_collision: CollisionShape2D = $CollisionShape2D
+@onready var collision: CollisionShape2D = $CollisionShape2D
 
 
 func _ready():
@@ -19,7 +19,7 @@ func _ready():
 
 func _process(_delta):
 	var direction = movement_component.get_direction()
-	movement_component.move_to_player(self)
+	#movement_component.move_to_player(self)
 	progress_bar.value = health_component.current_health
 
 

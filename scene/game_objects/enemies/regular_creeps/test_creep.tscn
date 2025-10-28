@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dgv8d4dbcuqbj"]
+[gd_scene load_steps=20 format=3 uid="uid://dgv8d4dbcuqbj"]
 
 [ext_resource type="Script" uid="uid://b6d2xxtpdtr5b" path="res://scene/game_objects/enemies/regular_creeps/test_creep.gd" id="1_reyus"]
 [ext_resource type="PackedScene" uid="uid://d1g17l4ahse68" path="res://scene/game_objects/enemies/regular_creeps/creep_attack_controller.tscn" id="2_g5q6p"]
@@ -7,17 +7,28 @@
 [ext_resource type="Script" uid="uid://l1drqp64gju1" path="res://scripts/data/effect/base/effect.gd" id="2_q84b0"]
 [ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="3_83mdm"]
 [ext_resource type="Script" uid="uid://cyitjknl16852" path="res://scripts/data/damage/damage_data.gd" id="3_g5q6p"]
+[ext_resource type="Script" uid="uid://quc7gap4plyv" path="res://scripts/data/effect/base/stat_modifier_data.gd" id="3_wfa0r"]
 [ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component/armor_component.tscn" id="4_ylj4q"]
 [ext_resource type="PackedScene" uid="uid://bl380xv78onc8" path="res://scene/components/effect_receiver/effect_receiver.tscn" id="5_3nns4"]
 [ext_resource type="Script" uid="uid://5m7cpflvnie8" path="res://base/state_machine.gd" id="6_q6hwk"]
 [ext_resource type="PackedScene" uid="uid://djb2bixsc65n6" path="res://scene/components/enemy_hurt_box_component/enemy_hurt_box_component.tscn" id="6_ylj4q"]
 
-[sub_resource type="Resource" id="Resource_q84b0"]
+[sub_resource type="Resource" id="Resource_wfa0r"]
+script = ExtResource("3_g5q6p")
+metadata/_custom_type_script = "uid://cyitjknl16852"
+
+[sub_resource type="Resource" id="Resource_311ad"]
+script = ExtResource("3_wfa0r")
+metadata/_custom_type_script = "uid://quc7gap4plyv"
+
+[sub_resource type="Resource" id="Resource_w8cbr"]
 script = ExtResource("2_q84b0")
-name = "freeze"
+name = "123"
 effect_type = 11
 behavior = 5
-duration = 12.0
+damage = SubResource("Resource_wfa0r")
+stat_modifiers = SubResource("Resource_311ad")
+duration = 6.0
 metadata/_custom_type_script = "uid://l1drqp64gju1"
 
 [sub_resource type="Resource" id="Resource_g5q6p"]
@@ -42,11 +53,13 @@ size = Vector2(10, 10)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ylj4q"]
 size = Vector2(13, 13)
 
-[node name="TestCreep" type="CharacterBody2D" groups=["enemy"]]
+[node name="TestCreep" type="CharacterBody2D" node_paths=PackedStringArray("effect_receiver") groups=["enemy"]]
 collision_layer = 4
 collision_mask = 5
 script = ExtResource("1_reyus")
-effects = Array[ExtResource("2_q84b0")]([SubResource("Resource_q84b0")])
+effects = Array[ExtResource("2_q84b0")]([SubResource("Resource_w8cbr")])
+effects_for_self = Array[ExtResource("2_q84b0")]([SubResource("Resource_w8cbr")])
+effect_receiver = NodePath("EffectReceiver")
 
 [node name="creep_attack_controller" parent="." instance=ExtResource("2_g5q6p")]
 damage_data = SubResource("Resource_g5q6p")

@@ -16,9 +16,9 @@ func apply(receiver: EffectReceiver, effect: Effect) -> void:
 	_effect = effect
 	_elapsed_time = 0.0
 
-	set_process(true)
+	set_physics_process(true)
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	_elapsed_time += delta
 	if _elapsed_time >= _effect.duration:
 		end()
@@ -36,5 +36,5 @@ func end() -> void:
 	Вызывается при завершении эффекта.
 	Должен обязательно вызывать queue_free().
 	"""
-	set_process(false)
+	set_physics_process(false)
 	queue_free()
