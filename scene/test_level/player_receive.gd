@@ -4,7 +4,6 @@ var player : PlayerController
 
 var state_machine: StateMachine
 
-
 @onready var effect_choose: MenuButton = %EffectChoose
 @onready var behavior_choose: MenuButton = %BehaviorChoose
 @onready var damage_edit: LineEdit = %DamageEdit
@@ -17,7 +16,6 @@ var state_machine: StateMachine
 @onready var max_health_label: Label = %Max_heatlh_label
 @onready var current_health_label: Label = %Current_health_label
 
-var effect_list: Array[Effect] = []
 
 func _ready():
 	call_deferred("_connect_health_signal")

@@ -2,6 +2,40 @@ class_name Util
 
 extends Resource
 
+enum EffectType {
+	NONE,
+	SLOW, CURSE, CORROSION, #CLASSIC DEBUFF
+	BURN, BLEED, # DOT
+	FEAR, SILENCE, BLIND, COLLIDER, FREEZE, RUPTURE, # SPECIAL EFFECT
+	PHASED, BKB, EXPLOSION,
+	DISPEL,  #INSTANT SPECIAL
+	REGENERATION, SONIC, FORTIFY, #BUFF
+}
+
+enum EffectBehavior {
+	NONE,
+	INSTANT,
+	DOT,
+	BUFF,
+	DEBUFF,
+	SPECIAL,
+}
+
+enum DamageCategory {
+	NONE,
+	DEFAULT,
+	TRUE
+}
+
+enum ArtefactRarity {
+	COMMON,
+	RARE,
+	LEGENDARY,
+	MYTHIC,
+	MAYHEM,
+}
+
+
 const EFFECT_NAMES = {
 	EffectType.NONE: "None",
 	EffectType.SLOW: "Slow",
@@ -47,39 +81,6 @@ const ARTEFACT_RARITY_NAMES = {
 	ArtefactRarity.LEGENDARY: "Legendary",
 	ArtefactRarity.MYTHIC: "Mythic",
 	ArtefactRarity.MAYHEM: "Mayhem"
-}
-
-enum EffectType {
-	NONE,
-	SLOW, CURSE, CORROSION, #CLASSIC DEBUFF
-	BURN, BLEED, # DOT
-	FEAR, SILENCE, BLIND, COLLIDER, FREEZE, RUPTURE, # SPECIAL EFFECT
-	PHASED, BKB, EXPLOSION,
-	DISPEL,  #INSTANT SPECIAL
-	REGENERATION, SONIC, FORTIFY, #BUFF
-}
-
-enum EffectBehavior {
-	NONE,
-	INSTANT,
-	DOT,
-	BUFF,
-	DEBUFF,
-	SPECIAL,
-}
-
-enum DamageCategory {
-	NONE,
-	DEFAULT,
-	TRUE
-}
-
-enum ArtefactRarity {
-	COMMON,
-	RARE,
-	LEGENDARY,
-	MYTHIC,
-	MAYHEM,
 }
 
 # Геттеры
