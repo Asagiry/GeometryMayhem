@@ -2,16 +2,6 @@ class_name Util
 
 extends Resource
 
-enum EffectType {
-	NONE,
-	SLOW, CURSE, CORROSION, #CLASSIC DEBUFF
-	BURN, BLEED, # DOT
-	FEAR, SILENCE, BLIND, COLLIDER, FREEZE, RUPTURE, # SPECIAL EFFECT
-	PHASED, BKB, EXPLOSION,
-	DISPEL,  #INSTANT SPECIAL
-	REGENERATION, SONIC, FORTIFY, #BUFF
-}
-
 const EFFECT_NAMES = {
 	EffectType.NONE: "None",
 	EffectType.SLOW: "Slow",
@@ -34,14 +24,7 @@ const EFFECT_NAMES = {
 	EffectType.FORTIFY: "Fortify"
 }
 
-enum EffectBehavior {
-	NONE,
-	INSTANT,
-	DOT,
-	BUFF,
-	DEBUFF,
-	SPECIAL,
-}
+
 
 const EFFECT_BEHAVIOR_NAMES = {
 	EffectBehavior.NONE: "None",
@@ -52,24 +35,10 @@ const EFFECT_BEHAVIOR_NAMES = {
 	EffectBehavior.SPECIAL: "Special"
 }
 
-enum DamageCategory {
-	NONE,
-	DEFAULT,
-	TRUE
-}
-
 const DAMAGE_CATEGORY_NAMES = {
 	DamageCategory.NONE: "None",
 	DamageCategory.DEFAULT: "Default",
 	DamageCategory.TRUE: "True"
-}
-
-enum ArtefactRarity {
-	COMMON,
-	RARE,
-	LEGENDARY,
-	MYTHIC,
-	MAYHEM,
 }
 
 const ARTEFACT_RARITY_NAMES = {
@@ -78,6 +47,39 @@ const ARTEFACT_RARITY_NAMES = {
 	ArtefactRarity.LEGENDARY: "Legendary",
 	ArtefactRarity.MYTHIC: "Mythic",
 	ArtefactRarity.MAYHEM: "Mayhem"
+}
+
+enum EffectType {
+	NONE,
+	SLOW, CURSE, CORROSION, #CLASSIC DEBUFF
+	BURN, BLEED, # DOT
+	FEAR, SILENCE, BLIND, COLLIDER, FREEZE, RUPTURE, # SPECIAL EFFECT
+	PHASED, BKB, EXPLOSION,
+	DISPEL,  #INSTANT SPECIAL
+	REGENERATION, SONIC, FORTIFY, #BUFF
+}
+
+enum EffectBehavior {
+	NONE,
+	INSTANT,
+	DOT,
+	BUFF,
+	DEBUFF,
+	SPECIAL,
+}
+
+enum DamageCategory {
+	NONE,
+	DEFAULT,
+	TRUE
+}
+
+enum ArtefactRarity {
+	COMMON,
+	RARE,
+	LEGENDARY,
+	MYTHIC,
+	MAYHEM,
 }
 
 # Геттеры

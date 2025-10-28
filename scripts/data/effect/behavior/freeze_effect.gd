@@ -2,7 +2,7 @@ extends SpecialEffectBehavior
 
 const FREEZING_TIME: float = 4.0  # сколько секунд идёт замедление
 const ATTACK_DURATION_MULTIPLIER: float = 2
-var SPEED_MULTIPLIER: float = 1.0
+const SPEED_MULTIPLIER: float = 1.0
 
 var setted: bool = false
 
@@ -31,7 +31,7 @@ func tick(_delta: float) -> void:
 func end() -> void:
 	_receiver.set_attack_duration_multiplier(SPEED_MULTIPLIER)
 	_receiver.set_parry_duration_multiplier(SPEED_MULTIPLIER)
-	_receiver.owner.movement_component.set_freeze_multiplier(1.0)
+	_receiver.owner.movement_component.set_freeze_multiplier(SPEED_MULTIPLIER)
 	_receiver.emit_signal("input_disabled", false)
 	print("❄ Freeze ended")
 	_receiver.active_special_states[_effect.effect_type] = false
