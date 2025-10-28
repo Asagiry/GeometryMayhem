@@ -6,12 +6,11 @@ extends MovementComponent
 
 
 func _ready() -> void:
-	effect_receiver.effect_ended.connect(_on_effect_ended)
+	effect_receiver.stats_changed.connect(_on_stats_changed)
 
 
 func move_to_player(mob: CharacterBody2D):
 	var direction = get_direction()
-	speed_multiplier = effect_receiver.speed_multiplier
 	mob.velocity = accelerate_to_direction(direction)
 	mob.move_and_slide()
 
@@ -24,6 +23,6 @@ func get_direction():
 	return Vector2.ZERO
 
 
-func _on_effect_ended(effect_type: Util.EffectType):
-	if effect_type == Util.EffectType.SLOW:
-		speed_multiplier = DEFAULT_SPEED_MULTIPLIER
+func _on_stats_changed(updated_stats: Dictionary):
+	if updated_stats.has("speed_multiplier"):
+		speed_multiplier = updated_stats["speed_multiplier"]

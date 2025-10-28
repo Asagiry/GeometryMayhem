@@ -1,4 +1,4 @@
-[gd_scene load_steps=97 format=3 uid="uid://dpvptcshibxt0"]
+[gd_scene load_steps=99 format=3 uid="uid://dpvptcshibxt0"]
 
 [ext_resource type="Script" uid="uid://d2bd4ujy5qv0c" path="res://scene/game_objects/player/src/player.gd" id="1_heqc5"]
 [ext_resource type="PackedScene" uid="uid://b0xrjstrhdb1c" path="res://scene/abilities/dash_attack/dash_attack_controller.tscn" id="2_jxsrc"]
@@ -9,7 +9,7 @@
 [ext_resource type="Script" uid="uid://derbmady170hu" path="res://scene/components/movement_component/player_movement_component.gd" id="7_1tyhs"]
 [ext_resource type="Script" uid="uid://5m7cpflvnie8" path="res://base/state_machine.gd" id="7_heqc5"]
 [ext_resource type="PackedScene" uid="uid://bl380xv78onc8" path="res://scene/components/effect_receiver/effect_receiver.tscn" id="10_0ygly"]
-[ext_resource type="PackedScene" uid="uid://dduoept83q8vm" path="res://scene/game_objects/player/player_vfx_component.tscn" id="10_3v612"]
+[ext_resource type="PackedScene" path="res://scene/game_objects/player/player_vfx_component.tscn" id="10_3v612"]
 [ext_resource type="Texture2D" uid="uid://dpt52h75g2kh4" path="res://assets/player/ATTACK/ATTACK1.png" id="10_ddgj3"]
 [ext_resource type="Texture2D" uid="uid://dmayqab17g1bo" path="res://assets/player/ATTACK/ATTACK2.png" id="11_kl1g4"]
 [ext_resource type="Texture2D" uid="uid://tp54cpr3amvt" path="res://assets/player/ATTACK/ATTACK3.png" id="12_3v612"]
@@ -374,10 +374,12 @@ radius = 21.0
 [sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_p0vsu"]
 points = PackedVector2Array(-15, 15, -7, -1, 0, -14, 7, -1, 15, 15, 0, 11)
 
-[node name="Player" type="CharacterBody2D" groups=["player"]]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("effect_receiver") groups=["player"]]
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_heqc5")
+
+effect_receiver = NodePath("EffectReceiver")
 
 [node name="AbilityManager" type="Node" parent="."]
 
@@ -402,12 +404,13 @@ acceleration = 7.5
 
 [node name="HealthComponent" parent="." instance=ExtResource("4_48qb4")]
 unique_name_in_owner = true
-max_health = 50.0
+max_health = 1000.0
 
 [node name="ArmorComponent" parent="." instance=ExtResource("5_ju00n")]
 unique_name_in_owner = true
 
 [node name="EffectReceiver" parent="." instance=ExtResource("10_0ygly")]
+unique_name_in_owner = true
 
 [node name="VFXComponent" parent="." node_paths=PackedStringArray("player_state_machine") instance=ExtResource("10_3v612")]
 player_state_machine = NodePath("../PlayerStateMachine")

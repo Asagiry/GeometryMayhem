@@ -2,10 +2,9 @@ class_name ArmorComponent
 
 extends Node
 
-@export var physical_armor: float = 0.0
+@export var armor: float = 0.0
 
 
-#формула дота2, 10 армора = 37% снижение физического урона
+#TODO реализовать
 func calculate_reduced_damage(damage):
-	return snappedf(damage - (damage * \
-	((0.052 * physical_armor) / (0.9 + 0.048 * physical_armor))), 0.1)
+	return snappedf(damage, 0.1)

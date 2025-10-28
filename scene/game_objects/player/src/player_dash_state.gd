@@ -14,7 +14,8 @@ var end_pos: Vector2
 func enter() -> void:
 	_play_animation()
 	player.dash_attack_controller.start_cooldown()
-	dash_timer = player.dash_attack_controller.dash_duration
+	dash_timer = player.dash_attack_controller.dash_duration \
+	* player.dash_attack_controller.dash_duration_multiplier
 	player.dash_attack_controller.activate_dash(player.dash_from_mouse)
 	start_pos = player.dash_attack_controller.get_start_pos()
 	dash_started.emit(start_pos)

@@ -10,3 +10,4 @@ extends Resource
 @export var stat_modifiers: StatModifierData
 @export var duration: float = 0.0
 @export var tick_interval: float = 1.0
+@export var behavior_script: Script

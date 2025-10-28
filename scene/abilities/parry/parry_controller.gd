@@ -9,10 +9,13 @@ extends Node
 
 var push_duration: float = 0.2 #время перемещения моба от точка А до точки Б(отталкивание)
 var parry_duration: float = 0.3
+
+var parry_duration_multiplier: float = 1.0
+
 var melee_targets: Array[Node2D]
 var is_parrying: bool = false
 var parry_instance: Parry
-var player: Node2D
+var player: PlayerController
 var is_parry_from_mouse: bool
 var is_on_cooldown: bool
 
@@ -31,7 +34,7 @@ func _process(_delta):
 
 
 func _enter_variables():
-	player = get_tree().get_first_node_in_group("player") as Node2D
+	player = get_tree().get_first_node_in_group("player") as PlayerController
 	parry_instance = parry_scene.instantiate() as Parry
 	parry_instance.init(parry_angle,parry_radius)
 	get_tree().get_first_node_in_group("front_layer").add_child(parry_instance)
@@ -40,6 +43,7 @@ func _enter_variables():
 func _connect_signals():
 	parry_instance.projectile_detected.connect(_on_projectile_detected)
 	parry_instance.melee_detected.connect(_on_melee_detected)
+	player.effect_receiver.player_stats_changed.connect(_on_stats_changed)
 
 
 func start_cooldown():
@@ -166,3 +170,8 @@ func _on_melee_detected(enemies: Array[Node2D]):
 
 func _on_parry_cooldown_timeout() -> void:
 	is_on_cooldown = false
+
+
+func _on_stats_changed(updated_stats: Dictionary) -> void:
+	if updated_stats.has("parry_duration_multiplier"):
+		parry_duration_multiplier = updated_stats["parry_duration_multiplier"]

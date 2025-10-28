@@ -4,7 +4,6 @@ var runtime_effects: Array[Effect] = []
 
 func apply_to_player(player: PlayerController, params: Dictionary) -> void:
 	runtime_effects = EffectFactory.create_effect(params)
-	print("RUNTIME EFFECTS: ", runtime_effects[0].name)
 	for e in runtime_effects:
 		player.effects.append(e)
 

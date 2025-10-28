@@ -5,6 +5,7 @@ extends CharacterBody2D
 #region var
 @export var grace_period_time: float = 0.5
 @export var effects: Array[Effect]
+@export var effect_receiver: EffectReceiver
 
 var dash_from_mouse: bool = false
 var parry_from_mouse: bool = false
@@ -39,8 +40,13 @@ func _enter_variables():
 
 func _connect_signals():
 	health_component.died.connect(_on_died)
+	effect_receiver.input_disabled.connect(_on_input_disabled)
 
 
 func _on_died():
 	Global.player_died.emit()
 	queue_free()
+
+
+func _on_input_disabled(status: bool):
+	is_input_blocked = status

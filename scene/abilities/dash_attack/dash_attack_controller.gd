@@ -14,6 +14,7 @@ extends Node
 var damage_multiplier: float = 1.0
 var is_dash_from_mouse: bool = false
 var dash_duration: float = 0.2
+var dash_duration_multiplier = 1.0
 var player: PlayerController
 var is_on_cooldown: bool
 var is_range_enable: bool = true
@@ -37,6 +38,7 @@ func start_cooldown():
 
 func _ready():
 	player = get_tree().get_first_node_in_group("player") as Node2D
+	player.effect_receiver.stats_changed.connect(_on_stats_changed)
 	_setup_dash_cirlce()
 
 
@@ -89,15 +91,10 @@ func _set_damage(dash_attack_instance: DashAttack):
 
 func _disable_player(disable:bool):
 	_disable_player_hurt_box(disable)
-	_disable_player_inputs(disable)
 
 
 func _disable_player_hurt_box(disable: bool):
 	player_hurt_box.hurt_box_shape.disabled = disable
-
-
-func _disable_player_inputs(disable: bool):
-	player.is_input_blocked = disable
 
 
 func _activate_mouse_click_dash(dash_attack_instance):
@@ -135,8 +132,11 @@ func _start_dash_tween(dash_attack_instance: DashAttack):
 	_direction = player.global_position.direction_to(_end_pos)
 	_distance = player.global_position.distance_to(_end_pos)
 	var tween = create_tween()
-	tween.tween_property(player, "global_position", _end_pos, dash_duration) \
-		.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
+
+	tween.tween_property(player, "global_position", _end_pos, \
+	dash_duration * dash_duration_multiplier) \
+	.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
+
 
 	var start_size = Vector2(dash_width, 0)
 	var end_size = Vector2(dash_width, _distance)
@@ -151,7 +151,7 @@ func _start_dash_tween(dash_attack_instance: DashAttack):
 			* (size_value.y / 2.0),
 		start_size,
 		end_size,
-		dash_duration
+		dash_duration * dash_duration_multiplier
 	).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
 
 	tween.tween_callback(Callable(dash_attack_instance, "queue_free"))
@@ -181,3 +181,8 @@ func _set_final_end_pos():
 
 func _on_cooldown_timer_timeout() -> void:
 	is_on_cooldown = false
+
+
+func _on_stats_changed(updated_stats) -> void:
+	if updated_stats.has("attack_duration_multiplier"):
+		dash_duration_multiplier = updated_stats["attack_duration_multiplier"]
