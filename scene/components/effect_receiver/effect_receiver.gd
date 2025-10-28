@@ -37,7 +37,7 @@ func _ready() -> void:
 	player = get_tree().get_first_node_in_group("player") as PlayerController
 
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	_process_dots(delta)
 	_process_stat_modifiers(delta)
 
@@ -60,8 +60,10 @@ func _apply_special_effect(effect: Effect):
 		return
 	active_special_states[effect.effect_type] = true
 	emit_signal("effect_started", effect.effect_type)
-	var instance = SpecialEffectRegistry.create(Util.EffectType.keys()[effect.effect_type])
 
+	var path = "res://scripts/data/effect/behavior/"+\
+	Util.get_effect_name(effect.effect_type).to_lower()+"_effect.gd"
+	var instance = load(path).new()
 	if instance == null:
 		push_warning("⚠️ Special effect %s not found" % str(effect.effect_type))
 		return
@@ -86,7 +88,7 @@ func _apply_instant_effect(effect: Effect):
 func is_under(effect_type: Util.EffectType) -> bool:
 	return active_special_states.get(effect_type, false)
 
-
+#region dot
 func _add_dot_effect(effect: Effect):
 	for dot_data in active_dots:
 		var existing_effect: Effect = dot_data["effect"]
@@ -116,7 +118,7 @@ func _process_dots(delta: float):
 		dot["timer"] += delta
 
 		# Пора тикать урон
-		if dot["timer"] >= e.tick_interval:
+		if dot["timer"]>= e.tick_interval:
 			dot["timer"] = 0.0
 			if e.damage:
 				health_component.take_damage(e.damage)
@@ -131,7 +133,7 @@ func _should_replace_dot(old_dot: Effect, new_dot: Effect) -> bool:
 	var old_total = old_dot.damage.amount * (old_dot.duration / old_dot.tick_interval)
 	var new_total = new_dot.damage.amount * (new_dot.duration / new_dot.tick_interval)
 	return new_total > old_total
-
+#endregion dot
 
 func _add_stat_modifier(effect: Effect):
 	if effect.stat_modifiers == null:
@@ -165,12 +167,6 @@ func _add_stat_modifier(effect: Effect):
 		existing_data["remaining_time"] = new_duration
 
 
-func _remove_stat(data: StatModifierData):
-	if active_stat_modifiers.has(data):
-		active_stat_modifiers.erase(data)
-	_recalculate_stats()
-
-
 func _recalculate_stats():
 	speed_multiplier = 1.0
 	attack_multiplier = 1.0
@@ -188,7 +184,7 @@ func _recalculate_stats():
 		"speed_multiplier": speed_multiplier,
 		"attack_multiplier": attack_multiplier,
 		"armor_multiplier": armor_multiplier,
-		"damage_multiplier": forward_receiving_damage_multiplier
+		"forward_receiving_damage_multiplier": forward_receiving_damage_multiplier
 	})
 
 
@@ -338,10 +334,19 @@ func clear_all_effects() -> void:
 		"speed_multiplier": speed_multiplier,
 		"attack_multiplier": attack_multiplier,
 		"armor_multiplier": armor_multiplier,
-		"damage_multiplier": forward_receiving_damage_multiplier,
+		"forward_receiving_damage_multiplier": forward_receiving_damage_multiplier,
 		"attack_duration_multiplier": attack_duration_multiplier,
 		"attack_cd_multiplier": attack_cd_multiplier,
 		"parry_duration_multiplier": parry_duration_multiplier
 	})
 
 	print("All effects cleared and stats reset")
+
+
+func set_stun_state(duration: float):
+	if (owner is PlayerController):
+		var stun_state = player.player_state_machine.states["PlayerStunState"] as PlayerStunState
+		stun_state.set_duration(duration)
+		player.is_stunned = true
+	else:
+		pass#mob stun state

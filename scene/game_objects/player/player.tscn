@@ -1,4 +1,4 @@
-[gd_scene load_steps=99 format=3 uid="uid://dpvptcshibxt0"]
+[gd_scene load_steps=97 format=3 uid="uid://dpvptcshibxt0"]
 
 [ext_resource type="Script" uid="uid://d2bd4ujy5qv0c" path="res://scene/game_objects/player/src/player.gd" id="1_heqc5"]
 [ext_resource type="PackedScene" uid="uid://b0xrjstrhdb1c" path="res://scene/abilities/dash_attack/dash_attack_controller.tscn" id="2_jxsrc"]
@@ -9,7 +9,7 @@
 [ext_resource type="Script" uid="uid://derbmady170hu" path="res://scene/components/movement_component/player_movement_component.gd" id="7_1tyhs"]
 [ext_resource type="Script" uid="uid://5m7cpflvnie8" path="res://base/state_machine.gd" id="7_heqc5"]
 [ext_resource type="PackedScene" uid="uid://bl380xv78onc8" path="res://scene/components/effect_receiver/effect_receiver.tscn" id="10_0ygly"]
-[ext_resource type="PackedScene" path="res://scene/game_objects/player/player_vfx_component.tscn" id="10_3v612"]
+[ext_resource type="PackedScene" uid="uid://dduoept83q8vm" path="res://scene/game_objects/player/player_vfx_component.tscn" id="10_3v612"]
 [ext_resource type="Texture2D" uid="uid://dpt52h75g2kh4" path="res://assets/player/ATTACK/ATTACK1.png" id="10_ddgj3"]
 [ext_resource type="Texture2D" uid="uid://dmayqab17g1bo" path="res://assets/player/ATTACK/ATTACK2.png" id="11_kl1g4"]
 [ext_resource type="Texture2D" uid="uid://tp54cpr3amvt" path="res://assets/player/ATTACK/ATTACK3.png" id="12_3v612"]
@@ -378,7 +378,6 @@ points = PackedVector2Array(-15, 15, -7, -1, 0, -14, 7, -1, 15, 15, 0, 11)
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_heqc5")
-
 effect_receiver = NodePath("EffectReceiver")
 
 [node name="AbilityManager" type="Node" parent="."]
@@ -437,6 +436,7 @@ frame_progress = 1.0
 offset = Vector2(0, -1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
 position = Vector2(0, 2)
 shape = SubResource("CircleShape2D_lfjyr")
 

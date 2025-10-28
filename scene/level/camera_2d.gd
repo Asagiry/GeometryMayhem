@@ -7,3 +7,6 @@ func _process(_delta):
 	if player == null:
 		return
 	global_position = player.global_position
+
+func set_target(target: PlayerController):
+	player = target

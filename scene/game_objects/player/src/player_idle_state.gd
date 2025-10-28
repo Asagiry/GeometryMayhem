@@ -9,11 +9,13 @@ func enter() -> void:
 
 
 func process(delta: float) -> void:
-	player.movement_component.handle_movement(delta)
+	if player.is_stunned:
+			player_state_machine.transition(PlayerStunState.state_name)
 
+	player.movement_component.handle_movement(delta)
 	if player.movement_component.get_movement_vector().normalized() != Vector2.ZERO:
 		player_state_machine.transition(PlayerMovementState.state_name)
-	if Input.is_action_just_pressed("left_mouse_click_dash") and \
+	elif Input.is_action_just_pressed("left_mouse_click_dash") and \
 	!player.dash_attack_controller.is_on_cooldown and !player.is_input_blocked:
 		player.dash_from_mouse = true
 		player_state_machine.transition(PlayerDashState.state_name)

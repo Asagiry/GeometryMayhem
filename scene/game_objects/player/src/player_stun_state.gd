@@ -17,14 +17,16 @@ func enter() -> void:
 	stun_started.emit()
 
 
-func _process(delta: float) -> void:
+func process(delta: float) -> void:
 	stun_duration-=delta
+	player.move_and_collide(Vector2.ZERO)
 	if(stun_duration <= 0.0):
 		player_state_machine.transition(PlayerIdleState.state_name)
 
 
 func exit():
 	stun_finished.emit()
+	player.is_stunned = false
 
 
 func get_state_name() -> String:

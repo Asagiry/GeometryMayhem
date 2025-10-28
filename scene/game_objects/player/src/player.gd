@@ -10,6 +10,7 @@ extends CharacterBody2D
 var dash_from_mouse: bool = false
 var parry_from_mouse: bool = false
 var is_input_blocked: bool = false
+var is_stunned: bool = false
 
 @onready var player_state_machine: StateMachine = %PlayerStateMachine
 @onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
@@ -18,6 +19,7 @@ var is_input_blocked: bool = false
 @onready var health_component: HealthComponent = %HealthComponent
 @onready var dash_attack_controller: DashAttackController = %DashAttackController
 @onready var parry_controller: ParryController = %ParryController
+@onready var collision: CollisionShape2D = %CollisionShape2D
 
 #endregion
 

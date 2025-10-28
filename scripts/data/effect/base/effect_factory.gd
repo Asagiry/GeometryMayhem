@@ -21,7 +21,7 @@ static func _create_dot_effect(e: Effect, effect_data: Dictionary):
 	e.behavior = Util.EffectBehavior.DOT
 	e.damage = DamageData.new()
 	e.damage.amount = effect_data.get("damage", 1.0)
-	e.damage.damage_categoty = Util.DamageCategory.DEFAULT
+	e.damage.damage_category = Util.DamageCategory.DEFAULT
 	e.duration = effect_data.get("duration", 2.0)
 	e.tick_interval = effect_data.get("tick_interval", 1.0)
 	return e

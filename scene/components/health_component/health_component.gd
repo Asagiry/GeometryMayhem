@@ -20,6 +20,7 @@ var invulnerable: bool = false
 func _ready():
 	current_health = max_health
 	effect_receiver.invulnerability_changed.connect(_on_invulnerability_changed)
+	effect_receiver.stats_changed.connect(_on_stats_changed)
 
 func take_damage(damage: DamageData):
 	if invulnerable:
@@ -30,9 +31,12 @@ func take_damage(damage: DamageData):
 	)
 	current_health = snappedf(max(current_health - final_damage, 0), ROUNDING_ACCURACY)
 	emit_signal("health_changed", current_health, max_health)
-	#print(owner, "=", current_health)
 	if current_health <= 0:
 		died.emit()
 
 func _on_invulnerability_changed(status: bool) -> void:
 	invulnerable = status
+
+func _on_stats_changed(updated_stats: Dictionary):
+	if (updated_stats.has("forward_receiving_damage_multiplier")):
+		forward_damage_multiplier = updated_stats["forward_receiving_damage_multiplier"]
