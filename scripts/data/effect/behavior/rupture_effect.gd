@@ -7,7 +7,7 @@ func apply(receiver: EffectReceiver, effect: Effect) -> void:
 	last_position = receiver.player.global_position
 	print("🩸 Rupture applied for ", effect.duration, " seconds")
 
-func tick(delta: float) -> void:
+func tick(_delta: float) -> void:
 	var current_position = _receiver.player.global_position
 	var distance_moved = current_position.distance_to(last_position)
 

@@ -25,12 +25,11 @@ func _process(delta: float) -> void:
 	else:
 		tick(delta)
 
-func tick(delta: float) -> void:
+func tick(_delta: float) -> void:
 	"""
 	Переопределяется в наследниках.
 	Выполняется каждый кадр, пока эффект активен.
 	"""
-	pass
 
 func end() -> void:
 	"""

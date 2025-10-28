@@ -10,10 +10,7 @@ func apply(receiver: EffectReceiver, effect: Effect) -> void:
 	super.apply(receiver, effect)
 	print("❄ Freeze applied for ", effect.duration, " seconds")
 
-func tick(delta: float) -> void:
-	#_elapsed_time += delta
-
-
+func tick(_delta: float) -> void:
 	if _elapsed_time < FREEZING_TIME:
 		var progress = clampf(_elapsed_time / FREEZING_TIME, 0.0, 1.0)
 		var new_speed_multiplier = 1.0 - progress

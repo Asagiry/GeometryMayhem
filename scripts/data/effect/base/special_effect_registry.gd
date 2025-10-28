@@ -21,12 +21,11 @@ static func initialize():
 			var path = "%s/%s" % [base_path, file_name]
 			var script = load(path)
 			if script:
-				var _name = file_name.get_basename().to_upper() # "FREEZEEFFECT"
-				# убираем слово EFFECT в конце для чистого ключа
-				_name = _name.replace("_", "")
-				_name = _name.replace("EFFECT", "")
-				_registry[_name] = script
-				print("✅ Registered special effect:", _name)
+				var mod_file_name = file_name.get_basename().to_upper()
+				mod_file_name = mod_file_name.replace("_", "")
+				mod_file_name = mod_file_name.replace("EFFECT", "")
+				_registry[mod_file_name] = script
+				print("✅ Registered special effect:", mod_file_name)
 		file_name = dir.get_next()
 	dir.list_dir_end()
 

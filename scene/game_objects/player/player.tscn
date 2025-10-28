@@ -378,11 +378,8 @@ points = PackedVector2Array(-15, 15, -7, -1, 0, -14, 7, -1, 15, 15, 0, 11)
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_heqc5")
-<<<<<<< HEAD
-effects = [SubResource("Resource_kl1g4")]
-=======
+
 effect_receiver = NodePath("EffectReceiver")
->>>>>>> e4772fc (GM-96: Добавить silence, blind, phased)
 
 [node name="AbilityManager" type="Node" parent="."]
 
@@ -394,14 +391,10 @@ dash_range = 150.0
 
 [node name="ParryController" parent="AbilityManager" instance=ExtResource("3_tyng1")]
 unique_name_in_owner = true
-<<<<<<< HEAD
 parry_cd = 2.0
 push_distance = 100.0
 parry_angle = 120.0
 parry_radius = 30.0
-=======
-parry_cd = 1.0
->>>>>>> e4772fc (GM-96: Добавить silence, blind, phased)
 
 [node name="MovementComponent" type="Node" parent="."]
 unique_name_in_owner = true

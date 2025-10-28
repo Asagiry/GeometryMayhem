@@ -133,7 +133,7 @@ func _start_dash_tween(dash_attack_instance: DashAttack):
 	_distance = player.global_position.distance_to(_end_pos)
 	var tween = create_tween()
 
-	tween.tween_property(player, "global_position", _target_position, \
+	tween.tween_property(player, "global_position", _end_pos, \
 	dash_duration * dash_duration_multiplier) \
 	.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
 

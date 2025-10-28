@@ -108,7 +108,7 @@ func update_level(player_artefact: PlayerArtefact, level: int):
 	player_artefact.level = level
 
 
-func save_inventory():	
+func save_inventory():
 	_database.insert_player_artefact(inventory)
 
 

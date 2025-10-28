@@ -302,3 +302,46 @@ func set_attack_duration_multiplier(value: float) -> void:
 func set_invulnerability(value: bool) -> void:
 	invulnerable = value
 	invulnerability_changed.emit(invulnerable)
+
+
+func clear_all_effects() -> void:
+	if active_dots.size() > 0:
+		for dot_data in active_dots:
+			var e: Effect = dot_data["effect"]
+			emit_signal("effect_ended", e.effect_type)
+		active_dots.clear()
+
+	if active_stat_modifiers.size() > 0:
+		for effect_type in active_stat_modifiers.keys():
+			emit_signal("effect_ended", effect_type)
+		active_stat_modifiers.clear()
+
+	if active_special_states.size() > 0:
+		for effect_type in active_special_states.keys():
+			emit_signal("effect_ended", effect_type)
+		active_special_states.clear()
+		active_special_timers.clear()
+
+		for child in get_children():
+			if child is SpecialEffectBehavior:
+				child.queue_free()
+
+	speed_multiplier = 1.0
+	attack_multiplier = 1.0
+	armor_multiplier = 1.0
+	forward_receiving_damage_multiplier = 1.0
+	attack_duration_multiplier = 1.0
+	attack_cd_multiplier = 1.0
+	parry_duration_multiplier = 1.0
+
+	emit_signal("stats_changed", {
+		"speed_multiplier": speed_multiplier,
+		"attack_multiplier": attack_multiplier,
+		"armor_multiplier": armor_multiplier,
+		"damage_multiplier": forward_receiving_damage_multiplier,
+		"attack_duration_multiplier": attack_duration_multiplier,
+		"attack_cd_multiplier": attack_cd_multiplier,
+		"parry_duration_multiplier": parry_duration_multiplier
+	})
+
+	print("All effects cleared and stats reset")
