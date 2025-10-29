@@ -7,14 +7,19 @@ signal health_changed(current_health, max_health)
 
 const ROUNDING_ACCURACY: float = 0.1
 
-@export var max_health: float = 0
+var max_health: float = 0.0
 
 var current_health: float
 var forward_damage_multiplier: float = 1.0
 var invulnerable: bool = false
 
-@onready var armor_component: ArmorComponent = %ArmorComponent
+@onready var armor_component: ArmorComponent
 @onready var effect_receiver: EffectReceiver = %EffectReceiver
+
+func _init():
+	if owner is EnemyController:
+		max_health = owner.stats.max_health
+		armor_component = owner.armor_component
 
 
 func _ready():

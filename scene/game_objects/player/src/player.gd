@@ -39,7 +39,6 @@ func _enter_variables():
 		PlayerStunState.new(self)]
 	player_state_machine.start_machine(states)
 
-
 func _connect_signals():
 	health_component.died.connect(_on_died)
 	effect_receiver.input_disabled.connect(_on_input_disabled)

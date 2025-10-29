@@ -25,7 +25,7 @@ var _dash_circle: DashCircle
 var _start_pos: Vector2
 var _end_pos: Vector2
 
-@onready var player_hurt_box: PlayerHurtBox = %PlayerHurtBox
+@onready var player_hurt_box: HurtBox = %PlayerHurtBox
 @onready var cooldown_timer: Timer = %CooldownTimer
 #endregion variables
 

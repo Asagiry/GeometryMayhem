@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cx83jwjsex3ph"]
+
+[ext_resource type="Script" uid="uid://d1tdrgf0jijo5" path="res://scene/game_objects/enemies/components/enemy_attack_controller/enemy_attack_controller.gd" id="1_bp3li"]
+
+[node name="EnemyAttackController" type="Node"]
+script = ExtResource("1_bp3li")

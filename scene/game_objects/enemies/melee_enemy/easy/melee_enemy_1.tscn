@@ -1,0 +1,99 @@
+[gd_scene load_steps=18 format=3 uid="uid://8adv387ncikr"]
+
+[ext_resource type="Script" uid="uid://c52uxmgagbml" path="res://scene/game_objects/enemies/melee_enemy/easy/melee_enemy_1.gd" id="1_lpv33"]
+[ext_resource type="Script" uid="uid://vean0446eao1" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_stats_data.gd" id="2_cb8vt"]
+[ext_resource type="Texture2D" uid="uid://b8e756uh8l7wr" path="res://assets/mobs/melee/Easy/1/AGGRO/AGGRO1.png" id="2_xvgj7"]
+[ext_resource type="Texture2D" uid="uid://b8up831hux8i0" path="res://assets/mobs/melee/Easy/1/AGGRO/AGGRO2.png" id="3_cb8vt"]
+[ext_resource type="Texture2D" uid="uid://baxjtia34up47" path="res://assets/mobs/melee/Easy/1/AGGRO/AGGRO3.png" id="4_a0f03"]
+[ext_resource type="Texture2D" uid="uid://bn3bkjrudpubs" path="res://assets/mobs/melee/Easy/1/ATTACK/ATTACK1.png" id="5_pgduy"]
+[ext_resource type="Texture2D" uid="uid://dwspplho06alj" path="res://assets/mobs/melee/Easy/1/ATTACK/ATTACK2.png" id="6_s3kq4"]
+[ext_resource type="Texture2D" uid="uid://g3enhtc46mb0" path="res://assets/mobs/melee/Easy/1/ATTACK/ATTACK3.png" id="7_4jkye"]
+[ext_resource type="Texture2D" uid="uid://dgoc374vsftf0" path="res://assets/mobs/melee/Easy/1/IDLE/IDLE1.png" id="8_gwela"]
+[ext_resource type="Texture2D" uid="uid://rf87ty0ej23r" path="res://assets/mobs/melee/Easy/1/IDLE/IDLE2.png" id="9_c73ew"]
+[ext_resource type="Texture2D" uid="uid://btqf2ccgwuqnq" path="res://assets/mobs/melee/Easy/1/IDLE/IDLE3.png" id="10_irisk"]
+[ext_resource type="Texture2D" uid="uid://dmph28rhwq6m6" path="res://assets/mobs/melee/Easy/1/IDLE/IDLE4.png" id="11_v18kr"]
+[ext_resource type="PackedScene" uid="uid://csmleslly1twg" path="res://scene/components/hurt_box_component/hurt_box.tscn" id="12_yggd7"]
+
+[sub_resource type="Resource" id="Resource_a0f03"]
+script = ExtResource("2_cb8vt")
+max_health = 100.0
+armor = 1.0
+max_speed = 100.0
+aggro_range = 100.0
+attack_range = 10.0
+metadata/_custom_type_script = "uid://vean0446eao1"
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_s0nn8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_xvgj7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_cb8vt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_a0f03")
+}],
+"loop": true,
+"name": &"aggro",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_pgduy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_s3kq4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_4jkye")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_gwela")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_c73ew")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_irisk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_v18kr")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 2.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ykpwj"]
+radius = 12.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ibtfe"]
+size = Vector2(16, 16)
+
+[node name="melee_enemy_1" type="CharacterBody2D"]
+script = ExtResource("1_lpv33")
+stats = SubResource("Resource_a0f03")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_s0nn8")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.6734601
+
+[node name="EnviromentCollision" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ykpwj")
+
+[node name="HurtBox" parent="." instance=ExtResource("12_yggd7")]
+unique_name_in_owner = true
+
+[node name="HurtBoxShape" type="CollisionShape2D" parent="HurtBox"]
+unique_name_in_owner = true
+shape = SubResource("RectangleShape2D_ibtfe")

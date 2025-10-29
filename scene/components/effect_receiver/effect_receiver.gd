@@ -40,10 +40,11 @@ var active_special_timers: Dictionary = {}      # { EffectType: float }
 
 var player: PlayerController
 
-@onready var health_component: HealthComponent = %HealthComponent
+@onready var health_component: HealthComponent
 
 func _ready() -> void:
 	player = get_tree().get_first_node_in_group("player") as PlayerController
+	health_component = player.health_component
 
 
 func _physics_process(delta: float) -> void:
