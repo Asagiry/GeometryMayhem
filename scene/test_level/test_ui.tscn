@@ -178,6 +178,14 @@ text = "PHASED"
 layout_mode = 2
 text = "SONIC"
 
+[node name="FortifyPreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+layout_mode = 2
+text = "FORTIFY"
+
+[node name="BlindPreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+layout_mode = 2
+text = "BLIND"
+
 [node name="AppliedEffectsContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PlayerReceive"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -241,4 +249,6 @@ text = "HealPlayer"
 [connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/RupturePreset" to="." method="_on_rupture_preset_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/PhasedPreset" to="." method="_on_phased_preset_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/SonicPreset" to="." method="_on_sonic_preset_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/FortifyPreset" to="." method="_on_fortify_preset_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/BlindPreset" to="." method="_on_blind_preset_pressed"]
 [connection signal="pressed" from="HBoxContainer/HealPlayer" to="." method="_on_heal_player_pressed"]
