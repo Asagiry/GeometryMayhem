@@ -13,11 +13,11 @@ var end_pos: Vector2
 
 func enter() -> void:
 	_play_animation()
-	player.dash_attack_controller.start_cooldown()
-	dash_timer = player.dash_attack_controller.dash_duration \
-	* player.dash_attack_controller.dash_duration_multiplier
-	player.dash_attack_controller.activate_dash(player.dash_from_mouse)
-	start_pos = player.dash_attack_controller.get_start_pos()
+	player.player_attack_controller.start_cooldown()
+	dash_timer = player.player_attack_controller.dash_duration \
+	* player.player_attack_controller.dash_duration_multiplier
+	player.player_attack_controller.activate_dash(player.dash_from_mouse)
+	start_pos = player.player_attack_controller.get_start_pos()
 	dash_started.emit(start_pos)
 
 
@@ -33,21 +33,21 @@ func process(delta: float):
 
 
 func exit() -> void:
-	end_pos = player.dash_attack_controller.get_end_pos()
+	end_pos = player.player_attack_controller.get_end_pos()
 	#end_pos = player.global_position
 	dash_finished.emit(start_pos,end_pos)
 
 
 func _play_animation():
 	player.animated_sprite_2d.play("attack")
-	player.animated_sprite_2d.speed_scale = 1/player.dash_attack_controller\
+	player.animated_sprite_2d.speed_scale = 1/player.player_attack_controller\
 	.dash_duration
 	var tween2 = player.create_tween()
 	tween2.tween_property(
 		animated_sprite_2d,
 		"scale",
 		Vector2(0.25, 1),
-		player.dash_attack_controller.dash_duration,
+		player.player_attack_controller.dash_duration,
 	) \
 	.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
 
@@ -58,7 +58,7 @@ func _play_animation():
 				animated_sprite_2d,
 				"scale",
 				Vector2(1, 1),
-				player.dash_attack_controller.dash_duration / 2,
+				player.player_attack_controller.dash_duration / 2,
 			) \
 			.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
 			player.animated_sprite_2d.speed_scale = 1
