@@ -5,6 +5,8 @@ extends MovementComponent
 var spawn_point: Vector2
 var is_patrolling: bool = false
 var patrol_timer: Timer
+var dir: Vector2
+var patrol_speed_multiplier: float = 0.5
 
 func set_spawn_point(p_spawn_point: Vector2 = Vector2.ZERO):
 	spawn_point = p_spawn_point
@@ -36,12 +38,14 @@ func _get_direction_to_player() -> Vector2:
 
 
 func get_back():
-	var direction = (spawn_point - global_position)
+	var direction = (spawn_point - global_position).normalized()
 	if direction != Vector2.ZERO:
 		last_direction = direction
 	velocity = accelerate_to_direction(direction)
 	move_and_slide()
 
+func is_reached_spawn_point():
+	return global_position.distance_to(spawn_point) <= 5.0  # погрешность 5 пикселей
 
 func _get_direction_to(p_position: Vector2):
 	var direction = (p_position-global_position)
@@ -51,17 +55,18 @@ func _get_direction_to(p_position: Vector2):
 
 func start_patrol():
 	is_patrolling = true
-	var direction = get_random_direction()
-	velocity = accelerate_to_direction(direction)
-
-	# Запускаем таймер на случайное время
+	dir = get_random_direction()
 	_start_random_patrol_timer()
-	print("Patrol started")
+
+func handle_movement():
+	velocity = accelerate_to_direction(dir) * patrol_speed_multiplier
+	move_and_slide()
+
 
 func stop_patrol():
 	is_patrolling = false
 	patrol_timer.stop()
-	velocity = Vector2.ZERO  # или установи нужное значение
+	velocity = Vector2.ZERO
 	print("Patrol stopped")
 
 func get_random_direction() -> Vector2:
@@ -75,7 +80,6 @@ func _start_random_patrol_timer():
 
 func _on_patrol_timer_timeout():
 	if is_patrolling:
-		# Когда таймер заканчивается, снова запускаем патрулирование
 		start_patrol()
 
 

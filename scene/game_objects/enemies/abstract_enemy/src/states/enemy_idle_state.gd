@@ -3,33 +3,19 @@ extends EnemyState
 
 static var state_name = "EnemyIdleState"
 
-var patrol_timer: Timer
-var patrol_duration: float = 2.0
 
 func enter() -> void:
 	animated_sprite_2d.play("idle")
-	enemy.movement_component.set_new_patrol_target(enemy.spawn_position)
-	patrol_timer.start(patrol_duration)
-
-
-func exit() -> void:
-	if patrol_timer:
-		patrol_timer.stop()
+	enemy.movement_component.start_patrol()
 
 
 func process(_delta: float) -> void:
-	enemy.movement_component.patrol()
+	enemy.movement_component.handle_movement()
 
-func _setup_patrol_timer() -> void:
-	patrol_timer = Timer.new()
-	patrol_timer.one_shot = false
-	patrol_timer.timeout.connect(_on_patrol_timeout)
-	enemy.add_child(patrol_timer)
-
-
-func _on_patrol_timeout() -> void:
-	enemy.movement_component.set_new_patrol_target(enemy.spawn_position)
-
+func _on_player_entered_aggro(body:CharacterBody2D):
+	if (state_machine.current_state.get_state_name() == get_state_name()):
+		if body is PlayerController:
+			state_machine.transition(EnemyAggroState.state_name)
 
 func get_state_name() -> String:
 	return state_name

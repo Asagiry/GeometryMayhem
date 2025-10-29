@@ -13,7 +13,7 @@ func _ready():
 		player = get_tree().get_first_node_in_group("player")
 
 func _on_hit_box_component_area_entered(area: Area2D) -> void:
-	if not area.is_in_group("enemy_hurt_box"):
+	if area is not HurtBox:
 		return
 	if area.has_method("deal_damage"):
 		area.deal_damage(hit_box_component.damage_data)

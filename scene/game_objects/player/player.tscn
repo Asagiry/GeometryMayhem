@@ -1,7 +1,8 @@
-[gd_scene load_steps=97 format=3 uid="uid://dpvptcshibxt0"]
+[gd_scene load_steps=100 format=3 uid="uid://dpvptcshibxt0"]
 
 [ext_resource type="Script" uid="uid://d2bd4ujy5qv0c" path="res://scene/game_objects/player/src/player.gd" id="1_heqc5"]
 [ext_resource type="PackedScene" uid="uid://b0xrjstrhdb1c" path="res://scene/abilities/dash_attack/dash_attack_controller.tscn" id="2_jxsrc"]
+[ext_resource type="Script" uid="uid://cyhnm76rkr2ny" path="res://scene/game_objects/player/src/player_stat_data.gd" id="3_3v612"]
 [ext_resource type="PackedScene" uid="uid://brb3xhgavq8gl" path="res://scene/abilities/parry/parry_controller.tscn" id="3_tyng1"]
 [ext_resource type="Script" uid="uid://cyitjknl16852" path="res://scripts/data/damage/damage_data.gd" id="4_1tyhs"]
 [ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="4_48qb4"]
@@ -93,9 +94,36 @@
 [ext_resource type="Texture2D" uid="uid://cafq80qsg14ga" path="res://assets/player/MOVEMENT/MOVEMENT29.png" id="73_lqpfa"]
 [ext_resource type="Texture2D" uid="uid://tose632d1w67" path="res://assets/player/MOVEMENT/MOVEMENT30.png" id="74_nafj1"]
 
-[sub_resource type="Resource" id="Resource_siiro"]
+[sub_resource type="Resource" id="Resource_itr6r"]
 script = ExtResource("4_1tyhs")
+amount = 100.0
+damage_category = 1
 metadata/_custom_type_script = "uid://cyitjknl16852"
+
+[sub_resource type="Resource" id="Resource_cykr3"]
+script = ExtResource("4_1tyhs")
+damage_category = 1
+metadata/_custom_type_script = "uid://cyitjknl16852"
+
+[sub_resource type="Resource" id="Resource_lduo2"]
+script = ExtResource("3_3v612")
+grace_period_time = 0.5
+max_health = 1000.0
+max_speed = 200.0
+acceleration = 9.0
+rotation_speed = 9.0
+attack_damage = SubResource("Resource_itr6r")
+attack_cd = 0.2
+attack_duration = 0.2
+attack_width = 32.0
+attack_range = 150.0
+parry_damage = SubResource("Resource_cykr3")
+parry_cd = 1.5
+parry_push_distance = 80.0
+parry_angle = 90.0
+parry_radius = 60.0
+parry_duration = 0.3
+metadata/_custom_type_script = "uid://cyhnm76rkr2ny"
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_heqc5"]
 animations = [{
@@ -378,33 +406,29 @@ points = PackedVector2Array(-15, 15, -7, -1, 0, -14, 7, -1, 15, 15, 0, 11)
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_heqc5")
+stats = SubResource("Resource_lduo2")
 effect_receiver = NodePath("EffectReceiver")
+
+[node name="PlayerStateMachine" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("7_heqc5")
 
 [node name="PlayerAttackController" parent="." instance=ExtResource("2_jxsrc")]
 unique_name_in_owner = true
-damage_data = SubResource("Resource_siiro")
-damage_type = 1
-dash_range = 150.0
 
 [node name="ParryController" parent="." instance=ExtResource("3_tyng1")]
 unique_name_in_owner = true
-parry_cd = 2.0
-push_distance = 100.0
-parry_angle = 120.0
-parry_radius = 30.0
+
+[node name="HealthComponent" parent="." node_paths=PackedStringArray("armor_component") instance=ExtResource("4_48qb4")]
+unique_name_in_owner = true
+armor_component = NodePath("../ArmorComponent")
+
+[node name="ArmorComponent" parent="." instance=ExtResource("5_ju00n")]
+unique_name_in_owner = true
 
 [node name="MovementComponent" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("7_1tyhs")
-max_speed = 200.0
-acceleration = 7.5
-
-[node name="HealthComponent" parent="." instance=ExtResource("4_48qb4")]
-unique_name_in_owner = true
-max_health = 1000.0
-
-[node name="ArmorComponent" parent="." instance=ExtResource("5_ju00n")]
-unique_name_in_owner = true
 
 [node name="EffectReceiver" parent="." instance=ExtResource("10_0ygly")]
 unique_name_in_owner = true
@@ -413,10 +437,6 @@ unique_name_in_owner = true
 player_state_machine = NodePath("../PlayerStateMachine")
 trail_color = Color(1.5547132, 3.0505266, 6.810317, 1)
 trail_width = 2
-
-[node name="PlayerStateMachine" type="Node" parent="."]
-unique_name_in_owner = true
-script = ExtResource("7_heqc5")
 
 [node name="GracePeriod" type="Timer" parent="."]
 unique_name_in_owner = true

@@ -33,14 +33,11 @@ var freeze_multiplier: float = 1.0
 var current_velocity = Vector2.ZERO
 var last_direction: Vector2 = Vector2.UP
 
-func _init(p_max_speed: float = 0.0,
-p_acceleration: float = 0.0,
-p_rotation_speed: float = 9.0):
-	max_speed = p_max_speed
-	acceleration = p_acceleration
-	rotation_speed = p_rotation_speed
 
 func _ready() -> void:
+	max_speed = owner.stats.max_speed
+	acceleration = owner.stats.acceleration
+	rotation_speed = owner.stats.rotation_speed
 	current_speed = max_speed
 	entity = owner
 

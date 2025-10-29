@@ -2,13 +2,13 @@ class_name ParryController
 extends Node
 
 @export var parry_scene: PackedScene
-@export var parry_cd: float
-@export var push_distance: float
-@export var parry_angle: float
-@export var parry_radius: float
+var parry_cd: float
+var push_distance: float
+var parry_angle: float
+var parry_radius: float
+var parry_duration: float = 0.3
 
 var push_duration: float = 0.2 #время перемещения моба от точка А до точки Б(отталкивание)
-var parry_duration: float = 0.3
 
 var parry_duration_multiplier: float = 1.0
 
@@ -36,6 +36,11 @@ func _process(_delta):
 func _enter_variables():
 	player = get_tree().get_first_node_in_group("player") as PlayerController
 	parry_instance = parry_scene.instantiate() as Parry
+	parry_cd = player.stats.parry_cd
+	push_distance = player.stats.parry_push_distance
+	parry_angle = player.stats.parry_angle
+	parry_radius = player.stats.parry_radius
+	parry_duration = player.stats.parry_duration
 	parry_instance.init(parry_angle,parry_radius)
 	get_tree().get_first_node_in_group("front_layer").add_child(parry_instance)
 

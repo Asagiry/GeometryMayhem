@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b50isw68gae8x"]
+[gd_scene load_steps=10 format=3 uid="uid://b50isw68gae8x"]
 
 [ext_resource type="Script" uid="uid://c1gjmkoe3un7b" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy.gd" id="1_v5tu5"]
 [ext_resource type="Script" uid="uid://5m7cpflvnie8" path="res://base/state_machine.gd" id="2_08aao"]
@@ -8,11 +8,13 @@
 [ext_resource type="PackedScene" uid="uid://cx83jwjsex3ph" path="res://scene/game_objects/enemies/components/enemy_attack_controller/enemy_attack_controller.tscn" id="6_7r3j0"]
 [ext_resource type="Script" uid="uid://b845xc5y43cwr" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_movement_component.gd" id="6_rsx2r"]
 [ext_resource type="PackedScene" uid="uid://buufob41mi3bj" path="res://scene/game_objects/enemies/components/enemy_loot_component/enemy_loot_component.tscn" id="9_7r3j0"]
+[ext_resource type="PackedScene" uid="uid://csmleslly1twg" path="res://scene/components/hurt_box_component/hurt_box.tscn" id="9_73iye"]
 
-[node name="Enemy" type="CharacterBody2D" groups=["enemy"]]
+[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("effect_receiver") groups=["enemy"]]
 collision_layer = 4
-collision_mask = 7
+collision_mask = 5
 script = ExtResource("1_v5tu5")
+effect_receiver = NodePath("EffectReceiver")
 
 [node name="EnemyStateMachine" type="Node" parent="."]
 unique_name_in_owner = true
@@ -21,8 +23,9 @@ script = ExtResource("2_08aao")
 [node name="EffectReceiver" parent="." instance=ExtResource("5_72ti2")]
 unique_name_in_owner = true
 
-[node name="HealthComponent" parent="." instance=ExtResource("3_kggke")]
+[node name="HealthComponent" parent="." node_paths=PackedStringArray("armor_component") instance=ExtResource("3_kggke")]
 unique_name_in_owner = true
+armor_component = NodePath("../ArmorComponent")
 
 [node name="ArmorComponent" parent="." instance=ExtResource("4_8m5gp")]
 unique_name_in_owner = true
@@ -37,3 +40,33 @@ unique_name_in_owner = true
 
 [node name="EnemyLootComponent" parent="." instance=ExtResource("9_7r3j0")]
 unique_name_in_owner = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+animation = &""
+autoplay = "idle"
+
+[node name="HurtBox" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("9_73iye")]
+collision_layer = 128
+collision_mask = 0
+health_component = NodePath("../HealthComponent")
+
+[node name="HurtBoxShape" type="CollisionShape2D" parent="HurtBox"]
+unique_name_in_owner = true
+
+[node name="AttackZone" type="Area2D" parent="."]
+unique_name_in_owner = true
+z_index = 1
+collision_layer = 4
+collision_mask = 2
+collision_priority = 2.0
+
+[node name="AggroZone" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 4
+collision_mask = 2
+
+[node name="EnviromentCollision" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
+
+[connection signal="body_entered" from="AggroZone" to="." method="_on_aggro_zone_body_entered"]

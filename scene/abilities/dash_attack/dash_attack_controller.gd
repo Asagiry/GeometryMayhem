@@ -4,12 +4,11 @@ class_name PlayerAttackController
 extends Node
 
 
-@export var dash_attack_scene: PackedScene
-@export var damage_data: DamageData
-@export var damage_type: Util.DamageCategory
-@export var dash_range: float = 100.0
-@export var dash_cd: float = 0.1
-@export var dash_width: float = 25.0
+var dash_attack_scene: PackedScene
+var damage_data: DamageData
+var dash_range: float = 100.0
+var dash_cd: float = 0.1
+var dash_width: float = 25.0
 
 var damage_multiplier: float = 1.0
 var is_dash_from_mouse: bool = false
@@ -38,6 +37,12 @@ func start_cooldown():
 
 func _ready():
 	player = get_tree().get_first_node_in_group("player") as Node2D
+	damage_data = player.stats.attack_damage
+	dash_range = player.stats.attack_range
+	dash_cd = player.stats.attack_cd
+	dash_width = player.stats.attack_width
+	dash_duration = player.stats.attack_duration
+
 	player.effect_receiver.stats_changed.connect(_on_stats_changed)
 	_setup_dash_cirlce()
 
