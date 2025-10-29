@@ -1,0 +1,216 @@
+[gd_scene load_steps=34 format=3 uid="uid://b50isw68gae8x"]
+
+[ext_resource type="Script" uid="uid://c1gjmkoe3un7b" path="res://scene/game_objects/enemies/default_enemy/enemy.gd" id="1_qnuhy"]
+[ext_resource type="Texture2D" uid="uid://dgoc374vsftf0" path="res://assets/mobs/melee/Easy/1/IDLE/IDLE1.png" id="4_sxcq5"]
+[ext_resource type="Texture2D" uid="uid://rf87ty0ej23r" path="res://assets/mobs/melee/Easy/1/IDLE/IDLE2.png" id="5_ikdqf"]
+[ext_resource type="Texture2D" uid="uid://bn3bkjrudpubs" path="res://assets/mobs/melee/Easy/1/ATTACK/ATTACK1.png" id="5_l3eyq"]
+[ext_resource type="Texture2D" uid="uid://btqf2ccgwuqnq" path="res://assets/mobs/melee/Easy/1/IDLE/IDLE3.png" id="6_biygk"]
+[ext_resource type="Texture2D" uid="uid://dwspplho06alj" path="res://assets/mobs/melee/Easy/1/ATTACK/ATTACK2.png" id="6_ga8ee"]
+[ext_resource type="Texture2D" uid="uid://b8e756uh8l7wr" path="res://assets/mobs/melee/Easy/1/AGGRO/AGGRO1.png" id="7_l3eyq"]
+[ext_resource type="Texture2D" uid="uid://dmph28rhwq6m6" path="res://assets/mobs/melee/Easy/1/IDLE/IDLE4.png" id="7_rewna"]
+[ext_resource type="Texture2D" uid="uid://g3enhtc46mb0" path="res://assets/mobs/melee/Easy/1/ATTACK/ATTACK3.png" id="7_sywum"]
+[ext_resource type="Texture2D" uid="uid://b8up831hux8i0" path="res://assets/mobs/melee/Easy/1/AGGRO/AGGRO2.png" id="8_ga8ee"]
+[ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="9_eepfd"]
+[ext_resource type="Texture2D" uid="uid://baxjtia34up47" path="res://assets/mobs/melee/Easy/1/AGGRO/AGGRO3.png" id="9_sywum"]
+[ext_resource type="Texture2D" uid="uid://cpk6w6khl2hbp" path="res://assets/mobs/melee/Easy/1/AGGRO/жук(идущая).png" id="10_6krix"]
+[ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component/armor_component.tscn" id="10_ruwyl"]
+[ext_resource type="PackedScene" uid="uid://bl380xv78onc8" path="res://scene/components/effect_receiver/effect_receiver.tscn" id="11_my74l"]
+[ext_resource type="Script" uid="uid://ocru5y1mf701" path="res://scene/game_objects/enemies/default_enemy/enemy_hurt_box.gd" id="13_qnuhy"]
+[ext_resource type="Script" uid="uid://dnggsih35ye4p" path="res://scene/game_objects/enemies/default_enemy/enemy_hit_box.gd" id="14_eepfd"]
+[ext_resource type="Texture2D" uid="uid://d3qn3kw6dpw28" path="res://assets/mobs/melee/Easy/1/ATTACK/жук(атакующий).png" id="14_gcn4y"]
+[ext_resource type="Script" uid="uid://b845xc5y43cwr" path="res://scene/game_objects/enemies/default_enemy/movement_component.gd" id="14_sywum"]
+[ext_resource type="Script" uid="uid://5m7cpflvnie8" path="res://base/state_machine.gd" id="18_6krix"]
+[ext_resource type="Texture2D" uid="uid://bd82f7fvesgj2" path="res://assets/mobs/melee/Easy/1/IDLE/жук(обычная).png" id="19_580p3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kdfqy"]
+atlas = ExtResource("10_6krix")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ysi6t"]
+atlas = ExtResource("10_6krix")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pyu2q"]
+atlas = ExtResource("14_gcn4y")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1yasq"]
+atlas = ExtResource("14_gcn4y")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_omqff"]
+atlas = ExtResource("14_gcn4y")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2mlo2"]
+atlas = ExtResource("19_580p3")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vpapp"]
+atlas = ExtResource("19_580p3")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qnuhy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_l3eyq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_ga8ee")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_sywum")
+}],
+"loop": true,
+"name": &"aggro",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kdfqy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ysi6t")
+}],
+"loop": true,
+"name": &"aggro_bug",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_l3eyq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_ga8ee")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_sywum")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pyu2q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1yasq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_omqff")
+}],
+"loop": true,
+"name": &"attack_bug",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_sxcq5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_ikdqf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_biygk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_rewna")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2mlo2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vpapp")
+}],
+"loop": true,
+"name": &"idle_bug",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_580p3"]
+size = Vector2(18, 18)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ruwyl"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_l3eyq"]
+radius = 29.017237
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gcn4y"]
+radius = 93.53609
+
+[node name="Enemy" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 4
+collision_mask = 5
+script = ExtResource("1_qnuhy")
+
+[node name="EnemyStateMachine" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("18_6krix")
+is_log_enabled = true
+
+[node name="HealthComponent" parent="." instance=ExtResource("9_eepfd")]
+unique_name_in_owner = true
+
+[node name="ArmorComponent" parent="." instance=ExtResource("10_ruwyl")]
+unique_name_in_owner = true
+
+[node name="EffectReceiver" parent="." instance=ExtResource("11_my74l")]
+unique_name_in_owner = true
+
+[node name="EnemyMovementComponent" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("14_sywum")
+max_speed = 100.0
+acceleration = 7.5
+metadata/_custom_type_script = "uid://d0iyojlfkjpup"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_qnuhy")
+animation = &"attack_bug"
+autoplay = "idle_bug"
+frame_progress = 0.34951657
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_580p3")
+
+[node name="EnemyHurtBox" type="Area2D" parent="."]
+script = ExtResource("13_qnuhy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyHurtBox"]
+shape = SubResource("RectangleShape2D_ruwyl")
+
+[node name="EnemyHitBox" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("14_eepfd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyHitBox"]
+light_mask = 0
+shape = SubResource("CircleShape2D_l3eyq")
+
+[node name="TestProgressBarOnlyForTest" type="ProgressBar" parent="."]
+offset_left = -9.0
+offset_top = -15.0
+offset_right = 91.0
+offset_bottom = 12.0
+scale = Vector2(0.2, 0.2)
+max_value = 60.0
+
+[node name="AgroZone" type="Area2D" parent="."]
+unique_name_in_owner = true
+visible = false
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AgroZone"]
+light_mask = 0
+shape = SubResource("CircleShape2D_gcn4y")
