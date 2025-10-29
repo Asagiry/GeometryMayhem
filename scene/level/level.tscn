@@ -19,9 +19,6 @@ script = null
 [node name="Player" parent="BackLayer" instance=ExtResource("2_hm7p5")]
 unique_name_in_owner = true
 
-[node name="TestCreep" parent="BackLayer" instance=ExtResource("3_s8ale")]
-position = Vector2(160, -177)
-
 [node name="FrontLayer" type="Node2D" parent="." groups=["front_layer"]]
 
 [node name="Camera2D" type="Camera2D" parent="."]
