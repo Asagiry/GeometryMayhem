@@ -6,7 +6,7 @@ static var state_name = "EnemyRangeAgroState"
 func enter() -> void:
 	animated_sprite_2d.play("aggro_bug")
 
-func process(delta: float) -> void:
+func process(_delta: float) -> void:
 	enemy.movement_component.move_to_player(enemy)
 	
 	if _player_in_hit_box():

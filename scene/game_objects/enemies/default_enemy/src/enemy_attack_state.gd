@@ -16,17 +16,18 @@ func enter() -> void:
 	enemy.movement_component.stop()
 	is_attacking = true
 	attack_timer.start(attack_duration)
-	
+
+
 func exit() -> void:
 	if attack_timer:
 		attack_timer.stop()
 	is_attacking = false
 
-func process(delta: float) -> void:
+
+func process(_delta: float) -> void:
 	if not _player_in_hit_box():
 		_transition_to_appropriate_state()
-	
-	
+
 
 func _transition_to_appropriate_state() -> void:
 	if _player_in_agro_zone():
@@ -34,11 +35,13 @@ func _transition_to_appropriate_state() -> void:
 	else:
 		enemy_state_machine.transition(EnemyBackState.state_name)  
 
+
 func _setup_attack_timer() -> void:
 	attack_timer = Timer.new()
 	attack_timer.one_shot = true
 	attack_timer.timeout.connect(_on_attack_finished)
 	enemy.add_child(attack_timer)
+
 
 func _on_attack_finished() -> void:
 	is_attacking = false
@@ -46,6 +49,7 @@ func _on_attack_finished() -> void:
 		enemy_state_machine.transition(EnemyAttackState.state_name)
 	else:
 		_transition_to_appropriate_state()
+
 
 func _player_in_hit_box() -> bool:
 	if enemy.hit_box:
@@ -55,6 +59,7 @@ func _player_in_hit_box() -> bool:
 				return true
 	return false
 
+
 func _player_in_agro_zone() -> bool:
 	if enemy.agro_zone:
 		var overlapping_bodies = enemy.agro_zone.get_overlapping_bodies()
@@ -62,6 +67,7 @@ func _player_in_agro_zone() -> bool:
 			if body.is_in_group("player"):
 				return true
 	return false
+
 
 func get_state_name() -> String:
 	return state_name
