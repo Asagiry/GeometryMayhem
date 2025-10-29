@@ -96,10 +96,8 @@ func _on_slow_preset_pressed() -> void:
 	var effect = Effect.new()
 	effect.effect_type = Util.EffectType.SLOW
 	effect.behavior = Util.EffectBehavior.DEBUFF
-	effect.damage = DamageData.new(0)
 	effect.stat_modifiers = StatModifierData.new(0.2)
 	effect.duration = 5.0
-	effect.tick_interval = 1.0
 	apply_effect(effect)
 
 
@@ -108,10 +106,8 @@ func _on_curse_preset_pressed() -> void:
 	var effect = Effect.new()
 	effect.effect_type = Util.EffectType.CURSE
 	effect.behavior = Util.EffectBehavior.DEBUFF
-	effect.damage = DamageData.new(0)
 	effect.stat_modifiers = StatModifierData.new(1.0,1.0,1.0,1.25)
 	effect.duration = 5.0
-	effect.tick_interval = 1.0
 	apply_effect(effect)
 
 
@@ -120,7 +116,6 @@ func _on_burn_preset_pressed() -> void:
 	effect.effect_type = Util.EffectType.BURN
 	effect.behavior = Util.EffectBehavior.DOT
 	effect.damage = DamageData.new(10)
-	effect.stat_modifiers = StatModifierData.new()
 	effect.duration = 5.0
 	effect.tick_interval = 1.0
 	apply_effect(effect)
@@ -130,20 +125,14 @@ func _on_silence_preset_pressed() -> void:
 	var effect = Effect.new()
 	effect.effect_type = Util.EffectType.SILENCE
 	effect.behavior = Util.EffectBehavior.SPECIAL
-	effect.damage = DamageData.new()
-	effect.stat_modifiers = StatModifierData.new()
 	effect.duration = 5.0
-	effect.tick_interval = 1.0
 	apply_effect(effect)
 
 func _on_freeze_preset_pressed() -> void:
 	var effect = Effect.new()
 	effect.effect_type = Util.EffectType.FREEZE
 	effect.behavior = Util.EffectBehavior.SPECIAL
-	effect.damage = DamageData.new()
-	effect.stat_modifiers = StatModifierData.new()
 	effect.duration = 6.0
-	effect.tick_interval = 1.0
 	apply_effect(effect)
 
 
@@ -152,9 +141,7 @@ func _on_rupture_preset_pressed() -> void:
 	effect.effect_type = Util.EffectType.RUPTURE
 	effect.behavior = Util.EffectBehavior.SPECIAL
 	effect.damage = DamageData.new(0.5)
-	effect.stat_modifiers = StatModifierData.new()
 	effect.duration = 5.0
-	effect.tick_interval = 1.0
 	apply_effect(effect)
 
 
@@ -162,10 +149,8 @@ func _on_phased_preset_pressed() -> void:
 	var effect = Effect.new()
 	effect.effect_type = Util.EffectType.PHASED
 	effect.behavior = Util.EffectBehavior.SPECIAL
-	effect.damage = DamageData.new()
 	effect.stat_modifiers = StatModifierData.new(2)
 	effect.duration = 5.0
-	effect.tick_interval = 1.0
 	apply_effect(effect)
 
 
@@ -173,10 +158,24 @@ func _on_sonic_preset_pressed() -> void:
 	var effect = Effect.new()
 	effect.effect_type = Util.EffectType.SONIC
 	effect.behavior = Util.EffectBehavior.BUFF
-	effect.damage = DamageData.new()
 	effect.stat_modifiers = StatModifierData.new(2.0,1,1,1,1,0.5)
 	effect.duration = 5.0
-	effect.tick_interval = 1.0
+	apply_effect(effect)
+
+func _on_fortify_preset_pressed() -> void:
+	var effect = Effect.new()
+	effect.effect_type = Util.EffectType.FORTIFY
+	effect.behavior = Util.EffectBehavior.SPECIAL
+	effect.stat_modifiers = StatModifierData.new(1.0,1.0,2.0)
+	effect.duration = 7.0
+	apply_effect(effect)
+
+
+func _on_blind_preset_pressed() -> void:
+	var effect = Effect.new()
+	effect.effect_type = Util.EffectType.BLIND
+	effect.behavior = Util.EffectBehavior.SPECIAL
+	effect.duration = 6.0
 	apply_effect(effect)
 
 

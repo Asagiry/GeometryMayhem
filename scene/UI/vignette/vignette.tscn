@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://dv55s2mth32e3"]
+
+[ext_resource type="Shader" uid="uid://dgkv04kft125f" path="res://scene/UI/vignette/vignette.gdshader" id="1_p51xr"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xns8m"]
+shader = ExtResource("1_p51xr")
+shader_parameter/vignette_intensity = 3.5
+shader_parameter/vignette_opacity = 2.000000095
+shader_parameter/vignette_rgb = Color(0, 0, 0, 1)
+
+[node name="Vignette" type="CanvasLayer"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_xns8m")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 1

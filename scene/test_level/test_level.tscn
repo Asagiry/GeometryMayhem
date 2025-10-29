@@ -11,7 +11,7 @@
 script = ExtResource("4_sj7wh")
 metadata/_custom_type_script = "uid://l1drqp64gju1"
 
-[node name="TestLevel" type="Node"]
+[node name="TestLevel" type="Node" groups=["level"]]
 script = ExtResource("1_n6eni")
 
 [node name="Test_ui" parent="." instance=ExtResource("1_8r3jg")]

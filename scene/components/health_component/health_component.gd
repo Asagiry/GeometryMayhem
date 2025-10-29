@@ -21,6 +21,7 @@ func _ready():
 	current_health = max_health
 	effect_receiver.invulnerability_changed.connect(_on_invulnerability_changed)
 	effect_receiver.stats_changed.connect(_on_stats_changed)
+	effect_receiver.percent_health_changed.connect(_on_percent_health_changed)
 
 func take_damage(damage: DamageData):
 	if invulnerable:
@@ -37,6 +38,17 @@ func take_damage(damage: DamageData):
 func _on_invulnerability_changed(status: bool) -> void:
 	invulnerable = status
 
+
 func _on_stats_changed(updated_stats: Dictionary):
 	if (updated_stats.has("forward_receiving_damage_multiplier")):
 		forward_damage_multiplier = updated_stats["forward_receiving_damage_multiplier"]
+
+
+func _on_percent_health_changed(updated_value: float, param: bool) -> void:
+	if current_health > 0.0:
+		if param:
+			max_health *= updated_value
+			current_health *= updated_value
+			return
+		max_health /= updated_value
+		current_health /= updated_value

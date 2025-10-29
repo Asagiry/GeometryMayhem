@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://b3w4epa6tgic2" path="res://scene/level/camera_2d.gd" id="3_5lpb7"]
 [ext_resource type="PackedScene" uid="uid://dgv8d4dbcuqbj" path="res://scene/game_objects/enemies/regular_creeps/test_creep.tscn" id="3_s8ale"]
 
-[node name="Level" type="Node"]
+[node name="Level" type="Node" groups=["level"]]
 script = ExtResource("1_plauu")
 transition_end_screen = ExtResource("2_dcgxc")
 

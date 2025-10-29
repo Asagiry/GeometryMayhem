@@ -2,6 +2,13 @@ class_name EffectReceiver
 
 extends Node
 
+
+#почему сделано так? гибридность. редкие сигналы добавлены
+#чтобы health_component каждую секунду не считывал stats_changed(
+#и не делал проверку) отдельный сигналы для отдельных редких эффектов.
+#можно сделать отдельный модуль. который принимает общие сигналы и затем распределяет
+#либо сигналит компонентам чтобы те изменили статы, либо сам их изменяет.
+#управляющий нод для статов.
 signal effect_started(effect_type: Util.EffectType)
 signal effect_ended(effect_type: Util.EffectType)
 signal stats_changed(updated_stats: Dictionary)
@@ -9,6 +16,7 @@ signal input_disabled(status: bool)
 signal attack_disabled(status: bool)
 signal player_stats_changed(updated_stats: Dictionary)
 signal invulnerability_changed(status: bool)
+signal percent_health_changed(updated_value: float, param: bool)
 
 const NUMBER_OF_BUFFS_AND_DEBUFFS: float = 6.0
 const MAXIMUM_MULTIPLIER: float = 10.0
@@ -23,6 +31,7 @@ var armor_multiplier: float = 1.0
 var forward_receiving_damage_multiplier: float = 1.0
 var attack_duration_multiplier: float = 1.0
 var attack_cd_multiplier: float = 1.0
+var percent_of_max_health: float = 1.5
 
 var parry_duration_multiplier: float = 1.0
 
@@ -70,6 +79,9 @@ func _apply_special_effect(effect: Effect):
 
 	add_child(instance)
 	instance.apply(self, effect)
+
+	if effect.stat_modifiers:
+		_add_stat_modifier(effect)
 
 
 func _apply_instant_effect(effect: Effect):
@@ -298,6 +310,10 @@ func set_attack_duration_multiplier(value: float) -> void:
 func set_invulnerability(value: bool) -> void:
 	invulnerable = value
 	invulnerability_changed.emit(invulnerable)
+
+
+func set_percent_health(value: float, param: bool) -> void:
+	percent_health_changed.emit(value, param)
 
 
 func clear_all_effects() -> void:

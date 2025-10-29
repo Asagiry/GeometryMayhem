@@ -35,12 +35,8 @@ static func _create_debuff_effect(e: Effect, effect_data: Dictionary):
 	e.stat_modifiers.speed_multiplier = effect_data.get("speed_multiplier", 1.0)
 	e.stat_modifiers.attack_multiplier = effect_data \
 	.get("attack_multiplier", 1.0)
-	#e.stat_modifiers.magical_attack_multiplier = effect_data \
-	#.get("magical_attack_multiplier", 1.0)
 	e.stat_modifiers.armor_multiplier = effect_data \
 	.get("armor_multiplier", 1.0)
-	#e.stat_modifiers.magical_resistance_multiplier = effect_data \
-	#.get("magical_resistance_multiplier", 1.0)
 	e.stat_modifiers.forward_receiving_damage_multiplier = effect_data \
 	.get("forward_receiving_damage_multiplier", 1.0)
 	e.duration = effect_data.get("duration", 1.0)

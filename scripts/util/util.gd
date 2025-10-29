@@ -21,6 +21,12 @@ enum EffectBehavior {
 	SPECIAL,
 }
 
+enum EffectPositivity {
+	NONE,
+	POSITIVE,
+	NEGATIVE,
+}
+
 enum DamageCategory {
 	NONE,
 	DEFAULT,
