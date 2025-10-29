@@ -9,8 +9,10 @@ extends MovementComponent
 var last_direction: Vector2 = Vector2.UP
 var current_patrol_target: Vector2
 
+
 func _ready():
 	current_speed = max_speed
+
 
 func move_to_player(mob: CharacterBody2D):
 	var direction = get_direction()
@@ -19,8 +21,13 @@ func move_to_player(mob: CharacterBody2D):
 	mob.velocity = accelerate_to_direction(direction)
 	mob.move_and_slide()
 
-func move_to_position(mob: CharacterBody2D, target_position: Vector2,
- use_custom_speed: bool = false, custom_speed: float = 0.0):
+
+func move_to_position(
+	mob: CharacterBody2D,
+	target_position: Vector2,
+	use_custom_speed: bool = false,
+	custom_speed: float = 0.0
+	):
 	var direction = (target_position - mob.global_position).normalized()
 	if direction != Vector2.ZERO:
 		last_direction = direction

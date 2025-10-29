@@ -10,7 +10,7 @@ func enter() -> void:
 	animated_sprite_2d.play("idle_bug")
 
 
-func process(delta: float) -> void:
+func process(_delta: float) -> void:
 	enemy.movement_component.move_to_position(enemy, enemy.spawn_position, true,
 	enemy.movement_component.return_speed)
 	if _player_in_agro_zone():

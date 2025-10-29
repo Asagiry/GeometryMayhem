@@ -12,7 +12,7 @@ func process(_delta: float) -> void:
 	if _player_in_hit_box():
 		enemy_state_machine.transition(EnemyBombAttackState.state_name)
 	if not _player_in_agro_zone():
-		enemy_state_machine.transition(EnemyBombBackState.state_name) 
+		enemy_state_machine.transition(EnemyBombBackState.state_name)
 
 
 func _player_in_agro_zone() -> bool:

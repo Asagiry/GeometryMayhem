@@ -26,7 +26,7 @@ func exit() -> void:
 	is_attacking = false
 
 
-func process(delta: float) -> void:
+func process(_delta: float) -> void:
 	if not _player_in_hit_box():
 		_transition_to_appropriate_state()
 
@@ -35,7 +35,7 @@ func _transition_to_appropriate_state() -> void:
 	if _player_in_agro_zone():
 		enemy_state_machine.transition(EnemyBombAgroState.state_name)
 	else:
-		enemy_state_machine.transition(EnemyBombBackState.state_name)  
+		enemy_state_machine.transition(EnemyBombBackState.state_name)
 
 
 func _setup_attack_timer() -> void:

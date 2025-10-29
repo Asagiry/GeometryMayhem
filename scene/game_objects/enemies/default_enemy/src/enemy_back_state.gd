@@ -10,7 +10,7 @@ func enter() -> void:
 
 func process(_delta: float) -> void:
 	enemy.movement_component.move_to_position(enemy, enemy.spawn_position,
-	 true, enemy.movement_component.return_speed)
+	true, enemy.movement_component.return_speed)
 	if _player_in_agro_zone():
 		enemy_state_machine.transition(EnemyAgroState.state_name)
 		return

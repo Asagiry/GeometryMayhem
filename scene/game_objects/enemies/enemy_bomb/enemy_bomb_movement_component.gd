@@ -40,7 +40,7 @@ func set_new_patrol_target(spawn_position: Vector2):
 	var random_angle = randf() * 2 * PI
 	var random_distance = randf() * patrol_range
 	current_patrol_target = spawn_position + Vector2(cos(random_angle),
-	 sin(random_angle)) * random_distance
+	sin(random_angle)) * random_distance
 
 
 func get_current_patrol_target() -> Vector2:

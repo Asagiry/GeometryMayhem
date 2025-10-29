@@ -8,12 +8,12 @@ func enter() -> void:
 
 func process(_delta: float) -> void:
 	enemy.movement_component.move_to_player(enemy)
-	
+
 	if _player_in_hit_box():
 		enemy_state_machine.transition(EnemyRangeAttackState.state_name)
 
 	if not _player_in_agro_zone():
-		enemy_state_machine.transition(EnemyRangeBackState.state_name)  
+		enemy_state_machine.transition(EnemyRangeBackState.state_name)
 
 func _player_in_agro_zone() -> bool:
 	if enemy.agro_zone:
