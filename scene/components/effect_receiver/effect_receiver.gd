@@ -14,9 +14,16 @@ signal effect_ended(effect_type: Util.EffectType)
 signal stats_changed(updated_stats: Dictionary)
 signal input_disabled(status: bool)
 signal attack_disabled(status: bool)
+
 signal player_stats_changed(updated_stats: Dictionary)
 signal invulnerability_changed(status: bool)
 signal percent_health_changed(updated_value: float, param: bool)
+
+signal health_component_effects_changed(updated_stats: Dictionary)
+signal armor_component_effects_changed(updated_stats: Dictionary)
+signal movement_component_effects_changed(updated_stat: Dictionary)
+signal attack_component_effects_changed(updated_stat: Dictionary)
+
 
 const NUMBER_OF_BUFFS_AND_DEBUFFS: float = 6.0
 const MAXIMUM_MULTIPLIER: float = 10.0
@@ -24,27 +31,13 @@ const MAXIMUM_MULTIPLIER: float = 10.0
 var active_dots: Array[Dictionary] = []
 var active_stat_modifiers: Dictionary = {}
 
-var invulnerable: bool = false
-var speed_multiplier: float = 1.0
-var attack_multiplier: float = 1.0
-var armor_multiplier: float = 1.0
-var forward_receiving_damage_multiplier: float = 1.0
-var attack_duration_multiplier: float = 1.0
-var attack_cd_multiplier: float = 1.0
-var percent_of_max_health: float = 1.5
-
-var parry_duration_multiplier: float = 1.0
+var stat_modifiers: StatModifierData = StatModifierData.new()
 
 var active_special_states: Dictionary = {}     # { EffectType: true }
 var active_special_timers: Dictionary = {}      # { EffectType: float }
 
-var player: PlayerController
 
 @onready var health_component: HealthComponent
-
-func _ready() -> void:
-	player = get_tree().get_first_node_in_group("player") as PlayerController
-	health_component = player.health_component
 
 
 func _physics_process(delta: float) -> void:
@@ -64,7 +57,7 @@ func apply_effect(effect: Effect):
 		Util.EffectBehavior.BUFF, Util.EffectBehavior.DEBUFF:
 			_add_stat_modifier(effect)
 
-
+#region special
 func _apply_special_effect(effect: Effect):
 	if is_under(effect.effect_type):
 		return
@@ -83,8 +76,10 @@ func _apply_special_effect(effect: Effect):
 
 	if effect.stat_modifiers:
 		_add_stat_modifier(effect)
+#endregion special
 
 
+#region instant
 func _apply_instant_effect(effect: Effect):
 	emit_signal("effect_started", effect.effect_type)
 
@@ -96,10 +91,8 @@ func _apply_instant_effect(effect: Effect):
 		_add_stat_modifier(effect)
 
 	emit_signal("effect_ended", effect.effect_type)
+#endregion instant
 
-
-func is_under(effect_type: Util.EffectType) -> bool:
-	return active_special_states.get(effect_type, false)
 
 #region dot
 func _add_dot_effect(effect: Effect):
@@ -148,6 +141,8 @@ func _should_replace_dot(old_dot: Effect, new_dot: Effect) -> bool:
 	return new_total > old_total
 #endregion dot
 
+
+#region stat_modifiers
 func _add_stat_modifier(effect: Effect):
 	if effect.stat_modifiers == null:
 		return
@@ -176,29 +171,60 @@ func _add_stat_modifier(effect: Effect):
 		_recalculate_stats()
 		emit_signal("effect_started", new_type)
 	else:
-		# Просто обновляем таймер, если эффект слабее или равен
 		existing_data["remaining_time"] = new_duration
 
 
 func _recalculate_stats():
-	speed_multiplier = 1.0
-	attack_multiplier = 1.0
-	armor_multiplier = 1.0
-	forward_receiving_damage_multiplier = 1.0
+	stat_modifiers.reset()
 
 	for effect_type in active_stat_modifiers.keys():
 		var mod = active_stat_modifiers[effect_type]["modifier"]
-		speed_multiplier *= mod.speed_multiplier
-		attack_multiplier *= mod.attack_multiplier
-		armor_multiplier *= mod.armor_multiplier
-		forward_receiving_damage_multiplier *= mod.forward_receiving_damage_multiplier
+		for stat in mod:
+			if typeof(mod[stat]) == TYPE_BOOL:
+				stat_modifiers[stat] = mod[stat]
+				health_component_effects_changed.emit({
+					"invulnerable": mod[stat]
+				})
+			else:
+				var value = mod[stat]
+				stat_modifiers[stat] *= value
+				_signal_sender(stat, value)
 
-	emit_signal("stats_changed", {
-		"speed_multiplier": speed_multiplier,
-		"attack_multiplier": attack_multiplier,
-		"armor_multiplier": armor_multiplier,
-		"forward_receiving_damage_multiplier": forward_receiving_damage_multiplier
-	})
+
+func _signal_sender(stat: String, value: float):
+	match stat:
+		"speed_multiplier":
+			movement_component_effects_changed.emit({
+				"speed_multiplier": value
+			})
+		"attack_multiplier":
+			attack_component_effects_changed.emit({
+				"attack_multiplier": value
+			})
+		"armor_multiplier":
+			armor_component_effects_changed.emit({
+				"armor_multiplier": value
+			})
+		"forward_receiving_damage_multiplier":
+			health_component_effects_changed.emit({
+				"forward_receiving_damage_multiplier": value
+			})
+		"attack_cd_multiplier":
+			attack_component_effects_changed.emit({
+				"attack_cd_multiplier": value
+			})
+		"attack_duration_multiplier":
+			attack_component_effects_changed.emit({
+				"attack_duration_multiplier": value
+			})
+		"percent_of_max_health":
+			health_component_effects_changed.emit({
+				"percent_of_max_health": value
+			})
+		"freeze_multiplier":
+			movement_component_effects_changed.emit({
+				"freeze_multiplier": value
+			})
 
 
 func _process_stat_modifiers(delta: float):
@@ -209,7 +235,6 @@ func _process_stat_modifiers(delta: float):
 		if active_stat_modifiers[effect_type]["remaining_time"] <= 0:
 			expired_effects.append(effect_type)
 
-	# Если какие-то эффекты закончились, пересчитываем один раз
 	if expired_effects.size() > 0:
 		for effect_type in expired_effects:
 			active_stat_modifiers.erase(effect_type)
@@ -278,43 +303,10 @@ func _is_new_buff_stronger(old_mod: StatModifierData, new_mod: StatModifierData)
 
 	# Чем больше средний множитель — тем сильнее бафф
 	return new_total > old_total
+#endregion stat_modifiers
 
-
-func set_speed_multiplier(value: float) -> void:
-	speed_multiplier = value
-	emit_signal("stats_changed", {
-		"speed_multiplier": speed_multiplier
-	})
-
-
-func set_parry_duration_multiplier(value: float) -> void:
-	parry_duration_multiplier = value
-	emit_signal("player_stats_changed", {
-		"parry_duration_multiplier": parry_duration_multiplier
-	})
-
-
-func set_attack_cd_multiplier(value: float) -> void:
-	attack_cd_multiplier = value
-	stats_changed.emit({
-		"attack_cd_multiplier": attack_cd_multiplier
-	})
-
-
-func set_attack_duration_multiplier(value: float) -> void:
-	attack_duration_multiplier = value
-	stats_changed.emit({
-		"attack_duration_multiplier": attack_duration_multiplier
-	})
-
-
-func set_invulnerability(value: bool) -> void:
-	invulnerable = value
-	invulnerability_changed.emit(invulnerable)
-
-
-func set_percent_health(value: float, param: bool) -> void:
-	percent_health_changed.emit(value, param)
+func is_under(effect_type: Util.EffectType) -> bool:
+	return active_special_states.get(effect_type, false)
 
 
 func clear_all_effects() -> void:
@@ -339,31 +331,13 @@ func clear_all_effects() -> void:
 			if child is SpecialEffectBehavior:
 				child.queue_free()
 
-	speed_multiplier = 1.0
-	attack_multiplier = 1.0
-	armor_multiplier = 1.0
-	forward_receiving_damage_multiplier = 1.0
-	attack_duration_multiplier = 1.0
-	attack_cd_multiplier = 1.0
-	parry_duration_multiplier = 1.0
-
-	emit_signal("stats_changed", {
-		"speed_multiplier": speed_multiplier,
-		"attack_multiplier": attack_multiplier,
-		"armor_multiplier": armor_multiplier,
-		"forward_receiving_damage_multiplier": forward_receiving_damage_multiplier,
-		"attack_duration_multiplier": attack_duration_multiplier,
-		"attack_cd_multiplier": attack_cd_multiplier,
-		"parry_duration_multiplier": parry_duration_multiplier
-	})
-
-	print("All effects cleared and stats reset")
+	stat_modifiers.reset()
 
 
 func set_stun_state(duration: float):
-	if (owner is PlayerController):
-		var stun_state = player.player_state_machine.states["PlayerStunState"] as PlayerStunState
+	if owner is PlayerController:
+		var stun_state = owner.player_state_machine.states["PlayerStunState"] as PlayerStunState
 		stun_state.set_duration(duration)
-		player.is_stunned = true
+		owner.is_stunned = true
 	else:
-		pass#mob stun state
+		pass

@@ -17,7 +17,7 @@ var is_stunned: bool = false
 @onready var grace_period: Timer = %GracePeriod
 @onready var movement_component: PlayerMovementComponent = %MovementComponent
 @onready var health_component: HealthComponent = %HealthComponent
-@onready var dash_attack_controller: DashAttackController = %DashAttackController
+@onready var player_attack_controller: PlayerAttackController = %PlayerAttackController
 @onready var parry_controller: ParryController = %ParryController
 @onready var collision: CollisionShape2D = %CollisionShape2D
 

@@ -1,4 +1,4 @@
-class_name DashAttackController
+class_name PlayerAttackController
 
 #region variables
 extends Node
