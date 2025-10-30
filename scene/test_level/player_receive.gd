@@ -105,7 +105,6 @@ func _on_slow_preset_pressed() -> void:
 	apply_effect(effect)
 
 
-
 func _on_curse_preset_pressed() -> void:
 	var effect = Effect.new()
 	effect.effect_type = Util.EffectType.CURSE
@@ -194,10 +193,89 @@ func _on_blind_preset_pressed() -> void:
 	apply_effect(effect)
 
 
+func _on_dispel_preset_pressed() -> void:
+	var effect = Effect.new()
+	effect.effect_type =Util.EffectType.DISPEL
+	effect.behavior = Util.EffectBehavior.INSTANT
+	effect.positivity = Util.EffectPositivity.POSITIVE
+	apply_effect(effect)
+
+
+func _on_bkb_preset_pressed() -> void:
+	var effect = Effect.new()
+	effect.effect_type = Util.EffectType.BKB
+	effect.behavior = Util.EffectBehavior.SPECIAL
+	effect.duration = 7.0
+	effect.positivity = Util.EffectPositivity.POSITIVE
+	apply_effect(effect)
+
+
+func _on_collider_preset_pressed() -> void:
+	var effect = Effect.new()
+	effect.effect_type = Util.EffectType.COLLIDER
+	effect.behavior = Util.EffectBehavior.SPECIAL
+	effect.duration = 7.0
+	effect.positivity = Util.EffectPositivity.POSITIVE
+	apply_effect(effect)
+
+
+func _on_corrosion_preset_pressed() -> void:
+	var effect = Effect.new()
+	effect.effect_type = Util.EffectType.CORROSION
+	effect.behavior = Util.EffectBehavior.DEBUFF
+	effect.stat_modifiers = StatModifierData.new(1,1,0.5)
+	effect.duration = 5.0
+	effect.positivity = Util.EffectPositivity.NEGATIVE
+	apply_effect(effect)
+
+
+func _on_regeneration_preset_pressed() -> void:
+	var effect = Effect.new()
+	effect.effect_type = Util.EffectType.REGENERATION
+	effect.behavior = Util.EffectBehavior.DOT
+	effect.damage = DamageData.new(15)
+	effect.duration = 5.0
+	effect.positivity = Util.EffectPositivity.POSITIVE
+	effect.tick_interval = 0.5
+	apply_effect(effect)
+
+
+func _on_fear_preset_pressed() -> void:
+	var effect = Effect.new()
+	effect.effect_type = Util.EffectType.FEAR
+	effect.behavior = Util.EffectBehavior.SPECIAL
+	effect.duration = 3.0
+	effect.positivity = Util.EffectPositivity.NEGATIVE
+	apply_effect(effect)
+
+
+func _on_bleed_preset_pressed() -> void:
+	var effect = Effect.new()
+	effect.effect_type = Util.EffectType.BLEED
+	effect.behavior = Util.EffectBehavior.SPECIAL
+	effect.duration = 4.0
+	effect.damage = DamageData.new()
+	effect.positivity = Util.EffectPositivity.NEGATIVE
+	effect.source = player
+	effect.percent = 0.5
+	apply_effect(effect)
+
+
+func _on_wounded_preset_pressed() -> void:
+	var effect = Effect.new()
+	effect.effect_type = Util.EffectType.WOUNDED
+	effect.behavior = Util.EffectBehavior.SPECIAL
+	effect.duration = 5.0
+	effect.damage = DamageData.new()
+	effect.positivity = Util.EffectPositivity.NEGATIVE
+	effect.percent = 0.02
+	apply_effect(effect)
+
+
 func _on_heal_player_pressed() -> void:
 	player.health_component.current_health = float(max_health_label.text)
 	current_health_label.text = max_health_label.text
 
 
 func _on_clear_all_effects_pressed() -> void:
-	player.effect_receiver.clear_effects(Util.EffectPositivity.NEGATIVE)
+	player.effect_receiver.clear_all_effects()
