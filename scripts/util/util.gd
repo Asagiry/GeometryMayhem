@@ -7,7 +7,7 @@ enum EffectType {
 	SLOW, CURSE, CORROSION, #CLASSIC DEBUFF
 	BURN, BLEED, # DOT
 	FEAR, SILENCE, BLIND, COLLIDER, FREEZE, RUPTURE, # SPECIAL EFFECT
-	PHASED, BKB, EXPLOSION,
+	PHASED, BKB, EXPLOSION, WOUNDED,
 	DISPEL,  #INSTANT SPECIAL
 	REGENERATION, SONIC, FORTIFY, #BUFF
 }
@@ -61,7 +61,8 @@ const EFFECT_NAMES = {
 	EffectType.DISPEL: "Dispel",
 	EffectType.REGENERATION: "Regeneration",
 	EffectType.SONIC: "Sonic",
-	EffectType.FORTIFY: "Fortify"
+	EffectType.FORTIFY: "Fortify",
+	EffectType.WOUNDED: "Wounded",
 }
 
 

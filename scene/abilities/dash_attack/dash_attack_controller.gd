@@ -8,6 +8,7 @@ signal attack_finished
 signal attack_cd_timeout
 
 @export var dash_attack_scene: PackedScene
+
 var damage_data: DamageData
 var dash_range: float = 100.0
 var dash_cd: float = 0.1

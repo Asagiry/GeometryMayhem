@@ -1,11 +1,9 @@
 extends SpecialEffectBehavior
 
-
 func apply(receiver: EffectReceiver, effect: Effect) -> void:
 	super.apply(receiver, effect)
-	receiver.collision_disabled.emit(true)
+	receiver.owner.collision_layer |= 1 << 0
 
 func end() -> void:
-	_receiver.collision_disabled.emit(false)
-	_receiver.active_special_states.erase(_effect.effect_type)
+	_receiver.owner.collision_layer &= ~(1 << 0)
 	super.end()
