@@ -39,7 +39,7 @@ func _ready() -> void:
 
 
 func _on_parry_area_entered(area: Area2D) -> void:
-	if area is EnemyHurtBoxComponent:
+	if area is HurtBox:
 		if area.owner != null:
 			if area.owner.is_in_group("enemy"):
 				melee_targets.append(area.owner)
@@ -47,7 +47,7 @@ func _on_parry_area_entered(area: Area2D) -> void:
 
 
 func _on_parry_area_exited(area: Area2D) -> void:
-	if area is EnemyHurtBoxComponent:
+	if area is HurtBox:
 		if area.owner != null:
 			if area.owner.is_in_group("enemy"):
 				melee_targets.erase(area.owner)

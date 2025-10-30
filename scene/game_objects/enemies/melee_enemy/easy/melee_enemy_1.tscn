@@ -1,0 +1,156 @@
+[gd_scene load_steps=25 format=3 uid="uid://8adv387ncikr"]
+
+[ext_resource type="Script" uid="uid://c1gjmkoe3un7b" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy.gd" id="1_w1pxg"]
+[ext_resource type="Script" uid="uid://vean0446eao1" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_stat_data.gd" id="2_4shhi"]
+[ext_resource type="Texture2D" uid="uid://b8e756uh8l7wr" path="res://assets/mobs/melee/Easy/1/AGGRO/AGGRO1.png" id="2_xvgj7"]
+[ext_resource type="Texture2D" uid="uid://b8up831hux8i0" path="res://assets/mobs/melee/Easy/1/AGGRO/AGGRO2.png" id="3_cb8vt"]
+[ext_resource type="Script" uid="uid://5m7cpflvnie8" path="res://base/state_machine.gd" id="3_pavkp"]
+[ext_resource type="Texture2D" uid="uid://baxjtia34up47" path="res://assets/mobs/melee/Easy/1/AGGRO/AGGRO3.png" id="4_a0f03"]
+[ext_resource type="PackedScene" uid="uid://bl380xv78onc8" path="res://scene/components/effect_receiver/effect_receiver.tscn" id="4_xvgj7"]
+[ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="5_cb8vt"]
+[ext_resource type="Texture2D" uid="uid://bn3bkjrudpubs" path="res://assets/mobs/melee/Easy/1/ATTACK/ATTACK1.png" id="5_pgduy"]
+[ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component/armor_component.tscn" id="6_a0f03"]
+[ext_resource type="Texture2D" uid="uid://dwspplho06alj" path="res://assets/mobs/melee/Easy/1/ATTACK/ATTACK2.png" id="6_s3kq4"]
+[ext_resource type="Texture2D" uid="uid://g3enhtc46mb0" path="res://assets/mobs/melee/Easy/1/ATTACK/ATTACK3.png" id="7_4jkye"]
+[ext_resource type="Script" uid="uid://b845xc5y43cwr" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_movement_component.gd" id="7_pgduy"]
+[ext_resource type="Texture2D" uid="uid://dgoc374vsftf0" path="res://assets/mobs/melee/Easy/1/IDLE/IDLE1.png" id="8_gwela"]
+[ext_resource type="PackedScene" uid="uid://cx83jwjsex3ph" path="res://scene/game_objects/enemies/components/enemy_attack_controller/enemy_attack_controller.tscn" id="8_s3kq4"]
+[ext_resource type="PackedScene" uid="uid://buufob41mi3bj" path="res://scene/game_objects/enemies/components/enemy_loot_component/enemy_loot_component.tscn" id="9_4jkye"]
+[ext_resource type="Texture2D" uid="uid://rf87ty0ej23r" path="res://assets/mobs/melee/Easy/1/IDLE/IDLE2.png" id="9_c73ew"]
+[ext_resource type="Texture2D" uid="uid://btqf2ccgwuqnq" path="res://assets/mobs/melee/Easy/1/IDLE/IDLE3.png" id="10_irisk"]
+[ext_resource type="Texture2D" uid="uid://dmph28rhwq6m6" path="res://assets/mobs/melee/Easy/1/IDLE/IDLE4.png" id="11_v18kr"]
+[ext_resource type="PackedScene" uid="uid://csmleslly1twg" path="res://scene/components/hurt_box_component/hurt_box.tscn" id="12_yggd7"]
+
+[sub_resource type="Resource" id="Resource_c73ew"]
+script = ExtResource("2_4shhi")
+max_health = 100.0
+max_speed = 100.0
+acceleration = 9.0
+rotation_speed = 9.0
+attack_damage = 10.0
+attack_cd = 0.2
+attack_duration = 0.2
+knowledge_count = 10.0
+echo_chance = 10.0
+echo_count = 10
+impulse_count = 10.0
+aggro_range = 150.0
+attack_range = 50.0
+metadata/_custom_type_script = "uid://vean0446eao1"
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_c73ew"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_xvgj7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_cb8vt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_a0f03")
+}],
+"loop": true,
+"name": &"aggro",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_pgduy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_s3kq4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_4jkye")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_gwela")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_c73ew")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_irisk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_v18kr")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_irisk"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c73ew"]
+size = Vector2(16, 16)
+
+[node name="Melee_enemy_1" type="CharacterBody2D" node_paths=PackedStringArray("effect_receiver") groups=["enemy"]]
+collision_layer = 4
+collision_mask = 5
+script = ExtResource("1_w1pxg")
+stats = SubResource("Resource_c73ew")
+effect_receiver = NodePath("EffectReceiver")
+
+[node name="EnemyStateMachine" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("3_pavkp")
+is_log_enabled = true
+
+[node name="EffectReceiver" parent="." instance=ExtResource("4_xvgj7")]
+unique_name_in_owner = true
+
+[node name="HealthComponent" parent="." node_paths=PackedStringArray("armor_component") instance=ExtResource("5_cb8vt")]
+unique_name_in_owner = true
+armor_component = NodePath("../ArmorComponent")
+
+[node name="ArmorComponent" parent="." instance=ExtResource("6_a0f03")]
+unique_name_in_owner = true
+
+[node name="EnemyMovementComponent" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("7_pgduy")
+metadata/_custom_type_script = "uid://d0iyojlfkjpup"
+
+[node name="EnemyAttackController" parent="." instance=ExtResource("8_s3kq4")]
+unique_name_in_owner = true
+
+[node name="EnemyLootComponent" parent="." instance=ExtResource("9_4jkye")]
+unique_name_in_owner = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_c73ew")
+animation = &"aggro"
+autoplay = "idle"
+
+[node name="HurtBox" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("12_yggd7")]
+collision_layer = 132
+collision_mask = 0
+health_component = NodePath("../HealthComponent")
+
+[node name="HurtBoxShape" type="CollisionShape2D" parent="HurtBox"]
+unique_name_in_owner = true
+shape = SubResource("RectangleShape2D_irisk")
+
+[node name="AttackZone" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 4
+collision_mask = 2
+priority = 1
+
+[node name="AggroZone" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 4
+collision_mask = 2
+
+[node name="EnviromentCollision" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
+shape = SubResource("RectangleShape2D_c73ew")

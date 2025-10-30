@@ -12,7 +12,7 @@ script = ExtResource("1_l5s61")
 [node name="HitBoxComponent" parent="." instance=ExtResource("2_okiir")]
 unique_name_in_owner = true
 collision_layer = 0
-collision_mask = 132
+collision_mask = 128
 
 [node name="DashHitBoxShape" type="CollisionShape2D" parent="HitBoxComponent"]
 unique_name_in_owner = true

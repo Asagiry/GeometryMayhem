@@ -37,10 +37,7 @@ var active_special_states: Dictionary = {}     # { EffectType: true }
 var active_special_timers: Dictionary = {}      # { EffectType: float }
 
 
-@onready var health_component: HealthComponent = %HealthComponent
-
-func _ready() -> void:
-	pass
+@onready var health_component: HealthComponent
 
 
 func _physics_process(delta: float) -> void:

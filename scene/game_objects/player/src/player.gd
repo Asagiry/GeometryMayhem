@@ -3,7 +3,8 @@ class_name PlayerController
 extends CharacterBody2D
 
 #region var
-@export var grace_period_time: float = 0.5
+@export var stats: PlayerStatData
+
 @export var effects: Array[Effect]
 @export var effect_receiver: EffectReceiver
 
@@ -12,14 +13,17 @@ var parry_from_mouse: bool = false
 var is_input_blocked: bool = false
 var is_stunned: bool = false
 
+
 @onready var player_state_machine: StateMachine = %PlayerStateMachine
 @onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
 @onready var grace_period: Timer = %GracePeriod
 @onready var movement_component: PlayerMovementComponent = %MovementComponent
 @onready var health_component: HealthComponent = %HealthComponent
+@onready var armor_component: ArmorComponent = %ArmorComponent
 @onready var player_attack_controller: PlayerAttackController = %PlayerAttackController
 @onready var parry_controller: ParryController = %ParryController
 @onready var collision: CollisionShape2D = %CollisionShape2D
+
 
 #endregion
 
@@ -38,7 +42,6 @@ func _enter_variables():
 		PlayerParryState.new(self),
 		PlayerStunState.new(self)]
 	player_state_machine.start_machine(states)
-
 
 func _connect_signals():
 	health_component.died.connect(_on_died)

@@ -1,18 +1,16 @@
-[gd_scene load_steps=8 format=3 uid="uid://ditkwn5on4tvx"]
+[gd_scene load_steps=7 format=3 uid="uid://ditkwn5on4tvx"]
 
 [ext_resource type="PackedScene" uid="uid://vwuw6r5inl58" path="res://scene/test_level/test_ui.tscn" id="1_8r3jg"]
 [ext_resource type="Script" uid="uid://cr3crnc84mvpt" path="res://scene/test_level/test_level.gd" id="1_n6eni"]
 [ext_resource type="PackedScene" uid="uid://dpvptcshibxt0" path="res://scene/game_objects/player/player.tscn" id="1_r8dxa"]
-[ext_resource type="PackedScene" uid="uid://dgv8d4dbcuqbj" path="res://scene/game_objects/enemies/regular_creeps/test_creep.tscn" id="2_8r3jg"]
 [ext_resource type="Script" uid="uid://b3w4epa6tgic2" path="res://scene/level/camera_2d.gd" id="3_sj7wh"]
-[ext_resource type="Script" uid="uid://l1drqp64gju1" path="res://scripts/data/effect/base/effect.gd" id="4_sj7wh"]
-
-[sub_resource type="Resource" id="Resource_n6eni"]
-script = ExtResource("4_sj7wh")
-metadata/_custom_type_script = "uid://l1drqp64gju1"
+[ext_resource type="PackedScene" uid="uid://8adv387ncikr" path="res://scene/game_objects/enemies/melee_enemy/easy/melee_enemy_1.tscn" id="4_sj7wh"]
+[ext_resource type="PackedScene" uid="uid://cn0xxo2ifv50j" path="res://scene/map/map.tscn" id="6_n6eni"]
 
 [node name="TestLevel" type="Node" groups=["level"]]
 script = ExtResource("1_n6eni")
+
+[node name="Map" parent="." instance=ExtResource("6_n6eni")]
 
 [node name="Test_ui" parent="." instance=ExtResource("1_8r3jg")]
 
@@ -22,11 +20,8 @@ unique_name_in_owner = true
 [node name="Player" parent="BackLayer" instance=ExtResource("1_r8dxa")]
 unique_name_in_owner = true
 
-[node name="TestCreep" parent="BackLayer" instance=ExtResource("2_8r3jg")]
-unique_name_in_owner = true
-position = Vector2(113, 0)
-effects = Array[ExtResource("4_sj7wh")]([])
-effects_for_self = Array[ExtResource("4_sj7wh")]([SubResource("Resource_n6eni")])
+[node name="Melee_enemy_1" parent="BackLayer" instance=ExtResource("4_sj7wh")]
+position = Vector2(188, -121)
 
 [node name="FrontLayer" type="Node2D" parent="." groups=["front_layer"]]
 unique_name_in_owner = true
