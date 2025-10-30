@@ -47,8 +47,7 @@ func _enter_variables():
 
 func _connect_signals():
 	parry_instance.projectile_detected.connect(_on_projectile_detected)
-	parry_instance.melee_detected.connect(_on_melee_detected)
-	player.effect_receiver.player_stats_changed.connect(_on_stats_changed)
+	player.effect_receiver.attack_component_effects_changed.connect(_on_effect_stats_changed)
 
 
 func start_cooldown():
@@ -68,11 +67,12 @@ func activate_parry(input_state:bool):
 		await get_tree().create_timer(parry_duration / 2).timeout
 		await _melee_parry()
 
+
 func _melee_parry():
-	for enemy in melee_targets.duplicate():
-		if not is_instance_valid(enemy):
-			continue
-		_push_enemy(enemy, player.movement_component.last_direction)
+	var overlapping_bodies = parry_instance.parry_area.get_overlapping_bodies()
+	for body in overlapping_bodies:
+		if body.is_in_group("enemy"):
+			_push_enemy(body, player.movement_component.last_direction)
 
 
 func _push_enemy(enemy: Node2D, facing_direction: Vector2) -> void:
@@ -169,14 +169,10 @@ func _on_projectile_detected(projectile: Area2D):
 		projectile.reflect()
 
 
-func _on_melee_detected(enemies: Array[Node2D]):
-	melee_targets = enemies.duplicate()
-
-
 func _on_parry_cooldown_timeout() -> void:
 	is_on_cooldown = false
 
 
-func _on_stats_changed(updated_stats: Dictionary) -> void:
-	if updated_stats.has("parry_duration_multiplier"):
-		parry_duration_multiplier = updated_stats["parry_duration_multiplier"]
+func _on_effect_stats_changed(updated_stats) -> void:
+	if updated_stats.has("attack_duration_multiplier"):
+		parry_duration_multiplier = updated_stats["attack_duration_multiplier"]

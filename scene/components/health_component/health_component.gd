@@ -4,23 +4,36 @@ extends Node
 
 signal died
 signal health_changed(current_health, max_health)
+#test signal for test_ui
+signal stats_changed(current_health, max_health)
 
 const ROUNDING_ACCURACY: float = 0.1
+const DEFAULT_MULTIPLIER: float = 1.0
+@export var armor_component: ArmorComponent
 
 var max_health: float = 0.0
 var current_health: float
 
-var forward_damage_multiplier: float = 1.0
+var forward_damage_multiplier: float = DEFAULT_MULTIPLIER
 var invulnerable: bool = false
+var percent_health_multiplier: float = DEFAULT_MULTIPLIER
 
-@export var armor_component: ArmorComponent
 var effect_receiver: EffectReceiver
 
 func _ready():
+	_enter_varibles()
+	_connect_signals()
+
+
+func _enter_varibles():
 	max_health = owner.stats.max_health
 	effect_receiver = owner.effect_receiver
 	current_health = max_health
+
+
+func _connect_signals():
 	effect_receiver.health_component_effects_changed.connect(_on_effect_stats_changed)
+
 
 func take_damage(damage: DamageData):
 	if invulnerable:
@@ -45,9 +58,12 @@ func _on_effect_stats_changed(updated_stats: Dictionary) -> void:
 		invulnerable = updated_stats["invulnerable"]
 
 	if updated_stats.has("percent_of_max_health"):
-		var percent_health_multiplier = updated_stats["percent_of_max_health"]
-		max_health *= percent_health_multiplier
-		current_health *= percent_health_multiplier
-		percent_health_multiplier = 1 / percent_health_multiplier
-		#TODO#
-		#GOOSE REKA
+		var percent = updated_stats["percent_of_max_health"]
+		if is_zero_approx(percent - DEFAULT_MULTIPLIER):
+			max_health /= percent_health_multiplier
+			current_health /= percent_health_multiplier
+		else:
+			max_health *= percent
+			current_health *= percent
+		health_changed.emit(current_health, max_health)
+		percent_health_multiplier = percent

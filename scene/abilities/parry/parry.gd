@@ -4,7 +4,6 @@ extends Node2D
 signal projectile_detected(projectile: Area2D)
 signal melee_detected(enemy_melee_targets: Array[Node2D])
 
-var melee_targets: Array[Node2D] = []
 var parry_angle: float
 var parry_radius: float
 var collision_sector: CollisionShape2D
@@ -36,19 +35,3 @@ func init(angle: float, radius: float) -> void:
 
 func _ready() -> void:
 	parry_area.add_child(collision_sector)
-
-
-func _on_parry_area_entered(area: Area2D) -> void:
-	if area is HurtBox:
-		if area.owner != null:
-			if area.owner.is_in_group("enemy"):
-				melee_targets.append(area.owner)
-				melee_detected.emit(melee_targets)
-
-
-func _on_parry_area_exited(area: Area2D) -> void:
-	if area is HurtBox:
-		if area.owner != null:
-			if area.owner.is_in_group("enemy"):
-				melee_targets.erase(area.owner)
-				melee_detected.emit(melee_targets)

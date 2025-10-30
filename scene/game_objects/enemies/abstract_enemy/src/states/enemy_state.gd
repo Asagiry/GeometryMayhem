@@ -16,14 +16,14 @@ func _init(enemy_controller: EnemyController) -> void:
 	enemy.attack_zone.body_entered.connect(_on_player_entered_attack)
 	enemy.attack_zone.body_exited.connect(_on_player_exited_attack)
 
-func _on_player_entered_aggro(body:CharacterBody2D):
+func _on_player_entered_aggro(_body:CharacterBody2D):
 	pass
 
-func _on_player_entered_attack(body:CharacterBody2D):
+func _on_player_entered_attack(_body:CharacterBody2D):
 	pass
 
-func _on_player_exited_aggro(body:CharacterBody2D):
+func _on_player_exited_aggro(_body:CharacterBody2D):
 	pass
 
-func _on_player_exited_attack(body:CharacterBody2D):
+func _on_player_exited_attack(_body:CharacterBody2D):
 	pass

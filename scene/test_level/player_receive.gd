@@ -23,6 +23,7 @@ func _ready():
 func _connect_health_signal():
 	player = get_tree().get_first_node_in_group("player")
 	player.health_component.health_changed.connect(_on_health_changed)
+	player.health_component.stats_changed.connect(_on_health_changed)
 
 func _on_health_changed(current_health: float, max_health: float):
 	max_health_label.text = str(max_health)
@@ -39,9 +40,11 @@ func _on_apply_button_pressed() -> void:
 	effect.tick_interval = tick_edit.get_tick_interval()
 	apply_effect(effect)
 
+
 func apply_effect(effect):
 	player.effect_receiver.apply_effect(effect)
 	create_timer(effect)
+
 
 func create_timer(effect: Effect):
 	var label = Label.new()
@@ -98,6 +101,7 @@ func _on_slow_preset_pressed() -> void:
 	effect.behavior = Util.EffectBehavior.DEBUFF
 	effect.stat_modifiers = StatModifierData.new(0.2)
 	effect.duration = 5.0
+	effect.positivity = Util.EffectPositivity.NEGATIVE
 	apply_effect(effect)
 
 
@@ -108,6 +112,7 @@ func _on_curse_preset_pressed() -> void:
 	effect.behavior = Util.EffectBehavior.DEBUFF
 	effect.stat_modifiers = StatModifierData.new(1.0,1.0,1.0,1.25)
 	effect.duration = 5.0
+	effect.positivity = Util.EffectPositivity.NEGATIVE
 	apply_effect(effect)
 
 
@@ -118,6 +123,7 @@ func _on_burn_preset_pressed() -> void:
 	effect.damage = DamageData.new(10)
 	effect.duration = 5.0
 	effect.tick_interval = 1.0
+	effect.positivity = Util.EffectPositivity.NEGATIVE
 	apply_effect(effect)
 
 
@@ -126,13 +132,16 @@ func _on_silence_preset_pressed() -> void:
 	effect.effect_type = Util.EffectType.SILENCE
 	effect.behavior = Util.EffectBehavior.SPECIAL
 	effect.duration = 5.0
+	effect.positivity = Util.EffectPositivity.NEGATIVE
 	apply_effect(effect)
+
 
 func _on_freeze_preset_pressed() -> void:
 	var effect = Effect.new()
 	effect.effect_type = Util.EffectType.FREEZE
 	effect.behavior = Util.EffectBehavior.SPECIAL
 	effect.duration = 6.0
+	effect.positivity = Util.EffectPositivity.NEGATIVE
 	apply_effect(effect)
 
 
@@ -142,6 +151,7 @@ func _on_rupture_preset_pressed() -> void:
 	effect.behavior = Util.EffectBehavior.SPECIAL
 	effect.damage = DamageData.new(0.5)
 	effect.duration = 5.0
+	effect.positivity = Util.EffectPositivity.NEGATIVE
 	apply_effect(effect)
 
 
@@ -151,6 +161,7 @@ func _on_phased_preset_pressed() -> void:
 	effect.behavior = Util.EffectBehavior.SPECIAL
 	effect.stat_modifiers = StatModifierData.new(2)
 	effect.duration = 5.0
+	effect.positivity = Util.EffectPositivity.POSITIVE
 	apply_effect(effect)
 
 
@@ -158,16 +169,19 @@ func _on_sonic_preset_pressed() -> void:
 	var effect = Effect.new()
 	effect.effect_type = Util.EffectType.SONIC
 	effect.behavior = Util.EffectBehavior.BUFF
-	effect.stat_modifiers = StatModifierData.new(2.0,1,1,1,1,0.5)
+	effect.stat_modifiers = StatModifierData.new(2.0,1,1,1,0.6,0.5)
 	effect.duration = 5.0
+	effect.positivity = Util.EffectPositivity.POSITIVE
 	apply_effect(effect)
+
 
 func _on_fortify_preset_pressed() -> void:
 	var effect = Effect.new()
 	effect.effect_type = Util.EffectType.FORTIFY
-	effect.behavior = Util.EffectBehavior.SPECIAL
-	effect.stat_modifiers = StatModifierData.new(1.0,1.0,2.0)
+	effect.behavior = Util.EffectBehavior.BUFF
+	effect.stat_modifiers = StatModifierData.new(1,1,2.0,1,1,1,false,2.0)
 	effect.duration = 7.0
+	effect.positivity = Util.EffectPositivity.POSITIVE
 	apply_effect(effect)
 
 
@@ -176,9 +190,14 @@ func _on_blind_preset_pressed() -> void:
 	effect.effect_type = Util.EffectType.BLIND
 	effect.behavior = Util.EffectBehavior.SPECIAL
 	effect.duration = 6.0
+	effect.positivity = Util.EffectPositivity.NEGATIVE
 	apply_effect(effect)
 
 
 func _on_heal_player_pressed() -> void:
 	player.health_component.current_health = float(max_health_label.text)
 	current_health_label.text = max_health_label.text
+
+
+func _on_clear_all_effects_pressed() -> void:
+	player.effect_receiver.clear_effects(Util.EffectPositivity.NEGATIVE)

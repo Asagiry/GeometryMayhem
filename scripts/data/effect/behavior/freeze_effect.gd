@@ -17,10 +17,10 @@ func tick(_delta: float) -> void:
 		var relation = _elapsed_time / FREEZING_TIME
 		var progress = clampf(_elapsed_time / FREEZING_TIME, 0.0, 1.0)
 		var speed_multiplier = 1.0 - progress
-		var new_base_multiplier = (ATTACK_DURATION_MULTIPLIER + progress) * ATTACK_DURATION_MULTIPLIER
+		#var new_base_multiplier = (ATTACK_DURATION_MULTIPLIER + progress) * ATTACK_DURATION_MULTIPLIER
 		_receiver.owner.movement_component.set_freeze_multiplier(speed_multiplier)
-		_receiver.set_attack_duration_multiplier(new_base_multiplier)
-		_receiver.set_parry_duration_multiplier(new_base_multiplier)
+		#_receiver.set_attack_duration_multiplier(new_base_multiplier)
+		#_receiver.set_parry_duration_multiplier(new_base_multiplier)
 
 		return
 	if !setted:
@@ -29,8 +29,8 @@ func tick(_delta: float) -> void:
 
 
 func end() -> void:
-	_receiver.set_attack_duration_multiplier(SPEED_MULTIPLIER)
-	_receiver.set_parry_duration_multiplier(SPEED_MULTIPLIER)
+	#_receiver.set_attack_duration_multiplier(SPEED_MULTIPLIER)
+	#_receiver.set_parry_duration_multiplier(SPEED_MULTIPLIER)
 	_receiver.owner.movement_component.set_freeze_multiplier(SPEED_MULTIPLIER)
 	_receiver.emit_signal("input_disabled", false)
 	print("❄ Freeze ended")

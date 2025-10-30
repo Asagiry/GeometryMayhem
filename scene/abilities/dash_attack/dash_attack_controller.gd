@@ -10,13 +10,15 @@ var dash_range: float = 100.0
 var dash_cd: float = 0.1
 var dash_width: float = 25.0
 
-var damage_multiplier: float = 1.0
 var is_dash_from_mouse: bool = false
 var dash_duration: float = 0.2
-var dash_duration_multiplier = 1.0
 var player: PlayerController
 var is_on_cooldown: bool
 var is_range_enable: bool = true
+
+var dash_duration_multiplier: float = 1.0
+var damage_multiplier: float = 1.0
+var attack_cd_multiplier: float = 1.0
 
 var _distance: float
 var _direction: Vector2
@@ -32,10 +34,16 @@ var _end_pos: Vector2
 
 func start_cooldown():
 	is_on_cooldown = true
-	cooldown_timer.start(dash_cd)
+	cooldown_timer.start(dash_cd * attack_cd_multiplier)
 
 
 func _ready():
+	_enter_variables()
+	_connect_signals()
+	_setup_dash_cirlce()
+
+
+func _enter_variables():
 	player = get_tree().get_first_node_in_group("player") as Node2D
 	damage_data = player.stats.attack_damage
 	dash_range = player.stats.attack_range
@@ -43,8 +51,9 @@ func _ready():
 	dash_width = player.stats.attack_width
 	dash_duration = player.stats.attack_duration
 
-	player.effect_receiver.stats_changed.connect(_on_stats_changed)
-	_setup_dash_cirlce()
+
+func _connect_signals():
+	player.effect_receiver.attack_component_effects_changed.connect(_on_effect_stats_changed)
 
 
 func _setup_dash_cirlce():
@@ -53,11 +62,14 @@ func _setup_dash_cirlce():
 	player.add_child.call_deferred(_dash_circle)
 	enable_range(is_range_enable)
 
+
 func get_start_pos()-> Vector2:
 	return _start_pos
 
+
 func get_end_pos()-> Vector2:
 	return _end_pos
+
 
 func enable_range(enable: bool):
 	if (enable):
@@ -80,7 +92,6 @@ func activate_dash(input_state: bool):
 		_activate_mouse_click_dash(dash_attack_instance)
 	else:
 		_activate_keyboard_dash(dash_attack_instance)
-
 
 
 func _create_dash_instance():
@@ -188,6 +199,10 @@ func _on_cooldown_timer_timeout() -> void:
 	is_on_cooldown = false
 
 
-func _on_stats_changed(updated_stats) -> void:
+func _on_effect_stats_changed(updated_stats) -> void:
 	if updated_stats.has("attack_duration_multiplier"):
 		dash_duration_multiplier = updated_stats["attack_duration_multiplier"]
+	if updated_stats.has("attack_multiplier"):
+		damage_multiplier = updated_stats["attack_multiplier"]
+	if updated_stats.has("attack_cd_multiplier"):
+		attack_cd_multiplier = updated_stats["attack_cd_multiplier"]
