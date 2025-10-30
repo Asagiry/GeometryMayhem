@@ -18,7 +18,7 @@ var current_speed: float = 0.0
 var rotation_speed: float = 9.0
 var max_speed: float
 var acceleration: float
-
+var direction_modifier: float = 1.0
 var global_position: Vector2:
 	get: return entity.global_position if entity else Vector2.ZERO
 	set(value):
@@ -43,6 +43,7 @@ func _ready() -> void:
 
 
 func accelerate_to_direction(direction: Vector2):
+	direction *= direction_modifier
 	var final_velocity = max_speed * direction * speed_multiplier * freeze_multiplier
 	current_velocity = current_velocity.lerp(final_velocity, 1 - \
 	exp(-acceleration * get_process_delta_time()))

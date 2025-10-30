@@ -186,6 +186,38 @@ text = "FORTIFY"
 layout_mode = 2
 text = "BLIND"
 
+[node name="DispelPreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+layout_mode = 2
+text = "DISPEL"
+
+[node name="BKBPreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+layout_mode = 2
+text = "BKB"
+
+[node name="ColliderPreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+layout_mode = 2
+text = "COLLIDER"
+
+[node name="CorrosionPreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+layout_mode = 2
+text = "CORROSION"
+
+[node name="RegenerationPreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+layout_mode = 2
+text = "REGENERATION"
+
+[node name="FearPreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+layout_mode = 2
+text = "FEAR"
+
+[node name="BleedPreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+layout_mode = 2
+text = "BLEED"
+
+[node name="WoundedPreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+layout_mode = 2
+text = "Wounded"
+
 [node name="ClearAllEffects" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
 layout_mode = 2
 text = "CLEAR ALL EFFECTS
@@ -235,6 +267,7 @@ text = "1000"
 
 [node name="Label3" type="Label" parent="HBoxContainer/HBoxContainer"]
 layout_mode = 2
+theme_override_constants/outline_size = 10
 text = "/"
 
 [node name="Current_health_label" type="Label" parent="HBoxContainer/HBoxContainer"]
@@ -258,5 +291,13 @@ text = "HealPlayer"
 [connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/SonicPreset" to="." method="_on_sonic_preset_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/FortifyPreset" to="." method="_on_fortify_preset_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/BlindPreset" to="." method="_on_blind_preset_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/DispelPreset" to="." method="_on_dispel_preset_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/BKBPreset" to="." method="_on_bkb_preset_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/ColliderPreset" to="." method="_on_collider_preset_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/CorrosionPreset" to="." method="_on_corrosion_preset_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/RegenerationPreset" to="." method="_on_regeneration_preset_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/FearPreset" to="." method="_on_fear_preset_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/BleedPreset" to="." method="_on_bleed_preset_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/WoundedPreset" to="." method="_on_wounded_preset_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/ClearAllEffects" to="." method="_on_clear_all_effects_pressed"]
 [connection signal="pressed" from="HBoxContainer/HealPlayer" to="." method="_on_heal_player_pressed"]

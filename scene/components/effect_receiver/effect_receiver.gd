@@ -25,8 +25,7 @@ var active_stat_modifiers: Dictionary = {}
 
 var stat_modifiers: StatModifierData = StatModifierData.new()
 
-var active_special_states: Dictionary = {}     # { EffectType: true }
-
+var active_special_states: Dictionary = {}
 
 func _physics_process(delta: float) -> void:
 	_process_dots(delta)
@@ -34,9 +33,10 @@ func _physics_process(delta: float) -> void:
 
 
 func apply_effect(effect: Effect):
-	if active_special_states.has(Util.EffectType.BKB) \
+	if is_under(Util.EffectType.BKB) \
 	and effect.positivity == Util.EffectPositivity.NEGATIVE:
 		return
+
 
 	print("Наложен эффект: ", Util.EffectType.keys()[effect.effect_type] + \
 	" ; длительность: ", effect.duration)
@@ -55,11 +55,13 @@ func apply_effect(effect: Effect):
 func _apply_special_effect(effect: Effect):
 	if is_under(effect.effect_type):
 		return
+
 	active_special_states[effect.effect_type] = true
 	emit_signal("effect_started", effect.effect_type)
 
 	var path = "res://scripts/data/effect/behavior/"+\
 	Util.get_effect_name(effect.effect_type).to_lower()+"_effect.gd"
+	print(path)
 	var instance = load(path).new()
 	if instance == null:
 		push_warning("⚠️ Special effect %s not found" % str(effect.effect_type))
@@ -77,9 +79,11 @@ func _apply_special_effect(effect: Effect):
 func _apply_instant_effect(effect: Effect):
 	emit_signal("effect_started", effect.effect_type)
 
+	if effect.effect_type == Util.EffectType.DISPEL:
+		clear_effects(Util.EffectPositivity.NEGATIVE)
+
 	if effect.damage:
 		owner.health_component.take_damage(effect.damage)
-
 
 	if effect.stat_modifiers:
 		_add_stat_modifier(effect)
@@ -90,6 +94,10 @@ func _apply_instant_effect(effect: Effect):
 
 #region dot
 func _add_dot_effect(effect: Effect):
+	if effect.effect_type == Util.EffectType.BLEED:
+		effect.damage.amount = owner.stats.attack_damage.amount \
+		* effect.percent_of_attack
+
 	for dot_data in active_dots:
 		var existing_effect: Effect = dot_data["effect"]
 		if existing_effect.effect_type == effect.effect_type:
@@ -121,7 +129,10 @@ func _process_dots(delta: float):
 		if dot["timer"]>= e.tick_interval:
 			dot["timer"] = 0.0
 			if e.damage:
-				owner.health_component.take_damage(e.damage)
+				if e.positivity == Util.EffectPositivity.POSITIVE:
+					owner.health_component.take_heal(e.damage.amount)
+				else:
+					owner.health_component.take_damage(e.damage)
 
 		# Если время эффекта истекло — удаляем
 		if dot["elapsed"] >= e.duration:
@@ -374,6 +385,18 @@ func clear_all_effects() -> void:
 func set_freeze_multiplier(value: float):
 	movement_component_effects_changed.emit({
 		"freeze_multilier": value
+	})
+
+
+func set_attack_duration_multiplier(value: float) -> void:
+	attack_component_effects_changed.emit({
+		"attack_duration_multiplier": value
+	})
+
+
+func set_direction_modifier(value: float) -> void:
+	movement_component_effects_changed.emit({
+		"direction_modifier": value
 	})
 
 

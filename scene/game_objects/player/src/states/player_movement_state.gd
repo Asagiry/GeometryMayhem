@@ -21,6 +21,7 @@ func process(delta: float) -> void:
 	if player.movement_component.get_movement_vector().normalized() == Vector2.ZERO:
 		player_state_machine.transition(PlayerIdleState.state_name)
 
+
 func input(_event: InputEvent) -> void:
 	if player.is_input_blocked:
 		return

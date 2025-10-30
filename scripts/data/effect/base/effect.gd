@@ -2,13 +2,14 @@ class_name Effect
 
 extends Resource
 
-@export var name: String = "New Effect"
-@export var effect_type: Util.EffectType = Util.EffectType.NONE
-@export var behavior: Util.EffectBehavior = Util.EffectBehavior.NONE
+var effect_type: Util.EffectType = Util.EffectType.NONE
+var behavior: Util.EffectBehavior = Util.EffectBehavior.NONE
 
-@export var damage: DamageData
-@export var stat_modifiers: StatModifierData
-@export var duration: float = 0.0
-@export var tick_interval: float = 1.0
-@export var positivity: Util.EffectPositivity = Util.EffectPositivity.NONE
-@export var behavior_script: Script
+var damage: DamageData
+var stat_modifiers: StatModifierData
+var duration: float = 0.0
+var tick_interval: float = 1.0
+var positivity: Util.EffectPositivity = Util.EffectPositivity.NONE
+var percent: float
+var source
+var behavior_script: Script
