@@ -6,10 +6,12 @@ extends Node
 signal effect_started(effect_type: Util.EffectType)
 signal effect_ended(effect_type: Util.EffectType)
 
+signal stun_applied(duration: float)
+
 signal collision_disabled(status: bool)
 signal attack_disabled(status: bool)
 
-signal input_disabled(status: bool)
+signal silenced(status: bool)
 
 signal health_component_effects_changed(updated_stats: Dictionary)
 signal armor_component_effects_changed(updated_stats: Dictionary)
@@ -402,8 +404,8 @@ func set_direction_modifier(value: float) -> void:
 
 func set_stun_state(duration: float):
 	if owner is PlayerController:
-		var stun_state = owner.player_state_machine.states["PlayerStunState"] as PlayerStunState
-		stun_state.set_duration(duration)
+		var stun_state = owner.state_machine.states["PlayerStunState"] as PlayerStunState
+		stun_applied.emit(duration)
 		owner.is_stunned = true
 	else:
 		pass

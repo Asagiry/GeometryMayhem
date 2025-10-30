@@ -16,7 +16,6 @@ static func create_effect(params := {}) -> Array[Effect]:
 
 
 static func _create_dot_effect(e: Effect, effect_data: Dictionary):
-	e.name = "DotEffect" + effect_data["effect_name"]
 	e.effect_type = Util.EffectType.get(effect_data["effect_name"])
 	e.behavior = Util.EffectBehavior.DOT
 	e.damage = DamageData.new()
@@ -28,7 +27,6 @@ static func _create_dot_effect(e: Effect, effect_data: Dictionary):
 
 
 static func _create_debuff_effect(e: Effect, effect_data: Dictionary):
-	e.name = "DotEffect" + effect_data["effect_name"]
 	e.effect_type = Util.EffectType.get(effect_data["effect_name"])
 	e.behavior = Util.EffectBehavior.DEBUFF
 	e.stat_modifiers = StatModifierData.new()
@@ -43,7 +41,6 @@ static func _create_debuff_effect(e: Effect, effect_data: Dictionary):
 	return e
 
 static func _create_special_effect(e: Effect, effect_data: Dictionary) -> Effect:
-	e.name = "SpecialEffect_" + effect_data["effect_name"]
 	e.effect_type = Util.EffectType.get(effect_data["effect_name"])
 	e.behavior = Util.EffectBehavior.SPECIAL
 	e.duration = effect_data.get("duration", 2.0)

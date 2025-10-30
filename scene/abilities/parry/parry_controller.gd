@@ -1,16 +1,20 @@
 class_name ParryController
 extends Node
 
+signal parry_started()
+signal parry_finished()
+signal parry_cooldown_timeout()
+
 @export var parry_scene: PackedScene
-var parry_cd: float
+var cooldown: float
 var push_distance: float
-var parry_angle: float
-var parry_radius: float
-var parry_duration: float = 0.3
+var angle: float
+var radius: float
+var duration: float = 0.3
+var push_duration: float = 0.2
 
-var push_duration: float = 0.2 #время перемещения моба от точка А до точки Б(отталкивание)
-
-var parry_duration_multiplier: float = 1.0
+var duration_multiplier: float = 1.0
+var cooldown_multiplier: float = 1.0
 
 var melee_targets: Array[Node2D]
 var is_parrying: bool = false
@@ -36,12 +40,12 @@ func _process(_delta):
 func _enter_variables():
 	player = get_tree().get_first_node_in_group("player") as PlayerController
 	parry_instance = parry_scene.instantiate() as Parry
-	parry_cd = player.stats.parry_cd
+	cooldown = player.stats.parry_cd
 	push_distance = player.stats.parry_push_distance
-	parry_angle = player.stats.parry_angle
-	parry_radius = player.stats.parry_radius
-	parry_duration = player.stats.parry_duration
-	parry_instance.init(parry_angle,parry_radius)
+	angle = player.stats.parry_angle
+	radius = player.stats.parry_radius
+	duration = player.stats.parry_duration
+	parry_instance.init(angle,radius)
 	get_tree().get_first_node_in_group("front_layer").add_child(parry_instance)
 
 
@@ -51,21 +55,24 @@ func _connect_signals():
 
 
 func start_cooldown():
-	is_on_cooldown = true
-	parry_cooldown.start(parry_cd)
+	parry_cooldown.start(get_cooldown())
 
 
 func activate_parry(input_state:bool):
-	is_parry_from_mouse = input_state
+	parry_started.emit()
 
+	is_parry_from_mouse = input_state
 	if is_parry_from_mouse:
 		var mouse_dir = player.global_position.direction_to(player.get_global_mouse_position())
 		player.rotation = mouse_dir.angle() + deg_to_rad(90)
 		player.movement_component.last_direction = mouse_dir
 
 	for i in range(2):
-		await get_tree().create_timer(parry_duration / 2).timeout
+		await get_tree().create_timer(duration / 2).timeout
 		await _melee_parry()
+
+	start_cooldown()
+	parry_finished.emit()
 
 
 func _melee_parry():
@@ -84,7 +91,7 @@ func _calculate_push_target(enemy: Node2D, facing_direction: Vector2) -> Vector2
 	var direction = facing_direction.normalized()
 	var to_enemy = (enemy.global_position - parry_instance.global_position).normalized()
 	var angle_offset = direction.angle_to(to_enemy)
-	var max_angle = deg_to_rad(parry_angle)
+	var max_angle = deg_to_rad(angle)
 	angle_offset = clamp(angle_offset, -max_angle, max_angle)
 	direction = direction.rotated(angle_offset)
 
@@ -170,9 +177,17 @@ func _on_projectile_detected(projectile: Area2D):
 
 
 func _on_parry_cooldown_timeout() -> void:
-	is_on_cooldown = false
+	parry_cooldown_timeout.emit()
 
 
 func _on_effect_stats_changed(updated_stats) -> void:
 	if updated_stats.has("attack_duration_multiplier"):
-		parry_duration_multiplier = updated_stats["attack_duration_multiplier"]
+		duration_multiplier = updated_stats["attack_duration_multiplier"]
+
+
+func get_duration():
+	return duration*duration_multiplier
+
+
+func get_cooldown():
+	return cooldown*cooldown_multiplier

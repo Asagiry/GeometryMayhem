@@ -7,7 +7,7 @@ signal stun_finished
 
 static var state_name = "PlayerStunState"
 
-var stun_duration:float
+var stun_duration:float = 1
 
 func set_duration(duration: float):
 	stun_duration = duration
@@ -21,7 +21,7 @@ func process(delta: float) -> void:
 	stun_duration-=delta
 	player.move_and_collide(Vector2.ZERO)
 	if(stun_duration <= 0.0):
-		player_state_machine.transition(PlayerIdleState.state_name)
+		state_machine.transition(PlayerMovementState.state_name)
 
 
 func exit():
