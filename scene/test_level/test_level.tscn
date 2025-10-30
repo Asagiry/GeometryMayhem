@@ -28,6 +28,6 @@ unique_name_in_owner = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 unique_name_in_owner = true
-zoom = Vector2(2.7, 2.7)
+zoom = Vector2(1.5, 1.5)
 position_smoothing_enabled = true
 script = ExtResource("3_sj7wh")

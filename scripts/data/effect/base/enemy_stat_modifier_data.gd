@@ -1,3 +1,0 @@
-class_name EnemyStatModifierData
-
-extends StatModifierData

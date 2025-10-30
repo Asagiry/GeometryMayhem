@@ -7,14 +7,13 @@ const DEFAULT_MULTIPLIER: float = 1.0
 const MIN_MULTIPLIER: float = 0.0
 
 @export var speed_multiplier: float = DEFAULT_MULTIPLIER
-@export var attack_multiplier: float = DEFAULT_MULTIPLIER
+@export var attack_multiplier: float = DEFAULT_MULTIPLIER #1
 @export var armor_multiplier: float = DEFAULT_MULTIPLIER
 @export var forward_receiving_damage_multiplier: float = DEFAULT_MULTIPLIER
-@export var attack_cd_multiplier: float = DEFAULT_MULTIPLIER
-@export var attack_duration_multiplier: float = DEFAULT_MULTIPLIER
+@export var attack_cd_multiplier: float = DEFAULT_MULTIPLIER #1
+@export var attack_duration_multiplier: float = DEFAULT_MULTIPLIER #1
 @export var invulnerable: bool
 @export var percent_of_max_health: float = DEFAULT_MULTIPLIER
-@export var freeze_multiplier: float = DEFAULT_MULTIPLIER
 
 # ——— внутренние поля для итерации
 var _iter_index := 0
@@ -29,8 +28,7 @@ var _fields := [
 	"attack_cd_multiplier",
 	"attack_duration_multiplier",
 	"invulnerable",
-	"percent_of_max_health",
-	"freeze_multiplier"
+	"percent_of_max_health"
 ]
 
 func _init(
@@ -42,7 +40,6 @@ func _init(
 	p_attack_duration_multiplier: float = DEFAULT_MULTIPLIER,
 	p_invulnerable: bool = false,
 	p_percent_of_max_health: float = DEFAULT_MULTIPLIER,
-	p_freeze_multiplier: float = DEFAULT_MULTIPLIER,
 ) -> void:
 	speed_multiplier = p_speed_multiplier
 	attack_multiplier = p_attack_multiplier
@@ -51,7 +48,6 @@ func _init(
 	attack_cd_multiplier = p_attack_cd_multiplier
 	attack_duration_multiplier = p_attack_duration_multiplier
 	percent_of_max_health = p_percent_of_max_health
-	freeze_multiplier = p_freeze_multiplier
 	invulnerable = p_invulnerable
 
 
@@ -63,7 +59,6 @@ func reset() -> void:
 	attack_cd_multiplier = DEFAULT_MULTIPLIER
 	attack_duration_multiplier = DEFAULT_MULTIPLIER
 	percent_of_max_health = DEFAULT_MULTIPLIER
-	freeze_multiplier = DEFAULT_MULTIPLIER
 
 
 func set_speed_multiplier(value: float) -> void:
@@ -103,8 +98,11 @@ func set_percent_of_max_health_multiplier(value: float) -> void:
 	percent_of_max_health = clampf(value, MIN_MULTIPLIER, MAX_MULTIPLIER)
 
 
-func set_freeze_multiplier(value: float) -> void:
-	freeze_multiplier = clampf(value, MIN_MULTIPLIER, MAX_MULTIPLIER)
+func to_dict() -> Dictionary:
+	var result := {}
+	for name in _fields:
+		result[name] = get(name)
+	return result
 
 
 func _iter_init(_arg):

@@ -50,6 +50,7 @@ func _enter_stats():
 	attack_collision.shape = attack_shape
 	attack_zone.add_child(attack_collision)
 
+
 func _start_state_machine():
 	var states: Array[State] = [
 		EnemyIdleState.new(self),
@@ -58,8 +59,6 @@ func _start_state_machine():
 		EnemyAggroState.new(self),
 	]
 	state_machine.start_machine(states)
-	state_machine.transition(EnemyIdleState.state_name)
-
 
 func _on_died():
 	queue_free()

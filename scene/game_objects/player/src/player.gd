@@ -46,6 +46,7 @@ func _enter_variables():
 func _connect_signals():
 	health_component.died.connect(_on_died)
 	effect_receiver.input_disabled.connect(_on_input_disabled)
+	effect_receiver.collision_disabled.connect(_on_collision_disabled)
 
 
 func _on_died():
@@ -55,3 +56,7 @@ func _on_died():
 
 func _on_input_disabled(status: bool):
 	is_input_blocked = status
+
+
+func _on_collision_disabled(status: bool) -> void:
+	collision.disabled = status
