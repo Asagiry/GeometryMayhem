@@ -7,7 +7,11 @@ var previous_position: Vector2
 var pivot_offset: Vector2
 var length: int
 
-func init(entity_node: Node2D, offset: Vector2, color: Color, trail_length: int, trail_width: int) -> void:
+func init(entity_node: Node2D,
+offset: Vector2,
+color: Color,
+trail_length: int,
+trail_width: int) -> void:
 	entity = entity_node
 	default_color = color
 	pivot_offset = offset
