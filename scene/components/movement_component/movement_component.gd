@@ -48,6 +48,7 @@ func accelerate_to_direction(direction: Vector2):
 	exp(-acceleration * get_process_delta_time()))
 	return current_velocity
 
+
 func set_freeze_multiplier(multiplier: float):
 	freeze_multiplier = multiplier
 

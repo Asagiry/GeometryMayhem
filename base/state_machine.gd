@@ -3,7 +3,7 @@ class_name StateMachine
 extends Node
 
 
-signal machine_started()
+signal machine_started
 
 
 @export var is_log_enabled: bool = false
@@ -21,6 +21,8 @@ func start_machine(init_states: Array[State]) -> void:
 	for state in init_states:
 		states[state.get_state_name()] = state
 
+	machine_started.emit()
+
 	current_state = init_states[0]
 
 	if is_log_enabled:
@@ -29,7 +31,6 @@ func start_machine(init_states: Array[State]) -> void:
 	current_state.enter()
 	is_running = true
 
-	machine_started.emit()
 
 
 func _input(event: InputEvent) -> void:

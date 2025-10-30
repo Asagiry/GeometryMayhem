@@ -1,4 +1,4 @@
-[gd_scene load_steps=99 format=3 uid="uid://dpvptcshibxt0"]
+[gd_scene load_steps=106 format=3 uid="uid://dpvptcshibxt0"]
 
 [ext_resource type="Script" uid="uid://d2bd4ujy5qv0c" path="res://scene/game_objects/player/src/player.gd" id="1_heqc5"]
 [ext_resource type="PackedScene" uid="uid://b0xrjstrhdb1c" path="res://scene/abilities/dash_attack/dash_attack_controller.tscn" id="2_jxsrc"]
@@ -7,7 +7,6 @@
 [ext_resource type="Script" uid="uid://cyitjknl16852" path="res://scripts/data/damage/damage_data.gd" id="4_1tyhs"]
 [ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="4_48qb4"]
 [ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component/armor_component.tscn" id="5_ju00n"]
-[ext_resource type="PackedScene" uid="uid://b4wk63m80ss3y" path="res://scene/abilities/dash_attack/dash_attack.tscn" id="6_cykr3"]
 [ext_resource type="Script" uid="uid://derbmady170hu" path="res://scene/components/movement_component/player_movement_component.gd" id="7_1tyhs"]
 [ext_resource type="Script" uid="uid://5m7cpflvnie8" path="res://base/state_machine.gd" id="7_heqc5"]
 [ext_resource type="PackedScene" uid="uid://bl380xv78onc8" path="res://scene/components/effect_receiver/effect_receiver.tscn" id="10_0ygly"]
@@ -15,6 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://dpt52h75g2kh4" path="res://assets/player/ATTACK/ATTACK1.png" id="10_ddgj3"]
 [ext_resource type="Texture2D" uid="uid://dmayqab17g1bo" path="res://assets/player/ATTACK/ATTACK2.png" id="11_kl1g4"]
 [ext_resource type="Texture2D" uid="uid://tp54cpr3amvt" path="res://assets/player/ATTACK/ATTACK3.png" id="12_3v612"]
+[ext_resource type="Script" uid="uid://dul3pio3hp25r" path="res://scene/game_objects/player/animation_player.gd" id="12_itr6r"]
 [ext_resource type="Texture2D" uid="uid://d1jl5wnv3ilfe" path="res://assets/player/PARRY/PARRY1.png" id="12_vedbf"]
 [ext_resource type="Texture2D" uid="uid://bmgf2qqytpcy6" path="res://assets/player/ATTACK/ATTACK4.png" id="13_itr6r"]
 [ext_resource type="Texture2D" uid="uid://b1nsmu2k6qt2v" path="res://assets/player/PARRY/PARRY2.png" id="13_siiro"]
@@ -26,11 +26,14 @@
 [ext_resource type="Texture2D" uid="uid://brnm2qsp0tqmt" path="res://assets/player/ATTACK/ATTACK6.png" id="15_lduo2"]
 [ext_resource type="Texture2D" uid="uid://v4l5c74drq5n" path="res://assets/player/ATTACK/ATTACK7.png" id="16_hfat0"]
 [ext_resource type="Texture2D" uid="uid://c002l7k1m513i" path="res://assets/player/PARRY/PARRY7.png" id="16_pi2fi"]
+[ext_resource type="Texture2D" uid="uid://d4h4hbl1awmct" path="res://assets/player/TAKE_DAMAGE/TAKE_DAMAGE1.png" id="16_plpdn"]
 [ext_resource type="PackedScene" uid="uid://csmleslly1twg" path="res://scene/components/hurt_box_component/hurt_box.tscn" id="16_wfn55"]
 [ext_resource type="Texture2D" uid="uid://biaod0xrnq5p1" path="res://assets/player/ATTACK/ATTACK8.png" id="17_38wc0"]
 [ext_resource type="Texture2D" uid="uid://bq5i7g8qqkr6o" path="res://assets/player/IDLE/IDLE1.png" id="17_a8ci5"]
+[ext_resource type="Texture2D" uid="uid://cruub30w2sp85" path="res://assets/player/TAKE_DAMAGE/TAKE_DAMAGE2.png" id="17_t526v"]
 [ext_resource type="Texture2D" uid="uid://bahe2wgws7cu4" path="res://assets/player/ATTACK/ATTACK9.png" id="18_2cies"]
 [ext_resource type="Texture2D" uid="uid://8y2ltyblakht" path="res://assets/player/IDLE/IDLE2.png" id="18_fleld"]
+[ext_resource type="Texture2D" uid="uid://bpjpcvpp0hyai" path="res://assets/player/TAKE_DAMAGE/TAKE_DAMAGE3.png" id="18_uufy7"]
 [ext_resource type="Texture2D" uid="uid://dby1ftfj7qn1n" path="res://assets/player/ATTACK/ATTACK10.png" id="19_fc348"]
 [ext_resource type="Texture2D" uid="uid://brl3hrmqasqq2" path="res://assets/player/IDLE/IDLE3.png" id="19_ixc71"]
 [ext_resource type="Texture2D" uid="uid://bfvqv5om0igkf" path="res://assets/player/IDLE/Idle4.png" id="20_dqgk5"]
@@ -91,7 +94,6 @@
 [ext_resource type="Texture2D" uid="uid://7aop0lsb3p2p" path="res://assets/player/MOVEMENT/MOVEMENT28.png" id="72_2vfwf"]
 [ext_resource type="Texture2D" uid="uid://cafq80qsg14ga" path="res://assets/player/MOVEMENT/MOVEMENT29.png" id="73_lqpfa"]
 [ext_resource type="Texture2D" uid="uid://tose632d1w67" path="res://assets/player/MOVEMENT/MOVEMENT30.png" id="74_nafj1"]
-[ext_resource type="Script" uid="uid://bub7yrv7om30g" path="res://scene/game_objects/player/animated_sprite_2d.gd" id="94_cykr3"]
 
 [sub_resource type="Resource" id="Resource_itr6r"]
 script = ExtResource("4_1tyhs")
@@ -112,7 +114,7 @@ max_speed = 200.0
 acceleration = 9.0
 rotation_speed = 9.0
 attack_damage = SubResource("Resource_itr6r")
-attack_cd = 0.01
+attack_cd = 0.2
 attack_duration = 0.2
 attack_width = 32.0
 attack_range = 150.0
@@ -123,6 +125,112 @@ parry_angle = 90.0
 parry_radius = 60.0
 parry_duration = 0.3
 metadata/_custom_type_script = "uid://cyhnm76rkr2ny"
+
+[sub_resource type="Animation" id="Animation_3v612"]
+resource_name = "idle"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"idle"]
+}
+
+[sub_resource type="Animation" id="Animation_itr6r"]
+resource_name = "attack"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"attack"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:scale")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.56666666, 1),
+"transitions": PackedFloat32Array(0.4204482, 2.2191393, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.5, 1), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_cykr3"]
+resource_name = "movement"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"run"]
+}
+
+[sub_resource type="Animation" id="Animation_lduo2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"attack"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimationPlayer:speed_scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hfat0"]
+_data = {
+&"RESET": SubResource("Animation_lduo2"),
+&"attack": SubResource("Animation_itr6r"),
+&"idle": SubResource("Animation_3v612"),
+&"movement": SubResource("Animation_cykr3")
+}
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_heqc5"]
 animations = [{
@@ -169,6 +277,46 @@ animations = [{
 "loop": false,
 "name": &"attack",
 "speed": 12.0
+}, {
+"frames": [{
+"duration": 0.5,
+"texture": ExtResource("12_vedbf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_siiro")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_rlg5u")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_k07tp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_nafj1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_dhf6o")
+}, {
+"duration": 0.5,
+"texture": ExtResource("16_pi2fi")
+}],
+"loop": false,
+"name": &"block",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("16_plpdn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_t526v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_uufy7")
+}],
+"loop": false,
+"name": &"hit",
+"speed": 7.0
 }, {
 "frames": [{
 "duration": 20.0,
@@ -351,34 +499,8 @@ animations = [{
 "texture": ExtResource("74_nafj1")
 }],
 "loop": true,
-"name": &"movement",
+"name": &"run",
 "speed": 24.0
-}, {
-"frames": [{
-"duration": 0.5,
-"texture": ExtResource("12_vedbf")
-}, {
-"duration": 1.0,
-"texture": ExtResource("13_siiro")
-}, {
-"duration": 1.0,
-"texture": ExtResource("14_rlg5u")
-}, {
-"duration": 1.0,
-"texture": ExtResource("15_k07tp")
-}, {
-"duration": 1.0,
-"texture": ExtResource("14_nafj1")
-}, {
-"duration": 1.0,
-"texture": ExtResource("15_dhf6o")
-}, {
-"duration": 0.5,
-"texture": ExtResource("16_pi2fi")
-}],
-"loop": false,
-"name": &"parry",
-"speed": 6.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_lfjyr"]
@@ -401,7 +523,6 @@ is_log_enabled = true
 
 [node name="PlayerAttackController" parent="." instance=ExtResource("2_jxsrc")]
 unique_name_in_owner = true
-dash_attack_scene = ExtResource("6_cykr3")
 
 [node name="ParryController" parent="." instance=ExtResource("3_tyng1")]
 unique_name_in_owner = true
@@ -430,19 +551,20 @@ unique_name_in_owner = true
 wait_time = 0.5
 one_shot = true
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("player", "attack_controller", "parry_controller")]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_hfat0")
+}
+script = ExtResource("12_itr6r")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
 texture_filter = 3
 sprite_frames = SubResource("SpriteFrames_heqc5")
-animation = &"parry"
+animation = &"attack"
 autoplay = "idle"
-frame = 6
-frame_progress = 1.0
 offset = Vector2(0, -1)
-script = ExtResource("94_cykr3")
-player = NodePath("..")
-attack_controller = NodePath("../PlayerAttackController")
-parry_controller = NodePath("../ParryController")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true

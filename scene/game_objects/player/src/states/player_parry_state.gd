@@ -7,33 +7,47 @@ signal parry_finished
 
 static var state_name = "PlayerParryState"
 
-var parry_timer := 0.0
+var input_from_mouse: bool
+var on_cooldown: bool = false
 
 func enter() -> void:
+	if not parry_controller.parry_started.is_connected(_on_parry_started):
+		parry_controller.parry_started.connect(_on_parry_started)
+
+	if not parry_controller.parry_finished.is_connected(_on_parry_finished):
+		parry_controller.parry_finished.connect(_on_parry_finished)
+
+	if not parry_controller.parry_cooldown_timeout.is_connected(_on_parry_cooldown_timeout):
+		parry_controller.parry_cooldown_timeout.connect(_on_parry_cooldown_timeout)
+
+	on_cooldown = true
+
 	parry_started.emit()
-	var multiplier = player.parry_controller.parry_duration_multiplier
-	animated_sprite_2d.speed_scale = 1 / \
-	(player.parry_controller.parry_duration * multiplier)
-	animated_sprite_2d.play("block")
-	player.parry_controller.start_cooldown()
-	parry_timer = player.parry_controller.parry_duration * multiplier
-	player.parry_controller.activate_parry(player.parry_from_mouse)
+
+	player.parry_controller.activate_parry(input_from_mouse)
 
 
-func process(delta: float):
-	parry_timer -= delta
-	if parry_timer <= 0.0:
-		if player.is_stunned:
-			player_state_machine.transition(PlayerStunState.state_name)
-		elif player.movement_component.get_movement_vector().normalized() == Vector2.ZERO:
-			player_state_machine.transition(PlayerIdleState.state_name)
-		else:
-			player_state_machine.transition(PlayerMovementState.state_name)
+func _on_parry_started():
+	animated_sprite_2d.play_parry_animation()
+
+
+func _on_parry_finished():
+	if player.is_stunned:
+		state_machine.transition(PlayerStunState.state_name)
+	else:
+		state_machine.transition(PlayerMovementState.state_name)
+
+
+func _on_parry_cooldown_timeout():
+	on_cooldown = false
+
+
+func set_input(event):
+	input_from_mouse = event.is_action_pressed("right_mouse_click_parry")
 
 
 func exit() -> void:
 	parry_finished.emit()
-	animated_sprite_2d.speed_scale = 1
 
 
 func get_state_name() -> String:

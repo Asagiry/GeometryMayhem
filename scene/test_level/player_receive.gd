@@ -83,12 +83,12 @@ func _update_timer_progress(label: Label):
 func _on_freeze_button_pressed() -> void:
 	if freeze_button.text == "Freeze":
 		freeze_button.text = "Unfreeze"
-		var state = state_machine.states["PlayerIdleState"] as PlayerIdleState
+		var state = state_machine.states["PlayerMovementState"] as PlayerMovementState
 		player.is_stunned = false
 		state_machine.transition(state.state_name)
 	else:
 		freeze_button.text = "Freeze"
-		state_machine = player.player_state_machine
+		state_machine = player.state_machine
 		var state = state_machine.states["PlayerStunState"] as PlayerStunState
 		state.set_duration(9999)
 		player.is_stunned = true

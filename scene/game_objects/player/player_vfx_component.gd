@@ -20,6 +20,8 @@ preload("res://scene/game_objects/player/vfx/MovementTrailVFX/trail_line.tscn")
 func _ready() -> void:
 	player_state_machine.machine_started.connect(_on_machine_started)
 	player = player_state_machine.get_parent()
+	await player.ready
+	await get_tree().process_frame
 
 
 func _on_machine_started():
@@ -30,7 +32,7 @@ func _on_machine_started():
 
 
 func connect_dash_state():
-	var dash_state = player_states["PlayerDashState"] as PlayerDashState
+	var dash_state = player_states["PlayerAttackState"] as PlayerAttackState
 	dash_state.dash_started.connect(_on_dash_started)
 	dash_state.dash_finished.connect(_on_dash_finished)
 
@@ -45,7 +47,6 @@ func connect_movement_state():
 	var movement_state = player_states["PlayerMovementState"] as PlayerMovementState
 	movement_state.movement_started.connect(_on_movement_started)
 	movement_state.movement_ended.connect(_on_movement_finished)
-
 
 func connect_stun_state():
 	var stun_state = player_states["PlayerStunState"] as PlayerStunState
@@ -71,15 +72,15 @@ func _on_parry_finished():
 
 
 func _on_movement_started():
-	var trail_length = player.movement_component.max_speed*0.2
+	var trail_length = player.movement_component.max_speed * 0.2
+
 	left_trail = trail_line_scene.instantiate() as TrailLine
-	left_trail.init(player,Vector2(10,10),trail_color,trail_length,trail_width)
-	get_tree().get_first_node_in_group("back_layer").add_child(left_trail)
+	left_trail.init(player, Vector2(-16, -10), trail_color, trail_length, trail_width)
+	get_tree().get_first_node_in_group("back_layer").call_deferred("add_child", left_trail)
 
 	right_trail = trail_line_scene.instantiate() as TrailLine
-	right_trail.init(player,Vector2(-10,10),trail_color,trail_length,trail_width)
-	get_tree().get_first_node_in_group("back_layer").add_child(right_trail)
-
+	right_trail.init(player, Vector2(-16, 10), trail_color, trail_length, trail_width)
+	get_tree().get_first_node_in_group("back_layer").call_deferred("add_child", right_trail)
 
 func _on_movement_finished():
 	left_trail.destroy()

@@ -3,8 +3,11 @@ class_name PlayerAttackController
 #region variables
 extends Node
 
+signal attack_started
+signal attack_finished
+signal attack_cd_timeout
 
-var dash_attack_scene: PackedScene
+@export var dash_attack_scene: PackedScene
 var damage_data: DamageData
 var dash_range: float = 100.0
 var dash_cd: float = 0.1
@@ -29,12 +32,6 @@ var _end_pos: Vector2
 @onready var player_hurt_box: HurtBox = %PlayerHurtBox
 @onready var cooldown_timer: Timer = %CooldownTimer
 #endregion variables
-
-
-
-func start_cooldown():
-	is_on_cooldown = true
-	cooldown_timer.start(dash_cd * attack_cd_multiplier)
 
 
 func _ready():
@@ -80,12 +77,16 @@ func enable_range(enable: bool):
 
 
 func activate_dash(input_state: bool):
+
+	_start_pos = player.global_position
+	attack_started.emit()
+
 	var dash_attack_instance = _create_dash_instance()
 	_set_damage(dash_attack_instance)
 
-	_disable_player(true)
+	_disable_player_hurt_box(true)
 
-	_start_pos = player.global_position
+
 
 	is_dash_from_mouse = input_state
 	if is_dash_from_mouse:
@@ -103,10 +104,6 @@ func _create_dash_instance():
 func _set_damage(dash_attack_instance: DashAttack):
 	damage_data.amount *= damage_multiplier
 	dash_attack_instance.hit_box_component.damage_data = damage_data
-
-
-func _disable_player(disable:bool):
-	_disable_player_hurt_box(disable)
 
 
 func _disable_player_hurt_box(disable: bool):
@@ -129,8 +126,8 @@ func _set_end_pos_from_mouse():
 
 
 func _rotate_player_to_dash():
-	player.movement_component.last_direction = (_end_pos - player.global_position).normalized()
-	player.rotation = player.movement_component.last_direction.angle() + PI / 2
+	var direction = (_end_pos - player.global_position).normalized()
+	player.rotation = direction.angle() + PI / 2
 
 
 func _activate_keyboard_dash(dash_attack_instance):
@@ -153,7 +150,6 @@ func _start_dash_tween(dash_attack_instance: DashAttack):
 	dash_duration * dash_duration_multiplier) \
 	.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
 
-
 	var start_size = Vector2(dash_width, 0)
 	var end_size = Vector2(dash_width, _distance)
 	dash_attack_instance.dash_hit_box_shape.shape.size = start_size
@@ -172,7 +168,9 @@ func _start_dash_tween(dash_attack_instance: DashAttack):
 
 	tween.tween_callback(Callable(dash_attack_instance, "queue_free"))
 	tween.finished.connect(func():
-		_disable_player(false)
+		_disable_player_hurt_box(true)
+		attack_finished.emit()
+		start_cooldown()
 	)
 
 #Проверка на столкновение со стенами и пересчёт если столкнулись
@@ -195,8 +193,12 @@ func _set_final_end_pos():
 	test_body.queue_free()
 
 
+func start_cooldown():
+	cooldown_timer.start(get_cooldown())
+
+
 func _on_cooldown_timer_timeout() -> void:
-	is_on_cooldown = false
+	attack_cd_timeout.emit()
 
 
 func _on_effect_stats_changed(updated_stats) -> void:
@@ -206,3 +208,11 @@ func _on_effect_stats_changed(updated_stats) -> void:
 		damage_multiplier = updated_stats["attack_multiplier"]
 	if updated_stats.has("attack_cd_multiplier"):
 		attack_cd_multiplier = updated_stats["attack_cd_multiplier"]
+
+
+func get_duration():
+	return dash_duration*dash_duration_multiplier
+
+
+func get_cooldown():
+	return dash_cd*attack_cd_multiplier

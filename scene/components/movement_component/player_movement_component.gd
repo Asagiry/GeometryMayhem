@@ -6,11 +6,26 @@ signal movement_started(pos: Vector2)
 
 #@onready var effect_receiver: EffectReceiver = %EffectReceiver
 var effect_receiver: EffectReceiver
+var is_enable : bool
 
 func _ready():
 	super()
 	_enter_variables()
 	_connect_signals()
+	set_physics_process(false)
+
+
+func _process(delta: float) -> void:
+	var direction = get_movement_vector().normalized()
+	if direction != Vector2.ZERO:
+		last_direction = direction
+		movement_started.emit(global_position)
+
+		var target_angle = last_direction.angle() + PI / 2
+		rotation = lerp_angle(rotation, target_angle, rotation_speed * delta)
+
+	velocity = accelerate_to_direction(direction)
+	move_and_slide()
 
 
 func _enter_variables():
@@ -21,20 +36,8 @@ func _connect_signals():
 	effect_receiver.movement_component_effects_changed.connect(_on_effect_stats_changed)
 
 
-func handle_movement(delta: float):
-	var direction = get_movement_vector().normalized()
-	if direction != Vector2.ZERO:
-		last_direction = direction
-	velocity = accelerate_to_direction(direction)
-
-	if direction!=Vector2.ZERO:
-		var target_angle = last_direction.angle() + PI / 2
-		rotation = lerp_angle(rotation, target_angle, rotation_speed * delta)
-
-	if direction!=Vector2.ZERO:
-		movement_started.emit(global_position)
-
-	move_and_slide()
+func enable_movement(enable: bool):
+	set_process(enable)
 
 
 func get_movement_vector() -> Vector2:
