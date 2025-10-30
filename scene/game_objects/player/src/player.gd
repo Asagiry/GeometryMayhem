@@ -31,7 +31,7 @@ func _ready():
 	Global.player_spawned.emit(self)
 	_enter_variables()
 	_connect_signals()
-	Engine.time_scale = 1
+	Engine.time_scale = 1.0
 
 
 func _enter_variables():

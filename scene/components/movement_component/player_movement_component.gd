@@ -48,3 +48,6 @@ func _on_effect_stats_changed(updated_stats: Dictionary):
 
 	if updated_stats.has("speed_multiplier"):
 		speed_multiplier = updated_stats["speed_multiplier"]
+
+	if updated_stats.has("direction_modifier"):
+		direction_modifier = updated_stats["direction_modifier"]

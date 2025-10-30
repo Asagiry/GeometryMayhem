@@ -5,7 +5,6 @@ var last_position: Vector2
 func apply(receiver: EffectReceiver, effect: Effect) -> void:
 	super.apply(receiver, effect)
 	last_position = receiver.owner.global_position
-	print("🩸 Rupture applied for ", effect.duration, " seconds")
 
 func tick(_delta: float) -> void:
 	var current_position = _receiver.owner.global_position
@@ -18,6 +17,5 @@ func tick(_delta: float) -> void:
 		last_position = current_position
 
 func end() -> void:
-	_receiver.active_special_states[_effect.effect_type] = false
-	print("🩸 Rupture ended")
+	_receiver.active_special_states.erase(_effect.effect_type)
 	super.end()

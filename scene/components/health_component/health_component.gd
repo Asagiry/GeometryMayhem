@@ -49,6 +49,10 @@ func take_damage(damage: DamageData):
 		died.emit()
 
 
+func take_heal(amount_of_heal: float):
+	current_health = snappedf(min(current_health + amount_of_heal, max_health), ROUNDING_ACCURACY)
+	emit_signal("health_changed", current_health, max_health)
+
 
 func _on_effect_stats_changed(updated_stats: Dictionary) -> void:
 	if (updated_stats.has("forward_receiving_damage_multiplier")):

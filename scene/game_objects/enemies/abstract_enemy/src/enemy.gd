@@ -18,8 +18,7 @@ extends CharacterBody2D
 
 @onready var aggro_zone: Area2D = %AggroZone
 @onready var attack_zone: Area2D = %AttackZone
-@onready var enviroment_collision: CollisionShape2D = %EnviromentCollision
-
+@onready var collision: CollisionShape2D = %EnviromentCollision
 
 
 
