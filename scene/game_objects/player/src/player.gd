@@ -11,6 +11,8 @@ extends CharacterBody2D
 var is_silenced: bool = false
 var is_stunned: bool = false
 
+var current_zone : ArenaZone
+
 @onready var state_machine: StateMachine = %PlayerStateMachine
 @onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
 @onready var grace_period: Timer = %GracePeriod
@@ -23,6 +25,10 @@ var is_stunned: bool = false
 
 
 #endregion
+
+func change_current_zone(zone: ArenaZone):
+	if (current_zone!=zone):
+		current_zone = zone
 
 func _ready():
 	Global.player_spawned.emit(self)
@@ -56,4 +62,7 @@ func _on_silenced(status: bool):
 
 
 func _on_collision_disabled(status: bool) -> void:
-	collision.disabled = status
+	if (status):
+		collision_mask = 1
+	else:
+		collision_mask = 0<<1|2<<1

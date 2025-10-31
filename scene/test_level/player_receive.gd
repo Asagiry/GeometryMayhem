@@ -81,13 +81,12 @@ func _update_timer_progress(label: Label):
 
 
 func _on_freeze_button_pressed() -> void:
-	print("123")
 	if freeze_button.text == "Freeze":
 		freeze_button.text = "Unfreeze"
 		player.effect_receiver.set_stun_state(9999)
 	else:
 		freeze_button.text = "Freeze"
-		player.effect_receiver.set_stun_state(0)
+		player.state_machine.states["PlayerStunState"].set_duration(0)
 
 
 func _on_slow_preset_pressed() -> void:
