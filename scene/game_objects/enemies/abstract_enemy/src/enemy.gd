@@ -5,6 +5,8 @@ extends CharacterBody2D
 @export var effects: Array[Effect]
 @export var effect_receiver: EffectReceiver
 
+signal enemy_died()
+
 @onready var state_machine: StateMachine = %EnemyStateMachine
 
 
@@ -21,7 +23,6 @@ extends CharacterBody2D
 @onready var collision: CollisionShape2D = %EnviromentCollision
 
 
-
 func _ready():
 	init()
 
@@ -30,6 +31,9 @@ func init():
 	_enter_stats()
 	_connect_signals()
 	_start_state_machine()
+	stats = stats.duplicate(true)
+	effects = effects.duplicate(true)
+	effect_receiver = effect_receiver.duplicate()
 
 
 func _connect_signals():
@@ -60,4 +64,10 @@ func _start_state_machine():
 	state_machine.start_machine(states)
 
 func _on_died():
+	enemy_died.emit()
+	Global.enemy_died.emit()
 	queue_free()
+
+
+func set_spawn_point(spawn_point: Vector2):
+	stats.spawn_point = spawn_point

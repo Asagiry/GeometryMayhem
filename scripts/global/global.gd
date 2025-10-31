@@ -1,5 +1,6 @@
 extends Node
 
+signal enemy_died
 signal player_died
 signal player_spawned(player: PlayerController)
 signal game_started

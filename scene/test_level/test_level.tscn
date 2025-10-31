@@ -3,14 +3,17 @@
 [ext_resource type="PackedScene" uid="uid://vwuw6r5inl58" path="res://scene/test_level/test_ui.tscn" id="1_8r3jg"]
 [ext_resource type="Script" uid="uid://cr3crnc84mvpt" path="res://scene/test_level/test_level.gd" id="1_n6eni"]
 [ext_resource type="PackedScene" uid="uid://dpvptcshibxt0" path="res://scene/game_objects/player/player.tscn" id="1_r8dxa"]
+[ext_resource type="PackedScene" uid="uid://h1tpifchokj3" path="res://scene/arena_map/enemy_spawner_controller/enemy_spawner_controller.tscn" id="2_mj66c"]
 [ext_resource type="Script" uid="uid://b3w4epa6tgic2" path="res://scene/level/camera_2d.gd" id="3_sj7wh"]
-[ext_resource type="PackedScene" uid="uid://8adv387ncikr" path="res://scene/game_objects/enemies/melee_enemy/easy/melee_enemy_1.tscn" id="4_sj7wh"]
-[ext_resource type="PackedScene" uid="uid://cn0xxo2ifv50j" path="res://scene/map/map.tscn" id="6_n6eni"]
+[ext_resource type="PackedScene" uid="uid://cn0xxo2ifv50j" path="res://scene/arena_map/arena_map.tscn" id="6_n6eni"]
 
 [node name="TestLevel" type="Node" groups=["level"]]
 script = ExtResource("1_n6eni")
 
-[node name="Map" parent="." instance=ExtResource("6_n6eni")]
+[node name="EnemySpawnerController" parent="." node_paths=PackedStringArray("arena_map") instance=ExtResource("2_mj66c")]
+arena_map = NodePath("../ArenaMap")
+
+[node name="ArenaMap" parent="." instance=ExtResource("6_n6eni")]
 
 [node name="Test_ui" parent="." instance=ExtResource("1_8r3jg")]
 
@@ -20,14 +23,11 @@ unique_name_in_owner = true
 [node name="Player" parent="BackLayer" instance=ExtResource("1_r8dxa")]
 unique_name_in_owner = true
 
-[node name="Melee_enemy_1" parent="BackLayer" instance=ExtResource("4_sj7wh")]
-position = Vector2(188, -121)
-
 [node name="FrontLayer" type="Node2D" parent="." groups=["front_layer"]]
 unique_name_in_owner = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 unique_name_in_owner = true
-zoom = Vector2(1.5, 1.5)
+zoom = Vector2(2, 2)
 position_smoothing_enabled = true
 script = ExtResource("3_sj7wh")
