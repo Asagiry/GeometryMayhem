@@ -404,7 +404,6 @@ func set_direction_modifier(value: float) -> void:
 
 func set_stun_state(duration: float):
 	if owner is PlayerController:
-		var stun_state = owner.state_machine.states["PlayerStunState"] as PlayerStunState
 		stun_applied.emit(duration)
 		owner.is_stunned = true
 	else:

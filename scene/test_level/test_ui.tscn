@@ -254,7 +254,7 @@ size_flags_vertical = 4
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-text = "FREEZE"
+text = "Freeze"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
@@ -300,4 +300,5 @@ text = "HealPlayer"
 [connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/BleedPreset" to="." method="_on_bleed_preset_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/WoundedPreset" to="." method="_on_wounded_preset_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/ClearAllEffects" to="." method="_on_clear_all_effects_pressed"]
+[connection signal="pressed" from="HBoxContainer/FreezeButton" to="." method="_on_freeze_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/HealPlayer" to="." method="_on_heal_player_pressed"]
