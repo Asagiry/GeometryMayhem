@@ -1,11 +1,11 @@
-class_name PlayerStunState
+class_name EnemyStunState
 
-extends PlayerState
+extends EnemyState
 
 signal stun_started
 signal stun_finished
 
-static var state_name = "PlayerStunState"
+static var state_name = "EnemyStunState"
 
 var stun_duration:float = 1
 
@@ -18,17 +18,17 @@ func enter() -> void:
 
 
 func process(delta: float) -> void:
-	if player.is_stunned == false:
+	if enemy.is_stunned == false:
 		state_machine.transition(PlayerMovementState.state_name)
 	stun_duration-=delta
-	player.move_and_collide(Vector2.ZERO)
+	enemy.move_and_collide(Vector2.ZERO)
 	if(stun_duration <= 0.0):
 		state_machine.transition(PlayerMovementState.state_name)
 
 
 func exit():
 	stun_finished.emit()
-	player.is_stunned = false
+	enemy.is_stunned = false
 
 
 func get_state_name() -> String:

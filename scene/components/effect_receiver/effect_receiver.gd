@@ -83,6 +83,7 @@ func _apply_instant_effect(effect: Effect):
 
 	if effect.effect_type == Util.EffectType.DISPEL:
 		clear_effects(Util.EffectPositivity.NEGATIVE)
+		set_leave_stun_state()
 
 	if effect.damage:
 		owner.health_component.take_damage(effect.damage)
@@ -400,6 +401,10 @@ func set_direction_modifier(value: float) -> void:
 	movement_component_effects_changed.emit({
 		"direction_modifier": value
 	})
+
+
+func set_leave_stun_state():
+	owner.is_stunned = false
 
 
 func set_stun_state(duration: float):

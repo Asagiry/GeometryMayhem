@@ -5,6 +5,8 @@ extends CharacterBody2D
 @export var effects: Array[Effect]
 @export var effect_receiver: EffectReceiver
 
+var is_stunned: bool = false
+
 @onready var state_machine: StateMachine = %EnemyStateMachine
 
 
@@ -45,7 +47,7 @@ func _enter_stats():
 
 	var attack_collision = CollisionShape2D.new()
 	var attack_shape = CircleShape2D.new()
-	attack_shape.radius = stats.attack_range  # должно быть attack_range, а не aggro_range
+	attack_shape.radius = stats.attack_range_zone  
 	attack_collision.shape = attack_shape
 	attack_zone.add_child(attack_collision)
 
@@ -56,6 +58,7 @@ func _start_state_machine():
 		EnemyAttackState.new(self),
 		EnemyBackState.new(self),
 		EnemyAggroState.new(self),
+		EnemyStunState.new(self)
 	]
 	state_machine.start_machine(states)
 

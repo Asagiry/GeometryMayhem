@@ -4,6 +4,7 @@ extends SpecialEffectBehavior
 func apply(receiver: EffectReceiver, effect: Effect) -> void:
 	super.apply(receiver, effect)
 	receiver.clear_effects(Util.EffectPositivity.NEGATIVE)
+	receiver.set_leave_stun_state()
 
 
 func end() -> void:
