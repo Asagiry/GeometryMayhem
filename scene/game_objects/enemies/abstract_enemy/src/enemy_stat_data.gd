@@ -26,3 +26,4 @@ const DEFAULT_INT_STAT: int = 0
 @export var aggro_range: float
 @export var attack_range: float
 @export var attack_range_zone: float
+@export var projectile_speed: float

@@ -20,7 +20,6 @@ func enter() -> void:
 	on_cooldown = true
 
 	attack_controller.activate_attack()
-
 	attack_started.emit()
 
 
@@ -37,9 +36,7 @@ func _on_attack_finished():
 
 
 func _on_attack_cd_timeout():
-	print("COOLDOWN")
 	on_cooldown = false
-
 
 func get_state_name() -> String:
 	return state_name

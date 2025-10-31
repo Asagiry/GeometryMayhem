@@ -12,8 +12,9 @@ var attack_damage: DamageData = DamageData.new()
 var attack_duration: float
 var attack_cd: float
 var attack_range: float
-var attack_range_multiplier: float
+var projectile_speed: float
 
+var attack_range_multiplier: float
 var attack_duration_multiplier: float = 1.0
 var damage_multiplier: float = 1.0
 var attack_cd_multiplier: float = 1.0
@@ -30,6 +31,7 @@ func _enter_variables():
 	attack_duration = owner.stats.attack_duration
 	attack_cd = owner.stats.attack_cd
 	attack_range = owner.stats.attack_range
+	projectile_speed = owner.stats.projectile_speed
 
 
 func _connect_signals():
@@ -61,9 +63,6 @@ func get_cooldown():
 
 func get_attack_range():
 	return attack_range * attack_range_multiplier
-
-func _on_cooldown_timer_timeout() -> void:
-	attack_cd_timeout.emit()
 
 
 func _on_effect_stats_changed(updated_stats) -> void:

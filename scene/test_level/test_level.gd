@@ -15,7 +15,6 @@ func _on_player_died():
 		var player = preload("res://scene/game_objects/player/player.tscn").instantiate()
 		back_layer.add_child(player)
 
-		# Ждем пока игрок полностью инициализируется
 		await get_tree().process_frame
 		camera_2d.set_target(player)
 		test_ui._connect_health_signal()

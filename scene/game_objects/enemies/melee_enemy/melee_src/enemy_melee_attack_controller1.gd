@@ -16,8 +16,7 @@ func _spawn_attack_instance():
 	
 	attack_instance.set_enemy(owner)
 	attack_instance.set_attack_range(attack_range)
-	if owner.movement_component.last_direction.length() > 0.001:
-		attack_instance.rotation = owner.movement_component.last_direction.angle()
+	attack_instance.rotation = owner.movement_component.last_direction.angle()
 	attack_instance.set_speed_scale(1 / get_duration())
 	_set_damage(attack_instance)
 	
@@ -29,5 +28,9 @@ func _spawn_attack_instance():
 
 func _create_attack_instance():
 	var attack_instance = attack_scene.instantiate() as MeleeEnemyAttackScene1
-	get_tree().get_first_node_in_group("front_layer").add_child(attack_instance)
+	owner.add_child(attack_instance)
 	return attack_instance
+
+
+func _on_cooldown_timer_timeout() -> void:
+	attack_cd_timeout.emit()
