@@ -1,14 +1,13 @@
 class_name EnemyController
 extends CharacterBody2D
 
+signal enemy_died()
+
 @export var stats: EnemyStatData
 @export var effects: Array[Effect]
 @export var effect_receiver: EffectReceiver
 
-signal enemy_died()
-
 @onready var state_machine: StateMachine = %EnemyStateMachine
-
 
 @onready var health_component: HealthComponent = %HealthComponent
 @onready var armor_component: ArmorComponent = %ArmorComponent

@@ -2,10 +2,12 @@ class_name ArenaZone
 
 extends TileMapLayer
 
-@export var arena_stat_data: ArenaStatData
-
 signal entered_zone(zone: ArenaZone)
 signal exited_zone(zone: ArenaZone)
+
+@export var arena_stat_data: ArenaStatData
+
+
 
 var border_area: Area2D
 var full_area: Area2D

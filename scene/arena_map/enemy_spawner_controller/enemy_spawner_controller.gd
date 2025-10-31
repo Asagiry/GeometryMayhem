@@ -24,7 +24,7 @@ func _on_player_entered(zone: ArenaZone):
 		print("Спавн окончен")
 		spawn_timer.stop()
 
-func _on_player_exited(zone: ArenaZone):
+func _on_player_exited(_zone: ArenaZone):
 	pass
 
 func _on_spawn_timer_timeout() -> void:
@@ -43,7 +43,6 @@ func _spawn_enemy():
 			get_tree().get_first_node_in_group("back_layer").call_deferred("add_child",
 			enemy_instance)
 			zone_current_enemy[current_zone] = zone_current_enemy.get(current_zone, 0) + 1
-			print("Текущее количество врагов в зоне ", current_zone.get_name(), zone_current_enemy[current_zone])
 			enemy_instance.enemy_died.connect(_on_enemy_died.bind(current_zone))
 
 func _get_random_enemy_scene(zone: ArenaZone):
