@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://cgblk87y45i5x"]
 
-[ext_resource type="PackedScene" uid="uid://cn0xxo2ifv50j" path="res://scene/map/map.tscn" id="1_1c01b"]
+[ext_resource type="PackedScene" uid="uid://cn0xxo2ifv50j" path="res://scene/arena_map/arena_map.tscn" id="1_1c01b"]
 [ext_resource type="Script" uid="uid://dbvn0o4o38sce" path="res://scene/level/level.gd" id="1_plauu"]
 [ext_resource type="PackedScene" uid="uid://wd0ae536cgs3" path="res://scene/UI/end_game_screen/player_death_transition_screen/player_death_transition_screen.tscn" id="2_dcgxc"]
 [ext_resource type="PackedScene" uid="uid://dpvptcshibxt0" path="res://scene/game_objects/player/player.tscn" id="2_hm7p5"]
