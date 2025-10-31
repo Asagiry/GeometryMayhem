@@ -17,11 +17,14 @@ func set_input(event: InputEvent):
 	input_from_mouse = event.is_action_pressed("left_mouse_click_attack")
 
 
-func enter() -> void:
-	safe_connect(attack_controller.attack_started,_on_attack_started)
-	safe_connect(attack_controller.attack_finished,_on_attack_finished)
-	safe_connect(attack_controller.attack_cd_timeout,_on_attack_cd_timeout)
+func _init(player_controller: PlayerController) -> void:
+	super(player_controller)
+	attack_controller.attack_started.connect(_on_attack_started)
+	attack_controller.attack_finished.connect(_on_attack_finished)
+	attack_controller.attack_cd_timeout.connect(_on_attack_cd_timeout)
 
+
+func enter() -> void:
 	on_cooldown = true
 
 	attack_controller.activate_dash(input_from_mouse)
@@ -32,7 +35,6 @@ func enter() -> void:
 
 func _on_attack_started():
 	_play_animation()
-
 	start_pos = player.attack_controller.get_start_pos()
 
 

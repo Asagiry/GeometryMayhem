@@ -10,15 +10,14 @@ static var state_name = "PlayerParryState"
 var input_from_mouse: bool
 var on_cooldown: bool = false
 
+
+func _init(player_controller: PlayerController) -> void:
+	super(player_controller)
+	parry_controller.parry_started.connect(_on_parry_started)
+	parry_controller.parry_finished.connect(_on_parry_finished)
+	parry_controller.parry_cooldown_timeout.connect(_on_parry_cooldown_timeout)
+
 func enter() -> void:
-	if not parry_controller.parry_started.is_connected(_on_parry_started):
-		parry_controller.parry_started.connect(_on_parry_started)
-
-	if not parry_controller.parry_finished.is_connected(_on_parry_finished):
-		parry_controller.parry_finished.connect(_on_parry_finished)
-
-	if not parry_controller.parry_cooldown_timeout.is_connected(_on_parry_cooldown_timeout):
-		parry_controller.parry_cooldown_timeout.connect(_on_parry_cooldown_timeout)
 
 	on_cooldown = true
 
