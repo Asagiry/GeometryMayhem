@@ -4,6 +4,7 @@ extends EnemyState
 static var state_name = "EnemyAggroState"
 
 var player_in_attack_zone: bool = false
+var player_in_aggro_zone: bool = true
 
 func _init(enemy_controller: EnemyController) -> void:
 	super(enemy_controller)
@@ -12,6 +13,7 @@ func _init(enemy_controller: EnemyController) -> void:
 	enemy.aggro_zone.body_exited.connect(_on_player_exited_aggro)
 
 func enter() -> void:
+	player_in_aggro_zone = true
 	animated_sprite_2d.play("aggro")
 
 func process(_delta: float) -> void:
@@ -31,6 +33,7 @@ func _on_player_exited_attack(body: CharacterBody2D):
 
 func _on_player_exited_aggro(body: CharacterBody2D):
 	if body is PlayerController:
+		player_in_aggro_zone = false
 		state_machine.transition(EnemyBackState.state_name)
 
 func _on_stun_applied(duration: float):

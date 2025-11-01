@@ -56,7 +56,7 @@ func _enter_stats():
 
 	var attack_collision = CollisionShape2D.new()
 	var attack_shape = CircleShape2D.new()
-	attack_shape.radius = stats.attack_range_zone  
+	attack_shape.radius = stats.attack_range_zone
 	attack_collision.shape = attack_shape
 	attack_zone.add_child(attack_collision)
 

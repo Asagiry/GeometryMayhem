@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://0ea6np48h42c"]
 
-[ext_resource type="Script" uid="uid://b7120qbocnltx" path="res://scene/game_objects/enemies/bomb_enemy/bomb_src/enemy_bomb_attack_controller1.gd" id="1_rmtpf"]
+[ext_resource type="Script" uid="uid://b7120qbocnltx" path="res://scene/game_objects/enemies/components/enemy_attack_controller/enemy_bomb_attack_controller/enemy_bomb_attack_controller.gd" id="1_rmtpf"]
 [ext_resource type="PackedScene" uid="uid://d6ogsj2wbxpx" path="res://scene/game_objects/enemies/bomb_enemy/bomb_src/bomb_enemy_1_attack_scene.tscn" id="2_n50ls"]
 
 [node name="EnemyBombAttackController" type="Node"]

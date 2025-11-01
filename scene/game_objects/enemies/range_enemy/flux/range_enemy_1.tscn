@@ -40,9 +40,10 @@ acceleration = 12.5
 rotation_speed = 4.0
 attack_damage = SubResource("Resource_jncjd")
 attack_cd = 1.0
-aggro_range = 400.0
-attack_range_zone = 300.0
-projectile_speed = 100.0
+aggro_range = 200.0
+attack_range_zone = 150.0
+projectile_speed = 200.0
+chance_to_additional_projectile = 0.5
 metadata/_custom_type_script = "uid://vean0446eao1"
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_bgcy3"]

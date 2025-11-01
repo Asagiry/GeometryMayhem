@@ -43,8 +43,9 @@ acceleration = 20.0
 rotation_speed = 4.0
 attack_damage = SubResource("Resource_gua6m")
 aggro_range = 200.0
-attack_range = 50.0
+attack_range = 150.0
 attack_range_zone = 20.0
+explosion_delay = 3.0
 metadata/_custom_type_script = "uid://vean0446eao1"
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_dlte1"]

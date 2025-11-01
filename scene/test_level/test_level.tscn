@@ -26,14 +26,12 @@ unique_name_in_owner = true
 [node name="Player" parent="BackLayer" instance=ExtResource("1_r8dxa")]
 unique_name_in_owner = true
 
-[node name="BombEnemy1" parent="BackLayer" instance=ExtResource("6_mj66c")]
-position = Vector2(135, -199)
-
 [node name="RangeEnemy1" parent="BackLayer" instance=ExtResource("7_3uiwr")]
-position = Vector2(-168, -180)
+position = Vector2(-196, -197)
 
 [node name="Melee_enemy_1" parent="BackLayer" instance=ExtResource("8_5mq0g")]
-position = Vector2(95, -65)
+
+[node name="BombEnemy1" parent="BackLayer" instance=ExtResource("6_mj66c")]
 
 [node name="FrontLayer" type="Node2D" parent="." groups=["front_layer"]]
 unique_name_in_owner = true

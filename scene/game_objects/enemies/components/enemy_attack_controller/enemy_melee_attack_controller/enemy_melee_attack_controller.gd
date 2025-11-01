@@ -1,31 +1,30 @@
-class_name EnemyBombAttackController1
+class_name EnemyMeleeAttackController1
 
 extends EnemyAttackController
 
-const QUEUE_FREE_DELAY: float = 0.5
 
 func activate_attack():
 	attack_started.emit()
 
-	owner.hurt_box_shape.disabled = true
-
-	var attack_instance = _create_and_setup_attack_instance()
-
+	var attack_instance = _create_and_setup_attack()
 	await _wait_for_attack_completion(attack_instance)
 
 	attack_finished.emit()
+	start_cooldown()
 
 
-func _create_and_setup_attack_instance():
+func _create_and_setup_attack() -> Node:
 	var attack_instance = _create_attack_instance()
 	_setup_attack_instance(attack_instance)
 	return attack_instance
 
 
-func _setup_attack_instance(attack_instance):
+func _setup_attack_instance(attack_instance: Node) -> void:
 	attack_instance.global_position = owner.global_position
+	attack_instance.rotation = owner.movement_component.last_direction.angle()
 	attack_instance.set_enemy(owner)
-	attack_instance.set_explosion_range(attack_range)
+	attack_instance.set_attack_range(attack_range)
+	attack_instance.set_speed_scale(1.0 / get_duration())
 	_set_damage(attack_instance)
 
 
@@ -34,8 +33,8 @@ func _wait_for_attack_completion(attack_instance: Node) -> void:
 
 
 func _create_attack_instance():
-	var attack_instance = attack_scene.instantiate() as BombEnemyAttackScene1
-	get_tree().get_first_node_in_group("front_layer").add_child(attack_instance)
+	var attack_instance = attack_scene.instantiate() as MeleeEnemyAttackScene1
+	owner.add_child(attack_instance)
 	return attack_instance
 
 

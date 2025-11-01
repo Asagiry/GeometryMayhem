@@ -27,3 +27,5 @@ const DEFAULT_INT_STAT: int = 0
 @export var attack_range: float
 @export var attack_range_zone: float
 @export var projectile_speed: float
+@export var explosion_delay: float
+@export var chance_to_additional_projectile: float

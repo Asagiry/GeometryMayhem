@@ -50,7 +50,7 @@ func _spawn_enemy():
 
 func _get_random_enemy_scene(zone: ArenaZone):
 	var path = "res://scene/game_objects/enemies/"
-	var enemy_index = randi_range(1,2)#до трех
+	var enemy_index = randi_range(1,3)#до трех
 	var enemy_type: String
 	match enemy_index:
 		1:
@@ -58,7 +58,7 @@ func _get_random_enemy_scene(zone: ArenaZone):
 		2:
 			enemy_type = "range_enemy"
 		3:
-			enemy_type = "melee_enemy"
+			enemy_type = "bomb_enemy"
 
 
 	path += enemy_type + "/"

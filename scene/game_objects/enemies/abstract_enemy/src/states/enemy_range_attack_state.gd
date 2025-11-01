@@ -27,7 +27,6 @@ func perform_attack():
 
 func _on_attack_started():
 	animated_sprite_2d.play("attack")
-	pass
 
 
 func _on_attack_finished():
@@ -38,12 +37,12 @@ func _on_attack_finished():
 	if !aggro_state.player_in_attack_zone:
 		state_machine.transition(EnemyAggroState.state_name)
 
-
+#TODO тест
 func _on_attack_cd_timeout():
 	on_cooldown = false
 	if aggro_state.player_in_attack_zone:
 		perform_attack()
-	else:
+	elif aggro_state.player_in_aggro_zone:
 		state_machine.transition(EnemyAggroState.state_name)
 
 

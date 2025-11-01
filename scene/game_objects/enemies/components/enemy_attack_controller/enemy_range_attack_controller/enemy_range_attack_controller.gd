@@ -1,15 +1,17 @@
-class_name EnemyRangeAttackController1
+class_name EnemyRangeAttackController
 
 extends EnemyAttackController
 
 const DELAY_BETWEEN_PROJECTILES: float = 0.1
-const CHANCE_TO_DEPLOY_ADDITIONAL_PROJECTILE: float = 0.5
 
+var chance_to_deploy_additional_projectile: float
 var player: PlayerController
 
 func _ready():
 	super._ready()
 	player = get_tree().get_first_node_in_group("player")
+	chance_to_deploy_additional_projectile = owner.stats.chance_to_additional_projectile
+
 
 func activate_attack():
 	attack_started.emit()
@@ -23,7 +25,7 @@ func activate_attack():
 func _spawn_attack_instance():
 	_create_and_setup_attack_instance()
 
-	if randf() < CHANCE_TO_DEPLOY_ADDITIONAL_PROJECTILE:
+	if randf() < chance_to_deploy_additional_projectile:
 		await get_tree().create_timer(DELAY_BETWEEN_PROJECTILES).timeout
 		await _spawn_attack_instance()
 

@@ -21,7 +21,6 @@ func enter() -> void:
 
 func _on_attack_started():
 	animated_sprite_2d.play("attack")
-	pass
 
 
 func _on_attack_finished():

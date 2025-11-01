@@ -65,9 +65,11 @@ func activate_parry(input_state:bool):
 		var mouse_dir = player.global_position.direction_to(player.get_global_mouse_position())
 		player.rotation = mouse_dir.angle() + deg_to_rad(90)
 		player.movement_component.last_direction = mouse_dir
-	
+
 	await get_tree().physics_frame
+	player.set_collision_layer_value(2, true)
 	await _parry()
+	#TODO GM-116
 	await get_tree().create_timer(get_duration()).timeout
 
 	start_cooldown()
@@ -76,17 +78,14 @@ func activate_parry(input_state:bool):
 
 func _parry():
 	await get_tree().physics_frame
-	
+
 	var overlapping_bodies = parry_instance.parry_area.get_overlapping_bodies()
 	var overlapping_areas = parry_instance.parry_area.get_overlapping_areas()
-	
-	print("Bodies: ", overlapping_bodies)
-	print("Areas: ", overlapping_areas)
-	
+
 	for body in overlapping_bodies:
 		if body.is_in_group("enemy"):
 			_push_enemy(body, player.movement_component.last_direction)
-	
+
 	for area in overlapping_areas:
 		if area.is_in_group("projectile"):
 				area.owner.direction *= -1
