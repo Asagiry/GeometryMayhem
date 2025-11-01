@@ -2,12 +2,17 @@ class_name RangeEnemyAttackScene1
 
 extends Node2D
 
+const LIFETIME_OF_PROJECTILE: float = 6.0
 
 var projectile_speed: float = 200.0
 var direction: Vector2 = Vector2.ZERO
 var enemy
 
 @onready var hit_box_component = %HitBoxComponent
+@onready var queue_free_timer: Timer = $QueueFreeTimer
+
+func _ready() -> void:
+	queue_free_timer.start(LIFETIME_OF_PROJECTILE)
 
 
 func _physics_process(delta: float) -> void:
@@ -34,3 +39,7 @@ func set_projectile_speed(p_projectile_speed):
 
 func set_direction(p_direction):
 	direction = p_direction
+
+
+func _on_queue_free_timer_timeout() -> void:
+	queue_free()

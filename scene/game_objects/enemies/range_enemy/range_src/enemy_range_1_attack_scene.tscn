@@ -34,6 +34,9 @@ size = Vector2(10, 9)
 rotation = -1.5707964
 script = ExtResource("1_e5vjy")
 
+[node name="QueueFreeTimer" type="Timer" parent="."]
+one_shot = true
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_bfk7u")
 animation = &"idle"
@@ -49,4 +52,5 @@ collision_mask = 256
 position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_cn3l5")
 
+[connection signal="timeout" from="QueueFreeTimer" to="." method="_on_queue_free_timer_timeout"]
 [connection signal="area_entered" from="AnimatedSprite2D/HitBoxComponent" to="." method="_on_hit_box_component_area_entered"]

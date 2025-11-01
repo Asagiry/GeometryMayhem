@@ -30,15 +30,20 @@ func _ready():
 
 func init():
 	_enter_stats()
+	_enter_varibles()
 	_connect_signals()
 	_start_state_machine()
-	stats = stats.duplicate(true)
-	effects = effects.duplicate(true)
-	effect_receiver = effect_receiver.duplicate()
+
 
 
 func _connect_signals():
 	health_component.died.connect(_on_died)
+
+
+func _enter_varibles():
+	stats = stats.duplicate(true)
+	effects = effects.duplicate(true)
+	effect_receiver = effect_receiver.duplicate()
 
 
 func _enter_stats():

@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://0ea6np48h42c"]
+
+[ext_resource type="Script" uid="uid://b7120qbocnltx" path="res://scene/game_objects/enemies/bomb_enemy/bomb_src/enemy_bomb_attack_controller1.gd" id="1_rmtpf"]
+[ext_resource type="PackedScene" uid="uid://d6ogsj2wbxpx" path="res://scene/game_objects/enemies/bomb_enemy/bomb_src/bomb_enemy_1_attack_scene.tscn" id="2_n50ls"]
+
+[node name="EnemyBombAttackController" type="Node"]
+script = ExtResource("1_rmtpf")
+attack_scene = ExtResource("2_n50ls")
+
+[node name="CooldownTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="CooldownTimer" to="." method="_on_cooldown_timer_timeout"]

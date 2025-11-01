@@ -1,0 +1,185 @@
+[gd_scene load_steps=33 format=3 uid="uid://cu58eoeg0bvxb"]
+
+[ext_resource type="Script" uid="uid://dsw4lsyt8vegg" path="res://scene/game_objects/enemies/bomb_enemy/bomb_src/enemy_bomb.gd" id="1_uj4o8"]
+[ext_resource type="Script" uid="uid://5m7cpflvnie8" path="res://base/state_machine.gd" id="2_8gjcj"]
+[ext_resource type="Script" uid="uid://vean0446eao1" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_stat_data.gd" id="2_uj4o8"]
+[ext_resource type="PackedScene" uid="uid://bl380xv78onc8" path="res://scene/components/effect_receiver/effect_receiver.tscn" id="3_p8heo"]
+[ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="4_fbn1v"]
+[ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component/armor_component.tscn" id="5_h71mh"]
+[ext_resource type="Script" uid="uid://b845xc5y43cwr" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_movement_component.gd" id="6_s63sj"]
+[ext_resource type="PackedScene" uid="uid://buufob41mi3bj" path="res://scene/game_objects/enemies/components/enemy_loot_component/enemy_loot_component.tscn" id="7_yvdbr"]
+[ext_resource type="PackedScene" uid="uid://csmleslly1twg" path="res://scene/components/hurt_box_component/hurt_box.tscn" id="8_fgrwm"]
+[ext_resource type="Texture2D" uid="uid://dpk5xg7owvym0" path="res://assets/mobs/bomb/EASY/1/AGGRO/AGGRO1.png" id="9_iiu1m"]
+[ext_resource type="PackedScene" uid="uid://0ea6np48h42c" path="res://scene/game_objects/enemies/components/enemy_attack_controller/enemy_bomb_attack_controller/enemy_bomb_attack_controller.tscn" id="9_y8ni5"]
+[ext_resource type="Texture2D" uid="uid://lh5s5j316kd" path="res://assets/mobs/bomb/EASY/1/AGGRO/AGGRO2.png" id="10_y8ni5"]
+[ext_resource type="Texture2D" uid="uid://b8eew0pdnjgiv" path="res://assets/mobs/bomb/EASY/1/AGGRO/AGGRO3.png" id="11_gua6m"]
+[ext_resource type="Texture2D" uid="uid://w51y2mu8kyxs" path="res://assets/mobs/bomb/EASY/1/AGGRO/AGGRO4.png" id="12_vgq5c"]
+[ext_resource type="Texture2D" uid="uid://dcy6p3bxxigi4" path="res://assets/mobs/bomb/EASY/1/AGGRO/AGGRO5.png" id="13_iyidb"]
+[ext_resource type="Texture2D" uid="uid://dd0hvce6wi3ur" path="res://assets/mobs/bomb/EASY/1/ATTACK/ATTACK1.png" id="14_dtpwl"]
+[ext_resource type="Texture2D" uid="uid://bfk43jc0skix7" path="res://assets/mobs/bomb/EASY/1/ATTACK/ATTACK2.png" id="15_pa4rq"]
+[ext_resource type="Texture2D" uid="uid://bopiuc50x3igf" path="res://assets/mobs/bomb/EASY/1/ATTACK/ATTACK3.png" id="16_ywi6x"]
+[ext_resource type="Texture2D" uid="uid://c514252c3savy" path="res://assets/mobs/bomb/EASY/1/ATTACK/ATTACK4.png" id="17_hdo7k"]
+[ext_resource type="Texture2D" uid="uid://ba0ctg7sydy52" path="res://assets/mobs/bomb/EASY/1/ATTACK/ATTACK5.png" id="18_wrrqr"]
+[ext_resource type="Texture2D" uid="uid://4vs0dwbjbmoi" path="res://assets/mobs/bomb/EASY/1/ATTACK/ATTACK6.png" id="19_pu4fs"]
+[ext_resource type="Texture2D" uid="uid://3vlsacystbva" path="res://assets/mobs/bomb/EASY/1/ATTACK/ATTACK7.png" id="20_y4slq"]
+[ext_resource type="Texture2D" uid="uid://cm2udsy88i84q" path="res://assets/mobs/bomb/EASY/1/ATTACK/ATTACK8.png" id="21_1uysf"]
+[ext_resource type="Texture2D" uid="uid://dwmc3q1idcjcj" path="res://assets/mobs/bomb/EASY/1/ATTACK/ATTACK9.png" id="22_xxrty"]
+[ext_resource type="Texture2D" uid="uid://dvbeg675fk8dq" path="res://assets/mobs/bomb/EASY/1/IDLE/IDLE1.png" id="23_djcwm"]
+[ext_resource type="Texture2D" uid="uid://bj8i1a2qxlkqg" path="res://assets/mobs/bomb/EASY/1/IDLE/IDLE2.png" id="24_i0uqm"]
+[ext_resource type="Texture2D" uid="uid://c5rq14mee2nj0" path="res://assets/mobs/bomb/EASY/1/IDLE/IDLE3.png" id="25_ag2dp"]
+[ext_resource type="Texture2D" uid="uid://ceoax0n18nu0o" path="res://assets/mobs/bomb/EASY/1/IDLE/IDLE4.png" id="26_wq80g"]
+
+[sub_resource type="Resource" id="Resource_iiu1m"]
+script = ExtResource("2_uj4o8")
+max_health = 200.0
+max_speed = 80.0
+acceleration = 20.0
+rotation_speed = 4.0
+aggro_range = 200.0
+attack_range = 50.0
+attack_range_zone = 20.0
+metadata/_custom_type_script = "uid://vean0446eao1"
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dlte1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_iiu1m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_y8ni5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_gua6m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_vgq5c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_iyidb")
+}],
+"loop": true,
+"name": &"aggro",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("14_dtpwl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_pa4rq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_ywi6x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_hdo7k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_wrrqr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_pu4fs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_y4slq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_1uysf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_xxrty")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("23_djcwm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_i0uqm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_ag2dp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_wq80g")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_svwon"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jxvco"]
+size = Vector2(16, 16)
+
+[node name="BombEnemy1" type="CharacterBody2D" node_paths=PackedStringArray("effect_receiver") groups=["enemy"]]
+collision_layer = 4
+collision_mask = 5
+script = ExtResource("1_uj4o8")
+stats = SubResource("Resource_iiu1m")
+effect_receiver = NodePath("EffectReceiver")
+
+[node name="EnemyStateMachine" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_8gjcj")
+
+[node name="EffectReceiver" parent="." instance=ExtResource("3_p8heo")]
+unique_name_in_owner = true
+
+[node name="HealthComponent" parent="." node_paths=PackedStringArray("armor_component") instance=ExtResource("4_fbn1v")]
+unique_name_in_owner = true
+armor_component = NodePath("../ArmorComponent")
+
+[node name="ArmorComponent" parent="." instance=ExtResource("5_h71mh")]
+unique_name_in_owner = true
+
+[node name="EnemyMovementComponent" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("6_s63sj")
+metadata/_custom_type_script = "uid://d0iyojlfkjpup"
+
+[node name="EnemyLootComponent" parent="." instance=ExtResource("7_yvdbr")]
+unique_name_in_owner = true
+
+[node name="EnemyAttackController" parent="." instance=ExtResource("9_y8ni5")]
+unique_name_in_owner = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_dlte1")
+animation = &"aggro"
+autoplay = "idle"
+frame_progress = 0.3598819
+
+[node name="HurtBox" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("8_fgrwm")]
+collision_layer = 128
+collision_mask = 0
+health_component = NodePath("../HealthComponent")
+
+[node name="HurtBoxShape" type="CollisionShape2D" parent="HurtBox"]
+unique_name_in_owner = true
+shape = SubResource("RectangleShape2D_svwon")
+
+[node name="AttackZone" type="Area2D" parent="."]
+unique_name_in_owner = true
+z_index = 1
+collision_layer = 4
+collision_mask = 2
+collision_priority = 2.0
+
+[node name="AggroZone" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 4
+collision_mask = 2
+
+[node name="EnviromentCollision" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
+shape = SubResource("RectangleShape2D_jxvco")
+
+[connection signal="body_entered" from="AggroZone" to="." method="_on_aggro_zone_body_entered"]

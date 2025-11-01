@@ -1,0 +1,133 @@
+[gd_scene load_steps=12 format=3 uid="uid://d6ogsj2wbxpx"]
+
+[ext_resource type="Script" uid="uid://cd5rk7c5nxh0x" path="res://scene/game_objects/enemies/bomb_enemy/bomb_src/bomb_enemy_1_attack_scene.gd" id="1_iof1l"]
+[ext_resource type="PackedScene" uid="uid://cffktb7uj82qv" path="res://scene/components/hit_box_component/hit_box_component.tscn" id="4_3qg5m"]
+[ext_resource type="Texture2D" uid="uid://cakd71kwgc0ks" path="res://assets/mobs/bomb/EASY/1/ATTACK/explosion_sheet2.png" id="4_23nja"]
+
+[sub_resource type="Animation" id="Animation_dd6gp"]
+resource_name = "explosion"
+length = 2.0
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Explosion:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.4),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HitBoxComponent/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_iof1l"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Explosion:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HitBoxComponent/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_23nja"]
+_data = {
+&"RESET": SubResource("Animation_iof1l"),
+&"explosion": SubResource("Animation_dd6gp")
+}
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_1epdn"]
+particles_animation = true
+particles_anim_h_frames = 15
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id="Gradient_3qg5m"]
+offsets = PackedFloat32Array(0, 0.27027026, 0.2927928, 0.509009, 0.545045, 0.6756757, 0.6846847, 1)
+colors = PackedColorArray(1, 0.91764706, 0, 1, 1, 0.91764706, 0, 1, 1, 0.63529414, 0.05490196, 1, 1, 0.63529414, 0.05490196, 1, 1, 0.21568628, 0.13333334, 1, 1, 0.21568628, 0.13333334, 1, 0.16862746, 0.16862746, 0.16862746, 1, 0.16862746, 0.16862746, 0.16862746, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_4me0q"]
+gradient = SubResource("Gradient_3qg5m")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dd6gp"]
+particle_flag_disable_z = true
+angle_min = 1.0728835e-05
+angle_max = 720.0
+gravity = Vector3(0, 0, 0)
+scale_min = 2.0
+scale_max = 2.0
+color_ramp = SubResource("GradientTexture1D_4me0q")
+anim_speed_min = 1.0
+anim_speed_max = 1.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2ibsc"]
+radius = 50.0
+
+[node name="bomb_enemy_1_attack_scene" type="Node2D"]
+script = ExtResource("1_iof1l")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_23nja")
+}
+
+[node name="Explosion" type="GPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_1epdn")
+emitting = false
+amount = 1
+texture = ExtResource("4_23nja")
+one_shot = true
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_dd6gp")
+
+[node name="HitBoxComponent" parent="." instance=ExtResource("4_3qg5m")]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxComponent"]
+shape = SubResource("CircleShape2D_2ibsc")
+
+[connection signal="area_entered" from="HitBoxComponent" to="." method="_on_hit_box_component_area_entered"]
