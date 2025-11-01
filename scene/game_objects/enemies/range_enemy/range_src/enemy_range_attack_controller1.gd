@@ -2,6 +2,9 @@ class_name EnemyRangeAttackController1
 
 extends EnemyAttackController
 
+const DELAY_BETWEEN_PROJECTILES: float = 0.1
+const CHANCE_TO_DEPLOY_ADDITIONAL_PROJECTILE: float = 0.5
+
 var player: PlayerController
 
 func _ready():
@@ -10,25 +13,37 @@ func _ready():
 
 func activate_attack():
 	attack_started.emit()
-	_spawn_attack_instance()
-	await get_tree().create_timer(get_duration()).timeout
+
+	await _spawn_attack_instance()
+
 	attack_finished.emit()
 	start_cooldown()
 
 
 func _spawn_attack_instance():
-	attack_started.emit()
+	_create_and_setup_attack_instance()
 
+	if randf() < CHANCE_TO_DEPLOY_ADDITIONAL_PROJECTILE:
+		await get_tree().create_timer(DELAY_BETWEEN_PROJECTILES).timeout
+		await _spawn_attack_instance()
+
+
+func _create_and_setup_attack_instance():
 	var attack_instance = _create_attack_instance()
+	_setup_attack_instance(attack_instance, _get_direction_to_player())
+
+
+func _setup_attack_instance(attack_instance, direction_to_player):
 	attack_instance.global_position = owner.global_position
-	attack_instance.set_direction((player.global_position - owner.global_position).normalized())
+	attack_instance.rotation += direction_to_player.angle()
+	attack_instance.set_direction(direction_to_player)
 	attack_instance.set_enemy(owner)
-	attack_instance.rotation += owner.movement_component.last_direction.angle()
 	attack_instance.set_projectile_speed(projectile_speed)
 	_set_damage(attack_instance)
-	if randf() < 0.5:
-		await get_tree().create_timer(0.1).timeout
-		_spawn_attack_instance()
+
+
+func _get_direction_to_player():
+	return (player.global_position - owner.global_position).normalized()
 
 
 func _create_attack_instance():

@@ -31,7 +31,7 @@ func _ready():
 	_connect_signals()
 
 
-func _process(_delta):
+func _physics_process(_delta):
 	if parry_instance and is_instance_valid(player):
 		parry_instance.global_position = player.global_position
 		parry_instance.rotation = player.rotation
@@ -46,11 +46,10 @@ func _enter_variables():
 	radius = player.stats.parry_radius
 	duration = player.stats.parry_duration
 	parry_instance.init(angle,radius)
-	get_tree().get_first_node_in_group("front_layer").add_child(parry_instance)
+	add_child(parry_instance)
 
 
 func _connect_signals():
-	parry_instance.projectile_detected.connect(_on_projectile_detected)
 	player.effect_receiver.attack_component_effects_changed.connect(_on_effect_stats_changed)
 
 
@@ -66,20 +65,31 @@ func activate_parry(input_state:bool):
 		var mouse_dir = player.global_position.direction_to(player.get_global_mouse_position())
 		player.rotation = mouse_dir.angle() + deg_to_rad(90)
 		player.movement_component.last_direction = mouse_dir
-
-	for i in range(2):
-		await get_tree().create_timer(duration / 2).timeout
-		await _melee_parry()
+	
+	await get_tree().physics_frame
+	await _parry()
+	await get_tree().create_timer(get_duration()).timeout
 
 	start_cooldown()
 	parry_finished.emit()
 
 
-func _melee_parry():
+func _parry():
+	await get_tree().physics_frame
+	
 	var overlapping_bodies = parry_instance.parry_area.get_overlapping_bodies()
+	var overlapping_areas = parry_instance.parry_area.get_overlapping_areas()
+	
+	print("Bodies: ", overlapping_bodies)
+	print("Areas: ", overlapping_areas)
+	
 	for body in overlapping_bodies:
 		if body.is_in_group("enemy"):
 			_push_enemy(body, player.movement_component.last_direction)
+	
+	for area in overlapping_areas:
+		if area.is_in_group("projectile"):
+				area.owner.direction *= -1
 
 
 func _push_enemy(enemy: Node2D, facing_direction: Vector2) -> void:
@@ -167,13 +177,6 @@ func _shake_enemy(enemy: Node2D) -> void:
 			"position:x",
 			sprite.position.x,
 			shake_speed)
-
-
-func _on_projectile_detected(projectile: Area2D):
-	if not is_parrying:
-		return
-	if projectile.has_method("reflect"):
-		projectile.reflect()
 
 
 func _on_parry_cooldown_timeout() -> void:

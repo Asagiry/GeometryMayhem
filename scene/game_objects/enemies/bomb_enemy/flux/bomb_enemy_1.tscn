@@ -1,8 +1,9 @@
-[gd_scene load_steps=33 format=3 uid="uid://cu58eoeg0bvxb"]
+[gd_scene load_steps=35 format=3 uid="uid://cu58eoeg0bvxb"]
 
 [ext_resource type="Script" uid="uid://dsw4lsyt8vegg" path="res://scene/game_objects/enemies/bomb_enemy/bomb_src/enemy_bomb.gd" id="1_uj4o8"]
 [ext_resource type="Script" uid="uid://5m7cpflvnie8" path="res://base/state_machine.gd" id="2_8gjcj"]
 [ext_resource type="Script" uid="uid://vean0446eao1" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_stat_data.gd" id="2_uj4o8"]
+[ext_resource type="Script" uid="uid://cyitjknl16852" path="res://scripts/data/damage/damage_data.gd" id="2_y8ni5"]
 [ext_resource type="PackedScene" uid="uid://bl380xv78onc8" path="res://scene/components/effect_receiver/effect_receiver.tscn" id="3_p8heo"]
 [ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="4_fbn1v"]
 [ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component/armor_component.tscn" id="5_h71mh"]
@@ -29,12 +30,18 @@
 [ext_resource type="Texture2D" uid="uid://c5rq14mee2nj0" path="res://assets/mobs/bomb/EASY/1/IDLE/IDLE3.png" id="25_ag2dp"]
 [ext_resource type="Texture2D" uid="uid://ceoax0n18nu0o" path="res://assets/mobs/bomb/EASY/1/IDLE/IDLE4.png" id="26_wq80g"]
 
+[sub_resource type="Resource" id="Resource_gua6m"]
+script = ExtResource("2_y8ni5")
+amount = 100.0
+metadata/_custom_type_script = "uid://cyitjknl16852"
+
 [sub_resource type="Resource" id="Resource_iiu1m"]
 script = ExtResource("2_uj4o8")
-max_health = 200.0
+max_health = 50.0
 max_speed = 80.0
 acceleration = 20.0
 rotation_speed = 4.0
+attack_damage = SubResource("Resource_gua6m")
 aggro_range = 200.0
 attack_range = 50.0
 attack_range_zone = 20.0

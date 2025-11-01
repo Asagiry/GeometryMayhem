@@ -1,6 +1,6 @@
 [gd_scene load_steps=32 format=3 uid="uid://cl33targsj1tk"]
 
-[ext_resource type="Script" uid="uid://c1gjmkoe3un7b" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy.gd" id="1_3qlvl"]
+[ext_resource type="Script" uid="uid://bagohf12yhiai" path="res://scene/game_objects/enemies/range_enemy/range_src/enemy_range.gd" id="1_p8bgf"]
 [ext_resource type="Script" uid="uid://cyitjknl16852" path="res://scripts/data/damage/damage_data.gd" id="2_6pjib"]
 [ext_resource type="Script" uid="uid://vean0446eao1" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_stat_data.gd" id="2_jncjd"]
 [ext_resource type="Script" uid="uid://5m7cpflvnie8" path="res://base/state_machine.gd" id="3_6pjib"]
@@ -32,19 +32,17 @@ script = ExtResource("2_6pjib")
 amount = 5.0
 metadata/_custom_type_script = "uid://cyitjknl16852"
 
-[sub_resource type="Resource" id="Resource_se4dc"]
+[sub_resource type="Resource" id="Resource_6pjib"]
 script = ExtResource("2_jncjd")
 max_health = 300.0
 max_speed = 40.0
 acceleration = 12.5
-rotation_speed = 5.0
+rotation_speed = 4.0
 attack_damage = SubResource("Resource_jncjd")
 attack_cd = 1.0
-attack_duration = 1.0
-aggro_range = 300.0
-attack_range = 240.0
-attack_range_zone = 240.0
-projectile_speed = 200.0
+aggro_range = 400.0
+attack_range_zone = 300.0
+projectile_speed = 100.0
 metadata/_custom_type_script = "uid://vean0446eao1"
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_bgcy3"]
@@ -119,13 +117,14 @@ size = Vector2(15.556351, 15.556351)
 [node name="RangeEnemy1" type="CharacterBody2D" node_paths=PackedStringArray("effect_receiver") groups=["enemy"]]
 collision_layer = 4
 collision_mask = 5
-script = ExtResource("1_3qlvl")
-stats = SubResource("Resource_se4dc")
+script = ExtResource("1_p8bgf")
+stats = SubResource("Resource_6pjib")
 effect_receiver = NodePath("EffectReceiver")
 
 [node name="EnemyStateMachine" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("3_6pjib")
+is_log_enabled = true
 
 [node name="EffectReceiver" parent="." instance=ExtResource("4_s5283")]
 unique_name_in_owner = true

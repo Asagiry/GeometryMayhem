@@ -7,6 +7,9 @@ var direction: float = 1.0
 
 @onready var hit_box_component = %HitBoxComponent
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
+@onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
+@onready var collision_shape_2d: CollisionShape2D = %CollisionShape2D
+
 
 func _ready() -> void:
 	randomize()
@@ -30,11 +33,11 @@ func start_swing():
 	#tween.finished.connect(end_swing)
 
 
-func end_swing():
-	var tween = create_tween()
-	tween.tween_property($AnimatedSprite2D, "rotation", 0.0, 0.3) \
-		.set_trans(Tween.TRANS_CUBIC) \
-		.set_ease(Tween.EASE_IN)
+#func end_swing():
+	#var tween = create_tween()
+	#tween.tween_property($AnimatedSprite2D, "rotation", 0.0, 0.3) \
+		#.set_trans(Tween.TRANS_CUBIC) \
+		#.set_ease(Tween.EASE_IN)
 
 
 func set_enemy(p_enemy):
@@ -43,10 +46,10 @@ func set_enemy(p_enemy):
 
 func set_attack_range(attack_range):
 	direction = (randi() & 1) * 2 - 1
-	$AnimatedSprite2D.offset.y = direction * attack_range
-	$AnimatedSprite2D/HitBoxComponent/CollisionShape2D.position.y = direction * attack_range
+	animated_sprite_2d.offset.y = direction * attack_range
+	collision_shape_2d.position.y = direction * attack_range
 
 
 
 func set_speed_scale(p_speed_scale):
-	$AnimatedSprite2D.speed_scale = p_speed_scale
+	animated_sprite_2d.speed_scale = p_speed_scale

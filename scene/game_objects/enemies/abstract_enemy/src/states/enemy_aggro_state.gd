@@ -17,7 +17,7 @@ func enter() -> void:
 func process(_delta: float) -> void:
 	enemy.movement_component.chase_player()
 
-	var attack_state = state_machine.states["EnemyAttackState"] as EnemyAttackState
+	var attack_state = state_machine.states["EnemyAttackState"]
 	if player_in_attack_zone and not attack_state.on_cooldown:
 		state_machine.transition(EnemyAttackState.state_name)
 

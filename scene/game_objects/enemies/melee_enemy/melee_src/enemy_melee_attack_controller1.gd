@@ -5,25 +5,31 @@ extends EnemyAttackController
 
 func activate_attack():
 	attack_started.emit()
-	_spawn_attack_instance()
-
-
-func _spawn_attack_instance():
-	attack_started.emit()
-
-	var attack_instance = _create_attack_instance()
-	attack_instance.global_position = owner.global_position
 	
-	attack_instance.set_enemy(owner)
-	attack_instance.set_attack_range(attack_range)
-	attack_instance.rotation = owner.movement_component.last_direction.angle()
-	attack_instance.set_speed_scale(1 / get_duration())
-	_set_damage(attack_instance)
+	var attack_instance = _create_and_setup_attack()
+	await _wait_for_attack_completion(attack_instance)
 	
-	await attack_instance.animation_player.animation_finished
 	attack_finished.emit()
 	start_cooldown()
-	attack_instance.queue_free()
+
+
+func _create_and_setup_attack() -> Node:
+	var attack_instance = _create_attack_instance()
+	_setup_attack_instance(attack_instance)
+	return attack_instance
+
+
+func _setup_attack_instance(attack_instance: Node) -> void:
+	attack_instance.global_position = owner.global_position
+	attack_instance.rotation = owner.movement_component.last_direction.angle()
+	attack_instance.set_enemy(owner)
+	attack_instance.set_attack_range(attack_range)
+	attack_instance.set_speed_scale(1.0 / get_duration())
+	_set_damage(attack_instance)
+
+
+func _wait_for_attack_completion(attack_instance: Node) -> void:
+	await attack_instance.animation_player.animation_finished
 
 
 func _create_attack_instance():

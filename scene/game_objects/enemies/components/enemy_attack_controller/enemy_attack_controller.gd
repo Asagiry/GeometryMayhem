@@ -46,7 +46,7 @@ func _set_damage(attack_instance):
 	attack_instance.hit_box_component.damage_data = attack_damage
 
 
-func create_attack_instance():
+func _create_attack_instance():
 	pass
 
 

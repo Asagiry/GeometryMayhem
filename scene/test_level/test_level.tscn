@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://ditkwn5on4tvx"]
+[gd_scene load_steps=10 format=3 uid="uid://ditkwn5on4tvx"]
 
 [ext_resource type="PackedScene" uid="uid://vwuw6r5inl58" path="res://scene/test_level/test_ui.tscn" id="1_8r3jg"]
 [ext_resource type="Script" uid="uid://cr3crnc84mvpt" path="res://scene/test_level/test_level.gd" id="1_n6eni"]
@@ -7,6 +7,8 @@
 [ext_resource type="Script" uid="uid://b3w4epa6tgic2" path="res://scene/level/camera_2d.gd" id="3_sj7wh"]
 [ext_resource type="PackedScene" uid="uid://cu58eoeg0bvxb" path="res://scene/game_objects/enemies/bomb_enemy/flux/bomb_enemy_1.tscn" id="6_mj66c"]
 [ext_resource type="PackedScene" uid="uid://cn0xxo2ifv50j" path="res://scene/arena_map/arena_map.tscn" id="6_n6eni"]
+[ext_resource type="PackedScene" uid="uid://cl33targsj1tk" path="res://scene/game_objects/enemies/range_enemy/flux/range_enemy_1.tscn" id="7_3uiwr"]
+[ext_resource type="PackedScene" uid="uid://8adv387ncikr" path="res://scene/game_objects/enemies/melee_enemy/flux/melee_enemy_1.tscn" id="8_5mq0g"]
 
 [node name="TestLevel" type="Node" groups=["level"]]
 script = ExtResource("1_n6eni")
@@ -25,7 +27,13 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 
 [node name="BombEnemy1" parent="BackLayer" instance=ExtResource("6_mj66c")]
-position = Vector2(338, -187)
+position = Vector2(135, -199)
+
+[node name="RangeEnemy1" parent="BackLayer" instance=ExtResource("7_3uiwr")]
+position = Vector2(-168, -180)
+
+[node name="Melee_enemy_1" parent="BackLayer" instance=ExtResource("8_5mq0g")]
+position = Vector2(95, -65)
 
 [node name="FrontLayer" type="Node2D" parent="." groups=["front_layer"]]
 unique_name_in_owner = true

@@ -146,6 +146,7 @@ libraries = {
 autoplay = "attack_animation"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
 scale = Vector2(0.99999994, 0.99999994)
 sprite_frames = SubResource("SpriteFrames_gw2sl")
 animation = &"attack"
@@ -159,6 +160,7 @@ collision_layer = 0
 collision_mask = 256
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/HitBoxComponent"]
+unique_name_in_owner = true
 position = Vector2(0, -32)
 scale = Vector2(1.0000006, 1.0000006)
 shape = SubResource("RectangleShape2D_cvm6p")

@@ -4,9 +4,36 @@
 [ext_resource type="PackedScene" uid="uid://cffktb7uj82qv" path="res://scene/components/hit_box_component/hit_box_component.tscn" id="4_3qg5m"]
 [ext_resource type="Texture2D" uid="uid://cakd71kwgc0ks" path="res://assets/mobs/bomb/EASY/1/ATTACK/explosion_sheet2.png" id="4_23nja"]
 
+[sub_resource type="Animation" id="Animation_iof1l"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Explosion:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HitBoxComponent/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
 [sub_resource type="Animation" id="Animation_dd6gp"]
 resource_name = "explosion"
-length = 2.0
+length = 1.5
 step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -39,39 +66,12 @@ tracks/2/path = NodePath(".")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(2),
+"times": PackedFloat32Array(1.5),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
 "method": &"queue_free"
 }]
-}
-
-[sub_resource type="Animation" id="Animation_iof1l"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Explosion:emitting")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("HitBoxComponent/CollisionShape2D:disabled")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_23nja"]
@@ -98,14 +98,14 @@ particle_flag_disable_z = true
 angle_min = 1.0728835e-05
 angle_max = 720.0
 gravity = Vector3(0, 0, 0)
-scale_min = 2.0
-scale_max = 2.0
+scale_min = 5.0
+scale_max = 5.0
 color_ramp = SubResource("GradientTexture1D_4me0q")
 anim_speed_min = 1.0
 anim_speed_max = 1.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2ibsc"]
-radius = 50.0
+radius = 125.0
 
 [node name="bomb_enemy_1_attack_scene" type="Node2D"]
 script = ExtResource("1_iof1l")
@@ -114,6 +114,7 @@ script = ExtResource("1_iof1l")
 libraries = {
 &"": SubResource("AnimationLibrary_23nja")
 }
+autoplay = "explosion"
 
 [node name="Explosion" type="GPUParticles2D" parent="."]
 material = SubResource("CanvasItemMaterial_1epdn")
@@ -126,6 +127,8 @@ process_material = SubResource("ParticleProcessMaterial_dd6gp")
 
 [node name="HitBoxComponent" parent="." instance=ExtResource("4_3qg5m")]
 unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 256
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxComponent"]
 shape = SubResource("CircleShape2D_2ibsc")
