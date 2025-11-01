@@ -18,6 +18,8 @@ func enter() -> void:
 
 
 func process(delta: float) -> void:
+	if player.is_stunned == false:
+		state_machine.transition(PlayerMovementState.state_name)
 	stun_duration-=delta
 	player.move_and_collide(Vector2.ZERO)
 	if(stun_duration <= 0.0):

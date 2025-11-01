@@ -7,6 +7,8 @@ signal enemy_died()
 @export var effects: Array[Effect]
 @export var effect_receiver: EffectReceiver
 
+var is_stunned: bool = false
+
 @onready var state_machine: StateMachine = %EnemyStateMachine
 
 @onready var health_component: HealthComponent = %HealthComponent
@@ -20,6 +22,7 @@ signal enemy_died()
 @onready var aggro_zone: Area2D = %AggroZone
 @onready var attack_zone: Area2D = %AttackZone
 @onready var collision: CollisionShape2D = %EnviromentCollision
+@onready var hurt_box_shape: CollisionShape2D = %HurtBoxShape
 
 
 func _ready():
@@ -28,15 +31,20 @@ func _ready():
 
 func init():
 	_enter_stats()
+	_enter_varibles()
 	_connect_signals()
 	_start_state_machine()
-	stats = stats.duplicate(true)
-	effects = effects.duplicate(true)
-	effect_receiver = effect_receiver.duplicate()
+
 
 
 func _connect_signals():
 	health_component.died.connect(_on_died)
+
+
+func _enter_varibles():
+	stats = stats.duplicate(true)
+	effects = effects.duplicate(true)
+	effect_receiver = effect_receiver.duplicate()
 
 
 func _enter_stats():
@@ -48,7 +56,7 @@ func _enter_stats():
 
 	var attack_collision = CollisionShape2D.new()
 	var attack_shape = CircleShape2D.new()
-	attack_shape.radius = stats.attack_range  # должно быть attack_range, а не aggro_range
+	attack_shape.radius = stats.attack_range_zone
 	attack_collision.shape = attack_shape
 	attack_zone.add_child(attack_collision)
 
@@ -59,6 +67,7 @@ func _start_state_machine():
 		EnemyAttackState.new(self),
 		EnemyBackState.new(self),
 		EnemyAggroState.new(self),
+		EnemyStunState.new(self)
 	]
 	state_machine.start_machine(states)
 

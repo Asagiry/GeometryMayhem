@@ -7,7 +7,6 @@ func apply(receiver: EffectReceiver, effect: Effect) -> void:
 	super.apply(receiver, effect)
 	var source = effect.source
 	_timer = 0.0
-	print(source)
 	if source:
 		_attack_source = source
 
@@ -20,7 +19,6 @@ func tick(_delta: float) -> void:
 		_receiver.owner.health_component.take_damage(
 			_effect.damage
 		)
-		print("damage = ", _effect.damage.amount)
 
 
 func end() -> void:

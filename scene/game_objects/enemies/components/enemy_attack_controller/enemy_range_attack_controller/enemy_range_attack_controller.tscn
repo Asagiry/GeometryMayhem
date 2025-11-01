@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://djrhdbcq83wvc"]
+
+[ext_resource type="Script" uid="uid://h3fjcig5vp5s" path="res://scene/game_objects/enemies/components/enemy_attack_controller/enemy_range_attack_controller/enemy_range_attack_controller.gd" id="1_k64c4"]
+[ext_resource type="PackedScene" uid="uid://jq8ynaw38jhb" path="res://scene/game_objects/enemies/range_enemy/range_src/enemy_range_1_attack_scene.tscn" id="2_x61qu"]
+
+[node name="EnemyRangeAttackController" type="Node"]
+script = ExtResource("1_k64c4")
+attack_scene = ExtResource("2_x61qu")
+
+[node name="CooldownTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
+
+[connection signal="timeout" from="CooldownTimer" to="." method="_on_cooldown_timer_timeout"]

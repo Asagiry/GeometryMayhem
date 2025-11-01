@@ -14,7 +14,7 @@ const DEFAULT_INT_STAT: int = 0
 @export var acceleration: float
 @export var rotation_speed: float
 
-@export var attack_damage: float
+@export var attack_damage: DamageData
 @export var attack_cd: float
 @export var attack_duration: float
 
@@ -25,3 +25,7 @@ const DEFAULT_INT_STAT: int = 0
 
 @export var aggro_range: float
 @export var attack_range: float
+@export var attack_range_zone: float
+@export var projectile_speed: float
+@export var explosion_delay: float
+@export var chance_to_additional_projectile: float

@@ -169,7 +169,7 @@ func _start_dash_tween(dash_attack_instance: DashAttack):
 
 	tween.tween_callback(Callable(dash_attack_instance, "queue_free"))
 	tween.finished.connect(func():
-		_disable_player_hurt_box(true)
+		_disable_player_hurt_box(false)
 		attack_finished.emit()
 		start_cooldown()
 	)

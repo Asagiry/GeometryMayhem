@@ -2,6 +2,7 @@ class_name EnemySpawnerController
 
 extends Node
 
+@export var enabled: bool = false
 @export var arena_map: ArenaMap
 
 var player: PlayerController
@@ -14,6 +15,8 @@ var zone_current_enemy: Dictionary[ArenaZone,int]
 func _ready() -> void:
 	arena_map.player_entered.connect(_on_player_entered)
 	arena_map.player_exited.connect(_on_player_exited)
+	if !enabled:
+		queue_free()
 
 func _on_player_entered(zone: ArenaZone):
 	if zone.get_name() != "StabilityZone":
@@ -47,15 +50,15 @@ func _spawn_enemy():
 
 func _get_random_enemy_scene(zone: ArenaZone):
 	var path = "res://scene/game_objects/enemies/"
-	var enemy_index = randi_range(1,1)#до трех
+	var enemy_index = randi_range(1,3)#до трех
 	var enemy_type: String
 	match enemy_index:
 		1:
 			enemy_type = "melee_enemy"
 		2:
-			enemy_type = "melee_enemy"
+			enemy_type = "range_enemy"
 		3:
-			enemy_type = "melee_enemy"
+			enemy_type = "bomb_enemy"
 
 
 	path += enemy_type + "/"

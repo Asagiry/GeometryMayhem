@@ -62,7 +62,10 @@ func _on_silenced(status: bool):
 
 
 func _on_collision_disabled(status: bool) -> void:
-	if (status):
-		collision_mask = 1
-	else:
-		collision_mask = 0<<1|2<<1
+	if status:
+		set_collision_layer_value(2, false)
+		set_collision_mask_value(3, false)
+		return
+
+	set_collision_layer_value(2, true)
+	set_collision_mask_value(3, true)

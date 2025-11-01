@@ -51,6 +51,7 @@ func create_area():
 	border_area.body_exited.connect(_on_border_area_exited)
 	owner.add_child.call_deferred(full_area)
 
+#TODO руинит range mob - поведение(протестировать)
 func _on_border_area_exited(body: CharacterBody2D):
 	if body is PlayerController:
 		if full_area.get_overlapping_bodies().has(body):

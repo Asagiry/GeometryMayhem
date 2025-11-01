@@ -1,8 +1,9 @@
-[gd_scene load_steps=25 format=3 uid="uid://8adv387ncikr"]
+[gd_scene load_steps=28 format=3 uid="uid://8adv387ncikr"]
 
 [ext_resource type="Script" uid="uid://c1gjmkoe3un7b" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy.gd" id="1_w1pxg"]
 [ext_resource type="Script" uid="uid://vean0446eao1" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_stat_data.gd" id="2_4shhi"]
 [ext_resource type="Texture2D" uid="uid://b8e756uh8l7wr" path="res://assets/mobs/melee/Easy/1/AGGRO/AGGRO1.png" id="2_xvgj7"]
+[ext_resource type="Script" uid="uid://cyitjknl16852" path="res://scripts/data/damage/damage_data.gd" id="2_yggd7"]
 [ext_resource type="Texture2D" uid="uid://b8up831hux8i0" path="res://assets/mobs/melee/Easy/1/AGGRO/AGGRO2.png" id="3_cb8vt"]
 [ext_resource type="Script" uid="uid://5m7cpflvnie8" path="res://base/state_machine.gd" id="3_pavkp"]
 [ext_resource type="Texture2D" uid="uid://baxjtia34up47" path="res://assets/mobs/melee/Easy/1/AGGRO/AGGRO3.png" id="4_a0f03"]
@@ -14,28 +15,35 @@
 [ext_resource type="Texture2D" uid="uid://g3enhtc46mb0" path="res://assets/mobs/melee/Easy/1/ATTACK/ATTACK3.png" id="7_4jkye"]
 [ext_resource type="Script" uid="uid://b845xc5y43cwr" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_movement_component.gd" id="7_pgduy"]
 [ext_resource type="Texture2D" uid="uid://dgoc374vsftf0" path="res://assets/mobs/melee/Easy/1/IDLE/IDLE1.png" id="8_gwela"]
-[ext_resource type="PackedScene" uid="uid://cx83jwjsex3ph" path="res://scene/game_objects/enemies/components/enemy_attack_controller/enemy_attack_controller.tscn" id="8_s3kq4"]
 [ext_resource type="PackedScene" uid="uid://buufob41mi3bj" path="res://scene/game_objects/enemies/components/enemy_loot_component/enemy_loot_component.tscn" id="9_4jkye"]
 [ext_resource type="Texture2D" uid="uid://rf87ty0ej23r" path="res://assets/mobs/melee/Easy/1/IDLE/IDLE2.png" id="9_c73ew"]
+[ext_resource type="PackedScene" uid="uid://chei13ovagigq" path="res://scene/game_objects/enemies/melee_enemy/melee_src/melee_enemy_1_attack_scene.tscn" id="9_v18kr"]
 [ext_resource type="Texture2D" uid="uid://btqf2ccgwuqnq" path="res://assets/mobs/melee/Easy/1/IDLE/IDLE3.png" id="10_irisk"]
+[ext_resource type="PackedScene" uid="uid://ccs08skqkvv8u" path="res://scene/game_objects/enemies/components/enemy_attack_controller/enemy_melee_attack_controller/enemy_melee_attack_controller.tscn" id="10_xbs3f"]
 [ext_resource type="Texture2D" uid="uid://dmph28rhwq6m6" path="res://assets/mobs/melee/Easy/1/IDLE/IDLE4.png" id="11_v18kr"]
 [ext_resource type="PackedScene" uid="uid://csmleslly1twg" path="res://scene/components/hurt_box_component/hurt_box.tscn" id="12_yggd7"]
 
-[sub_resource type="Resource" id="Resource_c73ew"]
+[sub_resource type="Resource" id="Resource_s0nn8"]
+script = ExtResource("2_yggd7")
+amount = 10.0
+metadata/_custom_type_script = "uid://cyitjknl16852"
+
+[sub_resource type="Resource" id="Resource_ykpwj"]
 script = ExtResource("2_4shhi")
 max_health = 100.0
 max_speed = 100.0
 acceleration = 9.0
 rotation_speed = 9.0
-attack_damage = 10.0
-attack_cd = 0.2
-attack_duration = 0.2
+attack_damage = SubResource("Resource_s0nn8")
+attack_cd = 1.0
+attack_duration = 1.0
 knowledge_count = 10.0
 echo_chance = 10.0
 echo_count = 10
 impulse_count = 10.0
 aggro_range = 150.0
 attack_range = 25.0
+attack_range_zone = 40.0
 metadata/_custom_type_script = "uid://vean0446eao1"
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_c73ew"]
@@ -96,7 +104,7 @@ size = Vector2(16, 16)
 collision_layer = 4
 collision_mask = 5
 script = ExtResource("1_w1pxg")
-stats = SubResource("Resource_c73ew")
+stats = SubResource("Resource_ykpwj")
 effect_receiver = NodePath("EffectReceiver")
 
 [node name="EnemyStateMachine" type="Node" parent="."]
@@ -118,11 +126,12 @@ unique_name_in_owner = true
 script = ExtResource("7_pgduy")
 metadata/_custom_type_script = "uid://d0iyojlfkjpup"
 
-[node name="EnemyAttackController" parent="." instance=ExtResource("8_s3kq4")]
-unique_name_in_owner = true
-
 [node name="EnemyLootComponent" parent="." instance=ExtResource("9_4jkye")]
 unique_name_in_owner = true
+
+[node name="EnemyAttackController" parent="." instance=ExtResource("10_xbs3f")]
+unique_name_in_owner = true
+attack_scene = ExtResource("9_v18kr")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
