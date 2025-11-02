@@ -6,9 +6,10 @@ signal meta_updated(player_data: PlayerData)
 
 const DEFAULT_INDEX = 0
 
+var meta_progression_data: MetaProgressionData
 var player_data: PlayerData
 var _db: DatabaseManager
-var meta_progression_data: MetaProgressionData
+
 
 func _init(database: DatabaseManager) -> void:
 	_db = database
