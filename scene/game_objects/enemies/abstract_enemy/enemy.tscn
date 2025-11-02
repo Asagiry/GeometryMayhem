@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b50isw68gae8x"]
+[gd_scene load_steps=8 format=3 uid="uid://b50isw68gae8x"]
 
 [ext_resource type="Script" uid="uid://c1gjmkoe3un7b" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy.gd" id="1_v5tu5"]
 [ext_resource type="Script" uid="uid://5m7cpflvnie8" path="res://base/state_machine.gd" id="2_08aao"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component/armor_component.tscn" id="4_8m5gp"]
 [ext_resource type="PackedScene" uid="uid://bl380xv78onc8" path="res://scene/components/effect_receiver/effect_receiver.tscn" id="5_72ti2"]
 [ext_resource type="Script" uid="uid://b845xc5y43cwr" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_movement_component.gd" id="6_rsx2r"]
-[ext_resource type="PackedScene" uid="uid://buufob41mi3bj" path="res://scene/game_objects/enemies/components/enemy_loot_component/enemy_loot_component.tscn" id="9_7r3j0"]
 [ext_resource type="PackedScene" uid="uid://csmleslly1twg" path="res://scene/components/hurt_box_component/hurt_box.tscn" id="9_73iye"]
 
 [node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("effect_receiver") groups=["enemy"]]
@@ -33,9 +32,6 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 script = ExtResource("6_rsx2r")
 metadata/_custom_type_script = "uid://d0iyojlfkjpup"
-
-[node name="EnemyLootComponent" parent="." instance=ExtResource("9_7r3j0")]
-unique_name_in_owner = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true

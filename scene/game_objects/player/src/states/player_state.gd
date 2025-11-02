@@ -5,9 +5,8 @@ extends State
 const MOVEMENT_ACTIONS = ["move_down","move_up","move_left","move_right"]
 const ATTACK_ACTIONS = ["left_mouse_click_attack","shift_attack"]
 const PARRY_ACTIONS = ["right_mouse_click_parry","space_parry"]
-const OTHER_ACTIONS = ["pause"]
 
-const ALLOWED_ACTIONS = MOVEMENT_ACTIONS+ATTACK_ACTIONS+PARRY_ACTIONS+OTHER_ACTIONS
+const ALLOWED_ACTIONS = MOVEMENT_ACTIONS+ATTACK_ACTIONS+PARRY_ACTIONS
 
 var player: PlayerController
 var animated_sprite_2d: PlayerAnimatedSprite2D
@@ -33,13 +32,13 @@ func _on_stun_applied(duration: float):
 
 func input(_event: InputEvent) -> void:
 	var is_allowed = false
+
 	for action in ALLOWED_ACTIONS:
 		if _event.is_action(action):
 			is_allowed = true
 			break
 
 	if not is_allowed:
-		player.get_viewport().set_input_as_handled()
 		return
 
 	handle_input(_event)

@@ -1,17 +1,21 @@
-[gd_scene load_steps=6 format=3 uid="uid://cgblk87y45i5x"]
+[gd_scene load_steps=7 format=3 uid="uid://cgblk87y45i5x"]
 
 [ext_resource type="PackedScene" uid="uid://cn0xxo2ifv50j" path="res://scene/arena_map/arena_map.tscn" id="1_1c01b"]
 [ext_resource type="Script" uid="uid://dbvn0o4o38sce" path="res://scene/level/level.gd" id="1_plauu"]
 [ext_resource type="PackedScene" uid="uid://wd0ae536cgs3" path="res://scene/UI/end_game_screen/player_death_transition_screen/player_death_transition_screen.tscn" id="2_dcgxc"]
 [ext_resource type="PackedScene" uid="uid://dpvptcshibxt0" path="res://scene/game_objects/player/player.tscn" id="2_hm7p5"]
 [ext_resource type="Script" uid="uid://b3w4epa6tgic2" path="res://scene/level/camera_2d.gd" id="3_5lpb7"]
+[ext_resource type="PackedScene" uid="uid://h1tpifchokj3" path="res://scene/arena_map/enemy_spawner_controller/enemy_spawner_controller.tscn" id="3_dcgxc"]
 
 [node name="Level" type="Node" groups=["level"]]
 script = ExtResource("1_plauu")
 transition_end_screen = ExtResource("2_dcgxc")
 
-[node name="Map" parent="." instance=ExtResource("1_1c01b")]
-script = null
+[node name="EnemySpawnerController" parent="." node_paths=PackedStringArray("arena_map") instance=ExtResource("3_dcgxc")]
+enabled = true
+arena_map = NodePath("../Arena_map")
+
+[node name="Arena_map" parent="." instance=ExtResource("1_1c01b")]
 
 [node name="BackLayer" type="Node2D" parent="." groups=["back_layer"]]
 

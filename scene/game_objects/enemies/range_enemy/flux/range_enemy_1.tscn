@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://cl33targsj1tk"]
+[gd_scene load_steps=31 format=3 uid="uid://cl33targsj1tk"]
 
 [ext_resource type="Script" uid="uid://bagohf12yhiai" path="res://scene/game_objects/enemies/range_enemy/range_src/enemy_range.gd" id="1_p8bgf"]
 [ext_resource type="Script" uid="uid://cyitjknl16852" path="res://scripts/data/damage/damage_data.gd" id="2_6pjib"]
@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="5_u886h"]
 [ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component/armor_component.tscn" id="6_1puqm"]
 [ext_resource type="Script" uid="uid://b845xc5y43cwr" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_movement_component.gd" id="7_udvbf"]
-[ext_resource type="PackedScene" uid="uid://buufob41mi3bj" path="res://scene/game_objects/enemies/components/enemy_loot_component/enemy_loot_component.tscn" id="9_mqd1w"]
 [ext_resource type="Texture2D" uid="uid://cbv0r1bi17b7i" path="res://assets/mobs/range/Easy/1/AGGRO/AGGRO1.png" id="10_0x0gi"]
 [ext_resource type="PackedScene" uid="uid://djrhdbcq83wvc" path="res://scene/game_objects/enemies/components/enemy_attack_controller/enemy_range_attack_controller/enemy_range_attack_controller.tscn" id="10_jncjd"]
 [ext_resource type="Texture2D" uid="uid://8l6ox28cyi7q" path="res://assets/mobs/range/Easy/1/AGGRO/AGGRO2.png" id="11_y1owt"]
@@ -40,6 +39,9 @@ acceleration = 12.5
 rotation_speed = 4.0
 attack_damage = SubResource("Resource_jncjd")
 attack_cd = 1.0
+knowledge_count = 15
+echo_chance = 0.3
+echo_count = 23
 aggro_range = 200.0
 attack_range_zone = 150.0
 projectile_speed = 200.0
@@ -125,7 +127,6 @@ effect_receiver = NodePath("EffectReceiver")
 [node name="EnemyStateMachine" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("3_6pjib")
-is_log_enabled = true
 
 [node name="EffectReceiver" parent="." instance=ExtResource("4_s5283")]
 unique_name_in_owner = true
@@ -141,9 +142,6 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 script = ExtResource("7_udvbf")
 metadata/_custom_type_script = "uid://d0iyojlfkjpup"
-
-[node name="EnemyLootComponent" parent="." instance=ExtResource("9_mqd1w")]
-unique_name_in_owner = true
 
 [node name="EnemyAttackController" parent="." instance=ExtResource("10_jncjd")]
 unique_name_in_owner = true

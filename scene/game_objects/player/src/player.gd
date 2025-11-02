@@ -22,6 +22,7 @@ var current_zone : ArenaZone
 @onready var attack_controller: PlayerAttackController = %PlayerAttackController
 @onready var parry_controller: ParryController = %ParryController
 @onready var collision: CollisionShape2D = %CollisionShape2D
+@onready var player_hurt_box: HurtBox = %PlayerHurtBox
 
 
 #endregion
@@ -62,10 +63,6 @@ func _on_silenced(status: bool):
 
 
 func _on_collision_disabled(status: bool) -> void:
-	if status:
-		set_collision_layer_value(2, false)
-		set_collision_mask_value(3, false)
-		return
-
-	set_collision_layer_value(2, true)
-	set_collision_mask_value(3, true)
+	set_collision_layer_value(2, !status)
+	set_collision_mask_value(3, !status)
+	player_hurt_box.set_collision_layer_value(9,!status)

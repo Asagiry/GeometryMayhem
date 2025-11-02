@@ -43,7 +43,8 @@ func _on_attack_cd_timeout():
 	if aggro_state.player_in_attack_zone:
 		perform_attack()
 	elif aggro_state.player_in_aggro_zone:
-		state_machine.transition(EnemyAggroState.state_name)
+		if (state_machine.current_state.get_state_name() !=EnemyAggroState.state_name):
+			state_machine.transition(EnemyAggroState.state_name)
 
 
 func get_state_name() -> String:

@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://6bk2jivovjb1" path="res://scene/test_level/duration_edit.gd" id="6_gh5sb"]
 [ext_resource type="Script" uid="uid://dgi7it0l8lj6s" path="res://scene/test_level/tick_edit.gd" id="7_61gd2"]
 
-[node name="Test_ui" type="CanvasLayer"]
+[node name="Test_ui" type="CanvasLayer" groups=["level"]]
 script = ExtResource("1_ua26r")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -34,12 +34,14 @@ size_flags_stretch_ratio = 0.25
 
 [node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PlayerReceive"]
 layout_mode = 2
+theme_override_constants/outline_size = 8
 text = "Player effect"
 
 [node name="EffectChoose" type="MenuButton" parent="MarginContainer/HBoxContainer/PlayerReceive"]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 1
+theme_override_constants/outline_size = 8
 text = "EFFECT"
 alignment = 0
 script = ExtResource("1_m7682")
@@ -47,6 +49,7 @@ script = ExtResource("1_m7682")
 [node name="BehaviorChoose" type="MenuButton" parent="MarginContainer/HBoxContainer/PlayerReceive"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_constants/outline_size = 8
 text = "BEHAVIOR"
 alignment = 0
 script = ExtResource("2_ljpay")
@@ -80,6 +83,7 @@ script = ExtResource("4_foe47")
 [node name="StatChoose" type="MenuButton" parent="MarginContainer/HBoxContainer/PlayerReceive"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_constants/outline_size = 8
 text = "STAT_MODIFIERS"
 alignment = 0
 script = ExtResource("3_uyd4g")
@@ -141,6 +145,7 @@ text = "APPLY"
 
 [node name="Label2" type="Label" parent="MarginContainer/HBoxContainer/PlayerReceive"]
 layout_mode = 2
+theme_override_constants/outline_size = 8
 text = "PRESET EFFECTS"
 
 [node name="FlowContainer" type="FlowContainer" parent="MarginContainer/HBoxContainer/PlayerReceive"]
@@ -229,6 +234,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PlayerReceive/AppliedEffectsContainer"]
 layout_mode = 2
+theme_override_constants/outline_size = 8
 text = "APPLIED EFFECTS:"
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/HBoxContainer"]
