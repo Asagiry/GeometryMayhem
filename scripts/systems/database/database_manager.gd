@@ -40,9 +40,10 @@ func _create_tables_if_needed():
 	_database.query("""
 		CREATE TABLE IF NOT EXISTS player_meta (
 			id TEXT PRIMARY KEY UNIQUE,
-			level INTEGER DEFAULT 1,
+			level INTEGER DEFAULT 0,
 			currency INTEGER DEFAULT 0,
-			talent_points INTEGER DEFAULT 0
+			talent_points INTEGER DEFAULT 0,
+			knowledge_count INTEGER DEFAULT 0
 		);
 	""")
 
@@ -85,17 +86,19 @@ func insert_player_artefact(player_arts: Array[PlayerArtefact]):
 
 func insert_player_data(player_data: PlayerData):
 	var ok := _database.query("""
-	INSERT INTO player_meta (id, currency, level, talent_points)
-	VALUES ('%s', %d, %d, %d)
+	INSERT INTO player_meta (id, currency, level, talent_points, knowledge_count)
+	VALUES ('%s', %d, %d, %d, %d)
 	ON CONFLICT(id) DO UPDATE SET
 	currency = excluded.currency,
 	level = excluded.level,
-	talent_points = excluded.talent_points;
+	talent_points = excluded.talent_points,
+	knowledge_count = excluded.knowledge_count;
 	""" % [
 		PLAYER_ID,
 		player_data.currency,
 		player_data.level,
-		player_data.talent_points
+		player_data.talent_points,
+		player_data.knowledge_count
 		]
 	)
 	if !ok:
@@ -109,5 +112,5 @@ func get_player_artefacts():
 
 
 func get_player_meta():
-	_database.query("""SELECT level, currency, talent_points FROM player_meta;""")
+	_database.query("""SELECT level, currency, talent_points, knowledge_count FROM player_meta;""")
 	return _database.query_result

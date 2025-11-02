@@ -15,7 +15,6 @@ var is_stunned: bool = false
 @onready var armor_component: ArmorComponent = %ArmorComponent
 @onready var movement_component: EnemyMovementComponent = %EnemyMovementComponent
 @onready var attack_controller: EnemyAttackController = %EnemyAttackController
-@onready var loot_component: EnemyLootComponent = %EnemyLootComponent
 
 @onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
 
@@ -73,7 +72,7 @@ func _start_state_machine():
 
 func _on_died():
 	enemy_died.emit()
-	Global.enemy_died.emit()
+	Global.enemy_died.emit(stats)
 	queue_free()
 
 

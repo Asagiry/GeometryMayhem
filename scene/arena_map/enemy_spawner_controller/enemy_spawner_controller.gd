@@ -88,5 +88,6 @@ func _get_enemy_variant_count(path: String):
 
 
 func _on_enemy_died(zone: ArenaZone):
-	zone_current_enemy[current_zone] -= 1
-	print("Текущее количество врагов в зоне ", zone.get_name(), zone_current_enemy[current_zone])
+	zone_current_enemy[zone] -= 1
+	print("Текущее количество врагов в зоне ", zone.get_name(),
+	 zone_current_enemy[zone])
