@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://cu58eoeg0bvxb"]
+[gd_scene load_steps=34 format=3 uid="uid://cu58eoeg0bvxb"]
 
 [ext_resource type="Script" uid="uid://dsw4lsyt8vegg" path="res://scene/game_objects/enemies/bomb_enemy/bomb_src/enemy_bomb.gd" id="1_uj4o8"]
 [ext_resource type="Script" uid="uid://5m7cpflvnie8" path="res://base/state_machine.gd" id="2_8gjcj"]
@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="4_fbn1v"]
 [ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component/armor_component.tscn" id="5_h71mh"]
 [ext_resource type="Script" uid="uid://b845xc5y43cwr" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_movement_component.gd" id="6_s63sj"]
-[ext_resource type="PackedScene" uid="uid://buufob41mi3bj" path="res://scene/game_objects/enemies/components/enemy_loot_component/enemy_loot_component.tscn" id="7_yvdbr"]
 [ext_resource type="PackedScene" uid="uid://csmleslly1twg" path="res://scene/components/hurt_box_component/hurt_box.tscn" id="8_fgrwm"]
 [ext_resource type="Texture2D" uid="uid://dpk5xg7owvym0" path="res://assets/mobs/bomb/EASY/1/AGGRO/AGGRO1.png" id="9_iiu1m"]
 [ext_resource type="PackedScene" uid="uid://0ea6np48h42c" path="res://scene/game_objects/enemies/components/enemy_attack_controller/enemy_bomb_attack_controller/enemy_bomb_attack_controller.tscn" id="9_y8ni5"]
@@ -42,6 +41,9 @@ max_speed = 80.0
 acceleration = 20.0
 rotation_speed = 4.0
 attack_damage = SubResource("Resource_gua6m")
+knowledge_count = 20
+echo_chance = 1.0
+echo_count = 13
 aggro_range = 200.0
 attack_range = 150.0
 attack_range_zone = 20.0
@@ -151,9 +153,6 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 script = ExtResource("6_s63sj")
 metadata/_custom_type_script = "uid://d0iyojlfkjpup"
-
-[node name="EnemyLootComponent" parent="." instance=ExtResource("7_yvdbr")]
-unique_name_in_owner = true
 
 [node name="EnemyAttackController" parent="." instance=ExtResource("9_y8ni5")]
 unique_name_in_owner = true

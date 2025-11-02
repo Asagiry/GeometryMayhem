@@ -14,6 +14,7 @@
 script = ExtResource("1_n6eni")
 
 [node name="EnemySpawnerController" parent="." node_paths=PackedStringArray("arena_map") instance=ExtResource("2_mj66c")]
+enabled = true
 arena_map = NodePath("../ArenaMap")
 
 [node name="ArenaMap" parent="." instance=ExtResource("6_n6eni")]

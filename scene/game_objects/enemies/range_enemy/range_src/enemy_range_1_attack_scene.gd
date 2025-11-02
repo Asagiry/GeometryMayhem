@@ -29,8 +29,8 @@ func _on_hit_box_component_area_entered(area: Area2D) -> void:
 	queue_free()
 
 
-func set_enemy(p_enemy):
-	enemy = p_enemy
+func set_enemy(p_enemy: EnemyController):
+	enemy = p_enemy.duplicate()
 
 
 func set_projectile_speed(p_projectile_speed):

@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://8adv387ncikr"]
+[gd_scene load_steps=27 format=3 uid="uid://8adv387ncikr"]
 
 [ext_resource type="Script" uid="uid://c1gjmkoe3un7b" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy.gd" id="1_w1pxg"]
 [ext_resource type="Script" uid="uid://vean0446eao1" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_stat_data.gd" id="2_4shhi"]
@@ -15,7 +15,6 @@
 [ext_resource type="Texture2D" uid="uid://g3enhtc46mb0" path="res://assets/mobs/melee/Easy/1/ATTACK/ATTACK3.png" id="7_4jkye"]
 [ext_resource type="Script" uid="uid://b845xc5y43cwr" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_movement_component.gd" id="7_pgduy"]
 [ext_resource type="Texture2D" uid="uid://dgoc374vsftf0" path="res://assets/mobs/melee/Easy/1/IDLE/IDLE1.png" id="8_gwela"]
-[ext_resource type="PackedScene" uid="uid://buufob41mi3bj" path="res://scene/game_objects/enemies/components/enemy_loot_component/enemy_loot_component.tscn" id="9_4jkye"]
 [ext_resource type="Texture2D" uid="uid://rf87ty0ej23r" path="res://assets/mobs/melee/Easy/1/IDLE/IDLE2.png" id="9_c73ew"]
 [ext_resource type="PackedScene" uid="uid://chei13ovagigq" path="res://scene/game_objects/enemies/melee_enemy/melee_src/melee_enemy_1_attack_scene.tscn" id="9_v18kr"]
 [ext_resource type="Texture2D" uid="uid://btqf2ccgwuqnq" path="res://assets/mobs/melee/Easy/1/IDLE/IDLE3.png" id="10_irisk"]
@@ -37,8 +36,8 @@ rotation_speed = 9.0
 attack_damage = SubResource("Resource_s0nn8")
 attack_cd = 1.0
 attack_duration = 1.0
-knowledge_count = 10.0
-echo_chance = 10.0
+knowledge_count = 10
+echo_chance = 0.2
 echo_count = 10
 impulse_count = 10.0
 aggro_range = 150.0
@@ -125,9 +124,6 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 script = ExtResource("7_pgduy")
 metadata/_custom_type_script = "uid://d0iyojlfkjpup"
-
-[node name="EnemyLootComponent" parent="." instance=ExtResource("9_4jkye")]
-unique_name_in_owner = true
 
 [node name="EnemyAttackController" parent="." instance=ExtResource("10_xbs3f")]
 unique_name_in_owner = true

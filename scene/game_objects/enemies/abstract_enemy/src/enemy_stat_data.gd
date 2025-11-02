@@ -18,7 +18,7 @@ const DEFAULT_INT_STAT: int = 0
 @export var attack_cd: float
 @export var attack_duration: float
 
-@export var knowledge_count: float
+@export var knowledge_count: int
 @export var echo_chance: float
 @export var echo_count: int
 @export var impulse_count: float

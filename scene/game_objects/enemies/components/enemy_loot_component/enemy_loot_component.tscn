@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://buufob41mi3bj"]
-
-[ext_resource type="Script" uid="uid://qgcnumhqijln" path="res://scene/game_objects/enemies/components/enemy_loot_component/enemy_loot_component.gd" id="1_oqmpp"]
-
-[node name="EnemyLootComponent" type="Node"]
-script = ExtResource("1_oqmpp")
