@@ -1,13 +1,12 @@
 extends Node
 
-signal enemy_died
+signal enemy_died(stats)
 signal player_died
 signal player_spawned(player: PlayerController)
 signal game_started
 signal game_ended
 
 const DELAY_IN_CLOSING: float = 0.5
-
 var meta_ui_instance
 
 @onready var database := DatabaseManager.new()

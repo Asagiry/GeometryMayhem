@@ -73,7 +73,7 @@ func _start_state_machine():
 
 func _on_died():
 	enemy_died.emit()
-	Global.enemy_died.emit()
+	Global.enemy_died.emit(stats)
 	queue_free()
 
 

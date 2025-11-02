@@ -4,7 +4,7 @@ extends Node2D
 
 const EXPLOSION_VARIABLE_FOR_SCALE: float = 25.0
 
-var enemy
+var effects
 
 @onready var explosion: GPUParticles2D = $Explosion
 @onready var hit_box_component: HitBoxComponent = %HitBoxComponent
@@ -12,8 +12,8 @@ var enemy
 @onready var collision_shape_2d: CollisionShape2D = $HitBoxComponent/CollisionShape2D
 
 
-func set_enemy(p_enemy):
-	enemy = p_enemy
+func set_enemy(p_enemy: EnemyController):
+	effects = p_enemy.effects.duplicate()
 
 
 func set_explosion_range(explosion_range):
@@ -28,4 +28,4 @@ func _on_hit_box_component_area_entered(area: Area2D) -> void:
 	if area.has_method("deal_damage"):
 		area.deal_damage(hit_box_component.damage_data)
 	if area.has_method("apply_effect"):
-		area.apply_effect(enemy.effects)
+		area.apply_effect(effects)
