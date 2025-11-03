@@ -33,7 +33,8 @@ func show_parry():
 	_line.points = points
 	scale = Vector2.ZERO
 	var tween = create_tween()
-	tween.tween_property(self, "scale", Vector2.ONE, 0.1).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "scale", Vector2.ONE, 0.1)\
+	.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	await get_tree().create_timer(lifetime).timeout
 	var fade_tween = create_tween()
 	fade_tween.tween_property(_line, "modulate:a", 0.0, fade_time)
@@ -62,7 +63,8 @@ func show_parry_v1():
 	# Анимация появления и исчезновения
 	scale = Vector2.ZERO
 	var tween = create_tween()
-	tween.tween_property(self, "scale", Vector2.ONE, 0.1).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "scale", Vector2.ONE, 0.1)\
+	.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 	await get_tree().create_timer(lifetime).timeout
 	var fade_tween = create_tween()
