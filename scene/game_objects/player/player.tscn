@@ -1,4 +1,4 @@
-[gd_scene load_steps=99 format=3 uid="uid://dpvptcshibxt0"]
+[gd_scene load_steps=100 format=3 uid="uid://dpvptcshibxt0"]
 
 [ext_resource type="Script" uid="uid://d2bd4ujy5qv0c" path="res://scene/game_objects/player/src/player.gd" id="1_heqc5"]
 [ext_resource type="PackedScene" uid="uid://b0xrjstrhdb1c" path="res://scene/abilities/dash_attack/dash_attack_controller.tscn" id="2_jxsrc"]
@@ -15,17 +15,17 @@
 [ext_resource type="Texture2D" uid="uid://dpt52h75g2kh4" path="res://assets/player/ATTACK/ATTACK1.png" id="10_ddgj3"]
 [ext_resource type="Texture2D" uid="uid://dmayqab17g1bo" path="res://assets/player/ATTACK/ATTACK2.png" id="11_kl1g4"]
 [ext_resource type="Texture2D" uid="uid://tp54cpr3amvt" path="res://assets/player/ATTACK/ATTACK3.png" id="12_3v612"]
-[ext_resource type="Texture2D" uid="uid://d1jl5wnv3ilfe" path="res://assets/player/PARRY/PARRY1.png" id="12_vedbf"]
+[ext_resource type="Texture2D" uid="uid://c3vrnnkjdkgpq" path="res://assets/player/PARRY/PARRY1.png" id="12_vedbf"]
 [ext_resource type="Texture2D" uid="uid://bmgf2qqytpcy6" path="res://assets/player/ATTACK/ATTACK4.png" id="13_itr6r"]
-[ext_resource type="Texture2D" uid="uid://b1nsmu2k6qt2v" path="res://assets/player/PARRY/PARRY2.png" id="13_siiro"]
+[ext_resource type="Texture2D" uid="uid://hib2onicd37g" path="res://assets/player/PARRY/PARRY2.png" id="13_siiro"]
 [ext_resource type="Texture2D" uid="uid://cfagdgdmyo2hj" path="res://assets/player/ATTACK/ATTACK5.png" id="14_cykr3"]
-[ext_resource type="Texture2D" uid="uid://b1j30k78loydq" path="res://assets/player/PARRY/PARRY5.png" id="14_nafj1"]
-[ext_resource type="Texture2D" uid="uid://lp1glob6npsn" path="res://assets/player/PARRY/PARRY3.png" id="14_rlg5u"]
-[ext_resource type="Texture2D" uid="uid://ytfjxkrumqwd" path="res://assets/player/PARRY/PARRY6.png" id="15_dhf6o"]
-[ext_resource type="Texture2D" uid="uid://dg0xbe0vhya6t" path="res://assets/player/PARRY/PARRY4.png" id="15_k07tp"]
+[ext_resource type="Texture2D" uid="uid://c5qdj70a3of2i" path="res://assets/player/PARRY/PARRY5.png" id="14_nafj1"]
+[ext_resource type="Texture2D" uid="uid://tfwj6f4hhwg4" path="res://assets/player/PARRY/PARRY3.png" id="14_rlg5u"]
+[ext_resource type="Texture2D" uid="uid://dkvphisbmripg" path="res://assets/player/PARRY/PARRY6.png" id="15_dhf6o"]
+[ext_resource type="Texture2D" uid="uid://diqwg6d0ptgyu" path="res://assets/player/PARRY/PARRY4.png" id="15_k07tp"]
 [ext_resource type="Texture2D" uid="uid://brnm2qsp0tqmt" path="res://assets/player/ATTACK/ATTACK6.png" id="15_lduo2"]
 [ext_resource type="Texture2D" uid="uid://v4l5c74drq5n" path="res://assets/player/ATTACK/ATTACK7.png" id="16_hfat0"]
-[ext_resource type="Texture2D" uid="uid://c002l7k1m513i" path="res://assets/player/PARRY/PARRY7.png" id="16_pi2fi"]
+[ext_resource type="Texture2D" uid="uid://6racty2bovb6" path="res://assets/player/PARRY/PARRY7.png" id="16_pi2fi"]
 [ext_resource type="PackedScene" uid="uid://csmleslly1twg" path="res://scene/components/hurt_box_component/hurt_box.tscn" id="16_wfn55"]
 [ext_resource type="Texture2D" uid="uid://biaod0xrnq5p1" path="res://assets/player/ATTACK/ATTACK8.png" id="17_38wc0"]
 [ext_resource type="Texture2D" uid="uid://bq5i7g8qqkr6o" path="res://assets/player/IDLE/IDLE1.png" id="17_a8ci5"]
@@ -91,6 +91,7 @@
 [ext_resource type="Texture2D" uid="uid://7aop0lsb3p2p" path="res://assets/player/MOVEMENT/MOVEMENT28.png" id="72_2vfwf"]
 [ext_resource type="Texture2D" uid="uid://cafq80qsg14ga" path="res://assets/player/MOVEMENT/MOVEMENT29.png" id="73_lqpfa"]
 [ext_resource type="Texture2D" uid="uid://tose632d1w67" path="res://assets/player/MOVEMENT/MOVEMENT30.png" id="74_nafj1"]
+[ext_resource type="Texture2D" uid="uid://b7j3vh43qtvy8" path="res://assets/player/PARRY/PARRY8.png" id="91_3v612"]
 [ext_resource type="Script" uid="uid://bub7yrv7om30g" path="res://scene/game_objects/player/animated_sprite_2d.gd" id="94_cykr3"]
 
 [sub_resource type="Resource" id="Resource_itr6r"]
@@ -355,7 +356,7 @@ animations = [{
 "speed": 24.0
 }, {
 "frames": [{
-"duration": 0.5,
+"duration": 1.0,
 "texture": ExtResource("12_vedbf")
 }, {
 "duration": 1.0,
@@ -373,12 +374,15 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("15_dhf6o")
 }, {
-"duration": 0.5,
+"duration": 1.0,
 "texture": ExtResource("16_pi2fi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("91_3v612")
 }],
 "loop": false,
 "name": &"parry",
-"speed": 6.0
+"speed": 8.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_lfjyr"]
@@ -435,7 +439,7 @@ texture_filter = 3
 sprite_frames = SubResource("SpriteFrames_heqc5")
 animation = &"parry"
 autoplay = "idle"
-frame = 6
+frame = 7
 frame_progress = 1.0
 offset = Vector2(0, -1)
 script = ExtResource("94_cykr3")
