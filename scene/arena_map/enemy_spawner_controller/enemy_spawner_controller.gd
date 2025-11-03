@@ -49,6 +49,8 @@ func _spawn_enemy():
 			enemy_instance.enemy_died.connect(_on_enemy_died.bind(current_zone))
 
 func _get_random_enemy_scene(zone: ArenaZone):
+	if (zone.get_zone_name()=="overload" || zone.get_zone_name()=="chaotic"):
+		return
 	var path = "res://scene/game_objects/enemies/"
 	var enemy_index = randi_range(1,3)#до трех
 	var enemy_type: String

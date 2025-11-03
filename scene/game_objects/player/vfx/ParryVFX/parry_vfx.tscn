@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://d14glf2wny0yh"]
+
+[ext_resource type="Script" uid="uid://dgdik4qy6sx20" path="res://scene/game_objects/player/vfx/ParryVFX/parry_vfx.gd" id="1_5fsq0"]
+
+[node name="ParryVfx" type="Node2D"]
+script = ExtResource("1_5fsq0")
+color = Color(0.15294118, 1, 1, 1)
+width = 4.0

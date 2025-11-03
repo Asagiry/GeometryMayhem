@@ -8,7 +8,6 @@ signal player_exited(zone: ArenaZone)
 var player: PlayerController
 var area_zones: Array[ArenaZone]
 
-@onready var basic_floor: TileMapLayer = %BasicFloor
 @onready var basic_wall: TileMapLayer = %BasicWall
 @onready var details: TileMapLayer = %Details
 

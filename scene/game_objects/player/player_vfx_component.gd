@@ -16,6 +16,8 @@ var left_trail: TrailLine
 preload("res://assets/artefacts/vfx/AstralStepVFX/dash_attack_vfx_astral_step.tscn")
 @onready var trail_line_scene = \
 preload("res://scene/game_objects/player/vfx/MovementTrailVFX/trail_line.tscn")
+@onready var parry_vfx_scene = \
+preload("res://scene/game_objects/player/vfx/ParryVFX/parry_vfx.tscn")
 
 func _ready() -> void:
 	player_state_machine.machine_started.connect(_on_machine_started)
@@ -64,7 +66,11 @@ func _on_dash_finished(start_pos: Vector2, end_pos: Vector2):
 
 
 func _on_parry_started():
-	pass
+	await get_tree().process_frame
+	var vfx = parry_vfx_scene.instantiate()
+	vfx.setup(player)
+	get_tree().current_scene.add_child(vfx)
+	vfx.show_parry()
 
 
 func _on_parry_finished():
