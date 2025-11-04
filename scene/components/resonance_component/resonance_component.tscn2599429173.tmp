@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b8xw4qop64jn4"]
+
+[ext_resource type="Script" uid="uid://7bybsm77k4jg" path="res://scene/components/resonance_component/resonance_component.gd" id="1_hr7cw"]
+
+[node name="ResonanceComponent" type="Node"]
+script = ExtResource("1_hr7cw")

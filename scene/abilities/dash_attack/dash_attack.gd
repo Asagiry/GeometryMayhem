@@ -17,5 +17,6 @@ func _on_hit_box_component_area_entered(area: Area2D) -> void:
 		return
 	if area.has_method("deal_damage"):
 		area.deal_damage(hit_box_component.damage_data)
+		Global.player_damage_done.emit()
 	if area.has_method("apply_effect"):
 		area.apply_effect(player.effects)

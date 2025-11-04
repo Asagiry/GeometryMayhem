@@ -1,18 +1,13 @@
 class_name ParryController
-extends Node
+extends OwnerAwareComponent  # Меняем наследование
 
 signal parry_started()
 signal parry_finished()
 signal parry_cooldown_timeout()
 
 @export var parry_scene: PackedScene
-var cooldown: float
-var push_distance: float
-var angle: float
-var radius: float
-var duration: float = 0.3
-var push_duration: float = 0.2
 
+var push_duration: float = 0.2
 var duration_multiplier: float = 1.0
 var cooldown_multiplier: float = 1.0
 
@@ -27,38 +22,56 @@ var is_on_cooldown: bool
 
 
 func _ready():
-	_enter_variables()
 	_connect_signals()
+	super._ready()  # Вызовет _setup_owner_reference() и _setup_stat_subscriptions()
+
+
+func _setup_owner_reference():
+	super._setup_owner_reference()
+
+	# Получаем player из owner
+	if owner_node is PlayerController:
+		player = owner_node
+	else:
+		player = get_tree().get_first_node_in_group("player") as PlayerController
+
+	# Создаем экземпляр парри (но не добавляем в сцену пока не активируем)
+	if parry_scene:
+		parry_instance = parry_scene.instantiate() as Parry
+		# Инициализируем с текущими статами
+		parry_instance.init(get_angle(), get_radius())
+
+
+func _connect_signals():
+	if player and player.effect_receiver:
+		player.effect_receiver.attack_component_effects_changed.connect(_on_effect_stats_changed)
 
 
 func _physics_process(_delta):
-	if parry_instance and is_instance_valid(player):
+	# Обновляем позицию парри только если он активен
+	if parry_instance and is_instance_valid(parry_instance) and parry_instance.get_parent():
 		parry_instance.global_position = player.global_position
 		parry_instance.rotation = player.rotation
 
 
-func _enter_variables():
-	player = get_tree().get_first_node_in_group("player") as PlayerController
-	parry_instance = parry_scene.instantiate() as Parry
-	cooldown = player.stats.parry_cd
-	push_distance = player.stats.parry_push_distance
-	angle = player.stats.parry_angle
-	radius = player.stats.parry_radius
-	duration = player.stats.parry_duration
-	parry_instance.init(angle,radius)
-	add_child(parry_instance)
-
-
-func _connect_signals():
-	player.effect_receiver.attack_component_effects_changed.connect(_on_effect_stats_changed)
-
-
 func start_cooldown():
-	parry_cooldown.start(get_cooldown())
+	parry_cooldown.start(get_cooldown() * cooldown_multiplier)
 
 
-func activate_parry(input_state:bool):
+func activate_parry(input_state: bool):
+	if is_parrying or is_on_cooldown:
+		return
+
+
 	parry_started.emit()
+	is_parrying = true
+
+	# Добавляем парри в сцену
+	if parry_instance and not parry_instance.get_parent():
+		parry_instance.update_parameters(get_angle(), get_radius())
+		add_child(parry_instance)
+		parry_instance.global_position = player.global_position
+		parry_instance.rotation = player.rotation
 
 	is_parry_from_mouse = input_state
 	if is_parry_from_mouse:
@@ -68,16 +81,24 @@ func activate_parry(input_state:bool):
 
 	await get_tree().physics_frame
 	player.set_collision_layer_value(2, true)
-	await _parry()
-	#TODO GM-116
-	await get_tree().create_timer(get_duration()).timeout
 
+	await _parry()
+	await get_tree().create_timer(get_duration() * duration_multiplier).timeout
+
+	# Убираем парри из сцены
+	if parry_instance and is_instance_valid(parry_instance):
+		remove_child(parry_instance)
+
+	is_parrying = false
 	start_cooldown()
 	parry_finished.emit()
 
 
 func _parry():
 	await get_tree().physics_frame
+
+	if not parry_instance or not is_instance_valid(parry_instance):
+		return
 
 	var overlapping_bodies = parry_instance.parry_area.get_overlapping_bodies()
 	var overlapping_areas = parry_instance.parry_area.get_overlapping_areas()
@@ -88,7 +109,7 @@ func _parry():
 
 	for area in overlapping_areas:
 		if area.is_in_group("projectile"):
-				area.owner.direction *= -1
+			area.owner.direction *= -1
 
 
 func _push_enemy(enemy: Node2D, facing_direction: Vector2) -> void:
@@ -98,19 +119,19 @@ func _push_enemy(enemy: Node2D, facing_direction: Vector2) -> void:
 
 func _calculate_push_target(enemy: Node2D, facing_direction: Vector2) -> Vector2:
 	var direction = facing_direction.normalized()
-	var to_enemy = (enemy.global_position - parry_instance.global_position).normalized()
+	var to_enemy = (enemy.global_position - player.global_position).normalized()
 	var angle_offset = direction.angle_to(to_enemy)
-	var max_angle = deg_to_rad(angle)
+	var max_angle = deg_to_rad(get_angle())
 	angle_offset = clamp(angle_offset, -max_angle, max_angle)
 	direction = direction.rotated(angle_offset)
 
 	var ray = RayCast2D.new()
-	ray.target_position = direction * push_distance
+	ray.target_position = direction * get_push_distance()
 	enemy.add_child(ray)
 	ray.enabled = true
 	ray.force_raycast_update()
 
-	var safe_distance = push_distance
+	var safe_distance = get_push_distance()
 	if ray.is_colliding():
 		safe_distance = (ray.get_collision_point() - enemy.global_position).length() - 1
 	ray.queue_free()
@@ -185,11 +206,30 @@ func _on_parry_cooldown_timeout() -> void:
 func _on_effect_stats_changed(updated_stats) -> void:
 	if updated_stats.has("attack_duration_multiplier"):
 		duration_multiplier = updated_stats["attack_duration_multiplier"]
+	# Добавь другие эффекты если нужно
+	# if updated_stats.has("parry_cd_multiplier"):
+	#     cooldown_multiplier = updated_stats["parry_cd_multiplier"]
 
 
-func get_duration():
-	return duration*duration_multiplier
+func get_cooldown() -> float:
+	return get_stat("parry_cd") * cooldown_multiplier
 
 
-func get_cooldown():
-	return cooldown*cooldown_multiplier
+func get_push_distance() -> float:
+	return get_stat("parry_push_distance")
+
+
+func get_angle() -> float:
+	return get_stat("parry_angle")
+
+
+func get_radius() -> float:
+	return get_stat("parry_radius")
+
+
+func get_duration() -> float:
+	return get_stat("parry_duration") * duration_multiplier
+
+
+func get_parry_damage() -> DamageData:
+	return get_stat("parry_damage", null)

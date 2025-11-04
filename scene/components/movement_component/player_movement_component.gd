@@ -22,14 +22,14 @@ func _process(delta: float) -> void:
 		movement_started.emit(global_position)
 
 		var target_angle = last_direction.angle() + PI / 2
-		rotation = lerp_angle(rotation, target_angle, rotation_speed * delta)
+		rotation = lerp_angle(rotation, target_angle, get_rotation_speed() * delta)
 
 	velocity = accelerate_to_direction(direction)
 	move_and_slide()
 
 
 func _enter_variables():
-	effect_receiver = owner.effect_receiver
+	effect_receiver = owner.get_effect_receiver()
 
 
 func _connect_signals():

@@ -5,13 +5,19 @@ extends Resource
 const MAX_MULTIPLIER: float = 10.0
 const DEFAULT_MULTIPLIER: float = 1.0
 const MIN_MULTIPLIER: float = 0.0
-
-@export var speed_multiplier: float = DEFAULT_MULTIPLIER
+@export_group("Attack Comp Mults")
 @export var attack_multiplier: float = DEFAULT_MULTIPLIER #1
-@export var armor_multiplier: float = DEFAULT_MULTIPLIER
-@export var forward_receiving_damage_multiplier: float = DEFAULT_MULTIPLIER
 @export var attack_cd_multiplier: float = DEFAULT_MULTIPLIER #1
 @export var attack_duration_multiplier: float = DEFAULT_MULTIPLIER #1
+
+@export_group("Movement Comp Mults")
+@export var speed_multiplier: float = DEFAULT_MULTIPLIER
+
+@export_group("Armor Comp Mults")
+@export var armor_multiplier: float = DEFAULT_MULTIPLIER
+
+@export_group("Health Comp Mults")
+@export var forward_receiving_damage_multiplier: float = DEFAULT_MULTIPLIER
 @export var invulnerable: bool
 @export var percent_of_max_health: float = DEFAULT_MULTIPLIER
 

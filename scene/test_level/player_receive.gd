@@ -16,18 +16,38 @@ var state_machine: StateMachine
 @onready var max_health_label: Label = %Max_heatlh_label
 @onready var current_health_label: Label = %Current_health_label
 
+@onready var current_impulse: Label = %CurrentImpulse
+@onready var requirment_impulse: Label = %RequirmentImpulse
+@onready var resonance_level: Label = %ResonanceLevel
+@onready var resonance_progress_bar: ProgressBar = %ResonanceProgressBar
+
+
 
 func _ready():
 	call_deferred("_connect_health_signal")
 
+
+func _enter_variables():
+	resonance_level.text = "0"
+	current_impulse.text = "0"
+	requirment_impulse.text = "100"
+
 func _connect_health_signal():
 	player = get_tree().get_first_node_in_group("player")
-	player.health_component.health_changed.connect(_on_health_changed)
-	player.health_component.stats_changed.connect(_on_health_changed)
+	player.health_component.health_decreased.connect(_on_health_changed)
+	player.health_component.health_increased.connect(_on_health_changed)
+	Global.impulse_amount_changed.connect(_on_impulse_amount_changed)
 
 func _on_health_changed(current_health: float, max_health: float):
 	max_health_label.text = str(max_health)
 	current_health_label.text = str(current_health)
+
+func _on_impulse_amount_changed(p_current_impulse, current_lvl, requirment):
+	resonance_level.text = str(current_lvl)
+	current_impulse.text = str(p_current_impulse)
+	requirment_impulse.text = str(requirment)
+	resonance_progress_bar.max_value = requirment
+	resonance_progress_bar.value = p_current_impulse
 
 #apply_on_player
 func _on_apply_button_pressed() -> void:
@@ -93,7 +113,7 @@ func _on_slow_preset_pressed() -> void:
 	var effect = Effect.new()
 	effect.effect_type = Util.EffectType.SLOW
 	effect.behavior = Util.EffectBehavior.DEBUFF
-	effect.stat_modifiers = StatModifierData.new(0.2)
+	effect.stat_modifiers = StatModifierData.new(0.5)
 	effect.duration = 5.0
 	effect.positivity = Util.EffectPositivity.NEGATIVE
 	apply_effect(effect)

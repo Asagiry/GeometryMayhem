@@ -66,10 +66,12 @@ func _on_enemy_died(stats: EnemyStatData):
 	_calculate_echo(stats)
 	_calculate_knowledge(stats)
 
+
 func _calculate_echo(stats: EnemyStatData):
 	var chance = stats.echo_chance
 	if randf() <= chance:
 		update_currency(stats.echo_count)
+
 
 func _calculate_knowledge(stats: EnemyStatData):
 	update_player_knowledge(stats.knowledge_count)

@@ -11,7 +11,7 @@ func activate_attack():
 
 	var attack_instance = _create_and_setup_attack_instance()
 
-	await _wait_for_attack_completion(attack_instance)
+	_wait_for_attack_completion(attack_instance)
 
 	attack_finished.emit()
 

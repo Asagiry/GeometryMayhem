@@ -33,7 +33,7 @@ metadata/_custom_type_script = "uid://cyitjknl16852"
 
 [sub_resource type="Resource" id="Resource_6pjib"]
 script = ExtResource("2_jncjd")
-max_health = 300.0
+max_health = 110.0
 max_speed = 40.0
 acceleration = 12.5
 rotation_speed = 4.0
@@ -42,6 +42,7 @@ attack_cd = 1.0
 knowledge_count = 15
 echo_chance = 0.3
 echo_count = 23
+impulse_count = 30
 aggro_range = 200.0
 attack_range_zone = 150.0
 projectile_speed = 200.0
