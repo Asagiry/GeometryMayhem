@@ -21,8 +21,8 @@ var percent_health_multiplier: float = DEFAULT_MULTIPLIER
 var effect_receiver: EffectReceiver
 
 func _ready():
+	super._ready() 
 	_connect_signals()
-	super._ready()  
 
 
 func _setup_owner_reference():
@@ -41,8 +41,7 @@ func _setup_stat_subscriptions():
 
 
 func _connect_signals():
-	if effect_receiver:
-		effect_receiver.health_component_effects_changed.connect(_on_effect_stats_changed)
+	effect_receiver.health_component_effects_changed.connect(_on_effect_stats_changed)
 
 
 func take_damage(damage: DamageData):
@@ -86,39 +85,31 @@ func _on_effect_stats_changed(updated_stats: Dictionary) -> void:
 		invulnerable = updated_stats["invulnerable"]
 
 	if updated_stats.has("percent_of_max_health"):
+		print("ABCDE")
 		var percent = updated_stats["percent_of_max_health"]
-		var max_hp = get_max_health()
-		
 		if is_zero_approx(percent - DEFAULT_MULTIPLIER):
-			# Возвращаем к оригинальным значениям
-			current_health = (current_health / percent_health_multiplier)
+			owner_stats.set_stat("max_health", get_max_health()  / percent_health_multiplier)
 		else:
-			# Применяем новый множитель
-			current_health = (current_health * percent) / percent_health_multiplier
-
+			owner_stats.set_stat("max_health", get_max_health() * percent)
 		percent_health_multiplier = percent
-
-		if max_hp > 0:
-			health_ratio = current_health / max_hp
-
-		health_increased.emit(current_health, max_hp)
 
 
 func _on_max_health_changed(new_max_health: float, old_max_health: float):
+	print("ABCD")
 	if old_max_health <= 0:
 		current_health = new_max_health
-		health_ratio = 1.0
+		health_increased.emit(current_health, new_max_health)
 		return
-
-	health_ratio = current_health / old_max_health
-
-	var new_current_health = new_max_health * health_ratio
-
-	current_health = new_current_health
+	
+	# Сохраняем процент здоровья при изменении максимума
+	var health_percentage = current_health / old_max_health
+	current_health = health_percentage * new_max_health
 
 	health_increased.emit(current_health, new_max_health)
-
-	print("Max health updated: %d -> %d, Current: %d" % [old_max_health, new_max_health, current_health])
+	
+	print("Max health updated: %d -> %d, Current: %d (%.1f%%)" % [
+		old_max_health, new_max_health, current_health, health_percentage * 100
+	])
 
 
 func get_max_health() -> float:

@@ -144,6 +144,7 @@ metadata/_custom_type_script = "uid://dqdjr57cibah6"
 
 [sub_resource type="Resource" id="Resource_38wc0"]
 script = ExtResource("14_lduo2")
+max_health_multiplier = 2.0
 metadata/_custom_type_script = "uid://dc7q0l0m185nd"
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_heqc5"]

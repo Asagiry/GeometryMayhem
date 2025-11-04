@@ -212,7 +212,7 @@ func _on_effect_stats_changed(updated_stats) -> void:
 
 
 func get_cooldown() -> float:
-	return get_stat("parry_cd")
+	return get_stat("parry_cd") * cooldown_multiplier
 
 
 func get_push_distance() -> float:
@@ -228,7 +228,7 @@ func get_radius() -> float:
 
 
 func get_duration() -> float:
-	return get_stat("parry_duration")
+	return get_stat("parry_duration") * duration_multiplier
 
 
 func get_parry_damage() -> DamageData:

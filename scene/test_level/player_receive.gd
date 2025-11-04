@@ -113,7 +113,7 @@ func _on_slow_preset_pressed() -> void:
 	var effect = Effect.new()
 	effect.effect_type = Util.EffectType.SLOW
 	effect.behavior = Util.EffectBehavior.DEBUFF
-	effect.stat_modifiers = StatModifierData.new(0.2)
+	effect.stat_modifiers = StatModifierData.new(0.5)
 	effect.duration = 5.0
 	effect.positivity = Util.EffectPositivity.NEGATIVE
 	apply_effect(effect)

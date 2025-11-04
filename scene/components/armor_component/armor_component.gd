@@ -6,8 +6,8 @@ var effect_receiver: EffectReceiver
 
 
 func _ready():
-	_connect_signals()
 	super._ready()  # Вызовет _setup_owner_reference() и _setup_stat_subscriptions()
+	_connect_signals()
 
 
 func _setup_owner_reference():
@@ -39,15 +39,16 @@ func _apply_armor_formula(damage: float, armor: float) -> float:
 	# return max(damage - armor, damage * 0.1)  # Минимум 10% урона
 	
 	# Пример 3: Гибридная формула
-	var flat_reduction = armor * 0.5
-	var percentage_reduction = min(armor * 0.01, 0.6)  # Максимум 60%
-	var after_flat = max(damage - flat_reduction, 0)
-	return after_flat * (1.0 - percentage_reduction)
+	#var flat_reduction = get_armor() * 0.5
+	#var percentage_reduction = min(armor * 0.01, 0.6)  # Максимум 60%
+	#var after_flat = max(damage - flat_reduction, 0)
+	#return after_flat * (1.0 - percentage_reduction)
+	return damage
 
 
 # Геттер для брони
 func get_armor() -> float:
-	return get_stat("armor")
+	return get_stat("armor") * armor_multiplier
 
 
 func _on_effect_stats_changed(updated_stats: Dictionary) -> void:

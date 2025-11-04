@@ -231,7 +231,7 @@ func get_dash_width() -> float:
 
 
 func get_attack_damage() -> DamageData:
-	return get_stat("attack_damage")
+	return get_stat("attack_damage") * damage_multiplier
 
 
 func get_duration() -> float:
