@@ -3,8 +3,6 @@ extends Resource
 
 signal stat_changed(stat_name: String, old_value, new_value)
 
-var _previous_values: Dictionary = {}
-
 @export_group("HP")
 @export var max_health: float
 @export var armor: float
@@ -33,9 +31,11 @@ var _previous_values: Dictionary = {}
 @export var grace_period_time: float
 @export var magic_find: float
 
+var _previous_values: Dictionary = {}
 # Специальные геттеры для DamageData amount
 func get_attack_damage_amount() -> float:
 	return attack_damage.amount if attack_damage else 0.0
+
 
 func set_attack_damage_amount(value: float) -> void:
 	if attack_damage:
@@ -43,8 +43,10 @@ func set_attack_damage_amount(value: float) -> void:
 		attack_damage.amount = value
 		stat_changed.emit("attack_damage_amount", old_value, value)
 
+
 func get_parry_damage_amount() -> float:
 	return parry_damage.amount if parry_damage else 0.0
+
 
 func set_parry_damage_amount(value: float) -> void:
 	if parry_damage:
@@ -58,14 +60,15 @@ func _set(property: StringName, value) -> bool:
 	if property == "attack_damage_amount":
 		set_attack_damage_amount(value)
 		return true
-	elif property == "parry_damage_amount":
+
+	if property == "parry_damage_amount":
 		set_parry_damage_amount(value)
 		return true
-	
+
 	# Обычные свойства
 	if not property in _previous_values:
 		_previous_values[property] = get(property)
-	
+
 	var old_value = _previous_values[property]
 	if old_value != value:
 		_previous_values[property] = value
@@ -77,16 +80,17 @@ func _set(property: StringName, value) -> bool:
 func _get(property: StringName):
 	if property == "attack_damage_amount":
 		return get_attack_damage_amount()
-	elif property == "parry_damage_amount":
+
+	if property == "parry_damage_amount":
 		return get_parry_damage_amount()
-	
+
 	return null
 
 # Универсальный set_stat для внешнего использования
 func set_stat(stat_name: String, value) -> void:
 	_set(stat_name, value)
 
-# Универсальный get_stat для внешнего использования  
+# Универсальный get_stat для внешнего использования
 func get_stat(stat_name: String):
 	var result = _get(stat_name)
 	if result != null:

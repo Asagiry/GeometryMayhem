@@ -21,12 +21,12 @@ var percent_health_multiplier: float = DEFAULT_MULTIPLIER
 var effect_receiver: EffectReceiver
 
 func _ready():
-	super._ready() 
+	super._ready()
 	_connect_signals()
 
 
 func _setup_owner_reference():
-	super._setup_owner_reference()  
+	super._setup_owner_reference()
 
 	if owner_node and owner_node.has_method("get_effect_receiver"):
 		effect_receiver = owner_node.get_effect_receiver()
@@ -54,7 +54,7 @@ func take_damage(damage: DamageData):
 
 	var old_health = current_health
 	current_health = snappedf(max(current_health - final_damage, 0), ROUNDING_ACCURACY)
-	
+
 	# Обновляем ratio
 	var max_hp = get_max_health()
 	if max_hp > 0:
@@ -100,13 +100,13 @@ func _on_max_health_changed(new_max_health: float, old_max_health: float):
 		current_health = new_max_health
 		health_increased.emit(current_health, new_max_health)
 		return
-	
+
 	# Сохраняем процент здоровья при изменении максимума
 	var health_percentage = current_health / old_max_health
 	current_health = health_percentage * new_max_health
 
 	health_increased.emit(current_health, new_max_health)
-	
+
 	print("Max health updated: %d -> %d, Current: %d (%.1f%%)" % [
 		old_max_health, new_max_health, current_health, health_percentage * 100
 	])

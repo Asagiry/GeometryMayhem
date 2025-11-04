@@ -7,7 +7,7 @@ extends Resource
 @export var impulse_multiplier: float
 ## Максимальный уровень резонанса
 @export var max_level: int
-## Уровень ниже которого нельзя опустится. Пример: Если safe_level = 5, то 
+## Уровень ниже которого нельзя опустится. Пример: Если safe_level = 5, то
 ##каждый пятый уровень считается безопасным.
 @export var safe_level: int
 
@@ -15,7 +15,7 @@ extends Resource
 
 @export_subgroup("Hit")
 ## Процент потери импульса при получении урона (0-1)
-@export_range(0.0, 1.0) var impulse_percent_decrease_for_hit: float 
+@export_range(0.0, 1.0) var impulse_percent_decrease_for_hit: float
 
 @export_subgroup("Afk")
 ## Добавочный процент к минимального проценту потери, добавляется пока

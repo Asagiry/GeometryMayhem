@@ -39,13 +39,13 @@ func _ready():
 
 func _setup_owner_reference():
 	super._setup_owner_reference()
-	
+
 	# Получаем player из owner
 	if owner_node is PlayerController:
 		player = owner_node
 	else:
 		player = get_tree().get_first_node_in_group("player") as PlayerController
-	
+
 	# Инициализируем damage_data
 	if player and player.stats:
 		damage_data = player.stats.attack_damage
@@ -158,7 +158,7 @@ func _start_dash_tween(dash_attack_instance: DashAttack):
 	tween.tween_property(player, "global_position", _end_pos, \
 	dash_duration) \
 	.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
-	
+
 	var dash_width = get_dash_width()
 	var start_size = Vector2(dash_width, 0)
 	var end_size = Vector2(dash_width, _distance)
@@ -215,7 +215,7 @@ func _on_effect_stats_changed(updated_stats) -> void:
 	if updated_stats.has("attack_duration_multiplier"):
 		dash_duration_multiplier = updated_stats["attack_duration_multiplier"]
 	if updated_stats.has("attack_multiplier"):
-		damage_multiplier = updated_stats["attack_multiplier"] 
+		damage_multiplier = updated_stats["attack_multiplier"]
 	if updated_stats.has("attack_cd_multiplier"):
 		attack_cd_multiplier = updated_stats["attack_cd_multiplier"]
 
@@ -243,4 +243,4 @@ func get_dash_range() -> float:
 
 
 func get_cooldown() -> float:
-	return get_stat("attack_cd") * attack_cd_multiplier  
+	return get_stat("attack_cd") * attack_cd_multiplier

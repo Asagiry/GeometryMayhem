@@ -2,6 +2,35 @@ class_name ResonanceStatData
 
 extends Resource
 
+const STAT_MAPPINGS: Array[Array] = [
+	# HP
+	["max_health_multiplier", "max_health"],
+	["armor_multiplier", "armor"],
+
+	# Movement
+	["max_speed_multiplier", "max_speed"],
+	["acceleration_multiplier", "acceleration"],
+	["rotation_speed_multiplier", "rotation_speed"],
+
+	# Attack
+	["attack_damage_multiplier", "attack_damage_amount"],
+	["attack_cd_multiplier", "attack_cd"],
+	["attack_duration_multiplier", "attack_duration"],
+	["attack_width_multiplier", "attack_width"],
+	["attack_range_multiplier", "attack_range"],
+
+	# Parry
+	["parry_damage_multiplier", "parry_damage_amount"],
+	["parry_cd_multiplier", "parry_cd"],
+	["parry_push_distance_multiplier", "parry_push_distance"],
+	["parry_angle_multiplier", "parry_angle"],
+	["parry_radius_multiplier", "parry_radius"],
+	["parry_duration_multiplier", "parry_duration"],
+
+	# Other
+	["grace_period_time_multiplier", "grace_period_time"],
+	["magic_find_multiplier", "magic_find"]
+]
 
 @export_group("HP")
 @export var max_health_multiplier: float = 1.0
@@ -32,41 +61,11 @@ extends Resource
 @export var magic_find_multiplier: float = 1.0 #удача
 
 
-const STAT_MAPPINGS: Array[Array] = [
-	# HP
-	["max_health_multiplier", "max_health"],
-	["armor_multiplier", "armor"],
-	
-	# Movement
-	["max_speed_multiplier", "max_speed"],
-	["acceleration_multiplier", "acceleration"],
-	["rotation_speed_multiplier", "rotation_speed"],
-	
-	# Attack
-	["attack_damage_multiplier", "attack_damage_amount"],
-	["attack_cd_multiplier", "attack_cd"],
-	["attack_duration_multiplier", "attack_duration"],
-	["attack_width_multiplier", "attack_width"],
-	["attack_range_multiplier", "attack_range"],
-	
-	# Parry
-	["parry_damage_multiplier", "parry_damage_amount"],
-	["parry_cd_multiplier", "parry_cd"],
-	["parry_push_distance_multiplier", "parry_push_distance"],
-	["parry_angle_multiplier", "parry_angle"],
-	["parry_radius_multiplier", "parry_radius"],
-	["parry_duration_multiplier", "parry_duration"],
-	
-	# Other
-	["grace_period_time_multiplier", "grace_period_time"],
-	["magic_find_multiplier", "magic_find"]
-]
-
 func apply_to_stats(target_stats: Object, apply: bool) -> void:
 	for mapping in STAT_MAPPINGS:
 		var multiplier_name: String = mapping[0]
 		var stat_name: String = mapping[1]
-		
+
 		var multiplier: float = get(multiplier_name)
 		#TODO убрать проверку, если все статы будут увеличиваться
 		if !is_zero_approx(multiplier - 1.0):

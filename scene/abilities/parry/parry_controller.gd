@@ -28,13 +28,13 @@ func _ready():
 
 func _setup_owner_reference():
 	super._setup_owner_reference()
-	
+
 	# Получаем player из owner
 	if owner_node is PlayerController:
 		player = owner_node
 	else:
 		player = get_tree().get_first_node_in_group("player") as PlayerController
-	
+
 	# Создаем экземпляр парри (но не добавляем в сцену пока не активируем)
 	if parry_scene:
 		parry_instance = parry_scene.instantiate() as Parry
@@ -81,7 +81,7 @@ func activate_parry(input_state: bool):
 
 	await get_tree().physics_frame
 	player.set_collision_layer_value(2, true)
-	
+
 	await _parry()
 	await get_tree().create_timer(get_duration() * duration_multiplier).timeout
 

@@ -20,7 +20,7 @@ func _ready() -> void:
 func init(angle: float, radius: float) -> void:
 	parry_angle = angle
 	parry_radius = radius
-	
+
 	# Обновляем коллизию (работает и в _ready и после)
 	_update_collision_shape()
 
@@ -29,7 +29,7 @@ func update_parameters(angle: float, radius: float) -> void:
 	"""Обновляет параметры и пересоздает коллизию"""
 	if angle == parry_angle and radius == parry_radius:
 		return  # Ничего не менялось
-	
+
 	parry_angle = angle
 	parry_radius = radius
 	_update_collision_shape()
@@ -40,13 +40,13 @@ func _update_collision_shape() -> void:
 	if not parry_area:
 		push_error("ParryArea not found!")
 		return
-	
+
 	# Удаляем старый коллайдер если есть
 	_remove_old_collision_shape()
-	
+
 	# Создаем новый коллайдер
 	collision_sector = CollisionShape2D.new()
-	
+
 	if parry_angle >= 360.0:
 		# 🔹 Полный круг
 		var circle := CircleShape2D.new()
@@ -58,18 +58,18 @@ func _update_collision_shape() -> void:
 		var half_angle_rad = deg_to_rad(parry_angle / 2.0)
 		var segments = max(8, int(parry_angle / 22.5))  # Автоматическое кол-во сегментов
 		var points: PackedVector2Array = [Vector2.ZERO]
-		
+
 		for i in range(segments + 1):
 			var angle_rad = -half_angle_rad + (i / float(segments)) * (half_angle_rad * 2.0)
 			points.append(Vector2(cos(angle_rad) * parry_radius, sin(angle_rad) * parry_radius))
-		
+
 		shape.points = points
 		collision_sector.shape = shape
 		collision_sector.rotation = -PI / 2
-	
+
 	# Добавляем новый коллайдер
 	parry_area.add_child(collision_sector)
-	
+
 	print("✅ Parry collision updated - Angle: ", parry_angle, "°, Radius: ", parry_radius)
 
 
@@ -80,7 +80,7 @@ func _remove_old_collision_shape() -> void:
 			collision_sector.get_parent().remove_child(collision_sector)
 		collision_sector.queue_free()
 		collision_sector = null
-	
+
 	# Также удаляем любые другие CollisionShape2D дети в parry_area
 	for child in parry_area.get_children():
 		if child is CollisionShape2D:

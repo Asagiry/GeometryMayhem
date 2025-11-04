@@ -11,34 +11,6 @@ var freeze_multiplier: float = 1.0
 var current_velocity = Vector2.ZERO
 var last_direction: Vector2 = Vector2.UP
 
-
-func _ready() -> void:
-	super._ready()  # Вызовет _setup_owner_reference() и _setup_stat_subscriptions()
-
-
-func _setup_owner_reference():
-	super._setup_owner_reference()
-	
-	# Получаем entity из owner (должен быть CharacterBody2D)
-	if owner_node is CharacterBody2D:
-		entity = owner_node
-	else:
-		push_error("MovementComponent owner must be CharacterBody2D")
-
-
-func get_max_speed() -> float:
-	return get_stat("max_speed")
-
-
-func get_acceleration() -> float:
-	return get_stat("acceleration")
-
-
-func get_rotation_speed() -> float:
-	return get_stat("rotation_speed")
-
-
-# Проперти для удобного доступа к entity
 var velocity: Vector2:
 	get: return entity.velocity if entity else Vector2.ZERO
 	set(value):
@@ -59,36 +31,61 @@ var global_position: Vector2:
 		if entity:
 			entity.global_position = value
 
+func _ready() -> void:
+	super._ready()  # Вызовет _setup_owner_reference() и _setup_stat_subscriptions()
+
+
+func _setup_owner_reference():
+	super._setup_owner_reference()
+
+	# Получаем entity из owner (должен быть CharacterBody2D)
+	if owner_node is CharacterBody2D:
+		entity = owner_node
+	else:
+		push_error("MovementComponent owner must be CharacterBody2D")
+
+
+func get_max_speed() -> float:
+	return get_stat("max_speed")
+
+
+func get_acceleration() -> float:
+	return get_stat("acceleration")
+
+
+func get_rotation_speed() -> float:
+	return get_stat("rotation_speed")
+
 
 func accelerate_to_direction(direction: Vector2) -> Vector2:
 	if not entity:
 		return Vector2.ZERO
-	
+
 	direction *= direction_modifier
 	var final_max_speed = get_max_speed() * speed_multiplier * freeze_multiplier
 	var final_velocity = final_max_speed * direction
 	var current_acceleration = get_acceleration()
-	
+
 	current_velocity = current_velocity.lerp(
-		final_velocity, 
+		final_velocity,
 		1 - exp(-current_acceleration * get_process_delta_time())
 	)
-	
+
 	# Сохраняем последнее направление (если двигаемся)
 	if direction.length_squared() > 0.1:
 		last_direction = direction.normalized()
-	
+
 	return current_velocity
 
 
 func rotate_towards_direction(direction: Vector2) -> void:
 	if not entity or direction.length_squared() < 0.1:
 		return
-	
+
 	var target_rotation = direction.angle() + PI/2  # +PI/2 если спрайт смотрит вверх
 	var rotation_diff = wrapf(target_rotation - entity.rotation, -PI, PI)
 	var rotation_step = get_rotation_speed() * get_process_delta_time()
-	
+
 	if abs(rotation_diff) <= rotation_step:
 		entity.rotation = target_rotation
 	else:

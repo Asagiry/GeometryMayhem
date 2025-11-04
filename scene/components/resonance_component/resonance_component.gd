@@ -71,7 +71,7 @@ func _increase_impulse(value: int):
 		if _is_max_level():
 			break
 		required_impulse = resonance_data.get_required_impulse(current_level)
-	
+
 	_update_impulse_display()
 
 
