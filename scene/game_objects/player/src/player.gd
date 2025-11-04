@@ -52,6 +52,9 @@ func _connect_signals():
 	effect_receiver.silenced.connect(_on_silenced)
 	effect_receiver.collision_disabled.connect(_on_collision_disabled)
 
+func get_effect_receiver():
+	return effect_receiver
+
 
 func _on_died():
 	Global.player_died.emit()
@@ -65,4 +68,4 @@ func _on_silenced(status: bool):
 func _on_collision_disabled(status: bool) -> void:
 	set_collision_layer_value(2, !status)
 	set_collision_mask_value(3, !status)
-	player_hurt_box.set_collision_layer_value(9,!status)
+	player_hurt_box.set_collision_layer_value(9, !status)

@@ -44,6 +44,7 @@ attack_damage = SubResource("Resource_gua6m")
 knowledge_count = 20
 echo_chance = 1.0
 echo_count = 13
+impulse_count = 40
 aggro_range = 200.0
 attack_range = 150.0
 attack_range_zone = 20.0

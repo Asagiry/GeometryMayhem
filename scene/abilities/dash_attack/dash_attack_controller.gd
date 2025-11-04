@@ -1,7 +1,7 @@
 class_name PlayerAttackController
 
 #region variables
-extends Node
+extends OwnerAwareComponent
 
 signal attack_started
 signal attack_finished
@@ -10,12 +10,8 @@ signal attack_cd_timeout
 @export var dash_attack_scene: PackedScene
 
 var damage_data: DamageData
-var dash_range: float = 100.0
-var dash_cd: float = 0.1
-var dash_width: float = 25.0
 
 var is_dash_from_mouse: bool = false
-var dash_duration: float = 0.2
 var player: PlayerController
 var is_on_cooldown: bool
 var is_range_enable: bool = true
@@ -36,25 +32,36 @@ var _end_pos: Vector2
 
 
 func _ready():
-	_enter_variables()
 	_connect_signals()
-	_setup_dash_cirlce()
+	super._ready()  # Вызовет _setup_owner_reference() и _setup_stat_subscriptions()
+	_setup_dash_circle()
 
 
-func _enter_variables():
-	player = get_tree().get_first_node_in_group("player") as Node2D
-	damage_data = player.stats.attack_damage
-	dash_range = player.stats.attack_range
-	dash_cd = player.stats.attack_cd
-	dash_width = player.stats.attack_width
-	dash_duration = player.stats.attack_duration
+func _setup_owner_reference():
+	super._setup_owner_reference()
+	
+	# Получаем player из owner
+	if owner_node is PlayerController:
+		player = owner_node
+	else:
+		player = get_tree().get_first_node_in_group("player") as PlayerController
+	
+	# Инициализируем damage_data
+	if player and player.stats:
+		damage_data = player.stats.attack_damage
+		print("Damage data инициализирована: ", damage_data)
+
+
+func _setup_stat_subscriptions():
+	subscribe_to_stat("attack_range", _on_attack_range_changed)
 
 
 func _connect_signals():
-	player.effect_receiver.attack_component_effects_changed.connect(_on_effect_stats_changed)
+	if player and player.effect_receiver:
+		player.effect_receiver.attack_component_effects_changed.connect(_on_effect_stats_changed)
 
 
-func _setup_dash_cirlce():
+func _setup_dash_circle():
 	_dash_circle = preload("res://scene/game_objects/player/dash_circle.tscn")\
 	.instantiate() as DashCircle
 	player.add_child.call_deferred(_dash_circle)
@@ -71,7 +78,7 @@ func get_end_pos()-> Vector2:
 
 func enable_range(enable: bool):
 	if (enable):
-		_dash_circle.set_range(dash_range)
+		_dash_circle.set_range(get_dash_range())
 		_dash_circle.show_dash_range()
 	else:
 		_dash_circle.hide_dash_range()
@@ -118,6 +125,7 @@ func _activate_mouse_click_dash(dash_attack_instance):
 
 
 func _set_end_pos_from_mouse():
+	var dash_range = get_dash_range()
 	_end_pos = player.get_global_mouse_position()
 	var direction = _end_pos - player.global_position
 	var distance = direction.length()
@@ -138,7 +146,7 @@ func _activate_keyboard_dash(dash_attack_instance):
 
 func _set_end_pos_from_keyboard():
 	var forward = Vector2.UP.rotated(player.rotation)
-	_end_pos = player.global_position + forward * dash_range
+	_end_pos = player.global_position + forward * get_dash_range()
 
 
 func _start_dash_tween(dash_attack_instance: DashAttack):
@@ -146,11 +154,12 @@ func _start_dash_tween(dash_attack_instance: DashAttack):
 	_direction = player.global_position.direction_to(_end_pos)
 	_distance = player.global_position.distance_to(_end_pos)
 	var tween = create_tween()
-
+	var dash_duration = get_duration()
 	tween.tween_property(player, "global_position", _end_pos, \
-	dash_duration * dash_duration_multiplier) \
+	dash_duration) \
 	.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
-
+	
+	var dash_width = get_dash_width()
 	var start_size = Vector2(dash_width, 0)
 	var end_size = Vector2(dash_width, _distance)
 	dash_attack_instance.dash_hit_box_shape.shape.size = start_size
@@ -164,7 +173,7 @@ func _start_dash_tween(dash_attack_instance: DashAttack):
 			* (size_value.y / 2.0),
 		start_size,
 		end_size,
-		dash_duration * dash_duration_multiplier
+		dash_duration
 	).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
 
 	tween.tween_callback(Callable(dash_attack_instance, "queue_free"))
@@ -206,14 +215,32 @@ func _on_effect_stats_changed(updated_stats) -> void:
 	if updated_stats.has("attack_duration_multiplier"):
 		dash_duration_multiplier = updated_stats["attack_duration_multiplier"]
 	if updated_stats.has("attack_multiplier"):
-		damage_multiplier = updated_stats["attack_multiplier"]
+		damage_multiplier = updated_stats["attack_multiplier"] 
 	if updated_stats.has("attack_cd_multiplier"):
 		attack_cd_multiplier = updated_stats["attack_cd_multiplier"]
 
 
-func get_duration():
-	return dash_duration*dash_duration_multiplier
+func _on_attack_range_changed(new_range: float, old_range: float):
+	print("Attack range changed: ", old_range, " -> ", new_range)
+	if _dash_circle and is_range_enable:
+		_dash_circle.set_range(new_range)
 
 
-func get_cooldown():
-	return dash_cd*attack_cd_multiplier
+func get_dash_width() -> float:
+	return get_stat("attack_width")
+
+
+func get_attack_damage() -> DamageData:
+	return get_stat("attack_damage")
+
+
+func get_duration() -> float:
+	return get_stat("attack_duration") * dash_duration_multiplier
+
+
+func get_dash_range() -> float:
+	return get_stat("attack_range")
+
+
+func get_cooldown() -> float:
+	return get_stat("attack_cd") * attack_cd_multiplier  

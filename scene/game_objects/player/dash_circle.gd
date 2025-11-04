@@ -12,6 +12,7 @@ var show_circle: bool = false
 
 func set_range(dash_range):
 	circle_range = dash_range
+	queue_redraw()
 
 
 func _draw():

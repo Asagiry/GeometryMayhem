@@ -1,10 +1,20 @@
 extends Node
 
 signal enemy_died(stats)
+
+signal impulse_amount_changed(
+	current_impulse: int,
+	current_level: int,
+	requirment_impulse: int
+	)
 signal player_died
 signal player_spawned(player: PlayerController)
+signal player_damage_done
+signal player_stats_changed(updated_stats)
+
 signal game_started
 signal game_ended
+
 
 const DELAY_IN_CLOSING: float = 0.5
 var meta_ui_instance

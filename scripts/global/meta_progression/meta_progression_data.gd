@@ -17,4 +17,4 @@ func _get_required_knowledge(level: int) -> int:
 	@warning_ignore("integer_division")
 	var tier = level / tier_size
 	return base_knowledge_requirement \
-		+ level * (level_increment + tier * tier_increment)
+		+ level * level_increment + tier * tier_increment

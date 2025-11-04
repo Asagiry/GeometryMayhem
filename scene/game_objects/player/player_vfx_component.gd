@@ -48,10 +48,12 @@ func connect_movement_state():
 	movement_state.movement_started.connect(_on_movement_started)
 	movement_state.movement_ended.connect(_on_movement_finished)
 
+
 func connect_stun_state():
 	var stun_state = player_states["PlayerStunState"] as PlayerStunState
 	stun_state.stun_started.connect(_on_stun_started)
 	stun_state.stun_finished.connect(_on_stun_finished)
+
 
 func _on_dash_started(_start_position: Vector2):
 	pass
@@ -72,7 +74,7 @@ func _on_parry_finished():
 
 
 func _on_movement_started():
-	var trail_length = player.movement_component.max_speed * 0.2
+	var trail_length = player.movement_component.get_max_speed() * 0.2
 
 	left_trail = trail_line_scene.instantiate() as TrailLine
 	left_trail.init(player, Vector2(-16, -10), trail_color, trail_length, trail_width)
@@ -81,6 +83,7 @@ func _on_movement_started():
 	right_trail = trail_line_scene.instantiate() as TrailLine
 	right_trail.init(player, Vector2(-16, 10), trail_color, trail_length, trail_width)
 	get_tree().get_first_node_in_group("back_layer").call_deferred("add_child", right_trail)
+
 
 func _on_movement_finished():
 	left_trail.destroy()

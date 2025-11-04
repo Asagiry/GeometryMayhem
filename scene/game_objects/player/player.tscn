@@ -1,4 +1,4 @@
-[gd_scene load_steps=99 format=3 uid="uid://dpvptcshibxt0"]
+[gd_scene load_steps=104 format=3 uid="uid://dpvptcshibxt0"]
 
 [ext_resource type="Script" uid="uid://d2bd4ujy5qv0c" path="res://scene/game_objects/player/src/player.gd" id="1_heqc5"]
 [ext_resource type="PackedScene" uid="uid://b0xrjstrhdb1c" path="res://scene/abilities/dash_attack/dash_attack_controller.tscn" id="2_jxsrc"]
@@ -15,10 +15,13 @@
 [ext_resource type="Texture2D" uid="uid://dpt52h75g2kh4" path="res://assets/player/ATTACK/ATTACK1.png" id="10_ddgj3"]
 [ext_resource type="Texture2D" uid="uid://dmayqab17g1bo" path="res://assets/player/ATTACK/ATTACK2.png" id="11_kl1g4"]
 [ext_resource type="Texture2D" uid="uid://tp54cpr3amvt" path="res://assets/player/ATTACK/ATTACK3.png" id="12_3v612"]
+[ext_resource type="PackedScene" uid="uid://b8xw4qop64jn4" path="res://scene/components/resonance_component/resonance_component.tscn" id="12_itr6r"]
 [ext_resource type="Texture2D" uid="uid://d1jl5wnv3ilfe" path="res://assets/player/PARRY/PARRY1.png" id="12_vedbf"]
+[ext_resource type="Script" uid="uid://dqdjr57cibah6" path="res://scene/components/resonance_component/resonance_component_data.gd" id="13_cykr3"]
 [ext_resource type="Texture2D" uid="uid://bmgf2qqytpcy6" path="res://assets/player/ATTACK/ATTACK4.png" id="13_itr6r"]
 [ext_resource type="Texture2D" uid="uid://b1nsmu2k6qt2v" path="res://assets/player/PARRY/PARRY2.png" id="13_siiro"]
 [ext_resource type="Texture2D" uid="uid://cfagdgdmyo2hj" path="res://assets/player/ATTACK/ATTACK5.png" id="14_cykr3"]
+[ext_resource type="Script" uid="uid://dc7q0l0m185nd" path="res://scene/components/resonance_component/resonance_stat_data.gd" id="14_lduo2"]
 [ext_resource type="Texture2D" uid="uid://b1j30k78loydq" path="res://assets/player/PARRY/PARRY5.png" id="14_nafj1"]
 [ext_resource type="Texture2D" uid="uid://lp1glob6npsn" path="res://assets/player/PARRY/PARRY3.png" id="14_rlg5u"]
 [ext_resource type="Texture2D" uid="uid://ytfjxkrumqwd" path="res://assets/player/PARRY/PARRY6.png" id="15_dhf6o"]
@@ -106,8 +109,8 @@ metadata/_custom_type_script = "uid://cyitjknl16852"
 
 [sub_resource type="Resource" id="Resource_lduo2"]
 script = ExtResource("3_3v612")
-grace_period_time = 0.5
 max_health = 1000.0
+armor = 1.0
 max_speed = 200.0
 acceleration = 9.0
 rotation_speed = 9.0
@@ -115,14 +118,33 @@ attack_damage = SubResource("Resource_itr6r")
 attack_cd = 0.01
 attack_duration = 0.2
 attack_width = 32.0
-attack_range = 400.0
+attack_range = 100.0
 parry_damage = SubResource("Resource_cykr3")
-parry_cd = 1.5
+parry_cd = 1.0
 parry_push_distance = 80.0
 parry_angle = 90.0
 parry_radius = 60.0
 parry_duration = 0.3
+grace_period_time = 0.5
+magic_find = 10.0
 metadata/_custom_type_script = "uid://cyhnm76rkr2ny"
+
+[sub_resource type="Resource" id="Resource_hfat0"]
+script = ExtResource("13_cykr3")
+impulse_multiplier = 1.0
+max_level = 10
+safe_level = 5
+impulse_percent_decrease_for_hit = 0.01
+addition_percent = 1.0
+min_decrease_percent = 0.01
+max_decrease_percent = 0.1
+impulse_loss_delay = 7.0
+impulse_loss_timer_tick = 1.0
+metadata/_custom_type_script = "uid://dqdjr57cibah6"
+
+[sub_resource type="Resource" id="Resource_38wc0"]
+script = ExtResource("14_lduo2")
+metadata/_custom_type_script = "uid://dc7q0l0m185nd"
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_heqc5"]
 animations = [{
@@ -392,6 +414,7 @@ collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_heqc5")
 stats = SubResource("Resource_lduo2")
+effects = null
 effect_receiver = NodePath("EffectReceiver")
 
 [node name="PlayerStateMachine" type="Node" parent="."]
@@ -418,6 +441,12 @@ script = ExtResource("7_1tyhs")
 
 [node name="EffectReceiver" parent="." instance=ExtResource("10_0ygly")]
 unique_name_in_owner = true
+
+[node name="ResonanceComponent" parent="." node_paths=PackedStringArray("player") instance=ExtResource("12_itr6r")]
+unique_name_in_owner = true
+player = NodePath("..")
+resonance_data = SubResource("Resource_hfat0")
+resonance_stat_data = SubResource("Resource_38wc0")
 
 [node name="VFXComponent" parent="." node_paths=PackedStringArray("player_state_machine") instance=ExtResource("10_3v612")]
 player_state_machine = NodePath("../PlayerStateMachine")
