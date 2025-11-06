@@ -136,7 +136,7 @@ impulse_multiplier = 1.0
 max_level = 10
 safe_level = 5
 impulse_percent_decrease_for_hit = 0.01
-addition_percent = 1.0
+addition_percent = 0.01
 min_decrease_percent = 0.01
 max_decrease_percent = 0.1
 impulse_loss_delay = 7.0
@@ -146,6 +146,8 @@ metadata/_custom_type_script = "uid://dqdjr57cibah6"
 [sub_resource type="Resource" id="Resource_38wc0"]
 script = ExtResource("14_lduo2")
 max_health_multiplier = 2.0
+max_speed_multiplier = 2.0
+attack_range_multiplier = 2.0
 metadata/_custom_type_script = "uid://dc7q0l0m185nd"
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_heqc5"]

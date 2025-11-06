@@ -2,3 +2,4 @@
 .godot/
 builds/
 addons/godot-sqlite/bin/~libgdsqlite.windows.template_debug.x86_64.dll
+.vscode

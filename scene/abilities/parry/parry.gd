@@ -88,7 +88,6 @@ func _remove_old_collision_shape() -> void:
 			child.queue_free()
 
 
-# Дополнительные полезные методы
 func enable_collision(enabled: bool) -> void:
 	"""Включает/выключает коллизию"""
 	if collision_sector:

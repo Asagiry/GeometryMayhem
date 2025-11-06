@@ -85,7 +85,6 @@ func _on_effect_stats_changed(updated_stats: Dictionary) -> void:
 		invulnerable = updated_stats["invulnerable"]
 
 	if updated_stats.has("percent_of_max_health"):
-		print("ABCDE")
 		var percent = updated_stats["percent_of_max_health"]
 		if is_zero_approx(percent - DEFAULT_MULTIPLIER):
 			owner_stats.set_stat("max_health", get_max_health()  / percent_health_multiplier)
@@ -95,7 +94,6 @@ func _on_effect_stats_changed(updated_stats: Dictionary) -> void:
 
 
 func _on_max_health_changed(new_max_health: float, old_max_health: float):
-	print("ABCD")
 	if old_max_health <= 0:
 		current_health = new_max_health
 		health_increased.emit(current_health, new_max_health)
