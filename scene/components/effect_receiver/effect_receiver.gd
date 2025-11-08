@@ -222,6 +222,10 @@ func _signal_sender(stat: String, value: float):
 			attack_component_effects_changed.emit({
 				"attack_multiplier": value
 			})
+		"attack_range_multiplier":
+			attack_component_effects_changed.emit({
+				"attack_range_multiplier": value
+			})
 		"armor_multiplier":
 			armor_component_effects_changed.emit({
 				"armor_multiplier": value
@@ -408,11 +412,5 @@ func set_leave_stun_state():
 
 
 func set_stun_state(duration: float):
-	if owner is PlayerController:
-		stun_applied.emit(duration)
-		owner.is_stunned = true
-	else:
-		pass
-		#var stun_state = owner.enemy_state_machine.states["EnemyStunState"] as EnemyStunState
-		#stun_state.set_duration(duration)
-		#owner.is_stunned = true
+	stun_applied.emit(duration)
+	owner.is_stunned = true

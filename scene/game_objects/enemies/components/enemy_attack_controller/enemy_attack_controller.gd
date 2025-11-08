@@ -14,7 +14,7 @@ var attack_cd: float
 var attack_range: float
 var projectile_speed: float
 
-var attack_range_multiplier: float
+var attack_range_multiplier: float = 1.0
 var attack_duration_multiplier: float = 1.0
 var damage_multiplier: float = 1.0
 var attack_cd_multiplier: float = 1.0
@@ -72,3 +72,5 @@ func _on_effect_stats_changed(updated_stats) -> void:
 		damage_multiplier = updated_stats["attack_multiplier"]
 	if updated_stats.has("attack_cd_multiplier"):
 		attack_cd_multiplier = updated_stats["attack_cd_multiplier"]
+	if updated_stats.has("attack_range_multiplier"):
+		attack_range_multiplier = updated_stats["attack_range_multiplier"]

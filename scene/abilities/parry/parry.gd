@@ -1,8 +1,6 @@
 class_name Parry
-extends Node2D
 
-signal projectile_detected(projectile: Area2D)
-signal melee_detected(enemy_melee_targets: Array[Node2D])
+extends Node2D
 
 var parry_angle: float
 var parry_radius: float
@@ -12,7 +10,6 @@ var collision_sector: CollisionShape2D
 
 
 func _ready() -> void:
-	# Создаем начальный коллайдер если параметры уже установлены
 	if parry_angle > 0 and parry_radius > 0:
 		_update_collision_shape()
 
@@ -20,9 +17,6 @@ func _ready() -> void:
 func init(angle: float, radius: float) -> void:
 	parry_angle = angle
 	parry_radius = radius
-
-	# Обновляем коллизию (работает и в _ready и после)
-	_update_collision_shape()
 
 
 func update_parameters(angle: float, radius: float) -> void:

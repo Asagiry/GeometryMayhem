@@ -99,17 +99,35 @@ func _parry():
 
 	if not parry_instance or not is_instance_valid(parry_instance):
 		return
+	var area = parry_instance.parry_area
+	if not area:
+		return
 
-	var overlapping_bodies = parry_instance.parry_area.get_overlapping_bodies()
-	var overlapping_areas = parry_instance.parry_area.get_overlapping_areas()
+	var successful_parry: bool = false
+	var dir = player.movement_component.last_direction
+
+	var overlapping_bodies = area.get_overlapping_bodies()
+	var overlapping_areas = area.get_overlapping_areas()
 
 	for body in overlapping_bodies:
+		if not is_instance_valid(body):
+			continue
 		if body.is_in_group("enemy"):
-			_push_enemy(body, player.movement_component.last_direction)
+			_push_enemy(body, dir)
+			successful_parry = true
 
-	for area in overlapping_areas:
-		if area.is_in_group("projectile"):
-			area.owner.direction *= -1
+	for a in overlapping_areas:
+		if not is_instance_valid(a):
+			continue
+		if a.is_in_group("projectile"):
+			var area_owner = a.owner
+			if area_owner and is_instance_valid(area_owner) and area_owner.has_method("change_collision"):
+				area_owner.change_collision()
+				area_owner.set_direction(dir)
+				successful_parry = true
+
+	if successful_parry:
+		Global.player_successful_parry.emit()
 
 
 func _push_enemy(enemy: Node2D, facing_direction: Vector2) -> void:

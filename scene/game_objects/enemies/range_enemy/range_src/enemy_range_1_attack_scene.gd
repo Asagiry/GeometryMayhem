@@ -29,6 +29,11 @@ func _on_hit_box_component_area_entered(area: Area2D) -> void:
 	queue_free()
 
 
+func change_collision():
+	hit_box_component.set_collision_mask_value(9, false)
+	hit_box_component.set_collision_mask_value(8, true)
+
+
 func set_enemy(p_enemy: EnemyController):
 	effects = p_enemy.effects.duplicate()
 

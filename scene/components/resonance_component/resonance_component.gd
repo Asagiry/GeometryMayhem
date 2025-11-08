@@ -21,6 +21,7 @@ var loss_timer_counter: int = 0
 func _ready():
 	Global.enemy_died.connect(_on_enemy_died)
 	Global.player_damage_done.connect(_on_damage_done)
+	Global.player_successful_parry.connect(_on_player_parry)
 	health_component.health_decreased.connect(_on_health_decreased)
 	afk_timer.wait_time = resonance_data.impulse_loss_delay
 	loss_timer.wait_time = resonance_data.impulse_loss_timer_tick
@@ -124,6 +125,11 @@ func _on_health_decreased(_current_health: int, _max_health: int):
 
 
 func _on_damage_done():
+	_loss_timer_stop()
+	afk_timer.start()
+
+
+func _on_player_parry():
 	_loss_timer_stop()
 	afk_timer.start()
 
