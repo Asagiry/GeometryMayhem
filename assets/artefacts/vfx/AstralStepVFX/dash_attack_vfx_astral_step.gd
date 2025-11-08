@@ -22,4 +22,5 @@ func _process(delta):
 	modulate.a = fade
 	fade -= delta / life_time
 	if fade <= 0:
+		set_process(false)
 		queue_free()

@@ -42,9 +42,9 @@ func _physics_process(_delta: float) -> void:
 
 
 func _fade_out() -> void:
-	if points.size() > 0:
+	if points.size() > 1:
 		remove_point(0)
-		if points.size() == 0:
+		if points.size() == 1:
 			queue_free()
 
 
