@@ -8,6 +8,7 @@ extends Node
 var player: PlayerController
 var current_zone: ArenaZone
 var zone_current_enemy: Dictionary[ArenaZone,int]
+var spawn_active: bool = true
 
 @onready var spawn_timer: Timer = %SpawnTimer
 
@@ -16,24 +17,26 @@ func _ready() -> void:
 	arena_map.player_entered.connect(_on_player_entered)
 	arena_map.player_exited.connect(_on_player_exited)
 	if !enabled:
-		queue_free()
-
-func _on_player_entered(zone: ArenaZone):
-	if zone.get_name() != "StabilityZone":
-		current_zone = zone
-		print("Спавн начат в зоне ",zone.get_zone_name())
-		spawn_timer.start(zone.arena_stat_data.spawn_interval)
-	else:
-		print("Спавн окончен")
+		spawn_active = false
 		spawn_timer.stop()
 
-func _on_player_exited(_zone: ArenaZone):
-	pass
 
-func _on_spawn_timer_timeout() -> void:
-	_spawn_enemy()
+func disable_spawning():
+	spawn_active = false
+	spawn_timer.stop()
+	print("Спавн отключен")
+
+
+func enable_spawning():
+	spawn_active = true
+	print("Спавн включен")
+
 
 func _spawn_enemy():
+	if !spawn_active:
+		return
+
+
 	if current_zone:
 		if zone_current_enemy.get(current_zone, 0) < current_zone.arena_stat_data.max_enemies:
 			var spawn_point = current_zone.get_random_tile_point()
@@ -47,6 +50,7 @@ func _spawn_enemy():
 			enemy_instance)
 			zone_current_enemy[current_zone] = zone_current_enemy.get(current_zone, 0) + 1
 			enemy_instance.enemy_died.connect(_on_enemy_died.bind(current_zone))
+
 
 func _get_random_enemy_scene(zone: ArenaZone):
 	if (zone.get_zone_name()=="overload" || zone.get_zone_name()=="chaotic"):
@@ -93,3 +97,26 @@ func _on_enemy_died(zone: ArenaZone):
 	zone_current_enemy[zone] -= 1
 	print("Текущее количество врагов в зоне ", zone.get_name(),
 	zone_current_enemy[zone])
+
+
+func _on_player_entered(zone: ArenaZone):
+	if !spawn_active:
+		return
+
+
+	if zone.get_name() != "StabilityZone":
+		current_zone = zone
+		print("Спавн начат в зоне ",zone.get_zone_name())
+		spawn_timer.start(zone.arena_stat_data.spawn_interval)
+	else:
+		print("Спавн окончен")
+		spawn_timer.stop()
+
+
+func _on_player_exited(_zone: ArenaZone):
+	pass
+
+
+func _on_spawn_timer_timeout() -> void:
+	if spawn_active:
+		_spawn_enemy()

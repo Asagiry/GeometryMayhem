@@ -54,8 +54,10 @@ func take_damage(damage: DamageData):
 	var old_health = current_health
 	current_health = snappedf(max(current_health - final_damage, 0), ROUNDING_ACCURACY)
 
+	# Обновляем ratio
 	var max_hp = get_max_health()
-	health_ratio = current_health / max_hp
+	if max_hp > 0:
+		health_ratio = current_health / max_hp
 
 	health_decreased.emit(current_health, max_hp)
 
@@ -67,7 +69,10 @@ func take_heal(amount_of_heal: float):
 	var old_health = current_health
 	var max_hp = get_max_health()
 	current_health = snappedf(min(current_health + amount_of_heal, max_hp), ROUNDING_ACCURACY)
-	health_ratio = current_health / max_hp
+
+	if max_hp > 0:
+		health_ratio = current_health / max_hp
+
 	health_increased.emit(current_health, max_hp)
 
 
@@ -88,17 +93,17 @@ func _on_effect_stats_changed(updated_stats: Dictionary) -> void:
 
 
 func _on_max_health_changed(new_max_health: float, old_max_health: float):
-	var health_percentage = current_health / old_max_health if old_max_health > 0 else 1.0
-	var new_health = health_percentage * new_max_health
-
-	if new_health > current_health:
-		current_health = new_health
+	if old_max_health <= 0:
+		current_health = new_max_health
 		health_increased.emit(current_health, new_max_health)
-	else:
-		current_health = new_health
-		health_decreased.emit(current_health, new_max_health)
+		return
 
-	print("Max health updated: %d -> %d, Current: %.1f (%.1f%%)" % [
+	var health_percentage = current_health / old_max_health
+	current_health = health_percentage * new_max_health
+
+	health_increased.emit(current_health, new_max_health)
+
+	print("Max health updated: %d -> %d, Current: %d (%.1f%%)" % [
 		old_max_health, new_max_health, current_health, health_percentage * 100
 	])
 
