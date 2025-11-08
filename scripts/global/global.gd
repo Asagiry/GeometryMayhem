@@ -12,6 +12,7 @@ signal player_spawned(player: PlayerController)
 signal player_damage_done
 signal player_successful_parry
 signal player_stats_changed(updated_stats)
+signal game_timer_timeout
 
 signal game_started
 signal game_ended

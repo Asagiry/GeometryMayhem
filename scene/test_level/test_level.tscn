@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://ditkwn5on4tvx"]
+[gd_scene load_steps=11 format=3 uid="uid://ditkwn5on4tvx"]
 
 [ext_resource type="PackedScene" uid="uid://vwuw6r5inl58" path="res://scene/test_level/test_ui.tscn" id="1_8r3jg"]
 [ext_resource type="Script" uid="uid://cr3crnc84mvpt" path="res://scene/test_level/test_level.gd" id="1_n6eni"]
 [ext_resource type="PackedScene" uid="uid://dpvptcshibxt0" path="res://scene/game_objects/player/player.tscn" id="1_r8dxa"]
 [ext_resource type="PackedScene" uid="uid://h1tpifchokj3" path="res://scene/arena_map/enemy_spawner_controller/enemy_spawner_controller.tscn" id="2_mj66c"]
 [ext_resource type="Script" uid="uid://b3w4epa6tgic2" path="res://scene/level/camera_2d.gd" id="3_sj7wh"]
+[ext_resource type="PackedScene" uid="uid://4a1xvj1y4hm" path="res://scene/test_level/arena_time_ui.tscn" id="4_5mq0g"]
 [ext_resource type="PackedScene" uid="uid://cu58eoeg0bvxb" path="res://scene/game_objects/enemies/bomb_enemy/flux/bomb_enemy_1.tscn" id="6_mj66c"]
 [ext_resource type="PackedScene" uid="uid://cn0xxo2ifv50j" path="res://scene/arena_map/arena_map.tscn" id="6_n6eni"]
 [ext_resource type="PackedScene" uid="uid://cl33targsj1tk" path="res://scene/game_objects/enemies/range_enemy/flux/range_enemy_1.tscn" id="7_3uiwr"]
@@ -18,6 +19,8 @@ enabled = true
 arena_map = NodePath("../ArenaMap")
 
 [node name="ArenaMap" parent="." instance=ExtResource("6_n6eni")]
+
+[node name="ArenaTimeUI" parent="." instance=ExtResource("4_5mq0g")]
 
 [node name="Test_ui" parent="." instance=ExtResource("1_8r3jg")]
 
