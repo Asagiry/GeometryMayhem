@@ -5,10 +5,12 @@ extends Resource
 const MAX_MULTIPLIER: float = 10.0
 const DEFAULT_MULTIPLIER: float = 1.0
 const MIN_MULTIPLIER: float = 0.0
+
 @export_group("Attack Comp Mults")
-@export var attack_multiplier: float = DEFAULT_MULTIPLIER #1
-@export var attack_cd_multiplier: float = DEFAULT_MULTIPLIER #1
-@export var attack_duration_multiplier: float = DEFAULT_MULTIPLIER #1
+@export var attack_multiplier: float = DEFAULT_MULTIPLIER
+@export var attack_cd_multiplier: float = DEFAULT_MULTIPLIER
+@export var attack_duration_multiplier: float = DEFAULT_MULTIPLIER
+@export var attack_range_multiplier: float = DEFAULT_MULTIPLIER
 
 @export_group("Movement Comp Mults")
 @export var speed_multiplier: float = DEFAULT_MULTIPLIER
@@ -46,6 +48,7 @@ func _init(
 	p_attack_duration_multiplier: float = DEFAULT_MULTIPLIER,
 	p_invulnerable: bool = false,
 	p_percent_of_max_health: float = DEFAULT_MULTIPLIER,
+	p_attack_range_multiplier: float = DEFAULT_MULTIPLIER
 ) -> void:
 	speed_multiplier = p_speed_multiplier
 	attack_multiplier = p_attack_multiplier
@@ -55,6 +58,7 @@ func _init(
 	attack_duration_multiplier = p_attack_duration_multiplier
 	percent_of_max_health = p_percent_of_max_health
 	invulnerable = p_invulnerable
+	attack_range_multiplier = p_attack_range_multiplier
 
 
 func reset() -> void:

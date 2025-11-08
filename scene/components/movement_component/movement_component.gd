@@ -10,6 +10,13 @@ var freeze_multiplier: float = 1.0
 
 var current_velocity = Vector2.ZERO
 var last_direction: Vector2 = Vector2.UP
+var external_force: Vector2 = Vector2.ZERO
+
+var is_pulled_to_center: bool = false
+var pull_strength_base: float = 100.0      # начальная сила
+var pull_strength_max: float = 2000.0      # максимальная сила
+var pull_strength: float= pull_strength_base
+var pull_grow_speed: float = 250.0         # скорость роста силы в секунду
 
 var velocity: Vector2:
 	get: return entity.velocity if entity else Vector2.ZERO
@@ -32,7 +39,7 @@ var global_position: Vector2:
 			entity.global_position = value
 
 func _ready() -> void:
-	super._ready()  # Вызовет _setup_owner_reference() и _setup_stat_subscriptions()
+	super._ready()
 
 
 func _setup_owner_reference():
@@ -46,7 +53,7 @@ func _setup_owner_reference():
 
 
 func get_max_speed() -> float:
-	return get_stat("max_speed")
+	return get_stat("max_speed") * speed_multiplier * freeze_multiplier
 
 
 func get_acceleration() -> float:
@@ -62,16 +69,15 @@ func accelerate_to_direction(direction: Vector2) -> Vector2:
 		return Vector2.ZERO
 
 	direction *= direction_modifier
-	var final_max_speed = get_max_speed() * speed_multiplier * freeze_multiplier
+	var final_max_speed = get_max_speed()
 	var final_velocity = final_max_speed * direction
 	var current_acceleration = get_acceleration()
 
 	current_velocity = current_velocity.lerp(
 		final_velocity,
-		1 - exp(-current_acceleration * get_process_delta_time())
+		1 - exp(-current_acceleration * get_physics_process_delta_time())
 	)
 
-	# Сохраняем последнее направление (если двигаемся)
 	if direction.length_squared() > 0.1:
 		last_direction = direction.normalized()
 
@@ -84,7 +90,7 @@ func rotate_towards_direction(direction: Vector2) -> void:
 
 	var target_rotation = direction.angle() + PI/2  # +PI/2 если спрайт смотрит вверх
 	var rotation_diff = wrapf(target_rotation - entity.rotation, -PI, PI)
-	var rotation_step = get_rotation_speed() * get_process_delta_time()
+	var rotation_step = get_rotation_speed() * get_physics_process_delta_time()
 
 	if abs(rotation_diff) <= rotation_step:
 		entity.rotation = target_rotation
@@ -109,7 +115,6 @@ func set_direction_modifier(modifier: float) -> void:
 	direction_modifier = modifier
 
 
-# Дополнительные полезные методы
 func stop() -> void:
 	current_velocity = Vector2.ZERO
 	if entity:
@@ -122,3 +127,16 @@ func get_last_direction() -> Vector2:
 
 func is_moving() -> bool:
 	return current_velocity.length_squared() > 1.0
+
+
+func start_pull_to_center(
+	base_strength: float = 100.0,
+	strength_grow: float = 250.0
+	):
+	pull_strength_base = base_strength
+	pull_grow_speed = strength_grow
+	is_pulled_to_center = true
+
+
+func stop_pull_to_center():
+	is_pulled_to_center = false

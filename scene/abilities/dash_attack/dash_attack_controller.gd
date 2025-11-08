@@ -19,6 +19,7 @@ var is_range_enable: bool = true
 var dash_duration_multiplier: float = 1.0
 var damage_multiplier: float = 1.0
 var attack_cd_multiplier: float = 1.0
+var attack_range_multiplier: float = 1.0
 
 var _distance: float
 var _direction: Vector2
@@ -218,6 +219,8 @@ func _on_effect_stats_changed(updated_stats) -> void:
 		damage_multiplier = updated_stats["attack_multiplier"]
 	if updated_stats.has("attack_cd_multiplier"):
 		attack_cd_multiplier = updated_stats["attack_cd_multiplier"]
+	if updated_stats.has("attack_range_multiplier"):
+		attack_range_multiplier = updated_stats["attack_range_multiplier"]
 
 
 func _on_attack_range_changed(new_range: float, old_range: float):

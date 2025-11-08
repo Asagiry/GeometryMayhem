@@ -10,9 +10,8 @@ const DEFAULT_MULTIPLIER: float = 1.0
 
 @export var armor_component: ArmorComponent
 
-# УБИРАЕМ локальные max_health - используем owner_stats
 var current_health: float
-var health_ratio: float = 1.0  # Добавляем для отслеживания процента здоровья
+var health_ratio: float = 1.0
 
 var forward_damage_multiplier: float = DEFAULT_MULTIPLIER
 var invulnerable: bool = false
@@ -99,7 +98,6 @@ func _on_max_health_changed(new_max_health: float, old_max_health: float):
 		health_increased.emit(current_health, new_max_health)
 		return
 
-	# Сохраняем процент здоровья при изменении максимума
 	var health_percentage = current_health / old_max_health
 	current_health = health_percentage * new_max_health
 

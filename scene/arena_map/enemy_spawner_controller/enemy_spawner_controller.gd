@@ -8,8 +8,8 @@ extends Node
 var player: PlayerController
 var current_zone: ArenaZone
 var zone_current_enemy: Dictionary[ArenaZone, int] = {}
-
 var _enemy_scene_cache: Dictionary = {}
+var spawn_active: bool = true
 
 @onready var spawn_timer: Timer = %SpawnTimer
 
@@ -48,43 +48,43 @@ func _stop_spawning() -> void:
 
 
 func _on_spawn_timer_timeout() -> void:
-	_spawn_enemy()
+	if spawn_active:
+		_spawn_enemy()
 
 
-func _spawn_enemy() -> void:
-	if not current_zone:
-		return
-		
-	var current_enemy_count: int = zone_current_enemy.get(current_zone, 0)
-	if current_enemy_count >= current_zone.arena_stat_data.max_enemies:
-		return
-	
-	var spawn_point: Vector2 = current_zone.get_random_tile_point()
-	var enemy_scene: PackedScene = _get_random_enemy_scene(current_zone)
-	
-	if not enemy_scene:
-		return
-	
-	var enemy_instance: EnemyController = enemy_scene.instantiate() as EnemyController
-	enemy_instance.global_position = spawn_point
-	enemy_instance.stats.spawn_point = spawn_point
-	
-	var back_layer: Node = get_tree().get_first_node_in_group("back_layer")
-	if back_layer:
-		back_layer.call_deferred("add_child", enemy_instance)
-	
-	zone_current_enemy[current_zone] = current_enemy_count + 1
-	enemy_instance.enemy_died.connect(_on_enemy_died.bind(current_zone))
+func disable_spawning():
+	spawn_active = false
+	spawn_timer.stop()
+	print("Спавн отключен")
+
+
+func enable_spawning():
+	spawn_active = true
+	print("Спавн включен")
+
+
+func _spawn_enemy():
+	if current_zone:
+		if zone_current_enemy.get(current_zone, 0) < current_zone.arena_stat_data.max_enemies:
+			var spawn_point = current_zone.get_random_tile_point()
+			var enemy_scene: PackedScene = _get_random_enemy_scene(current_zone)
+			if (enemy_scene == null):
+				return
+			var enemy_instance = enemy_scene.instantiate() as EnemyController
+			enemy_instance.global_position = spawn_point
+			enemy_instance.stats.spawn_point = spawn_point
+			get_tree().get_first_node_in_group("back_layer").call_deferred("add_child",
+			enemy_instance)
+			zone_current_enemy[current_zone] = zone_current_enemy.get(current_zone, 0) + 1
+			enemy_instance.enemy_died.connect(_on_enemy_died.bind(current_zone))
 
 
 func _get_random_enemy_scene(zone: ArenaZone) -> PackedScene:
 	var zone_name: String = zone.get_zone_name()
 	
-	# Для специальных зон не спавним врагов
 	if zone_name in ["overload", "chaotic"]:
 		return null
 	
-	# Генерируем ключ для кэша
 	var cache_key: String = "%s_%d" % [zone_name, randi()]
 	if _enemy_scene_cache.has(cache_key):
 		return _enemy_scene_cache[cache_key]
@@ -130,4 +130,5 @@ func _on_enemy_died(zone: ArenaZone) -> void:
 	if zone_current_enemy.has(zone):
 		zone_current_enemy[zone] = max(0, zone_current_enemy[zone] - 1)
 		print("Текущее количество врагов в зоне %s: %d" % [zone.get_name(), zone_current_enemy[zone]])
+
 
