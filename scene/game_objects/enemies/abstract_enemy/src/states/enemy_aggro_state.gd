@@ -16,7 +16,7 @@ func enter() -> void:
 	player_in_aggro_zone = true
 	animated_sprite_2d.play("aggro")
 
-func process(_delta: float) -> void:
+func physics_process(_delta: float) -> void:
 	enemy.movement_component.chase_player()
 
 	var attack_state = state_machine.states["EnemyAttackState"]

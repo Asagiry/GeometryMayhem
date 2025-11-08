@@ -16,6 +16,7 @@ func _ready():
 
 
 func _physics_process(delta: float) -> void:
+	owner.animated_sprite_2d.position = owner.animated_sprite_2d.position.round()
 	var direction = get_movement_vector().normalized()
 	if direction != Vector2.ZERO:
 		last_direction = direction

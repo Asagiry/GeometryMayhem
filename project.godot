@@ -21,6 +21,7 @@ Global="*res://scripts/global/global.gd"
 
 [debug]
 
+settings/stdout/print_fps=true
 gdscript/warnings/unused_variable=0
 gdscript/warnings/unused_parameter=0
 gdscript/warnings/unused_signal=0
@@ -105,7 +106,7 @@ pause={
 
 [physics]
 
-common/physics_interpolation=true
+common/physics_ticks_per_second=320
 
 [rendering]
 

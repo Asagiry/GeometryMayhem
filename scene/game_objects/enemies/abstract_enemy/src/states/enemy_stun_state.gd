@@ -17,7 +17,7 @@ func enter() -> void:
 	stun_started.emit()
 
 
-func process(delta: float) -> void:
+func physics_process(delta: float) -> void:
 	if enemy.is_stunned == false:
 		state_machine.transition(PlayerMovementState.state_name)
 	stun_duration-=delta
