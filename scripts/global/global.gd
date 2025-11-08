@@ -10,6 +10,7 @@ signal impulse_amount_changed(
 signal player_died
 signal player_spawned(player: PlayerController)
 signal player_damage_done
+signal player_successful_parry
 signal player_stats_changed(updated_stats)
 
 signal game_started

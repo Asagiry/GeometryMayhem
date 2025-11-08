@@ -46,7 +46,7 @@ func _setup_owner_reference():
 
 
 func get_max_speed() -> float:
-	return get_stat("max_speed")
+	return get_stat("max_speed") * speed_multiplier * freeze_multiplier
 
 
 func get_acceleration() -> float:
@@ -62,7 +62,7 @@ func accelerate_to_direction(direction: Vector2) -> Vector2:
 		return Vector2.ZERO
 
 	direction *= direction_modifier
-	var final_max_speed = get_max_speed() * speed_multiplier * freeze_multiplier
+	var final_max_speed = get_max_speed()
 	var final_velocity = final_max_speed * direction
 	var current_acceleration = get_acceleration()
 
