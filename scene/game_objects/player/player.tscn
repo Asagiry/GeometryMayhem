@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="4_48qb4"]
 [ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component/armor_component.tscn" id="5_ju00n"]
 [ext_resource type="PackedScene" uid="uid://b4wk63m80ss3y" path="res://scene/abilities/dash_attack/dash_attack.tscn" id="6_cykr3"]
-[ext_resource type="Script" uid="uid://derbmady170hu" path="res://scene/components/movement_component/player_movement_component.gd" id="7_1tyhs"]
+[ext_resource type="Script" uid="uid://derbmady170hu" path="res://scene/game_objects/player/src/player_movement_component.gd" id="7_1tyhs"]
 [ext_resource type="Script" uid="uid://5m7cpflvnie8" path="res://base/state_machine.gd" id="7_heqc5"]
 [ext_resource type="PackedScene" uid="uid://bl380xv78onc8" path="res://scene/components/effect_receiver/effect_receiver.tscn" id="10_0ygly"]
 [ext_resource type="PackedScene" uid="uid://dduoept83q8vm" path="res://scene/game_objects/player/player_vfx_component.tscn" id="10_3v612"]
@@ -110,13 +110,13 @@ metadata/_custom_type_script = "uid://cyitjknl16852"
 
 [sub_resource type="Resource" id="Resource_lduo2"]
 script = ExtResource("3_3v612")
-max_health = 1000.0
+max_health = 100.0
 armor = 1.0
 max_speed = 200.0
 acceleration = 9.0
 rotation_speed = 9.0
 attack_damage = SubResource("Resource_itr6r")
-attack_cd = 0.01
+attack_cd = 1.0
 attack_duration = 0.2
 attack_width = 32.0
 attack_range = 100.0

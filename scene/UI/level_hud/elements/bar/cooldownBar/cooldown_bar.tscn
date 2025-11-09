@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://ctiqrkp51uyft"]
+
+[ext_resource type="Texture2D" uid="uid://bwsy0qxvd1lml" path="res://assets/UI/Bars/CDBar.png" id="1_frn0k"]
+[ext_resource type="Shader" uid="uid://b85wt7jd1ktme" path="res://scene/UI/level_hud/elements/bar/cooldownBar/cooldown_bar.gdshader" id="1_wflsw"]
+[ext_resource type="Script" uid="uid://dccilrofa2wq3" path="res://scene/UI/level_hud/elements/bar/cooldownBar/cooldown_bar.gd" id="3_jdrgm"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jdrgm"]
+shader = ExtResource("1_wflsw")
+shader_parameter/attack_progress = 0.0
+shader_parameter/parry_progress = 0.0
+shader_parameter/attack_color = Vector3(1, 0.188, 0.188)
+shader_parameter/parry_color = Vector3(0, 0.905, 1)
+shader_parameter/color_tolerance = 0.1
+
+[node name="CooldownBar" type="TextureRect"]
+material = SubResource("ShaderMaterial_jdrgm")
+offset_right = 64.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("1_frn0k")
+stretch_mode = 3
+script = ExtResource("3_jdrgm")

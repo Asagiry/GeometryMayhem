@@ -23,6 +23,7 @@ var current_zone : ArenaZone
 @onready var parry_controller: ParryController = %ParryController
 @onready var collision: CollisionShape2D = %CollisionShape2D
 @onready var player_hurt_box: HurtBox = %PlayerHurtBox
+@onready var resonance_component: ResonanceComponent = %ResonanceComponent
 
 
 #endregion

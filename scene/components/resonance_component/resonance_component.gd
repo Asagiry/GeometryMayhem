@@ -50,6 +50,10 @@ func _should_skip_decrease() -> bool:
 	return _is_at_safe_level() and _has_no_impulse()
 
 
+func get_max_impulse():
+	return resonance_data.get_required_impulse(current_level)
+
+
 func _update_impulse_display():
 	Global.impulse_amount_changed.emit(
 		current_impulse,

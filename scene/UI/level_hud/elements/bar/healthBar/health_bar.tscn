@@ -1,0 +1,21 @@
+[gd_scene load_steps=6 format=3 uid="uid://cu1qcqekr6kso"]
+
+[ext_resource type="PackedScene" uid="uid://xg4bnnehfsvo" path="res://scene/UI/level_hud/elements/bar/resonanceBar/resonance_bar.tscn" id="1_pg1um"]
+[ext_resource type="Texture2D" uid="uid://cy80ysnkk7hsu" path="res://assets/UI/Bars/HealthBar.png" id="2_ofbyl"]
+[ext_resource type="Shader" uid="uid://cbkeft8b6tpxj" path="res://scene/UI/level_hud/elements/bar/healthBar/health_bar.gdshader" id="3_n2ybc"]
+[ext_resource type="Texture2D" uid="uid://cyn3txofwhmbk" path="res://assets/UI/Bars/HeatlhFill.png" id="4_6gipj"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3mk02"]
+shader = ExtResource("3_n2ybc")
+shader_parameter/progress = 1.0
+shader_parameter/progress_tail = 1.0
+shader_parameter/tail_color = Color(1, 0.59293365, 0.5314997, 1)
+
+[node name="HealthBar" instance=ExtResource("1_pg1um")]
+texture = ExtResource("2_ofbyl")
+max_value = 100.0
+value = 100.0
+
+[node name="ProgressShader" parent="HBoxContainer" index="2"]
+material = SubResource("ShaderMaterial_3mk02")
+texture = ExtResource("4_6gipj")
