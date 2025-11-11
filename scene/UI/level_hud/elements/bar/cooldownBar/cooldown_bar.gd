@@ -20,7 +20,7 @@ func trigger_attack_cooldown():
 	set_attack_progress(0.0)
 	attack_tween = create_tween()
 	attack_tween.tween_method(set_attack_progress, 0.0, 0.85,
-	 player.stats.attack_cd+player.stats.attack_duration)\
+	player.stats.attack_cd+player.stats.attack_duration)\
 	.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
 
 func trigger_parry_cooldown():
