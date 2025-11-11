@@ -7,7 +7,7 @@ var area: Area2D = null
 var is_loaded: bool = false
 
 var arena_map: ArenaMap = null
-var chunks_folder: Node2D = null
+var chunks_folder: Node = null
 
 func _init(p_arena_map) -> void:
 	arena_map = p_arena_map
@@ -30,16 +30,22 @@ func unload_chunk_to_tilemap() -> void:
 
 
 func load_chunk() -> void:
+	if is_loaded:
+		return
+
+	is_loaded = true
+
+	load_chunk_to_tilemap()
 	if area.get_parent() != chunks_folder:
 		chunks_folder.add_child.call_deferred(area)
-	load_chunk_to_tilemap()
-	is_loaded = true
 
 
 func unload_chunk() -> void:
+	if !is_loaded:
+		return
+
+	is_loaded = false
 
 	unload_chunk_to_tilemap()
-
-	if area.get_parent() == self:
+	if area.get_parent() == chunks_folder:
 		chunks_folder.remove_child(area)
-	is_loaded = false

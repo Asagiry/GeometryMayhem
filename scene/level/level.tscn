@@ -22,11 +22,12 @@ arena_map = NodePath("../Arena_map")
 
 [node name="Player" parent="BackLayer" instance=ExtResource("2_hm7p5")]
 unique_name_in_owner = true
+position = Vector2(-50, -64)
 
 [node name="FrontLayer" type="Node2D" parent="." groups=["front_layer"]]
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(1.5, 1.5)
+zoom = Vector2(2, 2)
 process_callback = 0
 position_smoothing_enabled = true
 script = ExtResource("3_5lpb7")

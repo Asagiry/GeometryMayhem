@@ -7,8 +7,7 @@ extends Node
 var tile_data: Dictionary = {}
 var chunk_areas: Array[ChunkData] = []
 var last_loaded_chunks: Array[ChunkData] = []
-
-@onready var chunks: Node2D = %Chunks
+@onready var chunks: Node = %Chunks
 
 func setup():
 	chunk_areas.clear()
@@ -18,7 +17,7 @@ func setup():
 		_get_tile_data(arena_zone)
 		arena_zone.clear()
 		_create_chunk_areas(arena_zone)
-	print(chunk_areas.size())
+
 
 func _get_tile_data(arena_zone: ArenaZone):
 	var zone_data = {}
@@ -34,10 +33,10 @@ func _get_tile_data(arena_zone: ArenaZone):
 		}
 	tile_data[arena_zone] = zone_data
 
+
 func _create_chunk_areas(arena_zone: ArenaZone):
 	var zone_data = tile_data[arena_zone]
 
-	# Группируем тайлы по чанкам
 	var chunks_map: Dictionary = {}
 	for cell_pos in zone_data:
 		var chunk_key = Vector2i(floor(cell_pos.x / 16.0), floor(cell_pos.y / 16.0))
@@ -45,11 +44,10 @@ func _create_chunk_areas(arena_zone: ArenaZone):
 			chunks_map[chunk_key] = []
 		chunks_map[chunk_key].append(cell_pos)
 
-	# Создаём ChunkData для каждого чанка
 	for chunk_key in chunks_map:
 		var area = Area2D.new()
 		area.name = "ChunkArea_%d_%d" % [chunk_key.x, chunk_key.y]
-		area.collision_mask = arena_zone.arena_stat_data.collision_mask
+		area.set_collision_mask_value(2,true)
 		area.z_index = 1
 		var shape = CollisionShape2D.new()
 		var rect = RectangleShape2D.new()
@@ -76,16 +74,13 @@ func _create_chunk_areas(arena_zone: ArenaZone):
 			})
 		chunk_res.tile_array = tile_array
 
+		if (arena_zone.get_zone_name() == "stability"):
+				chunk_res.load_chunk()
 		chunk_areas.append(chunk_res)
-
-		if arena_zone.get_zone_name() == "stability":
-			chunks.add_child(area)
-			chunk_res.load_chunk_to_tilemap()
 
 		area.connect("body_entered", Callable(self, "_on_chunk_body_entered").bind(chunk_res))
 
-func _on_chunk_body_entered(body: CharacterBody2D, chunk_entered: ChunkData):
-
+func _on_chunk_body_entered(body: Node2D, chunk_entered: ChunkData):
 	if body is not PlayerController:
 		return
 
@@ -107,12 +102,12 @@ func _on_chunk_body_entered(body: CharacterBody2D, chunk_entered: ChunkData):
 		if dist <= draw_distance:
 			chunks_to_load.append(chunk)
 
-	# Выгрузка: удаляем всё, что загружено, но не в chunks_to_load
+	var i = 0
 	for chunk in last_loaded_chunks:
 		if chunk.is_loaded and not (chunk in chunks_to_load):
+			i+=1
 			chunk.unload_chunk()
-
-	# Загрузка: добавляем всё, что нужно, но ещё не загружено
+	print(i)
 	for chunk in chunks_to_load:
 		if not chunk.is_loaded:
 			chunk.load_chunk()

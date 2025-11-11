@@ -10,7 +10,7 @@ var arena_zones: Array[ArenaZone]
 
 @onready var basic_wall: TileMapLayer = %BasicWall
 @onready var details: TileMapLayer = %Details
-@onready var chunks: Node2D = %Chunks
+@onready var chunks: Node = %Chunks
 
 @onready var stability_zone: TileMapLayer = %StabilityZone
 @onready var flux_zone: TileMapLayer = %FluxZone
@@ -56,6 +56,8 @@ func get_next_zone(current_zone: ArenaZone):
 			return overload_zone
 		overload_zone:
 			return chaotic_zone
+		chaotic_zone:
+			return outside_zone
 
 
 func get_previous_zone(current_zone: ArenaZone):
