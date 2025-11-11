@@ -1,11 +1,16 @@
-[gd_scene load_steps=7 format=3 uid="uid://4t3ckdvi728j"]
+[gd_scene load_steps=8 format=3 uid="uid://4t3ckdvi728j"]
 
 [ext_resource type="Script" uid="uid://ddmlacvfkc5sk" path="res://scene/UI/level_hud/level_hud.gd" id="1_4q383"]
-[ext_resource type="Script" uid="uid://twlk1emcihqe" path="res://scene/UI/level_hud/elements/color_polygon.gd" id="1_htaoi"]
-[ext_resource type="Script" uid="uid://drkmaaq4hog1h" path="res://scene/UI/level_hud/elements/progress_bar_polygon.gd" id="2_4p0si"]
+[ext_resource type="PackedScene" uid="uid://dbtp7vxslxtvp" path="res://scene/UI/level_hud/elements/minimap/mini_map.tscn" id="2_d8w8s"]
+[ext_resource type="PackedScene" uid="uid://4a1xvj1y4hm" path="res://scene/test_level/arena_time_ui.tscn" id="3_4q383"]
 [ext_resource type="PackedScene" uid="uid://xg4bnnehfsvo" path="res://scene/UI/level_hud/elements/bar/resonanceBar/resonance_bar.tscn" id="3_pamlj"]
 [ext_resource type="PackedScene" uid="uid://cu1qcqekr6kso" path="res://scene/UI/level_hud/elements/bar/healthBar/health_bar.tscn" id="3_xa13n"]
 [ext_resource type="PackedScene" uid="uid://ctiqrkp51uyft" path="res://scene/UI/level_hud/elements/bar/cooldownBar/cooldown_bar.tscn" id="4_d8w8s"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_d8w8s"]
+font_size = 12
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
 
 [node name="LevelHUD" type="CanvasLayer"]
 script = ExtResource("1_4q383")
@@ -19,128 +24,129 @@ grow_vertical = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 20
+theme_override_constants/margin_bottom = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
+
+[node name="TopHBOX" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TopHBOX"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TopHBOX/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="MiniMap" parent="MarginContainer/VBoxContainer/TopHBOX/HBoxContainer/VBoxContainer2" instance=ExtResource("2_d8w8s")]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+stretch = true
+
+[node name="CurrentZoneLabel" type="Label" parent="MarginContainer/VBoxContainer/TopHBOX/HBoxContainer/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Current zone: stability"
+label_settings = SubResource("LabelSettings_d8w8s")
+
+[node name="ArenaTime" parent="MarginContainer/VBoxContainer/TopHBOX/HBoxContainer" instance=ExtResource("3_4q383")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TopHBOX/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 0
+size_flags_stretch_ratio = 0.2
+
+[node name="PanelContainer2" type="PanelContainer" parent="MarginContainer/VBoxContainer/TopHBOX/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/TopHBOX/HBoxContainer/VBoxContainer/PanelContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_right = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TopHBOX/HBoxContainer/VBoxContainer/PanelContainer2/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TopHBOX/HBoxContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "LEVEL :"
+
+[node name="LevelLabel" type="Label" parent="MarginContainer/VBoxContainer/TopHBOX/HBoxContainer/VBoxContainer/PanelContainer2/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "12"
+horizontal_alignment = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/TopHBOX/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/TopHBOX/HBoxContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_right = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TopHBOX/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TopHBOX/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "ECHO  :"
+
+[node name="EchoLabel" type="Label" parent="MarginContainer/VBoxContainer/TopHBOX/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "250"
+horizontal_alignment = 2
 
 [node name="Control" type="Control" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="BottomHudHBOX" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-visible = false
-layout_mode = 2
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.1
-alignment = 1
-
-[node name="Control2" type="Control" parent="MarginContainer/VBoxContainer/BottomHudHBOX"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/BottomHudHBOX"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Control2" type="Control" parent="MarginContainer/VBoxContainer/BottomHudHBOX/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="ProgressBarPolygon2" type="Control" parent="MarginContainer/VBoxContainer/BottomHudHBOX/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-mouse_filter = 2
-script = ExtResource("2_4p0si")
-outline_width = 0.0
-points = Array[Vector2]([Vector2(0.03, 1), Vector2(0, 0), Vector2(1, 0), Vector2(0.97, 1), Vector2(1, 1)])
-metadata/_custom_type_script = "uid://drkmaaq4hog1h"
-
-[node name="Control3" type="Control" parent="MarginContainer/VBoxContainer/BottomHudHBOX/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/BottomHudHBOX"]
-z_index = 1
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.2
-theme_override_constants/separation = 0
-
-[node name="ColorTriangle" type="Control" parent="MarginContainer/VBoxContainer/BottomHudHBOX/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 2
-mouse_filter = 2
-script = ExtResource("1_htaoi")
-outline_color = Color(0, 0, 0, 1)
-outline_width = 1.0
-points = Array[Vector2]([Vector2(0, 1), Vector2(1, 0), Vector2(1, 1)])
-metadata/_custom_type_script = "uid://twlk1emcihqe"
-
-[node name="ColorTriangle3" type="Control" parent="MarginContainer/VBoxContainer/BottomHudHBOX/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 2
-mouse_filter = 2
-script = ExtResource("1_htaoi")
-outline_color = Color(0, 0, 0, 1)
-outline_width = 1.0
-points = Array[Vector2]([Vector2(0, 1), Vector2(1, 0), Vector2(1, 1)])
-flip_x = true
-metadata/_custom_type_script = "uid://twlk1emcihqe"
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer/BottomHudHBOX"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/BottomHudHBOX/VBoxContainer2"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="ProgressBarPolygon" type="Control" parent="MarginContainer/VBoxContainer/BottomHudHBOX/VBoxContainer2"]
-layout_mode = 2
-size_flags_vertical = 3
-mouse_filter = 2
-script = ExtResource("2_4p0si")
-outline_width = 1.0
-points = Array[Vector2]([Vector2(0.03, 1), Vector2(0, 0), Vector2(1, 0), Vector2(0.97, 1), Vector2(1, 1)])
-metadata/_custom_type_script = "uid://drkmaaq4hog1h"
-
-[node name="Control2" type="Control" parent="MarginContainer/VBoxContainer/BottomHudHBOX/VBoxContainer2"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/BottomHudHBOX"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="BottomHBOX" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
 
-[node name="Control2" type="Control" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Control2" type="Control" parent="MarginContainer/VBoxContainer/BottomHBOX"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HealthBar" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("3_xa13n")]
+[node name="HealthBar" parent="MarginContainer/VBoxContainer/BottomHBOX" instance=ExtResource("3_xa13n")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
 max_value = 200.0
 value = 200.0
 
-[node name="CooldownBar" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("4_d8w8s")]
+[node name="CooldownBar" parent="MarginContainer/VBoxContainer/BottomHBOX" instance=ExtResource("4_d8w8s")]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_stretch_ratio = 0.2
 
-[node name="ResonanceBar" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("3_pamlj")]
+[node name="ResonanceBar" parent="MarginContainer/VBoxContainer/BottomHBOX" instance=ExtResource("3_pamlj")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
 expand_mode = 2
 
-[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/BottomHBOX"]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="FpsLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "FPS = "

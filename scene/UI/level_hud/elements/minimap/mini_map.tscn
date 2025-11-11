@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://dbtp7vxslxtvp"]
+
+[ext_resource type="Script" uid="uid://qxk3mng3b44p" path="res://scene/UI/level_hud/elements/minimap/mini_map.gd" id="1_g78vr"]
+[ext_resource type="Script" uid="uid://cjfxleb5lxaps" path="res://scene/UI/level_hud/elements/minimap/sub_viewport.gd" id="2_0giy3"]
+
+[node name="MiniMap" type="SubViewportContainer"]
+custom_minimum_size = Vector2(128, 128)
+offset_right = 128.0
+offset_bottom = 128.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_g78vr")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+unique_name_in_owner = true
+handle_input_locally = false
+size = Vector2i(128, 128)
+render_target_clear_mode = 1
+render_target_update_mode = 4
+script = ExtResource("2_0giy3")
+
+[node name="Camera2D" type="Camera2D" parent="SubViewport"]
+unique_name_in_owner = true
+zoom = Vector2(0.25, 0.25)
+process_callback = 0

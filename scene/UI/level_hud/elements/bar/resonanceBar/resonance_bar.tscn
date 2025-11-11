@@ -1,9 +1,14 @@
-[gd_scene load_steps=7 format=3 uid="uid://xg4bnnehfsvo"]
+[gd_scene load_steps=8 format=3 uid="uid://xg4bnnehfsvo"]
 
 [ext_resource type="Texture2D" uid="uid://bvmed20aqwal4" path="res://assets/UI/Bars/ResonanceBar.png" id="1_ajqw5"]
-[ext_resource type="Script" uid="uid://8c10x80gmkg5" path="res://scene/UI/level_hud/elements/bar/bar.gd" id="2_3havk"]
+[ext_resource type="Script" uid="uid://bjy0un8lxvksk" path="res://scene/UI/level_hud/elements/bar/resonanceBar/resonance_bar.gd" id="2_t7qfp"]
 [ext_resource type="Shader" uid="uid://0o7yi7tm655l" path="res://scene/UI/level_hud/elements/bar/resonanceBar/resonance_bar.gdshader" id="3_k1rwv"]
 [ext_resource type="Texture2D" uid="uid://dr6ems1e5loyb" path="res://assets/UI/Bars/ResonanceFill.png" id="3_madem"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_t7qfp"]
+font_size = 20
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_k1rwv"]
 font_color = Color(0.18000486, 0.18000486, 0.18000486, 1)
@@ -16,18 +21,14 @@ shader_parameter/progress_tail = 1.0
 shader_parameter/tail_color = Color(0.45064884, 0.45064807, 0.45064825, 1)
 
 [node name="ResonanceBar" type="TextureRect"]
-custom_minimum_size = Vector2(300, 30)
-offset_top = 1.0
-offset_right = 300.0
-offset_bottom = 31.0
-grow_horizontal = 2
-grow_vertical = 2
+custom_minimum_size = Vector2(370, 30)
+offset_left = 1.0
+offset_right = 351.0
+offset_bottom = 30.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource("1_ajqw5")
-script = ExtResource("2_3havk")
-max_value = 200.0
-value = 200.0
+script = ExtResource("2_t7qfp")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -38,37 +39,48 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Control" type="Control" parent="HBoxContainer"]
+custom_minimum_size = Vector2(35, 0)
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.15
+
+[node name="CurrentLevel" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(23, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+text = "10"
+label_settings = SubResource("LabelSettings_t7qfp")
 
 [node name="CurrentValue" type="Label" parent="HBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(27, 0)
+custom_minimum_size = Vector2(36, 0)
 layout_mode = 2
-text = "200"
+size_flags_horizontal = 0
+text = "2000"
 label_settings = SubResource("LabelSettings_k1rwv")
+horizontal_alignment = 2
 
 [node name="ProgressShader" type="TextureRect" parent="HBoxContainer"]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_madem")
-custom_minimum_size = Vector2(173, 18)
+custom_minimum_size = Vector2(200, 18)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+size_flags_stretch_ratio = 0.8
 texture = ExtResource("3_madem")
 
 [node name="MaxValue" type="Label" parent="HBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(27, 0)
+custom_minimum_size = Vector2(36, 0)
 layout_mode = 2
-text = "200"
+text = "2000"
 label_settings = SubResource("LabelSettings_k1rwv")
+horizontal_alignment = 2
 
 [node name="Control2" type="Control" parent="HBoxContainer"]
+custom_minimum_size = Vector2(35, 0)
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.15
+size_flags_stretch_ratio = 0.2
 
 [node name="PanelContainer" type="PanelContainer" parent="HBoxContainer"]
 layout_mode = 2

@@ -18,7 +18,7 @@ func _ready() -> void:
 	if not enabled:
 		queue_free()
 		return
-		
+
 	arena_map.player_entered.connect(_on_player_entered)
 	arena_map.player_exited.connect(_on_player_exited)
 
@@ -27,7 +27,7 @@ func _on_player_entered(zone: ArenaZone) -> void:
 	if zone.get_name() == "StabilityZone":
 		_stop_spawning()
 		return
-	
+
 	_start_spawning(zone)
 
 
@@ -81,30 +81,30 @@ func _spawn_enemy():
 
 func _get_random_enemy_scene(zone: ArenaZone) -> PackedScene:
 	var zone_name: String = zone.get_zone_name()
-	
+
 	if zone_name in ["overload", "chaotic"]:
 		return null
-	
+
 	var cache_key: String = "%s_%d" % [zone_name, randi()]
 	if _enemy_scene_cache.has(cache_key):
 		return _enemy_scene_cache[cache_key]
-	
+
 	var enemy_types: Array = ["melee_enemy", "range_enemy", "bomb_enemy"]
 	var enemy_type: String = enemy_types[randi() % enemy_types.size()]
-	
+
 	var path: String = "res://scene/game_objects/enemies/%s/%s/" % [enemy_type, zone_name]
 	var enemy_variant_count: int = _get_enemy_variant_count(path)
-	
+
 	if enemy_variant_count <= 0:
 		return null
-	
+
 	var enemy_variant: int = randi_range(1, enemy_variant_count)
 	path += "%s_%d.tscn" % [enemy_type, enemy_variant]
-	
+
 	var scene: PackedScene = load(path) as PackedScene
 	if scene:
 		_enemy_scene_cache[cache_key] = scene
-	
+
 	return scene
 
 
@@ -112,16 +112,16 @@ func _get_enemy_variant_count(path: String) -> int:
 	var dir: DirAccess = DirAccess.open(path)
 	if not dir:
 		return 0
-	
+
 	dir.list_dir_begin()
 	var file_count: int = 0
 	var file_name: String = dir.get_next()
-	
+
 	while file_name != "":
 		if not dir.current_is_dir() and file_name.ends_with(".tscn"):
 			file_count += 1
 		file_name = dir.get_next()
-	
+
 	dir.list_dir_end()
 	return file_count
 
@@ -130,5 +130,3 @@ func _on_enemy_died(zone: ArenaZone) -> void:
 	if zone_current_enemy.has(zone):
 		zone_current_enemy[zone] = max(0, zone_current_enemy[zone] - 1)
 		print("Текущее количество врагов в зоне %s: %d" % [zone.get_name(), zone_current_enemy[zone]])
-
-

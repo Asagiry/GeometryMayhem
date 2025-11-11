@@ -7,7 +7,8 @@ signal exited_zone(zone: ArenaZone)
 
 @export var arena_stat_data: ArenaStatData
 
-
+@onready var borders_folder: Node2D = %Borders
+@onready var areas_folder: Node2D = %Areas
 
 var border_area: Area2D
 var full_area: Area2D
@@ -20,6 +21,7 @@ func create_area():
 	var border_thickness = 16
 
 	border_area = Area2D.new()
+	border_area.name = get_zone_name()
 	border_area.collision_mask = arena_stat_data.collision_mask
 	var borders = {
 		"top":    Rect2(Vector2(zone_pos.x-border_thickness, zone_pos.y - border_thickness),
@@ -33,6 +35,7 @@ func create_area():
 	}
 	for side in borders.keys():
 		var shape = CollisionShape2D.new()
+		shape.debug_color = Color(1,0,0,0.5)
 		shape.shape = RectangleShape2D.new()
 		shape.shape.size = borders[side].size
 		shape.position = borders[side].position + borders[side].size / 2.0
@@ -40,16 +43,18 @@ func create_area():
 
 	full_area = Area2D.new()
 	full_area.collision_mask = arena_stat_data.collision_mask
+	full_area.name = get_zone_name()
 
 	var full_shape = CollisionShape2D.new()
+	full_shape.debug_color = Color(0,0,0,0)
 	full_shape.shape = RectangleShape2D.new()
 	full_shape.shape.size = zone_size - Vector2i(border_thickness, border_thickness)
 	full_shape.position = zone_pos + full_shape.shape.size / 2.0
 	full_area.add_child(full_shape)
 
-	owner.add_child.call_deferred(border_area)
+	borders_folder.add_child.call_deferred(border_area)
 	border_area.body_exited.connect(_on_border_area_exited)
-	owner.add_child.call_deferred(full_area)
+	areas_folder.add_child.call_deferred(full_area)
 
 #TODO руинит range mob - поведение(протестировать)
 func _on_border_area_exited(body: CharacterBody2D):

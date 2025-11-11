@@ -13,7 +13,6 @@ script = ExtResource("1_plauu")
 transition_end_screen = ExtResource("2_dcgxc")
 
 [node name="EnemySpawnerController" parent="." node_paths=PackedStringArray("arena_map") instance=ExtResource("3_dcgxc")]
-enabled = true
 arena_map = NodePath("../Arena_map")
 
 [node name="Arena_map" parent="." instance=ExtResource("1_1c01b")]
@@ -30,5 +29,6 @@ zoom = Vector2(1.5, 1.5)
 position_smoothing_enabled = true
 script = ExtResource("3_5lpb7")
 
-[node name="LevelHUD" parent="." node_paths=PackedStringArray("player") instance=ExtResource("3_n6afj")]
+[node name="LevelHUD" parent="." node_paths=PackedStringArray("player", "arena_map") instance=ExtResource("3_n6afj")]
 player = NodePath("../BackLayer/Player")
+arena_map = NodePath("../Arena_map")

@@ -6,11 +6,10 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jdrgm"]
 shader = ExtResource("1_wflsw")
-shader_parameter/attack_progress = 0.0
-shader_parameter/parry_progress = 0.0
+shader_parameter/attack_progress = 0.85000002384186
+shader_parameter/parry_progress = 1.0
 shader_parameter/attack_color = Vector3(1, 0.188, 0.188)
 shader_parameter/parry_color = Vector3(0, 0.905, 1)
-shader_parameter/color_tolerance = 0.1
 
 [node name="CooldownBar" type="TextureRect"]
 material = SubResource("ShaderMaterial_jdrgm")

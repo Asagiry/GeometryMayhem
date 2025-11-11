@@ -1,6 +1,6 @@
 class_name ArenaTimeUI
 
-extends CanvasLayer
+extends Control
 
 @onready var game_timer: Timer = %GameTimer
 @onready var time_label: Label = %Label

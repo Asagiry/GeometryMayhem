@@ -21,7 +21,6 @@ Global="*res://scripts/global/global.gd"
 
 [debug]
 
-settings/stdout/print_fps=true
 gdscript/warnings/unused_variable=0
 gdscript/warnings/unused_parameter=0
 gdscript/warnings/unused_signal=0
@@ -114,3 +113,5 @@ common/enable_object_picking=false
 
 textures/canvas_textures/default_texture_filter=3
 anti_aliasing/quality/smaa_edge_detection_threshold=0.2
+textures/light_projectors/filter=0
+lights_and_shadows/tighter_shadow_caster_culling=false

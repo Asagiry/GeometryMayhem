@@ -9,6 +9,8 @@ var parry_tween: Tween
 
 func setup(p_player: PlayerController):
 	player = p_player
+	set_parry_progress(0.85)
+	set_attack_progress(0.85)
 
 func trigger_attack_cooldown():
 	if attack_tween:
@@ -17,8 +19,9 @@ func trigger_attack_cooldown():
 	# Начинаем с пустого (progress = 0) и заполняем до полного (progress = 1)
 	set_attack_progress(0.0)
 	attack_tween = create_tween()
-	attack_tween.tween_method(set_attack_progress, 0.0, 1.0,
-	 player.stats.attack_cd+player.stats.attack_duration)
+	attack_tween.tween_method(set_attack_progress, 0.0, 0.85,
+	 player.stats.attack_cd+player.stats.attack_duration)\
+	.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
 
 func trigger_parry_cooldown():
 	if parry_tween:
@@ -26,8 +29,9 @@ func trigger_parry_cooldown():
 
 	set_parry_progress(0.0)
 	parry_tween = create_tween()
-	parry_tween.tween_method(set_parry_progress, 0.0, 1.0,
-	 player.stats.parry_cd+player.stats.parry_duration)
+	parry_tween.tween_method(set_parry_progress, 0.0, 0.85,
+	 player.stats.parry_cd+player.stats.parry_duration)\
+	.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
 
 func set_attack_progress(progress: float):
 	shader_material.set_shader_parameter("attack_progress", progress)
