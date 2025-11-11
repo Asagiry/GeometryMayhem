@@ -11,7 +11,7 @@ func enter() -> void:
 	enemy.movement_component.start_patrol()
 
 
-func process(_delta: float) -> void:
+func physics_process(_delta: float) -> void:
 	enemy.movement_component.handle_movement()
 
 func _on_player_entered_aggro(body:CharacterBody2D):

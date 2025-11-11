@@ -45,7 +45,6 @@ func _ready() -> void:
 func _setup_owner_reference():
 	super._setup_owner_reference()
 
-	# Получаем entity из owner (должен быть CharacterBody2D)
 	if owner_node is CharacterBody2D:
 		entity = owner_node
 	else:
@@ -78,24 +77,7 @@ func accelerate_to_direction(direction: Vector2) -> Vector2:
 		1 - exp(-current_acceleration * get_physics_process_delta_time())
 	)
 
-	if direction.length_squared() > 0.1:
-		last_direction = direction.normalized()
-
 	return current_velocity
-
-
-func rotate_towards_direction(direction: Vector2) -> void:
-	if not entity or direction.length_squared() < 0.1:
-		return
-
-	var target_rotation = direction.angle() + PI/2  # +PI/2 если спрайт смотрит вверх
-	var rotation_diff = wrapf(target_rotation - entity.rotation, -PI, PI)
-	var rotation_step = get_rotation_speed() * get_physics_process_delta_time()
-
-	if abs(rotation_diff) <= rotation_step:
-		entity.rotation = target_rotation
-	else:
-		entity.rotation += rotation_step * sign(rotation_diff)
 
 
 func move_and_slide() -> void:

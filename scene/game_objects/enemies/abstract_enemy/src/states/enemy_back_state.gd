@@ -12,7 +12,7 @@ func enter() -> void:
 	animated_sprite_2d.play("idle")
 
 
-func process(_delta: float) -> void:
+func physics_process(_delta: float) -> void:
 	enemy.movement_component.get_back()
 	if (enemy.movement_component.is_reached_spawn_point()):
 		state_machine.transition(EnemyIdleState.state_name)

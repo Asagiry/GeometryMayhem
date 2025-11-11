@@ -21,6 +21,7 @@ arena_map = NodePath("../ArenaMap")
 [node name="ArenaMap" parent="." instance=ExtResource("6_n6eni")]
 
 [node name="ArenaTimeUI" parent="." instance=ExtResource("4_5mq0g")]
+physics_interpolation_mode = 1
 
 [node name="Test_ui" parent="." instance=ExtResource("1_8r3jg")]
 
@@ -42,6 +43,7 @@ unique_name_in_owner = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 unique_name_in_owner = true
-zoom = Vector2(2, 2)
+zoom = Vector2(4.5, 4.5)
+process_callback = 0
 position_smoothing_enabled = true
 script = ExtResource("3_sj7wh")
