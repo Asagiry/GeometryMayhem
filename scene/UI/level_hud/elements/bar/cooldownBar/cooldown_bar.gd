@@ -30,7 +30,7 @@ func trigger_parry_cooldown():
 	set_parry_progress(0.0)
 	parry_tween = create_tween()
 	parry_tween.tween_method(set_parry_progress, 0.0, 0.85,
-	 player.stats.parry_cd+player.stats.parry_duration)\
+	player.stats.parry_cd+player.stats.parry_duration)\
 	.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
 
 func set_attack_progress(progress: float):
