@@ -7,6 +7,8 @@ extends Node
 var tile_data: Dictionary = {}
 var chunk_areas: Array[ChunkData] = []
 var last_loaded_chunks: Array[ChunkData] = []
+var is_enabled: bool = true
+
 @onready var chunks: Node = %Chunks
 
 func setup():
@@ -80,9 +82,21 @@ func _create_chunk_areas(arena_zone: ArenaZone):
 
 		area.connect("body_entered", Callable(self, "_on_chunk_body_entered").bind(chunk_res))
 
+
 func _on_chunk_body_entered(body: Node2D, chunk_entered: ChunkData):
 	if body is not PlayerController:
 		return
+
+	if !is_enabled:
+		return
+
+	is_enabled = false
+	var timer := Timer.new()
+	timer.one_shot = true
+	timer.wait_time = 1.0
+	timer.timeout.connect(func(): is_enabled = true)
+	add_child(timer)
+	timer.start()
 
 	var area = chunk_entered.area
 
