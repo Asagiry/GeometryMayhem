@@ -84,7 +84,11 @@ func _create_chunk_areas(arena_zone: ArenaZone):
 
 		area.connect("body_entered", Callable(self, "_on_chunk_body_entered").bind(chunk_res))
 
-func _on_chunk_body_entered(_body: CharacterBody2D, chunk_entered: ChunkData):
+func _on_chunk_body_entered(body: CharacterBody2D, chunk_entered: ChunkData):
+
+	if body is not PlayerController:
+		return
+
 	var area = chunk_entered.area
 
 	var current_coord = Vector2i(
