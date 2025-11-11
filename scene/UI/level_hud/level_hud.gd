@@ -15,7 +15,7 @@ extends CanvasLayer
 @onready var fps_label: Label = %FpsLabel
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	fps_label.text = "FPS = " + str(Engine.get_frames_per_second())
 
 func _ready() -> void:

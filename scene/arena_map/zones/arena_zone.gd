@@ -7,11 +7,11 @@ signal exited_zone(zone: ArenaZone)
 
 @export var arena_stat_data: ArenaStatData
 
-@onready var borders_folder: Node2D = %Borders
-@onready var areas_folder: Node2D = %Areas
-
 var border_area: Area2D
 var full_area: Area2D
+
+@onready var borders_folder: Node2D = %Borders
+@onready var areas_folder: Node2D = %Areas
 
 func create_area():
 	var rect = get_used_rect()

@@ -63,9 +63,6 @@ func _create_chunk_areas(arena_zone: ArenaZone):
 			chunk_key.y * 256.0 + 128.0
 		)
 
-		area.connect("body_entered", Callable(self, "_on_chunk_body_entered").bind(area, arena_zone))
-		area.connect("body_exited", Callable(self, "_on_chunk_body_exited").bind(area, arena_zone))
-
 		# Создаём ChunkData
 		var chunk_res = ChunkData.new(arena_map)
 		chunk_res.arena_zone = arena_zone
@@ -85,16 +82,10 @@ func _create_chunk_areas(arena_zone: ArenaZone):
 			chunks.add_child(area)
 			chunk_res.load_chunk_to_tilemap()
 
+		area.connect("body_entered", Callable(self, "_on_chunk_body_entered").bind(chunk_res))
 
-func _on_chunk_body_entered(body, area: Area2D, zone: ArenaZone):
-	# Находим текущий чанк
-	var current_chunk: ChunkData = null
-	for chunk in chunk_areas:
-		if chunk.area == area:
-			current_chunk = chunk
-			break
-	if not current_chunk:
-		return
+func _on_chunk_body_entered(_body: CharacterBody2D, chunk_entered: ChunkData):
+	var area = chunk_entered.area
 
 	var current_coord = Vector2i(
 		floor((area.position.x - 128.0) / 256.0),
@@ -124,6 +115,3 @@ func _on_chunk_body_entered(body, area: Area2D, zone: ArenaZone):
 
 	# Обновляем список активных чанков
 	last_loaded_chunks = chunks_to_load
-
-func _on_chunk_body_exited(body, area: Area2D, zone: ArenaZone):
-	pass

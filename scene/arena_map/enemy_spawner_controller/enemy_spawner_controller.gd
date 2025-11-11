@@ -8,8 +8,8 @@ extends Node
 var player: PlayerController
 var current_zone: ArenaZone
 var zone_current_enemy: Dictionary[ArenaZone, int] = {}
-var _enemy_scene_cache: Dictionary = {}
 var spawn_active: bool = true
+var _enemy_scene_cache: Dictionary = {}
 
 @onready var spawn_timer: Timer = %SpawnTimer
 
