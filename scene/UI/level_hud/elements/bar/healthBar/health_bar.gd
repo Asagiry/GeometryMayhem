@@ -1,7 +1,7 @@
 @tool
 class_name HealthBarUI
 
-extends TextureRect
+extends NinePatchRect
 
 const ANIMATION_DURATION : float = 0.5
 
