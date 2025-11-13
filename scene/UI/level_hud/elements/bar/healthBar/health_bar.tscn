@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cu1qcqekr6kso"]
+[gd_scene load_steps=7 format=3 uid="uid://dt8au7l066p61"]
 
 [ext_resource type="Script" uid="uid://b5v071itwpr1" path="res://scene/UI/level_hud/elements/bar/healthBar/health_bar.gd" id="2_n2ybc"]
 [ext_resource type="Texture2D" uid="uid://cy80ysnkk7hsu" path="res://assets/UI/Bars/HealthBar.png" id="2_ofbyl"]
@@ -9,62 +9,60 @@
 font_color = Color(0.18000486, 0.18000486, 0.18000486, 1)
 outline_color = Color(0, 0, 0, 1)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_3mk02"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_t7qfp"]
 shader = ExtResource("3_n2ybc")
 shader_parameter/progress = 1.0
 shader_parameter/progress_tail = 1.0
-shader_parameter/tail_color = Color(1, 0.59293365, 0.5314997, 1)
+shader_parameter/tail_color = Color(0.45840502, 0.45840508, 0.45840502, 1)
 
-[node name="HealthBar" type="TextureRect"]
-custom_minimum_size = Vector2(370, 30)
-offset_left = 1.0
-offset_right = 371.0
-offset_bottom = 30.0
+[node name="HealthBar" type="NinePatchRect"]
+clip_contents = true
+custom_minimum_size = Vector2(196, 30)
+offset_right = 404.0
+offset_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource("2_ofbyl")
+patch_margin_left = 17
+patch_margin_top = 5
+patch_margin_right = 17
+patch_margin_bottom = 5
 script = ExtResource("2_n2ybc")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
+anchors_preset = -1
+anchor_left = 0.054
+anchor_right = 0.9480001
 anchor_bottom = 1.0
+offset_left = 0.18400002
+offset_right = 0.007965088
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="Control" type="Control" parent="HBoxContainer"]
-custom_minimum_size = Vector2(35, 0)
-layout_mode = 2
 
 [node name="CurrentValue" type="Label" parent="HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(36, 0)
 layout_mode = 2
-text = "100"
+text = "2000"
 label_settings = SubResource("LabelSettings_k1rwv")
 horizontal_alignment = 2
 
-[node name="ProgressShader" type="TextureRect" parent="HBoxContainer"]
+[node name="ProgressShader" type="NinePatchRect" parent="HBoxContainer"]
 unique_name_in_owner = true
-material = SubResource("ShaderMaterial_3mk02")
-custom_minimum_size = Vector2(230, 18)
+material = SubResource("ShaderMaterial_t7qfp")
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 texture = ExtResource("4_6gipj")
+patch_margin_left = 30
+patch_margin_right = 30
 
 [node name="MaxValue" type="Label" parent="HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(36, 0)
 layout_mode = 2
-text = "100"
+text = "2000"
 label_settings = SubResource("LabelSettings_k1rwv")
 horizontal_alignment = 2
-
-[node name="Control2" type="Control" parent="HBoxContainer"]
-custom_minimum_size = Vector2(30, 0)
-layout_mode = 2
-
-[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer"]
-layout_mode = 2

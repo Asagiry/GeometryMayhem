@@ -3,17 +3,37 @@ extends Node
 
 @export var draw_distance: int
 @export var arena_map: ArenaMap
+@export var query_wait_time: float
+@export var life_time_enabled: bool
+@export var chunk_life_time: int
+
 
 var tile_data: Dictionary = {}
+var chunk_by_coord: Dictionary = {}
+var chunks_loaded: Dictionary = {}
 var chunk_areas: Array[ChunkData] = []
-var last_loaded_chunks: Array[ChunkData] = []
+
 var is_enabled: bool = true
+var current_chunk: ChunkData = null
+
+var chunks_to_load: Array[ChunkData] = []
+var chunks_to_unload: Array[ChunkData] = []
 
 @onready var chunks: Node = %Chunks
+@onready var query_timer: Timer = %QueryTimer
+@onready var unload_timer: Timer = %UnloadTimer
+
+
 
 func setup():
 	chunk_areas.clear()
 	tile_data.clear()
+
+	query_timer.start(query_wait_time)
+
+	if life_time_enabled:
+		unload_timer.autostart = true
+		unload_timer.start(1.0)
 
 	for arena_zone in arena_map.arena_zones:
 		_get_tile_data(arena_zone)
@@ -49,24 +69,27 @@ func _create_chunk_areas(arena_zone: ArenaZone):
 	for chunk_key in chunks_map:
 		var area = Area2D.new()
 		area.name = "ChunkArea_%d_%d" % [chunk_key.x, chunk_key.y]
-		area.set_collision_mask_value(2,true)
 		area.z_index = 1
+		area.monitoring = true
+		area.collision_layer = 0      # не участвует в коллизиях
+		area.collision_mask = 0
+		area.set_collision_mask_value(10,true)
+
 		var shape = CollisionShape2D.new()
 		var rect = RectangleShape2D.new()
 		rect.size = Vector2(256, 256)
 		shape.shape = rect
-		area.add_child(shape)
-		shape.owner = area
 
+		area.add_child(shape)
 		area.position = Vector2(
 			chunk_key.x * 256.0 + 128.0,
-			chunk_key.y * 256.0 + 128.0
-		)
+			chunk_key.y * 256.0 + 128.0)
 
-		# Создаём ChunkData
-		var chunk_res = ChunkData.new(arena_map)
+		var chunk_res = ChunkData.new(arena_map, chunk_life_time)
+
 		chunk_res.arena_zone = arena_zone
 		chunk_res.area = area
+		chunk_res.chunk_coord = chunk_key
 
 		var tile_array: Array[Dictionary] = []
 		for cell_pos in chunks_map[chunk_key]:
@@ -77,8 +100,12 @@ func _create_chunk_areas(arena_zone: ArenaZone):
 		chunk_res.tile_array = tile_array
 
 		if (arena_zone.get_zone_name() == "stability"):
-				chunk_res.load_chunk()
+			chunk_res.load_chunk()
+			chunks_loaded[chunk_res.chunk_coord] = chunk_res
+
 		chunk_areas.append(chunk_res)
+
+		chunk_by_coord[chunk_key] = chunk_res
 
 		area.connect("body_entered", Callable(self, "_on_chunk_body_entered").bind(chunk_res))
 
@@ -87,44 +114,83 @@ func _on_chunk_body_entered(body: Node2D, chunk_entered: ChunkData):
 	if body is not PlayerController:
 		return
 
-	if !is_enabled:
-		return
+	current_chunk = chunk_entered
 
-	is_enabled = false
-	var timer := Timer.new()
-	timer.one_shot = true
-	timer.wait_time = 1.0
-	timer.timeout.connect(func(): is_enabled = true)
-	add_child(timer)
-	timer.start()
+	var chunk_disk = get_disk_chunks_around_chunk(chunk_entered, draw_distance)
 
-	var area = chunk_entered.area
+	var unloaded = []
+	for chunk in chunk_disk:
+		if not chunk.is_loaded and not chunks_loaded.has(chunk.chunk_coord):
+			unloaded.append(chunk)
+	chunks_to_load.append_array(unloaded)
 
-	var current_coord = Vector2i(
-		floor((area.position.x - 128.0) / 256.0),
-		floor((area.position.y - 128.0) / 256.0)
-	)
+	if not life_time_enabled:
+		var current_set = {}
+		for c in chunk_disk:
+			current_set[c] = true
 
-	# Собираем чанки, которые ДОЛЖНЫ быть загружены
-	var chunks_to_load: Array[ChunkData] = []
-	for chunk in chunk_areas:
-		var coord = Vector2i(
-			floor((chunk.area.position.x - 128.0) / 256.0),
-			floor((chunk.area.position.y - 128.0) / 256.0)
-		)
-		var dist = max(abs(coord.x - current_coord.x), abs(coord.y - current_coord.y))
-		if dist <= draw_distance:
-			chunks_to_load.append(chunk)
+		for chunk in chunks_loaded.values():
+			if not current_set.has(chunk):
+				# Избегаем дублей
+				if not chunks_to_unload.has(chunk):
+					chunks_to_unload.append(chunk)
 
-	var i = 0
-	for chunk in last_loaded_chunks:
-		if chunk.is_loaded and not (chunk in chunks_to_load):
-			i+=1
-			chunk.unload_chunk()
-	print(i)
-	for chunk in chunks_to_load:
-		if not chunk.is_loaded:
-			chunk.load_chunk()
+func _on_query_timer_timeout() -> void:
 
-	# Обновляем список активных чанков
-	last_loaded_chunks = chunks_to_load
+	if chunks_to_load.size()>0:
+		var chunk = chunks_to_load.get(0)
+		chunk.load_chunk()
+		chunks_loaded[chunk.chunk_coord] = chunk
+		chunks_to_load.remove_at(0)
+
+	if chunks_to_unload.size()>0:
+		var chunk = chunks_to_unload.get(0)
+		chunk.unload_chunk()
+		chunks_loaded.erase(chunk.chunk_coord)
+		chunks_to_unload.remove_at(0)
+
+
+func get_ring_chunks_around_chunk(center_chunk: ChunkData,
+radius: int = draw_distance) -> Array[ChunkData]:
+	if radius == 0:
+		return [center_chunk]
+
+	var result: Array[ChunkData] = []
+
+	for dy in range(-radius, radius + 1):
+		for dx in range(-radius, radius + 1):
+			if abs(dx) != radius and abs(dy) != radius:
+				continue
+
+			var target_coord = center_chunk.chunk_coord + Vector2i(dx, dy)
+			if chunk_by_coord.has(target_coord):
+				result.append(chunk_by_coord[target_coord])
+
+	return result
+
+
+func _on_unload_timer_timeout() -> void:
+	var current_chunks = get_disk_chunks_around_chunk(current_chunk, draw_distance)
+	var current_set = {}
+	for c in current_chunks:
+		current_set[c] = true
+
+	for chunk : ChunkData in chunks_loaded.values():
+		if not current_set.has(chunk):
+			chunk.decrease_life_time()
+			if chunk.get_life_time_left() <= 0:
+				chunks_to_unload.append(chunk)
+		else:
+			chunk.reset_life_time()
+
+
+func get_disk_chunks_around_chunk(center_chunk: ChunkData, radius: int) -> Array[ChunkData]:
+	var result: Array[ChunkData] = []
+
+	for dy in range(-radius, radius + 1):
+		for dx in range(-radius, radius + 1):
+			var target_coord = center_chunk.chunk_coord + Vector2i(dx, dy)
+			if chunk_by_coord.has(target_coord):
+				result.append(chunk_by_coord[target_coord])
+
+	return result

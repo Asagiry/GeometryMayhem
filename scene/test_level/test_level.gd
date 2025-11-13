@@ -4,7 +4,7 @@ const PAUSE_MENU_SCENE = preload("res://scene/UI/pause_menu/pause_menu.tscn")
 
 @onready var camera_2d: Camera2D = %Camera2D
 @onready var test_ui: CanvasLayer = $Test_ui
-@onready var arena_time_ui: CanvasLayer = $ArenaTimeUI
+@onready var arena_time_ui: Control = $ArenaTimeUI
 @onready var enemy_spawner: EnemySpawnerController = $EnemySpawnerController
 
 # Called when the node enters the scene tree for the first time.
