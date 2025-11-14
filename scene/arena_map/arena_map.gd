@@ -5,8 +5,20 @@ extends Node
 signal player_entered(zone: ArenaZone)
 signal player_exited(zone: ArenaZone)
 
+@export_group("ChunkLoader")
+@export_enum("8", "16", "32") var chunk_size_str: String = "16"
+@export var draw_distance: int = 1
+@export var frequency_wait_time: float = 0.1
+@export var query_wait_time: float = 0.1
+
+@export_group("SpawnerController")
+@export var enabled: bool = false
+
 var player: PlayerController
 var arena_zones: Array[ArenaZone]
+var chunk_size: float:
+	get:
+		return float(chunk_size_str)
 
 @onready var basic_wall: TileMapLayer = %BasicWall
 @onready var details: TileMapLayer = %Details
@@ -17,6 +29,7 @@ var arena_zones: Array[ArenaZone]
 @onready var overload_zone: TileMapLayer = %OverloadZone
 @onready var chaotic_zone: TileMapLayer = %ChaoticZone
 @onready var outside_zone: TileMapLayer = %OutsideZone
+@onready var enemy_spawner_controller: EnemySpawnerController = %EnemySpawnerController
 @onready var chunk_loader: ChunkLoader = %ChunkLoader
 
 
@@ -26,7 +39,9 @@ func _ready() -> void:
 	player.change_current_zone(stability_zone)
 	arena_zones = [stability_zone,flux_zone,overload_zone,chaotic_zone,outside_zone]
 	create_areas()
+
 	chunk_loader.setup()
+	enemy_spawner_controller.setup()
 
 
 func create_areas():

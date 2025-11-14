@@ -2,9 +2,8 @@ class_name EnemySpawnerController
 
 extends Node
 
-@export var enabled: bool = false
 @export var arena_map: ArenaMap
-
+var enabled: bool = false
 var player: PlayerController
 var current_zone: ArenaZone
 var zone_current_enemy: Dictionary[ArenaZone, int] = {}
@@ -14,16 +13,15 @@ var _enemy_scene_cache: Dictionary = {}
 @onready var spawn_timer: Timer = %SpawnTimer
 
 
-func _ready() -> void:
-	if not enabled:
-		queue_free()
-		return
-
+func setup() -> void:
+	enabled = arena_map.enabled
 	arena_map.player_entered.connect(_on_player_entered)
 	arena_map.player_exited.connect(_on_player_exited)
 
 
 func _on_player_entered(zone: ArenaZone) -> void:
+	if not enabled:
+		return
 	if zone.get_name() == "StabilityZone":
 		_stop_spawning()
 		return

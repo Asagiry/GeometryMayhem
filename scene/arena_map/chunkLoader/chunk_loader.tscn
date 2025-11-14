@@ -5,14 +5,17 @@
 [node name="ChunkLoader" type="Node"]
 script = ExtResource("1_a36a7")
 
-[node name="QueryTimer" type="Timer" parent="."]
+[node name="FrequencyTimer" type="Timer" parent="."]
 unique_name_in_owner = true
+wait_time = 0.1
 autostart = true
 ignore_time_scale = true
 
-[node name="UnloadTimer" type="Timer" parent="."]
+[node name="QueryTimer" type="Timer" parent="."]
 unique_name_in_owner = true
+wait_time = 0.1
 autostart = true
+ignore_time_scale = true
 
+[connection signal="timeout" from="FrequencyTimer" to="." method="_on_frequency_timer_timeout"]
 [connection signal="timeout" from="QueryTimer" to="." method="_on_query_timer_timeout"]
-[connection signal="timeout" from="UnloadTimer" to="." method="_on_unload_timer_timeout"]

@@ -15,8 +15,11 @@ extends CanvasLayer
 @onready var fps_label: Label = %FpsLabel
 
 
-func _physics_process(_delta: float) -> void:
-	fps_label.text = "FPS = " + str(Engine.get_frames_per_second())
+func _process(delta: float) -> void:
+	# delta — время предыдущего кадра в секундах
+	var frame_time_ms = delta * 1000.0
+	fps_label.text = "FPS: %d | Frame: %.2f ms" % [Engine.get_frames_per_second(),
+	frame_time_ms]
 
 func _ready() -> void:
 	_health_setup()
@@ -41,7 +44,7 @@ func _resonance_setup():
 	Global.impulse_amount_changed.connect(_on_resonance_changed)
 	_on_resonance_changed(player.resonance_component.current_impulse,
 	player.resonance_component.current_level,
-	player.resonance_component.get_max_impulse(),
+	player.resonance_component.get_current_level_requirement(),
 	)
 
 
