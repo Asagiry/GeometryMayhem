@@ -36,29 +36,9 @@ var _fields := [
 	"attack_cd_multiplier",
 	"attack_duration_multiplier",
 	"invulnerable",
-	"percent_of_max_health"
+	"percent_of_max_health",
+	"attack_range_multiplier"
 ]
-
-func _init(
-	p_speed_multiplier: float = DEFAULT_MULTIPLIER,
-	p_attack_multiplier: float = DEFAULT_MULTIPLIER,
-	p_armor_multiplier: float = DEFAULT_MULTIPLIER,
-	p_forward_receiving_damage_multiplier: float = DEFAULT_MULTIPLIER,
-	p_attack_cd_multiplier: float = DEFAULT_MULTIPLIER,
-	p_attack_duration_multiplier: float = DEFAULT_MULTIPLIER,
-	p_invulnerable: bool = false,
-	p_percent_of_max_health: float = DEFAULT_MULTIPLIER,
-	p_attack_range_multiplier: float = DEFAULT_MULTIPLIER
-) -> void:
-	speed_multiplier = p_speed_multiplier
-	attack_multiplier = p_attack_multiplier
-	armor_multiplier = p_armor_multiplier
-	forward_receiving_damage_multiplier = p_forward_receiving_damage_multiplier
-	attack_cd_multiplier = p_attack_cd_multiplier
-	attack_duration_multiplier = p_attack_duration_multiplier
-	percent_of_max_health = p_percent_of_max_health
-	invulnerable = p_invulnerable
-	attack_range_multiplier = p_attack_range_multiplier
 
 
 func reset() -> void:
@@ -106,6 +86,10 @@ func set_invulnerable(value: bool) -> void:
 
 func set_percent_of_max_health_multiplier(value: float) -> void:
 	percent_of_max_health = clampf(value, MIN_MULTIPLIER, MAX_MULTIPLIER)
+
+
+func set_attack_range_multiplier(value: float) -> void:
+	attack_range_multiplier = clampf(value, MIN_MULTIPLIER, MAX_MULTIPLIER)
 
 
 func to_dict() -> Dictionary:

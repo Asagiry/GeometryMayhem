@@ -1,5 +1,6 @@
 class_name HealthComponent
-extends OwnerAwareComponent
+
+extends BaseComponent
 
 signal died
 signal health_decreased(current_health, max_health)

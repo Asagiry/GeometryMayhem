@@ -32,7 +32,7 @@ signal stat_changed(stat_name: String, old_value, new_value)
 @export var magic_find: float
 
 var _previous_values: Dictionary = {}
-# Специальные геттеры для DamageData amount
+
 func get_attack_damage_amount() -> float:
 	return attack_damage.amount if attack_damage else 0.0
 
@@ -54,9 +54,8 @@ func set_parry_damage_amount(value: float) -> void:
 		parry_damage.amount = value
 		stat_changed.emit("parry_damage_amount", old_value, value)
 
-# Автообновление через _set
+
 func _set(property: StringName, value) -> bool:
-	# Обрабатываем специальные свойства DamageData
 	if property == "attack_damage_amount":
 		set_attack_damage_amount(value)
 		return true
@@ -65,7 +64,6 @@ func _set(property: StringName, value) -> bool:
 		set_parry_damage_amount(value)
 		return true
 
-	# Обычные свойства
 	if not property in _previous_values:
 		_previous_values[property] = get(property)
 
@@ -76,7 +74,7 @@ func _set(property: StringName, value) -> bool:
 		stat_changed.emit(property, old_value, value)
 	return true
 
-# Универсальный get для поддержки специальных свойств
+
 func _get(property: StringName):
 	if property == "attack_damage_amount":
 		return get_attack_damage_amount()
@@ -86,11 +84,11 @@ func _get(property: StringName):
 
 	return null
 
-# Универсальный set_stat для внешнего использования
+
 func set_stat(stat_name: String, value) -> void:
 	_set(stat_name, value)
 
-# Универсальный get_stat для внешнего использования
+
 func get_stat(stat_name: String):
 	var result = _get(stat_name)
 	if result != null:

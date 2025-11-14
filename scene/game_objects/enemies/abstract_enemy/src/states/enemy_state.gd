@@ -18,4 +18,5 @@ func _init(enemy_controller: EnemyController) -> void:
 
 
 func _on_stun_applied(duration: float):
-	state_machine.states["PlayerStunState"].set_duration(duration)
+	if (state_machine.current_state.get_state_name() == get_state_name()):
+		state_machine.states["EnemyStunState"].set_duration(duration)

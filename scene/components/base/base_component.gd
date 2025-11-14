@@ -1,5 +1,4 @@
-# OwnerAwareComponent.gd
-class_name OwnerAwareComponent
+class_name BaseComponent
 
 extends Node
 
@@ -18,16 +17,14 @@ func _setup_owner_reference():
 		push_error("Component has no owner: ", name)
 		return
 
-	# Получаем stats разными способами для гибкости
 	if owner_node.has_method("get_stats"):
 		owner_stats = owner_node.get_stats()
-	elif _owner_has_property("stats"):
-		owner_stats = owner_node.stats
+		if !owner_stats:
+			push_error("Owner Node: ", owner_node, " has not stats(stats is NULL)")
 	else:
-		push_warning("Owner doesn't have stats: ", owner_node.name)
+		push_warning("Owner doesn't have get_stats method: ", owner_node.name)
 		return
 
-	# Подписываемся на изменения статов, если сигнал существует
 	if owner_stats and owner_stats.has_signal("stat_changed"):
 		owner_stats.stat_changed.connect(_on_owner_stat_changed)
 

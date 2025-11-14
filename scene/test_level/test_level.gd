@@ -5,9 +5,9 @@ const PAUSE_MENU_SCENE = preload("res://scene/UI/pause_menu/pause_menu.tscn")
 @onready var camera_2d: Camera2D = %Camera2D
 @onready var test_ui: CanvasLayer = $Test_ui
 @onready var arena_time_ui: Control = $ArenaTimeUI
-@onready var enemy_spawner: EnemySpawnerController = $EnemySpawnerController
+#@onready var enemy_spawner: EnemySpawnerController = $EnemySpawnerController
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready() -> void:
 	Global.player_died.connect(_on_player_died)
 	arena_time_ui.game_timer.timeout.connect(_on_game_timer_timeout)
@@ -34,5 +34,5 @@ func _on_player_died():
 
 
 func _on_game_timer_timeout():
-	enemy_spawner.disable_spawning()
+	#enemy_spawner.disable_spawning()
 	Global.game_timer_timeout.emit()

@@ -1,5 +1,5 @@
 class_name ParryController
-extends OwnerAwareComponent  # Меняем наследование
+extends BaseComponent # Меняем наследование
 
 signal parry_started()
 signal parry_finished()
@@ -35,10 +35,8 @@ func _setup_owner_reference():
 	else:
 		player = get_tree().get_first_node_in_group("player") as PlayerController
 
-	# Создаем экземпляр парри (но не добавляем в сцену пока не активируем)
 	if parry_scene:
 		parry_instance = parry_scene.instantiate() as Parry
-		# Инициализируем с текущими статами
 		parry_instance.init(get_angle(), get_radius())
 
 
@@ -250,4 +248,4 @@ func get_duration() -> float:
 
 
 func get_parry_damage() -> DamageData:
-	return get_stat("parry_damage", null)
+	return get_stat("parry_damage")
