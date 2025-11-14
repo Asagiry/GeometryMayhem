@@ -10,14 +10,11 @@ var zone_current_enemy: Dictionary[ArenaZone, int] = {}
 var spawn_active: bool = true
 var _enemy_scene_cache: Dictionary = {}
 
-@onready var mobs_frequency_timer: Timer = %MobsFrequencyTimer
 @onready var spawn_timer: Timer = %SpawnTimer
 
 
 func setup() -> void:
 	enabled = arena_map.enabled
-
-	mobs_frequency_timer.start(arena_map.mobs_frequency_wait_time)
 
 	arena_map.player_entered.connect(_on_player_entered)
 	arena_map.player_exited.connect(_on_player_exited)
@@ -133,7 +130,3 @@ func _on_enemy_died(zone: ArenaZone) -> void:
 	if zone_current_enemy.has(zone):
 		zone_current_enemy[zone] = max(0, zone_current_enemy[zone] - 1)
 		print("Текущее количество врагов в зоне %s: %d" % [zone.get_name(), zone_current_enemy[zone]])
-
-
-func _on_mobs_frequency_timer_timeout() -> void:
-	Global.update_enemy_state.emit()

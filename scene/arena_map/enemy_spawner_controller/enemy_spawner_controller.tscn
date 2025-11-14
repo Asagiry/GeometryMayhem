@@ -9,11 +9,4 @@ script = ExtResource("1_2ic72")
 unique_name_in_owner = true
 autostart = true
 
-[node name="MobsFrequencyTimer" type="Timer" parent="." groups=["MobFrequencyTimer"]]
-unique_name_in_owner = true
-wait_time = 0.1
-autostart = true
-ignore_time_scale = true
-
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
-[connection signal="timeout" from="MobsFrequencyTimer" to="." method="_on_mobs_frequency_timer_timeout"]

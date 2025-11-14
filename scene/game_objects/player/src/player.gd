@@ -73,3 +73,7 @@ func _on_collision_disabled(status: bool) -> void:
 
 func get_stats():
 	return stats
+
+func set_stun_state(duration: float):
+	state_machine.current_state._stun_applied(duration)
+	is_stunned = true

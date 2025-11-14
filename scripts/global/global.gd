@@ -1,7 +1,6 @@
 extends Node
 
 signal enemy_died(stats)
-signal update_enemy_state()
 
 signal impulse_amount_changed(
 	current_impulse: int,

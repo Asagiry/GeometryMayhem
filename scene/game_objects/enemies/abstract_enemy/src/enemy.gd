@@ -10,7 +10,7 @@ signal enemy_died()
 var is_stunned: bool = false
 var get_back: bool = false
 
-@onready var state_machine: StateMachine = %EnemyStateMachine
+@onready var state_machine: EnemyStateMachine = %EnemyStateMachine
 
 @onready var health_component: HealthComponent = %HealthComponent
 @onready var armor_component: ArmorComponent = %ArmorComponent
@@ -72,6 +72,11 @@ func _on_died():
 	enemy_died.emit()
 	Global.enemy_died.emit(stats)
 	queue_free()
+
+
+func set_stun(duration):
+	is_stunned = true
+	state_machine.set_stun(duration)
 
 
 func set_spawn_point(spawn_point: Vector2):
