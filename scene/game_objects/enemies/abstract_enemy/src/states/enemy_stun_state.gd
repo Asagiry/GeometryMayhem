@@ -19,11 +19,10 @@ func enter() -> void:
 
 
 func process(delta: float) -> void:
-	stun_duration-=delta
+	stun_duration -= delta
 	enemy.move_and_collide(Vector2.ZERO)
-	if stun_duration <= 0.0 or !enemy.is_stunned:
+	if stun_duration <= 0.0:
 		enemy.is_stunned = false
-		stun_duration = 0.0
 		state_machine._on_update_enemy_state()
 
 

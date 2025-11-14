@@ -412,5 +412,4 @@ func set_leave_stun_state():
 
 
 func set_stun_state(duration: float):
-	stun_applied.emit(duration)
-	owner.is_stunned = true
+	owner.set_stun(duration)

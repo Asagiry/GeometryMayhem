@@ -23,7 +23,6 @@ func _init(player_controller: PlayerController) -> void:
 	attack_controller = player.attack_controller
 	parry_controller = player.parry_controller
 	effect_receiver = player.effect_receiver
-	effect_receiver.stun_applied.connect(_on_stun_applied)
 
 
 func _on_stun_applied(duration: float):
