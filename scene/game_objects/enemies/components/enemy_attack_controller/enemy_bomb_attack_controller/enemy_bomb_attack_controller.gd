@@ -25,7 +25,7 @@ func _create_and_setup_attack_instance():
 func _setup_attack_instance(attack_instance):
 	attack_instance.global_position = owner.global_position
 	attack_instance.set_enemy(owner)
-	attack_instance.set_explosion_range(attack_range)
+	attack_instance.set_explosion_range(get_attack_range())
 	_set_damage(attack_instance)
 
 

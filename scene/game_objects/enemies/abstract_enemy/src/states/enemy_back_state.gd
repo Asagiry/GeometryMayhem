@@ -17,14 +17,17 @@ func physics_process(_delta: float) -> void:
 	if (enemy.movement_component.is_reached_spawn_point()):
 		state_machine.transition(EnemyIdleState.state_name)
 
+
 func _on_player_entered_aggro(body:CharacterBody2D):
 	if (state_machine.current_state.get_state_name() == get_state_name()):
 		if body is PlayerController:
 			state_machine.transition(EnemyAggroState.state_name)
 
+
 func _on_stun_applied(duration: float):
 	super(duration)
-	state_machine.transition(PlayerStunState.state_name)
+	state_machine.transition(EnemyStunState.state_name)
+
 
 func get_state_name() -> String:
 	return state_name

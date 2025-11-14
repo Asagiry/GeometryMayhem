@@ -4,7 +4,6 @@ extends CharacterBody2D
 
 #region var
 @export var stats: PlayerStatData
-
 @export var effects: Array[Effect]
 @export var effect_receiver: EffectReceiver
 
@@ -70,3 +69,7 @@ func _on_collision_disabled(status: bool) -> void:
 	set_collision_layer_value(2, !status)
 	set_collision_mask_value(3, !status)
 	player_hurt_box.set_collision_layer_value(9, !status)
+
+
+func get_stats():
+	return stats

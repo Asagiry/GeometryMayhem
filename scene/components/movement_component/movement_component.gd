@@ -1,5 +1,5 @@
 class_name MovementComponent
-extends OwnerAwareComponent  # Меняем наследование
+extends BaseComponent # Меняем наследование
 
 var entity: CharacterBody2D
 var current_speed: float = 0.0

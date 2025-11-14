@@ -121,7 +121,6 @@ func _on_chunk_body_entered(body: Node2D, chunk_entered: ChunkData):
 		if chunk.is_loaded and not (chunk in chunks_to_load):
 			i+=1
 			chunk.unload_chunk()
-	print(i)
 	for chunk in chunks_to_load:
 		if not chunk.is_loaded:
 			chunk.load_chunk()
