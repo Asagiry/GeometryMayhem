@@ -2,13 +2,13 @@ class_name EnemyStateMachine
 
 extends StateMachine
 
-var player: PlayerController
-var enemy: EnemyController
-
 enum PlayerVisibility {
 	AGGRO,
 	ATTACK
 }
+
+var player: PlayerController
+var enemy: EnemyController
 
 var player_zones: Dictionary = {
 	PlayerVisibility.ATTACK: false,
