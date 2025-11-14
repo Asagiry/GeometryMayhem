@@ -1,15 +1,13 @@
 class_name PlayerAttackController
 
 #region variables
-extends OwnerAwareComponent
+extends BaseComponent
 
 signal attack_started
 signal attack_finished
 signal attack_cd_timeout
 
 @export var dash_attack_scene: PackedScene
-
-var damage_data: DamageData
 
 var is_dash_from_mouse: bool = false
 var player: PlayerController
@@ -46,11 +44,6 @@ func _setup_owner_reference():
 		player = owner_node
 	else:
 		player = get_tree().get_first_node_in_group("player") as PlayerController
-
-	# Инициализируем damage_data
-	if player and player.stats:
-		damage_data = player.stats.attack_damage
-		print("Damage data инициализирована: ", damage_data)
 
 
 func _setup_stat_subscriptions():
@@ -106,13 +99,14 @@ func activate_dash(input_state: bool):
 
 func _create_dash_instance():
 	var dash_attack_instance = dash_attack_scene.instantiate() as DashAttack
+	dash_attack_instance.position = _start_pos
 	get_tree().get_first_node_in_group("front_layer").add_child(dash_attack_instance)
 	return dash_attack_instance
 
 
 func _set_damage(dash_attack_instance: DashAttack):
-	damage_data.amount *= damage_multiplier
-	dash_attack_instance.hit_box_component.damage_data = damage_data
+	dash_attack_instance.hit_box_component.damage_data = get_attack_damage()
+	dash_attack_instance.hit_box_component.damage_data.amount *= damage_multiplier
 
 
 func _disable_player_hurt_box(disable: bool):
@@ -234,7 +228,7 @@ func get_dash_width() -> float:
 
 
 func get_attack_damage() -> DamageData:
-	return get_stat("attack_damage") * damage_multiplier
+	return get_stat("attack_damage")
 
 
 func get_duration() -> float:
@@ -242,8 +236,12 @@ func get_duration() -> float:
 
 
 func get_dash_range() -> float:
-	return get_stat("attack_range")
+	return get_stat("attack_range") * attack_range_multiplier
 
 
 func get_cooldown() -> float:
 	return get_stat("attack_cd") * attack_cd_multiplier
+
+
+func get_damage() -> float:
+	return get_stat("attack_damage") * damage_multiplier

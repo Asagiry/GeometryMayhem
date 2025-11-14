@@ -7,7 +7,7 @@ signal stun_finished
 
 static var state_name = "EnemyStunState"
 
-var stun_duration:float = 1
+var stun_duration: float = 1.0
 
 func set_duration(duration: float):
 	stun_duration = duration
@@ -15,20 +15,19 @@ func set_duration(duration: float):
 
 func enter() -> void:
 	stun_started.emit()
+	enemy.animated_sprite_2d.stop()
 
 
-func physics_process(delta: float) -> void:
-	if enemy.is_stunned == false:
-		state_machine.transition(PlayerMovementState.state_name)
-	stun_duration-=delta
+func process(delta: float) -> void:
+	stun_duration -= delta
 	enemy.move_and_collide(Vector2.ZERO)
-	if(stun_duration <= 0.0):
-		state_machine.transition(PlayerMovementState.state_name)
+	if stun_duration <= 0.0:
+		enemy.is_stunned = false
+		state_machine._on_update_enemy_state()
 
 
 func exit():
 	stun_finished.emit()
-	enemy.is_stunned = false
 
 
 func get_state_name() -> String:

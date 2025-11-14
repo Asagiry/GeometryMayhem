@@ -5,8 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://b8e756uh8l7wr" path="res://assets/mobs/melee/Easy/1/AGGRO/AGGRO1.png" id="2_xvgj7"]
 [ext_resource type="Script" uid="uid://cyitjknl16852" path="res://scripts/data/damage/damage_data.gd" id="2_yggd7"]
 [ext_resource type="Texture2D" uid="uid://b8up831hux8i0" path="res://assets/mobs/melee/Easy/1/AGGRO/AGGRO2.png" id="3_cb8vt"]
-[ext_resource type="Script" uid="uid://5m7cpflvnie8" path="res://base/state_machine.gd" id="3_pavkp"]
 [ext_resource type="Texture2D" uid="uid://baxjtia34up47" path="res://assets/mobs/melee/Easy/1/AGGRO/AGGRO3.png" id="4_a0f03"]
+[ext_resource type="Script" uid="uid://bph7rgfajg2et" path="res://scene/game_objects/enemies/abstract_enemy/src/states/enemy_state_machine.gd" id="4_xbs3f"]
 [ext_resource type="PackedScene" uid="uid://bl380xv78onc8" path="res://scene/components/effect_receiver/effect_receiver.tscn" id="4_xvgj7"]
 [ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="5_cb8vt"]
 [ext_resource type="Texture2D" uid="uid://bn3bkjrudpubs" path="res://assets/mobs/melee/Easy/1/ATTACK/ATTACK1.png" id="5_pgduy"]
@@ -29,19 +29,19 @@ metadata/_custom_type_script = "uid://cyitjknl16852"
 
 [sub_resource type="Resource" id="Resource_ykpwj"]
 script = ExtResource("2_4shhi")
-max_health = 100.0
+max_health = 2000.0
 max_speed = 100.0
 acceleration = 9.0
 rotation_speed = 9.0
 attack_damage = SubResource("Resource_s0nn8")
 attack_cd = 1.0
 attack_duration = 1.0
+attack_range = 25.0
 knowledge_count = 10
 echo_chance = 0.2
 echo_count = 10
 impulse_count = 110
 aggro_range = 150.0
-attack_range = 25.0
 attack_range_zone = 40.0
 metadata/_custom_type_script = "uid://vean0446eao1"
 
@@ -99,7 +99,7 @@ size = Vector2(16, 16)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c73ew"]
 size = Vector2(16, 16)
 
-[node name="Melee_enemy_1" type="CharacterBody2D" node_paths=PackedStringArray("effect_receiver") groups=["enemy"]]
+[node name="MeleeEnemy1" type="CharacterBody2D" node_paths=PackedStringArray("effect_receiver") groups=["enemy"]]
 collision_layer = 4
 collision_mask = 5
 script = ExtResource("1_w1pxg")
@@ -108,7 +108,7 @@ effect_receiver = NodePath("EffectReceiver")
 
 [node name="EnemyStateMachine" type="Node" parent="."]
 unique_name_in_owner = true
-script = ExtResource("3_pavkp")
+script = ExtResource("4_xbs3f")
 
 [node name="EffectReceiver" parent="." instance=ExtResource("4_xvgj7")]
 unique_name_in_owner = true

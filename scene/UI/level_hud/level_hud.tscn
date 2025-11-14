@@ -1,15 +1,19 @@
-[gd_scene load_steps=8 format=3 uid="uid://4t3ckdvi728j"]
+[gd_scene load_steps=9 format=3 uid="uid://4t3ckdvi728j"]
 
 [ext_resource type="Script" uid="uid://ddmlacvfkc5sk" path="res://scene/UI/level_hud/level_hud.gd" id="1_4q383"]
 [ext_resource type="PackedScene" uid="uid://dbtp7vxslxtvp" path="res://scene/UI/level_hud/elements/minimap/mini_map.tscn" id="2_d8w8s"]
 [ext_resource type="PackedScene" uid="uid://4a1xvj1y4hm" path="res://scene/test_level/arena_time_ui.tscn" id="3_4q383"]
 [ext_resource type="PackedScene" uid="uid://xg4bnnehfsvo" path="res://scene/UI/level_hud/elements/bar/resonanceBar/resonance_bar.tscn" id="3_pamlj"]
-[ext_resource type="PackedScene" uid="uid://cu1qcqekr6kso" path="res://scene/UI/level_hud/elements/bar/healthBar/health_bar.tscn" id="3_xa13n"]
+[ext_resource type="PackedScene" uid="uid://dt8au7l066p61" path="res://scene/UI/level_hud/elements/bar/healthBar/health_bar.tscn" id="3_xa13n"]
 [ext_resource type="PackedScene" uid="uid://ctiqrkp51uyft" path="res://scene/UI/level_hud/elements/bar/cooldownBar/cooldown_bar.tscn" id="4_d8w8s"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_d8w8s"]
 font_size = 12
 outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_4q383"]
+outline_size = 2
 outline_color = Color(0, 0, 0, 1)
 
 [node name="LevelHUD" type="CanvasLayer"]
@@ -140,7 +144,6 @@ size_flags_stretch_ratio = 0.2
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
-expand_mode = 2
 
 [node name="Control" type="Control" parent="MarginContainer/VBoxContainer/BottomHBOX"]
 layout_mode = 2
@@ -150,3 +153,4 @@ size_flags_horizontal = 3
 unique_name_in_owner = true
 layout_mode = 2
 text = "FPS = "
+label_settings = SubResource("LabelSettings_4q383")

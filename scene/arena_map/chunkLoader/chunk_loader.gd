@@ -1,20 +1,48 @@
 class_name ChunkLoader
 extends Node
 
-@export var draw_distance: int
 @export var arena_map: ArenaMap
 
+var chunk_size_str: String
+var chunk_size: float:
+	get:
+		return float(chunk_size_str)
+var draw_distance: int
+var frequency_wait_time: float
+var query_wait_time: float
+
+
 var tile_data: Dictionary = {}
-var chunk_areas: Array[ChunkData] = []
-var last_loaded_chunks: Array[ChunkData] = []
+var chunk_by_coord: Dictionary = {}
+var chunks_loaded: Dictionary = {}
+var chunks_to_load: Array[ChunkData] = []
+var chunks_to_unload: Array[ChunkData] = []
+
+var player: PlayerController = null
+var last_chunk: ChunkData = null
 var is_enabled: bool = true
 
 @onready var chunks: Node = %Chunks
+@onready var query_timer: Timer = %QueryTimer
+@onready var frequency_timer: Timer = %FrequencyTimer
+
+
 
 func setup():
-	chunk_areas.clear()
-	tile_data.clear()
+	chunk_size_str = arena_map.chunk_size_str
+	draw_distance = arena_map.draw_distance
+	frequency_wait_time = arena_map.frequency_wait_time
+	query_wait_time = arena_map.query_wait_time
 
+	player = arena_map.player
+	tile_data.clear()
+	chunk_by_coord.clear()
+	chunks_loaded.clear()
+
+	frequency_timer.wait_time = frequency_wait_time
+	frequency_timer.start()
+	query_timer.wait_time = query_wait_time
+	query_timer.start()
 	for arena_zone in arena_map.arena_zones:
 		_get_tile_data(arena_zone)
 		arena_zone.clear()
@@ -41,32 +69,19 @@ func _create_chunk_areas(arena_zone: ArenaZone):
 
 	var chunks_map: Dictionary = {}
 	for cell_pos in zone_data:
-		var chunk_key = Vector2i(floor(cell_pos.x / 16.0), floor(cell_pos.y / 16.0))
+		var chunk_key = Vector2i(floor(cell_pos.x / chunk_size), floor(cell_pos.y / chunk_size))
 		if not chunks_map.has(chunk_key):
 			chunks_map[chunk_key] = []
 		chunks_map[chunk_key].append(cell_pos)
 
 	for chunk_key in chunks_map:
-		var area = Area2D.new()
-		area.name = "ChunkArea_%d_%d" % [chunk_key.x, chunk_key.y]
-		area.set_collision_mask_value(2,true)
-		area.z_index = 1
-		var shape = CollisionShape2D.new()
-		var rect = RectangleShape2D.new()
-		rect.size = Vector2(256, 256)
-		shape.shape = rect
-		area.add_child(shape)
-		shape.owner = area
 
-		area.position = Vector2(
-			chunk_key.x * 256.0 + 128.0,
-			chunk_key.y * 256.0 + 128.0
-		)
+		var chunk_res = ChunkData.new(arena_map,
+		chunk_key,
+		chunk_size)
 
-		# Создаём ChunkData
-		var chunk_res = ChunkData.new(arena_map)
 		chunk_res.arena_zone = arena_zone
-		chunk_res.area = area
+		chunk_res.chunk_coord = chunk_key
 
 		var tile_array: Array[Dictionary] = []
 		for cell_pos in chunks_map[chunk_key]:
@@ -75,56 +90,106 @@ func _create_chunk_areas(arena_zone: ArenaZone):
 				"data": tile_data[arena_zone][cell_pos]
 			})
 		chunk_res.tile_array = tile_array
-
-		if (arena_zone.get_zone_name() == "stability"):
-				chunk_res.load_chunk()
-		chunk_areas.append(chunk_res)
-
-		area.connect("body_entered", Callable(self, "_on_chunk_body_entered").bind(chunk_res))
+		chunk_by_coord[chunk_key] = chunk_res
 
 
-func _on_chunk_body_entered(body: Node2D, chunk_entered: ChunkData):
-	if body is not PlayerController:
+
+func _on_query_timer_timeout() -> void:
+	var operations = 0
+
+	if chunks_to_load.size()>0:
+		var chunk = chunks_to_load[0]
+		chunk.load_chunk()
+		chunks_loaded[chunk.chunk_coord] = chunk
+		chunks_to_load.remove_at(0)
+		operations+=1
+
+	if chunks_to_unload.size()>0:
+		var chunk = chunks_to_unload[0]
+		chunk.unload_chunk()
+		chunks_loaded.erase(chunk.chunk_coord)
+		chunks_to_unload.remove_at(0)
+		operations+=1
+
+	if (operations == 0):
+		query_timer.stop()
+
+func _on_frequency_timer_timeout() -> void:
+	var current_chunk = get_current_chunk()
+
+	if current_chunk == last_chunk:
 		return
 
-	if !is_enabled:
-		return
+	last_chunk = current_chunk
 
-	is_enabled = false
-	var timer := Timer.new()
-	timer.one_shot = true
-	timer.wait_time = 1.0
-	timer.timeout.connect(func(): is_enabled = true)
-	add_child(timer)
-	timer.start()
+	_handle_chunks(current_chunk)
 
-	var area = chunk_entered.area
+	query_timer.start(query_wait_time)
 
-	var current_coord = Vector2i(
-		floor((area.position.x - 128.0) / 256.0),
-		floor((area.position.y - 128.0) / 256.0)
-	)
 
-	# Собираем чанки, которые ДОЛЖНЫ быть загружены
-	var chunks_to_load: Array[ChunkData] = []
-	for chunk in chunk_areas:
-		var coord = Vector2i(
-			floor((chunk.area.position.x - 128.0) / 256.0),
-			floor((chunk.area.position.y - 128.0) / 256.0)
-		)
-		var dist = max(abs(coord.x - current_coord.x), abs(coord.y - current_coord.y))
-		if dist <= draw_distance:
+func _handle_chunks(current_chunk: ChunkData):
+
+	chunks_to_load = []
+
+	var chunks_in_radius: Array[ChunkData] = get_disk_chunks_around_chunk(current_chunk)
+
+	for chunk in chunks_in_radius:
+		if not chunks_loaded.has(chunk.chunk_coord):
 			chunks_to_load.append(chunk)
 
-	var i = 0
-	for chunk in last_loaded_chunks:
-		if chunk.is_loaded and not (chunk in chunks_to_load):
-			i+=1
-			chunk.unload_chunk()
-	print(i)
-	for chunk in chunks_to_load:
-		if not chunk.is_loaded:
-			chunk.load_chunk()
+	chunks_to_unload = []
+	for coord in chunks_loaded.keys():
+		var chunk: ChunkData = chunks_loaded[coord]
+		if not (chunk in chunks_in_radius):
+			chunks_to_unload.append(chunk)
 
-	# Обновляем список активных чанков
-	last_loaded_chunks = chunks_to_load
+	#print("to_load: %d, to_unload: %d" % [chunks_to_load.size(), chunks_to_unload.size()])
+
+
+
+
+func get_current_chunk() -> ChunkData:
+	const TILE_SIZE = 16  # пикселей на тайл
+
+	# Позиция игрока в тайлах
+	var player_tile = Vector2i(player.global_position) / TILE_SIZE
+
+	# Позиция чанка = тайлы / chunk_size
+	var chunk_coord = Vector2i(
+		floor(player_tile.x / chunk_size),
+		floor(player_tile.y / chunk_size)
+	)
+
+	return chunk_by_coord.get(chunk_coord, null)
+
+
+func get_ring_chunks_around_chunk(center_chunk: ChunkData,
+radius: int = draw_distance) -> Array[ChunkData]:
+	if radius == 0:
+		return [center_chunk]
+
+	var result: Array[ChunkData] = []
+
+	for dy in range(-radius, radius + 1):
+		for dx in range(-radius, radius + 1):
+			if abs(dx) != radius and abs(dy) != radius:
+				continue
+
+			var target_coord = center_chunk.chunk_coord + Vector2i(dx, dy)
+			if chunk_by_coord.has(target_coord):
+				result.append(chunk_by_coord[target_coord])
+
+	return result
+
+
+func get_disk_chunks_around_chunk(center_chunk: ChunkData,
+radius: int = draw_distance) -> Array[ChunkData]:
+	var result: Array[ChunkData] = []
+
+	for dy in range(-radius, radius + 1):
+		for dx in range(-radius, radius + 1):
+			var target_coord = center_chunk.chunk_coord + Vector2i(dx, dy)
+			if chunk_by_coord.has(target_coord):
+				result.append(chunk_by_coord[target_coord])
+
+	return result

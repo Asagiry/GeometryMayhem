@@ -1,96 +1,85 @@
 class_name ChunkData
 extends Resource
 
+const TILE_PIXEL_SIZE = 16
+
 var arena_zone: ArenaZone = null
 var tile_array: Array[Dictionary] = []
+var chunk_coord: Vector2i = Vector2i.ZERO
+var chunk_size: float = 16
 var area: Area2D = null
 var is_loaded: bool = false
 
 var arena_map: ArenaMap = null
 var chunks_folder: Node = null
 
-var _thread: Thread = null
-var _cancelled: bool = false
-
-func _init(p_arena_map) -> void:
+func _init(p_arena_map: ArenaMap,
+p_chunk_coords,
+p_chunk_size
+) -> void:
 	arena_map = p_arena_map
 	chunks_folder = arena_map.chunks
+	chunk_coord = p_chunk_coords
+	chunk_size = p_chunk_size
+	_create_area()
 
 
-# ---------------------------
-# Асинхронная загрузка чанка
-# ---------------------------
+func _create_area():
+	var chunk_size_px = chunk_size * TILE_PIXEL_SIZE
+
+	# --- Area2D (оставляем как есть) ---
+	area = Area2D.new()
+	area.name = "ChunkArea_%d_%d" % [chunk_coord.x, chunk_coord.y]
+	area.z_index = 1
+	area.monitorable = false
+	area.monitoring = false
+	area.collision_layer = 0
+	area.collision_mask = 0
+
+	var shape = CollisionShape2D.new()
+	var rect = RectangleShape2D.new()
+	rect.size = Vector2(chunk_size_px, chunk_size_px)
+	shape.shape = rect
+
+	area.add_child(shape)
+	area.position = Vector2(
+		chunk_coord.x * chunk_size_px + chunk_size_px / 2,
+		chunk_coord.y * chunk_size_px + chunk_size_px / 2
+	)
+
+
+
 func load_chunk() -> void:
-	if is_loaded or _thread:
+	if is_loaded:
 		return
 
-	is_loaded = true
-	_cancelled = false
-
-	_thread = Thread.new()
-	_thread.start(_thread_load_chunk)
-
-
-func unload_chunk() -> void:
-	if !is_loaded:
-		return
-
-	_cancelled = true
-	is_loaded = false
-
-	# Очищаем тайлы (синхронно)
-	_unload_chunk_to_tilemap()
-
-	# Удаляем зону из дерева
-	if area and area.get_parent() == chunks_folder:
-		chunks_folder.remove_child(area)
-
-	# Дожидаемся завершения потока, если он ещё работает
-	if _thread:
-		_thread.wait_to_finish()
-		_thread = null
-
-
-# ---------------------------
-# Поток — подготавливает данные
-# ---------------------------
-func _thread_load_chunk() -> void:
-	var prepared_data: Array = []
-
+	# Загружаем тайлы
 	for entry in tile_array:
-		if _cancelled:
-			return
-		prepared_data.append(entry)
-
-	# Передаём готовый массив в основной поток
-	call_deferred("_apply_chunk_data", prepared_data)
-
-
-# ---------------------------
-# Применение в основном потоке
-# ---------------------------
-func _apply_chunk_data(prepared_data: Array) -> void:
-	if _cancelled:
-		return
-
-	for entry in prepared_data:
 		var pos: Vector2i = entry.pos
 		var data: Dictionary = entry.data
 		arena_zone.set_cell(pos, data.source, data.atlas, data.alt)
 
-	# Добавляем area обратно в сцену
+	# Добавляем Area2D в сцену
 	if area and area.get_parent() != chunks_folder:
 		chunks_folder.add_child(area)
 
-	# Поток закончил
-	if _thread:
-		_thread.wait_to_finish()
-		_thread = null
+	is_loaded = true
 
 
-# ---------------------------
-# Выгрузка чанка
-# ---------------------------
+func unload_chunk() -> void:
+	if not is_loaded:
+		return
+
+	# Удаляем тайлы
+	_unload_chunk_to_tilemap()
+
+	# Убираем Area2D из сцены
+	if area and area.get_parent() == chunks_folder:
+		chunks_folder.remove_child(area)
+
+	is_loaded = false
+
+
 func _unload_chunk_to_tilemap() -> void:
 	for entry in tile_array:
 		var pos: Vector2i = entry.pos

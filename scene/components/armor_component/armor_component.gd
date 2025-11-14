@@ -1,5 +1,5 @@
 class_name ArmorComponent
-extends OwnerAwareComponent  # Меняем наследование
+extends BaseComponent  # Меняем наследование
 
 var armor_multiplier: float = 1.0
 var effect_receiver: EffectReceiver

@@ -30,15 +30,6 @@ func start_swing():
 		.set_trans(Tween.TRANS_CUBIC) \
 		.set_ease(Tween.EASE_OUT)
 
-	#tween.finished.connect(end_swing)
-
-
-#func end_swing():
-	#var tween = create_tween()
-	#tween.tween_property($AnimatedSprite2D, "rotation", 0.0, 0.3) \
-		#.set_trans(Tween.TRANS_CUBIC) \
-		#.set_ease(Tween.EASE_IN)
-
 
 func set_enemy(p_enemy):
 	enemy = p_enemy

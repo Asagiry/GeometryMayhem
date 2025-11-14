@@ -1,22 +1,31 @@
-[gd_scene load_steps=8 format=3 uid="uid://vwuw6r5inl58"]
+[gd_scene load_steps=11 format=3 uid="uid://vwuw6r5inl58"]
 
 [ext_resource type="Script" uid="uid://iyvadf7lx683" path="res://scene/test_level/effect_choose.gd" id="1_m7682"]
-[ext_resource type="Script" uid="uid://crr37x8e18o8b" path="res://scene/test_level/player_receive.gd" id="1_ua26r"]
+[ext_resource type="Script" uid="uid://crr37x8e18o8b" path="res://scene/test_level/test_ui_main_script.gd" id="1_ua26r"]
 [ext_resource type="Script" uid="uid://ctd343g7w8ayi" path="res://scene/test_level/behavior_choose.gd" id="2_ljpay"]
 [ext_resource type="Script" uid="uid://0n7yfkwgwees" path="res://scene/test_level/stat_choose.gd" id="3_uyd4g"]
 [ext_resource type="Script" uid="uid://djbasrloc7dxg" path="res://scene/test_level/damage_edit.gd" id="4_foe47"]
 [ext_resource type="Script" uid="uid://6bk2jivovjb1" path="res://scene/test_level/duration_edit.gd" id="6_gh5sb"]
 [ext_resource type="Script" uid="uid://dgi7it0l8lj6s" path="res://scene/test_level/tick_edit.gd" id="7_61gd2"]
+[ext_resource type="Script" uid="uid://q1yganyngi13" path="res://scene/test_level/player_stats_menu_button.gd" id="8_cnrth"]
+[ext_resource type="Script" uid="uid://0nwafaptpcxj" path="res://scene/test_level/enemy_stats_menu_button.gd" id="9_800oc"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_800oc"]
+color = Color(0.16862746, 0.16862746, 0.16862746, 1)
+thickness = 2
 
 [node name="Test_ui" type="CanvasLayer" groups=["level"]]
 script = ExtResource("1_ua26r")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="MainMarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/margin_left = 5
@@ -24,20 +33,24 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+[node name="MainContainer" type="HBoxContainer" parent="VBoxContainer/MainMarginContainer"]
 layout_mode = 2
 
-[node name="PlayerReceive" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+[node name="EffectInfoContainer" type="VBoxContainer" parent="VBoxContainer/MainMarginContainer/MainContainer"]
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.25
 
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PlayerReceive"]
+[node name="GeneralEffectInfoContainer" type="VBoxContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer"]
 layout_mode = 2
 theme_override_constants/outline_size = 8
-text = "Player effect"
+text = "EFFECT INFO"
 
-[node name="EffectChoose" type="MenuButton" parent="MarginContainer/HBoxContainer/PlayerReceive"]
+[node name="EffectChoose" type="MenuButton" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 1
@@ -46,7 +59,7 @@ text = "EFFECT"
 alignment = 0
 script = ExtResource("1_m7682")
 
-[node name="BehaviorChoose" type="MenuButton" parent="MarginContainer/HBoxContainer/PlayerReceive"]
+[node name="BehaviorChoose" type="MenuButton" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/outline_size = 8
@@ -54,25 +67,25 @@ text = "BEHAVIOR"
 alignment = 0
 script = ExtResource("2_ljpay")
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/PlayerReceive"]
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/PlayerReceive/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PlayerReceive/PanelContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PlayerReceive/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "DAMAGE"
 
-[node name="DamageEdit" type="LineEdit" parent="MarginContainer/HBoxContainer/PlayerReceive/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="DamageEdit" type="LineEdit" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/PanelContainer/MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "0.0"
@@ -80,7 +93,7 @@ alignment = 1
 max_length = 4
 script = ExtResource("4_foe47")
 
-[node name="StatChoose" type="MenuButton" parent="MarginContainer/HBoxContainer/PlayerReceive"]
+[node name="StatChoose" type="MenuButton" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/outline_size = 8
@@ -88,274 +101,498 @@ text = "STAT_MODIFIERS"
 alignment = 0
 script = ExtResource("3_uyd4g")
 
-[node name="PanelContainer2" type="PanelContainer" parent="MarginContainer/HBoxContainer/PlayerReceive"]
+[node name="PanelContainer2" type="PanelContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/PlayerReceive/PanelContainer2"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/PanelContainer2"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PlayerReceive/PanelContainer2/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/PanelContainer2/MarginContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PlayerReceive/PanelContainer2/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/PanelContainer2/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "DURATION"
 
-[node name="DurationEdit" type="LineEdit" parent="MarginContainer/HBoxContainer/PlayerReceive/PanelContainer2/MarginContainer/HBoxContainer"]
+[node name="DurationEdit" type="LineEdit" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/PanelContainer2/MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "5"
 alignment = 1
 script = ExtResource("6_gh5sb")
 
-[node name="PanelContainer3" type="PanelContainer" parent="MarginContainer/HBoxContainer/PlayerReceive"]
+[node name="PanelContainer3" type="PanelContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/PlayerReceive/PanelContainer3"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/PanelContainer3"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PlayerReceive/PanelContainer3/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/PanelContainer3/MarginContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PlayerReceive/PanelContainer3/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/PanelContainer3/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "TICK_INTERVAL"
 
-[node name="TickEdit" type="LineEdit" parent="MarginContainer/HBoxContainer/PlayerReceive/PanelContainer3/MarginContainer/HBoxContainer"]
+[node name="TickEdit" type="LineEdit" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/PanelContainer3/MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "1.0"
 alignment = 1
 script = ExtResource("7_61gd2")
 
-[node name="ApplyButton" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive"]
+[node name="ApplyButton" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "APPLY"
 
-[node name="Label2" type="Label" parent="MarginContainer/HBoxContainer/PlayerReceive"]
+[node name="Label2" type="Label" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer"]
 layout_mode = 2
 theme_override_constants/outline_size = 8
 text = "PRESET EFFECTS"
 
-[node name="FlowContainer" type="FlowContainer" parent="MarginContainer/HBoxContainer/PlayerReceive"]
+[node name="EffectsContainer" type="FlowContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer"]
 layout_mode = 2
 
-[node name="SlowPreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+[node name="SlowPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
 layout_mode = 2
 text = "SLOW"
 
-[node name="CursePreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+[node name="CursePreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
 layout_mode = 2
 text = "CURSE"
 
-[node name="BurnPreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+[node name="BurnPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
 layout_mode = 2
 text = "BURN"
 
-[node name="SilencePreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+[node name="SilencePreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
 layout_mode = 2
 text = "SILENCE"
 
-[node name="FreezePreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+[node name="FreezePreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
 layout_mode = 2
 text = "FREEZE"
 
-[node name="RupturePreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+[node name="RupturePreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
 layout_mode = 2
 text = "RUPTURE"
 
-[node name="PhasedPreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+[node name="PhasedPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
 layout_mode = 2
 text = "PHASED"
 
-[node name="SonicPreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+[node name="SonicPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
 layout_mode = 2
 text = "SONIC"
 
-[node name="FortifyPreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+[node name="FortifyPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
 layout_mode = 2
 text = "FORTIFY"
 
-[node name="BlindPreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+[node name="BlindPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
 layout_mode = 2
 text = "BLIND"
 
-[node name="DispelPreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+[node name="DispelPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
 layout_mode = 2
 text = "DISPEL"
 
-[node name="BKBPreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+[node name="BKBPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
 layout_mode = 2
 text = "BKB"
 
-[node name="ColliderPreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+[node name="ColliderPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
 layout_mode = 2
 text = "COLLIDER"
 
-[node name="CorrosionPreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+[node name="CorrosionPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
 layout_mode = 2
 text = "CORROSION"
 
-[node name="RegenerationPreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+[node name="RegenerationPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
 layout_mode = 2
 text = "REGENERATION"
 
-[node name="FearPreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+[node name="FearPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
 layout_mode = 2
 text = "FEAR"
 
-[node name="BleedPreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+[node name="BleedPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
 layout_mode = 2
 text = "BLEED"
 
-[node name="WoundedPreset" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+[node name="WoundedPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
 layout_mode = 2
-text = "Wounded"
+text = "WOUNDED"
 
-[node name="ClearAllEffects" type="Button" parent="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer"]
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer"]
 layout_mode = 2
-text = "CLEAR ALL EFFECTS
-"
+theme_override_styles/separator = SubResource("StyleBoxLine_800oc")
 
-[node name="AppliedEffectsContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PlayerReceive"]
-unique_name_in_owner = true
+[node name="PlayerEffectsContainer" type="VBoxContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer"]
 layout_mode = 2
+size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PlayerReceive/AppliedEffectsContainer"]
+[node name="Label3" type="Label" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/PlayerEffectsContainer"]
 layout_mode = 2
 theme_override_constants/outline_size = 8
 text = "APPLIED EFFECTS:"
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/HBoxContainer"]
+[node name="AppliedEffectsScrollContainer" type="ScrollContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/PlayerEffectsContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="AppliedEffectsContainer" type="FlowContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/PlayerEffectsContainer/AppliedEffectsScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_800oc")
+
+[node name="PlayerInfusionsContainer" type="VBoxContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/PlayerInfusionsContainer"]
+layout_mode = 2
+theme_override_constants/outline_size = 8
+text = "APPLIED INFUSIONS:"
+
+[node name="AplliedInfusionsScrollContainer" type="ScrollContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/PlayerInfusionsContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="AppliedInfusionsContainer" type="FlowContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/PlayerInfusionsContainer/AplliedInfusionsScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PlayerStatsAndSettingsContainer" type="VBoxContainer" parent="VBoxContainer/MainMarginContainer/MainContainer"]
+layout_mode = 2
+mouse_default_cursor_shape = 1
+
+[node name="PlayerStatsContainer" type="VBoxContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/PlayerStatsContainer"]
+layout_mode = 2
+theme_override_constants/outline_size = 8
+text = "PLAYER STATS"
+
+[node name="PlayerStatsMenuButton" type="MenuButton" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/PlayerStatsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/outline_size = 8
+text = "PLAYER STATS"
+script = ExtResource("8_cnrth")
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_800oc")
+
+[node name="GeneralSettingsContainer" type="VBoxContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/GeneralSettingsContainer"]
+layout_mode = 2
+theme_override_constants/outline_size = 10
+text = "GENERAL SETTINGS"
+
+[node name="InfusionOrEffectContainer" type="HBoxContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/GeneralSettingsContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/GeneralSettingsContainer/InfusionOrEffectContainer"]
+layout_mode = 2
+theme_override_constants/outline_size = 8
+text = "Effect"
+
+[node name="EffectInfusionCheckButton" type="CheckButton" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/GeneralSettingsContainer/InfusionOrEffectContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/GeneralSettingsContainer/InfusionOrEffectContainer"]
+layout_mode = 2
+theme_override_constants/outline_size = 8
+text = "Infusion(AddToSelf)"
+
+[node name="ApplyToAllMobContainer" type="HBoxContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/GeneralSettingsContainer"]
+layout_mode = 2
+
+[node name="AddToAllEnemiesCheckBox" type="CheckBox" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/GeneralSettingsContainer/ApplyToAllMobContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/GeneralSettingsContainer/ApplyToAllMobContainer"]
+layout_mode = 2
+theme_override_constants/outline_size = 8
+text = "ADD TO ALL ENEMIES"
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_800oc")
+
+[node name="PlayerSettingsContainer" type="VBoxContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/PlayerSettingsContainer"]
+layout_mode = 2
+theme_override_constants/outline_size = 10
+text = "PLAYER SETTINGS"
+
+[node name="PlayerSettingsButtonsContainer" type="FlowContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/PlayerSettingsContainer"]
+layout_mode = 2
+
+[node name="ClearPlayerInfusionsButton" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/PlayerSettingsContainer/PlayerSettingsButtonsContainer"]
+layout_mode = 2
+text = "CLEAR INFUSIONS"
+
+[node name="ClearAllEffects" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/PlayerSettingsContainer/PlayerSettingsButtonsContainer"]
+layout_mode = 2
+text = "CLEAR EFFECTS
+"
+
+[node name="AddResonanceLevelButton" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/PlayerSettingsContainer/PlayerSettingsButtonsContainer"]
+layout_mode = 2
+text = "ADD RESONANCE LEVEL"
+
+[node name="RemoveResonanceLevelButton" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/PlayerSettingsContainer/PlayerSettingsButtonsContainer"]
+layout_mode = 2
+text = "REMOVE RESONANCE LEVEL"
+
+[node name="RemoveAllResonanceButton" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/PlayerSettingsContainer/PlayerSettingsButtonsContainer"]
+layout_mode = 2
+text = "REMOVE ALL RESONANCE"
+
+[node name="HSeparator3" type="HSeparator" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_800oc")
+
+[node name="EnemySettingsContainer" type="VBoxContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer"]
+layout_mode = 2
+
+[node name="EnemySettingsLabel" type="Label" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/EnemySettingsContainer"]
+layout_mode = 2
+theme_override_constants/outline_size = 10
+text = "ENEMY SETTINGS"
+
+[node name="EnemyNameLabel" type="Label" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/EnemySettingsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/outline_size = 8
+text = "ENEMY IS NOT SELECTED"
+horizontal_alignment = 1
+
+[node name="EnemySettingsButtonsContainer" type="FlowContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/EnemySettingsContainer"]
+layout_mode = 2
+
+[node name="StunEnemiesButton" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/EnemySettingsContainer/EnemySettingsButtonsContainer"]
+layout_mode = 2
+text = "STUN ALL"
+
+[node name="UnstunEnemiesButton" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/EnemySettingsContainer/EnemySettingsButtonsContainer"]
+layout_mode = 2
+text = "UNSTUN ALL"
+
+[node name="ClearEnemyInfusionsButton" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/EnemySettingsContainer/EnemySettingsButtonsContainer"]
+layout_mode = 2
+text = "CLEAR INFUSIONS"
+
+[node name="DeleteEnemyButton" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/EnemySettingsContainer/EnemySettingsButtonsContainer"]
+layout_mode = 2
+text = "DELETE ENEMY"
+
+[node name="HSeparator4" type="HSeparator" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_800oc")
+
+[node name="SpawnEnemy" type="VBoxContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/SpawnEnemy"]
+layout_mode = 2
+theme_override_constants/outline_size = 8
+text = "SPAWN ENEMY"
+
+[node name="EnemySpawnContainer" type="FlowContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/SpawnEnemy"]
+layout_mode = 2
+
+[node name="Melee1" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/SpawnEnemy/EnemySpawnContainer"]
+layout_mode = 2
+text = "MELEE1
+"
+
+[node name="Range1" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/SpawnEnemy/EnemySpawnContainer"]
+layout_mode = 2
+text = "RANGE1"
+
+[node name="Bomb1" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/SpawnEnemy/EnemySpawnContainer"]
+layout_mode = 2
+text = "BOMB1"
+
+[node name="HSeparator5" type="HSeparator" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_800oc")
+
+[node name="EnemyStatsContainer" type="VBoxContainer" parent="VBoxContainer/MainMarginContainer/MainContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/MainMarginContainer/MainContainer/EnemyStatsContainer"]
+layout_mode = 2
+theme_override_constants/outline_size = 8
+text = "ENEMY STATS"
+
+[node name="EnemyStatsMenuButton" type="MenuButton" parent="VBoxContainer/MainMarginContainer/MainContainer/EnemyStatsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/outline_size = 8
+text = "ENEMY STATS"
+script = ExtResource("9_800oc")
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/MainMarginContainer/MainContainer"]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -31.0
-offset_top = -44.0
-offset_right = 31.0
-grow_horizontal = 2
-grow_vertical = 0
-size_flags_horizontal = 4
+[node name="EnemyInfoPanelsContainer" type="ScrollContainer" parent="VBoxContainer/MainMarginContainer/MainContainer"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+
+[node name="EnemyInfoContainer" type="VBoxContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/EnemyInfoPanelsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SubMarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/SubMarginContainer"]
+layout_mode = 2
+
+[node name="ResonanceContainer" type="VBoxContainer" parent="VBoxContainer/SubMarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/SubMarginContainer/HBoxContainer/ResonanceContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/SubMarginContainer/HBoxContainer/ResonanceContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/outline_size = 8
+text = "RESONANCE LVL =  "
+
+[node name="ResonanceLevel" type="Label" parent="VBoxContainer/SubMarginContainer/HBoxContainer/ResonanceContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/outline_size = 8
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/SubMarginContainer/HBoxContainer/ResonanceContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/SubMarginContainer/HBoxContainer/ResonanceContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_constants/outline_size = 8
+text = "IMPULSE = "
+
+[node name="CurrentImpulse" type="Label" parent="VBoxContainer/SubMarginContainer/HBoxContainer/ResonanceContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/outline_size = 8
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/SubMarginContainer/HBoxContainer/ResonanceContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/SubMarginContainer/HBoxContainer/ResonanceContainer/HBoxContainer3"]
+layout_mode = 2
+theme_override_constants/outline_size = 8
+text = "REQUIRMENT = "
+
+[node name="RequirmentImpulse" type="Label" parent="VBoxContainer/SubMarginContainer/HBoxContainer/ResonanceContainer/HBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/outline_size = 8
+
+[node name="ResonanceProgressBar" type="ProgressBar" parent="VBoxContainer/SubMarginContainer/HBoxContainer/ResonanceContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PlayerFreezeAndHpContainer" type="VBoxContainer" parent="VBoxContainer/SubMarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
 size_flags_vertical = 4
 
-[node name="FreezeButton" type="Button" parent="VBoxContainer"]
+[node name="FreezeButton" type="Button" parent="VBoxContainer/SubMarginContainer/HBoxContainer/PlayerFreezeAndHpContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Freeze"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/SubMarginContainer/HBoxContainer/PlayerFreezeAndHpContainer"]
 layout_mode = 2
 
-[node name="Max_heatlh_label" type="Label" parent="VBoxContainer/HBoxContainer"]
+[node name="Max_heatlh_label" type="Label" parent="VBoxContainer/SubMarginContainer/HBoxContainer/PlayerFreezeAndHpContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/outline_size = 8
 text = "1000"
 
-[node name="Label3" type="Label" parent="VBoxContainer/HBoxContainer"]
+[node name="Label3" type="Label" parent="VBoxContainer/SubMarginContainer/HBoxContainer/PlayerFreezeAndHpContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/outline_size = 10
 text = "/"
 
-[node name="Current_health_label" type="Label" parent="VBoxContainer/HBoxContainer"]
+[node name="Current_health_label" type="Label" parent="VBoxContainer/SubMarginContainer/HBoxContainer/PlayerFreezeAndHpContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/outline_size = 8
 text = "1000"
 
-[node name="HealPlayer" type="Button" parent="VBoxContainer"]
+[node name="HealPlayer" type="Button" parent="VBoxContainer/SubMarginContainer/HBoxContainer/PlayerFreezeAndHpContainer"]
 layout_mode = 2
 text = "HealPlayer"
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="."]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -40.0
-offset_right = 40.0
-grow_vertical = 0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="VBoxContainer2/HBoxContainer"]
-layout_mode = 2
-theme_override_constants/outline_size = 8
-text = "RESONANCE LVL =  "
-
-[node name="ResonanceLevel" type="Label" parent="VBoxContainer2/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/outline_size = 8
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer2"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="VBoxContainer2/HBoxContainer2"]
-layout_mode = 2
-theme_override_constants/outline_size = 8
-text = "IMPULSE = "
-
-[node name="CurrentImpulse" type="Label" parent="VBoxContainer2/HBoxContainer2"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/outline_size = 8
-
-[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer2"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="VBoxContainer2/HBoxContainer3"]
-layout_mode = 2
-theme_override_constants/outline_size = 8
-text = "REQUIRMENT = "
-
-[node name="RequirmentImpulse" type="Label" parent="VBoxContainer2/HBoxContainer3"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/outline_size = 8
-
-[node name="ResonanceProgressBar" type="ProgressBar" parent="VBoxContainer2"]
-unique_name_in_owner = true
-layout_mode = 2
-
-[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/ApplyButton" to="." method="_on_apply_button_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/SlowPreset" to="." method="_on_slow_preset_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/CursePreset" to="." method="_on_curse_preset_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/BurnPreset" to="." method="_on_burn_preset_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/SilencePreset" to="." method="_on_silence_preset_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/FreezePreset" to="." method="_on_freeze_preset_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/RupturePreset" to="." method="_on_rupture_preset_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/PhasedPreset" to="." method="_on_phased_preset_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/SonicPreset" to="." method="_on_sonic_preset_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/FortifyPreset" to="." method="_on_fortify_preset_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/BlindPreset" to="." method="_on_blind_preset_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/DispelPreset" to="." method="_on_dispel_preset_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/BKBPreset" to="." method="_on_bkb_preset_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/ColliderPreset" to="." method="_on_collider_preset_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/CorrosionPreset" to="." method="_on_corrosion_preset_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/RegenerationPreset" to="." method="_on_regeneration_preset_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/FearPreset" to="." method="_on_fear_preset_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/BleedPreset" to="." method="_on_bleed_preset_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/WoundedPreset" to="." method="_on_wounded_preset_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/PlayerReceive/FlowContainer/ClearAllEffects" to="." method="_on_clear_all_effects_pressed"]
-[connection signal="pressed" from="VBoxContainer/FreezeButton" to="." method="_on_freeze_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/HealPlayer" to="." method="_on_heal_player_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/ApplyButton" to="." method="_on_apply_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/SlowPreset" to="." method="_on_slow_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/CursePreset" to="." method="_on_curse_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/BurnPreset" to="." method="_on_burn_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/SilencePreset" to="." method="_on_silence_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/FreezePreset" to="." method="_on_freeze_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/RupturePreset" to="." method="_on_rupture_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/PhasedPreset" to="." method="_on_phased_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/SonicPreset" to="." method="_on_sonic_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/FortifyPreset" to="." method="_on_fortify_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/BlindPreset" to="." method="_on_blind_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/DispelPreset" to="." method="_on_dispel_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/BKBPreset" to="." method="_on_bkb_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/ColliderPreset" to="." method="_on_collider_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/CorrosionPreset" to="." method="_on_corrosion_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/RegenerationPreset" to="." method="_on_regeneration_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/FearPreset" to="." method="_on_fear_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/BleedPreset" to="." method="_on_bleed_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/WoundedPreset" to="." method="_on_wounded_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/PlayerSettingsContainer/PlayerSettingsButtonsContainer/ClearPlayerInfusionsButton" to="." method="_on_clear_player_infusions_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/PlayerSettingsContainer/PlayerSettingsButtonsContainer/ClearAllEffects" to="." method="_on_clear_all_effects_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/PlayerSettingsContainer/PlayerSettingsButtonsContainer/AddResonanceLevelButton" to="." method="_on_add_resonance_level_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/PlayerSettingsContainer/PlayerSettingsButtonsContainer/RemoveResonanceLevelButton" to="." method="_on_remove_resonance_level_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/PlayerSettingsContainer/PlayerSettingsButtonsContainer/RemoveAllResonanceButton" to="." method="_on_remove_all_resonance_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/EnemySettingsContainer/EnemySettingsButtonsContainer/StunEnemiesButton" to="." method="_on_stun_enemies_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/EnemySettingsContainer/EnemySettingsButtonsContainer/UnstunEnemiesButton" to="." method="_on_unstun_enemies_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/EnemySettingsContainer/EnemySettingsButtonsContainer/ClearEnemyInfusionsButton" to="." method="_on_clear_enemy_infusions_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/EnemySettingsContainer/EnemySettingsButtonsContainer/DeleteEnemyButton" to="." method="_on_delete_enemy_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/SpawnEnemy/EnemySpawnContainer/Melee1" to="." method="_on_melee_1_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/SpawnEnemy/EnemySpawnContainer/Range1" to="." method="_on_range_1_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/SpawnEnemy/EnemySpawnContainer/Bomb1" to="." method="_on_bomb_1_pressed"]
+[connection signal="pressed" from="VBoxContainer/SubMarginContainer/HBoxContainer/PlayerFreezeAndHpContainer/FreezeButton" to="." method="_on_freeze_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/SubMarginContainer/HBoxContainer/PlayerFreezeAndHpContainer/HealPlayer" to="." method="_on_heal_player_pressed"]

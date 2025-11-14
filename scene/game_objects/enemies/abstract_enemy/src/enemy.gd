@@ -8,8 +8,9 @@ signal enemy_died()
 @export var effect_receiver: EffectReceiver
 
 var is_stunned: bool = false
+var get_back: bool = false
 
-@onready var state_machine: StateMachine = %EnemyStateMachine
+@onready var state_machine: EnemyStateMachine = %EnemyStateMachine
 
 @onready var health_component: HealthComponent = %HealthComponent
 @onready var armor_component: ArmorComponent = %ArmorComponent
@@ -35,15 +36,12 @@ func init():
 	_start_state_machine()
 
 
-
 func _connect_signals():
 	health_component.died.connect(_on_died)
 
 
 func _enter_varibles():
-	stats = stats.duplicate(true)
 	effects = effects.duplicate(true)
-	effect_receiver = effect_receiver.duplicate()
 
 
 func _enter_stats():
@@ -64,11 +62,11 @@ func _start_state_machine():
 	var states: Array[State] = [
 		EnemyIdleState.new(self),
 		EnemyAttackState.new(self),
-		EnemyBackState.new(self),
 		EnemyAggroState.new(self),
 		EnemyStunState.new(self)
 	]
 	state_machine.start_machine(states)
+
 
 func _on_died():
 	enemy_died.emit()
@@ -76,5 +74,14 @@ func _on_died():
 	queue_free()
 
 
+func set_stun(duration):
+	is_stunned = true
+	state_machine.set_stun(duration)
+
+
 func set_spawn_point(spawn_point: Vector2):
 	stats.spawn_point = spawn_point
+
+
+func get_stats():
+	return stats  # Всегда возвращаем текущие статы (даже если это копия)

@@ -10,8 +10,7 @@ func _connect_signals():
 func _start_state_machine():
 	var states: Array[State] = [
 		EnemyIdleState.new(self),
-		EnemyBombAttackState.new(self),
-		EnemyBackState.new(self),
+		EnemyAttackState.new(self),
 		EnemyAggroState.new(self),
 		EnemyStunState.new(self)
 	]

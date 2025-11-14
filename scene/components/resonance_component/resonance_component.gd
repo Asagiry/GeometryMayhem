@@ -5,6 +5,7 @@ extends Node
 signal impulse_amount_changed(current_impulse: int)
 
 const SINGLE_LEVEL: int = 1
+const LEVEL_ZERO: int = 0
 
 @export var player: PlayerController
 @export var resonance_data: ResonanceComponentData
@@ -13,6 +14,7 @@ const SINGLE_LEVEL: int = 1
 var current_impulse: int = 0
 var current_level: int = 0
 var loss_timer_counter: int = 0
+var force_impulse_loss: bool = false
 
 @onready var health_component: HealthComponent = %HealthComponent
 @onready var afk_timer: Timer = $AfkTimer
@@ -43,15 +45,70 @@ func _can_increase_level() -> bool:
 
 
 func _can_decrease_level() -> bool:
-	return current_level > 0 and not _is_at_safe_level()
+	return current_level > LEVEL_ZERO and (not _is_at_safe_level() or force_impulse_loss)
 
 
 func _should_skip_decrease() -> bool:
-	return _is_at_safe_level() and _has_no_impulse()
+	return _is_at_safe_level() and _has_no_impulse() and not force_impulse_loss
 
 
-func get_max_impulse():
+func get_current_level_requirement() -> int:
 	return resonance_data.get_required_impulse(current_level)
+
+
+func get_next_level_requirement() -> int:
+	var level = current_level + SINGLE_LEVEL
+	return resonance_data.get_required_impulse(
+		resonance_data.max_level if level > resonance_data.max_level \
+		else level
+		)
+
+
+func get_prev_level_requirement() -> int:
+	var level = current_level - SINGLE_LEVEL
+	return resonance_data.get_required_impulse(
+		LEVEL_ZERO if level < LEVEL_ZERO else level
+	)
+
+
+func get_current_impulse() -> int:
+	return current_impulse
+
+
+func get_current_level() -> int:
+	return current_level
+
+
+func reset_resonance():
+	if current_level > LEVEL_ZERO:
+		for level in range(current_level):
+			resonance_stat_data.apply_to_stats(player.stats, false)
+
+	current_impulse = 0
+	current_level = LEVEL_ZERO
+	loss_timer_counter = 0
+
+	_loss_timer_stop()
+	afk_timer.stop()
+
+	_update_impulse_display()
+
+	print("Resonance completely reset from level %d to zero" % [current_level])
+
+
+func grant_impulse(value: int):
+	_loss_timer_stop()
+	afk_timer.start()
+	_increase_impulse(value)
+
+
+func reduce_impulse(value: int, force: bool = false):
+	_loss_timer_stop()
+	afk_timer.start()
+	force_impulse_loss = force
+	_decrease_impulse(value)
+	if force:
+		force_impulse_loss = false
 
 
 func _update_impulse_display():
@@ -60,6 +117,7 @@ func _update_impulse_display():
 		current_level,
 		resonance_data.get_required_impulse(current_level)
 	)
+
 
 func _increase_impulse(value: int):
 	if not _can_increase_level():
@@ -113,15 +171,11 @@ func _loss_timer_stop():
 
 
 func _on_enemy_died(stats: EnemyStatData):
-	_loss_timer_stop()
-	afk_timer.start()
-	_increase_impulse(stats.impulse_count)
+	grant_impulse(stats.impulse_count)
 
 
 func _on_health_decreased(_current_health: int, _max_health: int):
-	_loss_timer_stop()
-	afk_timer.start()
-	_decrease_impulse(
+	reduce_impulse(
 		int(resonance_data.impulse_percent_decrease_for_hit *\
 		resonance_data.get_required_impulse(current_level))
 	)

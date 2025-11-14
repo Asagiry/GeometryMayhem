@@ -2,9 +2,8 @@ class_name EnemySpawnerController
 
 extends Node
 
-@export var enabled: bool = false
 @export var arena_map: ArenaMap
-
+var enabled: bool = false
 var player: PlayerController
 var current_zone: ArenaZone
 var zone_current_enemy: Dictionary[ArenaZone, int] = {}
@@ -14,16 +13,17 @@ var _enemy_scene_cache: Dictionary = {}
 @onready var spawn_timer: Timer = %SpawnTimer
 
 
-func _ready() -> void:
-	if not enabled:
-		queue_free()
-		return
+func setup() -> void:
+	enabled = arena_map.enabled
 
 	arena_map.player_entered.connect(_on_player_entered)
 	arena_map.player_exited.connect(_on_player_exited)
 
 
 func _on_player_entered(zone: ArenaZone) -> void:
+	if not enabled:
+		return
+
 	if zone.get_name() == "StabilityZone":
 		_stop_spawning()
 		return
@@ -66,17 +66,17 @@ func enable_spawning():
 func _spawn_enemy():
 	if current_zone:
 		if zone_current_enemy.get(current_zone, 0) < current_zone.arena_stat_data.max_enemies:
-			var spawn_point = current_zone.get_random_tile_point()
+			var spawn_point: Vector2 = current_zone.get_random_tile_point()
 			var enemy_scene: PackedScene = _get_random_enemy_scene(current_zone)
 			if (enemy_scene == null):
 				return
 			var enemy_instance = enemy_scene.instantiate() as EnemyController
+			enemy_instance.stats = enemy_instance.stats.duplicate(true)
 			enemy_instance.global_position = spawn_point
 			print(enemy_instance.stats)
 			print(enemy_instance.stats.spawn_point)
 			enemy_instance.stats.spawn_point = spawn_point
-			get_tree().get_first_node_in_group("back_layer").call_deferred("add_child",
-			enemy_instance)
+			get_tree().get_first_node_in_group("back_layer").add_child(enemy_instance)
 			zone_current_enemy[current_zone] = zone_current_enemy.get(current_zone, 0) + 1
 			enemy_instance.enemy_died.connect(_on_enemy_died.bind(current_zone))
 
