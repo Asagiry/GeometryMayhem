@@ -1,14 +1,14 @@
 [gd_scene load_steps=11 format=3 uid="uid://vwuw6r5inl58"]
 
 [ext_resource type="Script" uid="uid://iyvadf7lx683" path="res://scene/test_level/effect_choose.gd" id="1_m7682"]
-[ext_resource type="Script" uid="uid://crr37x8e18o8b" path="res://scene/test_level/test_ui_main_script.gd" id="1_ua26r"]
+[ext_resource type="Script" path="res://scene/test_level/test_ui_main_script.gd" id="1_ua26r"]
 [ext_resource type="Script" uid="uid://ctd343g7w8ayi" path="res://scene/test_level/behavior_choose.gd" id="2_ljpay"]
 [ext_resource type="Script" uid="uid://0n7yfkwgwees" path="res://scene/test_level/stat_choose.gd" id="3_uyd4g"]
 [ext_resource type="Script" uid="uid://djbasrloc7dxg" path="res://scene/test_level/damage_edit.gd" id="4_foe47"]
 [ext_resource type="Script" uid="uid://6bk2jivovjb1" path="res://scene/test_level/duration_edit.gd" id="6_gh5sb"]
 [ext_resource type="Script" uid="uid://dgi7it0l8lj6s" path="res://scene/test_level/tick_edit.gd" id="7_61gd2"]
-[ext_resource type="Script" uid="uid://q1yganyngi13" path="res://scene/test_level/player_stats_menu_button.gd" id="8_cnrth"]
-[ext_resource type="Script" uid="uid://0nwafaptpcxj" path="res://scene/test_level/enemy_stats_menu_button.gd" id="9_800oc"]
+[ext_resource type="Script" path="res://scene/test_level/player_stats_menu_button.gd" id="8_cnrth"]
+[ext_resource type="Script" path="res://scene/test_level/enemy_stats_menu_button.gd" id="9_800oc"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_800oc"]
 color = Color(0.16862746, 0.16862746, 0.16862746, 1)

@@ -1,0 +1,997 @@
+[gd_scene load_steps=34 format=3 uid="uid://ddyr6ppwg1vc5"]
+
+[ext_resource type="Script" uid="uid://c1gjmkoe3un7b" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy.gd" id="1_jvc2f"]
+[ext_resource type="PackedScene" uid="uid://bl380xv78onc8" path="res://scene/components/effect_receiver/effect_receiver.tscn" id="3_gtcfh"]
+[ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="4_76m35"]
+[ext_resource type="PackedScene" uid="uid://dmyf1tdr0duky" path="res://scene/game_objects/enemies/components/enemy_attack_controller/enemy_melee_attack_controller/enemy_melee_2_attack_controller.tscn" id="5_76m35"]
+[ext_resource type="Texture2D" uid="uid://cemwnp8o7vast" path="res://assets/mobs/melee/Easy/2/AGGRO/romb_walk(идущий).png" id="5_d3jdp"]
+[ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component/armor_component.tscn" id="5_rrxn3"]
+[ext_resource type="Texture2D" uid="uid://b5tigh6d88h5o" path="res://assets/mobs/melee/Easy/2/ATTACK/romb_attack(атакующий).png" id="6_gtcfh"]
+[ext_resource type="Script" uid="uid://cwthcummeshwp" path="res://scene/game_objects/enemies/components/enemy_attack_controller/enemy_melee_attack_controller/enemy_melee_2_attack_controller.gd" id="6_rrxn3"]
+[ext_resource type="Texture2D" uid="uid://cw7x6vmripqpn" path="res://assets/mobs/melee/Easy/2/IDLE/romb_idle(обычный).png" id="7_76m35"]
+[ext_resource type="PackedScene" uid="uid://csmleslly1twg" path="res://scene/components/hurt_box_component/hurt_box.tscn" id="7_hrkp4"]
+
+[sub_resource type="GDScript" id="GDScript_76m35"]
+script/source = "class_name StateMachine
+
+extends Node
+
+
+signal machine_started
+
+
+@export var is_log_enabled: bool = false
+
+var is_running: bool = false
+
+var current_state: State
+var states: Dictionary = {}
+var _parent_node_name: String
+
+# Start this state machine
+func start_machine(init_states: Array[State]) -> void:
+	_parent_node_name = get_parent().name
+
+	for state in init_states:
+		states[state.get_state_name()] = state
+
+	machine_started.emit()
+
+	current_state = init_states[0]
+
+	if is_log_enabled:
+		print(\"[%s]: Entering state \\\"%s\\\"\" % [_parent_node_name, current_state.get_state_name()])
+
+	current_state.enter()
+	is_running = true
+
+
+
+func _input(event: InputEvent) -> void:
+	if not is_running or current_state == null:
+		return
+	current_state.input(event)
+
+
+func _process(delta: float) -> void:
+	if not is_running or current_state == null:
+		return
+	current_state.process(delta)
+
+
+func _physics_process(delta: float) -> void:
+	if not is_running or current_state == null:
+		return
+	current_state.physics_process(delta)
+
+
+# Attempt a transition to the new state.
+# @param new_state The name of the new state to transition to.
+func transition(new_state_name: String) -> void:
+	var new_state: State = states.get(new_state_name)
+	var current_state_name = current_state.get_state_name()
+
+	if new_state == null:
+		push_error(\"\"\"An attempt has
+		been made to transition to a non-existent state (%s).\"\"\" % new_state_name)
+	elif new_state != current_state:
+
+		if is_log_enabled:
+			print(\"[%s]: Exiting state \\\"%s\\\"\" % [_parent_node_name, current_state_name])
+
+		current_state.exit()
+		current_state = states[new_state.get_state_name()]
+
+		if is_log_enabled:
+			print(\"[%s]: Entering state \\\"%s\\\"\" % [_parent_node_name, current_state.get_state_name()])
+
+		current_state.enter()
+	else:
+		push_warning(\"An attempt to transition to the current state has been made. Ignoring request.\")
+"
+
+[sub_resource type="GDScript" id="GDScript_8tafr"]
+script/source = "class_name EffectMelee2Receiver
+
+extends Node
+
+
+signal effect_started(effect_type: Util.EffectType)
+signal effect_ended(effect_type: Util.EffectType)
+
+signal stun_applied(duration: float)
+
+signal collision_disabled(status: bool)
+signal attack_disabled(status: bool)
+
+signal silenced(status: bool)
+
+signal health_component_effects_changed(updated_stats: Dictionary)
+signal armor_component_effects_changed(updated_stats: Dictionary)
+signal movement_component_effects_changed(updated_stat: Dictionary)
+signal attack_component_effects_changed(updated_stat: Dictionary)
+
+
+const NUMBER_OF_BUFFS_AND_DEBUFFS: float = 6.0
+const MAXIMUM_MULTIPLIER: float = 10.0
+
+var active_dots: Array[Dictionary] = []
+var active_stat_modifiers: Dictionary = {}
+
+var stat_modifiers: StatModifierData = StatModifierData.new()
+
+var active_special_states: Dictionary = {}
+
+func _physics_process(delta: float) -> void:
+	_process_dots(delta)
+	_process_stat_modifiers(delta)
+
+
+func apply_effect(effect: Effect):
+	if is_under(Util.EffectType.BKB) \\
+	and effect.positivity == Util.EffectPositivity.NEGATIVE:
+		return
+
+
+	print(\"Наложен эффект: \", Util.EffectType.keys()[effect.effect_type] + \\
+	\" ; длительность: \", effect.duration)
+
+	match effect.behavior:
+		Util.EffectBehavior.SPECIAL:
+			_apply_special_effect(effect)
+		Util.EffectBehavior.INSTANT:
+			_apply_instant_effect(effect)
+		Util.EffectBehavior.DOT:
+			_add_dot_effect(effect)
+		Util.EffectBehavior.BUFF, Util.EffectBehavior.DEBUFF:
+			_add_stat_modifier(effect)
+
+#region special
+func _apply_special_effect(effect: Effect):
+	if is_under(effect.effect_type):
+		return
+
+	active_special_states[effect.effect_type] = true
+	emit_signal(\"effect_started\", effect.effect_type)
+
+	var path = \"res://scripts/data/effect/behavior/\"+\\
+	Util.get_effect_name(effect.effect_type).to_lower()+\"_effect.gd\"
+	print(path)
+	var instance = load(path).new()
+	if instance == null:
+		push_warning(\"⚠️ Special effect %s not found\" % str(effect.effect_type))
+		return
+
+	add_child(instance)
+	instance.apply(self, effect)
+
+	if effect.stat_modifiers:
+		_add_stat_modifier(effect)
+#endregion special
+
+
+#region instant
+func _apply_instant_effect(effect: Effect):
+	emit_signal(\"effect_started\", effect.effect_type)
+
+	if effect.effect_type == Util.EffectType.DISPEL:
+		clear_effects(Util.EffectPositivity.NEGATIVE)
+		set_leave_stun_state()
+
+	if effect.damage:
+		owner.health_component.take_damage(effect.damage)
+
+	if effect.stat_modifiers:
+		_add_stat_modifier(effect)
+
+	emit_signal(\"effect_ended\", effect.effect_type)
+#endregion instant
+
+
+#region dot
+func _add_dot_effect(effect: Effect):
+	if effect.effect_type == Util.EffectType.BLEED:
+		effect.damage.amount = owner.stats.attack_damage.amount \\
+		* effect.percent_of_attack
+
+	for dot_data in active_dots:
+		var existing_effect: Effect = dot_data[\"effect\"]
+		if existing_effect.effect_type == effect.effect_type:
+			if _should_replace_dot(existing_effect, effect):
+				dot_data[\"elapsed\"] = 0.0
+				dot_data[\"effect\"] = effect
+				emit_signal(\"effect_started\", effect.effect_type)
+			else:
+				dot_data[\"elapsed\"] = 0.0
+			return
+
+	active_dots.append({
+		\"effect\": effect,
+		\"timer\": 0.0,
+		\"elapsed\": 0.0
+	})
+	emit_signal(\"effect_started\", effect.effect_type)
+
+
+func _process_dots(delta: float):
+	for i in range(active_dots.size() - 1, -1, -1):
+		var dot = active_dots[i]
+		var e: Effect = dot[\"effect\"]
+
+		dot[\"elapsed\"] += delta
+		dot[\"timer\"] += delta
+
+		# Пора тикать урон
+		if dot[\"timer\"]>= e.tick_interval:
+			dot[\"timer\"] = 0.0
+			if e.damage:
+				if e.positivity == Util.EffectPositivity.POSITIVE:
+					owner.health_component.take_heal(e.damage.amount)
+				else:
+					owner.health_component.take_damage(e.damage)
+
+		# Если время эффекта истекло — удаляем
+		if dot[\"elapsed\"] >= e.duration:
+			active_dots.remove_at(i)
+			emit_signal(\"effect_ended\", e.effect_type)
+
+
+func _should_replace_dot(old_dot: Effect, new_dot: Effect) -> bool:
+	var old_total = old_dot.damage.amount * (old_dot.duration / old_dot.tick_interval)
+	var new_total = new_dot.damage.amount * (new_dot.duration / new_dot.tick_interval)
+	return new_total > old_total
+#endregion dot
+
+
+#region stat_modifiers
+func _add_stat_modifier(effect: Effect):
+	if effect.stat_modifiers == null:
+		return
+
+	var new_type := effect.effect_type
+	var new_mod := effect.stat_modifiers
+	var new_duration := effect.duration
+
+	if not active_stat_modifiers.has(new_type):
+		active_stat_modifiers[new_type] = {
+			\"modifier\": new_mod,
+			\"remaining_time\": new_duration,
+			\"positivity\": effect.positivity
+		}
+		_recalculate_stats()
+		emit_signal(\"effect_started\", new_type)
+		return
+
+	var existing_data = active_stat_modifiers[new_type]
+	var existing_mod: StatModifierData = existing_data[\"modifier\"]
+
+	if _should_replace_modifier(existing_mod, new_mod, effect.behavior):
+		active_stat_modifiers[new_type] = {
+			\"modifier\": new_mod,
+			\"remaining_time\": new_duration,
+			\"positivity\": effect.positivity
+		}
+		_recalculate_stats()
+		emit_signal(\"effect_started\", new_type)
+	else:
+		existing_data[\"remaining_time\"] = new_duration
+
+
+func _recalculate_stats():
+	var old_stats := stat_modifiers.to_dict()
+
+	stat_modifiers.reset()
+
+	for effect_type in active_stat_modifiers.keys():
+		var mod = active_stat_modifiers[effect_type][\"modifier\"]
+		for stat in mod:
+			var value = mod[stat]
+			if typeof(value) == TYPE_BOOL:
+				stat_modifiers[stat] = value
+			elif typeof(value) == TYPE_FLOAT:
+				stat_modifiers[stat] *= value
+
+	var new_stats := stat_modifiers.to_dict()
+	for stat in old_stats.keys():
+		var old_val = old_stats[stat]
+		var new_val = new_stats[stat]
+
+		if typeof(old_val) == TYPE_BOOL:
+			if old_val != new_val:
+				if stat == \"invulnerable\":
+					health_component_effects_changed.emit({ \"invulnerable\": new_val })
+		elif typeof(old_val) == TYPE_FLOAT:
+			if not is_equal_approx(old_val, new_val):
+				_signal_sender(stat, new_val)
+
+
+func _signal_sender(stat: String, value: float):
+	match stat:
+		\"speed_multiplier\":
+			movement_component_effects_changed.emit({
+				\"speed_multiplier\": value
+			})
+		\"attack_multiplier\":
+			attack_component_effects_changed.emit({
+				\"attack_multiplier\": value
+			})
+		\"attack_range_multiplier\":
+			attack_component_effects_changed.emit({
+				\"attack_range_multiplier\": value
+			})
+		\"armor_multiplier\":
+			armor_component_effects_changed.emit({
+				\"armor_multiplier\": value
+			})
+		\"forward_receiving_damage_multiplier\":
+			health_component_effects_changed.emit({
+				\"forward_receiving_damage_multiplier\": value
+			})
+		\"attack_cd_multiplier\":
+			attack_component_effects_changed.emit({
+				\"attack_cd_multiplier\": value
+			})
+		\"attack_duration_multiplier\":
+			attack_component_effects_changed.emit({
+				\"attack_duration_multiplier\": value
+			})
+		\"percent_of_max_health\":
+			print(\"percent_of_max_health = \", value)
+			health_component_effects_changed.emit({
+				\"percent_of_max_health\": value
+			})
+
+
+func _process_stat_modifiers(delta: float):
+	var expired_effects: Array = []
+
+	for effect_type in active_stat_modifiers.keys():
+		active_stat_modifiers[effect_type][\"remaining_time\"] -= delta
+		if active_stat_modifiers[effect_type][\"remaining_time\"] <= 0:
+			expired_effects.append(effect_type)
+
+	if expired_effects.size() > 0:
+		for effect_type in expired_effects:
+			active_stat_modifiers.erase(effect_type)
+			emit_signal(\"effect_ended\", effect_type)
+		_recalculate_stats()
+
+
+func _should_replace_modifier(
+	old_mod: StatModifierData,
+	new_mod: StatModifierData,
+	behavior: Util.EffectBehavior
+	) -> bool:
+	match behavior:
+		Util.EffectBehavior.DEBUFF:
+			# Для дебаффов – чем меньше множитель, тем сильнее эффект
+			return _is_new_debuff_stronger(old_mod, new_mod)
+		Util.EffectBehavior.BUFF:
+			# Для баффов – чем больше множитель, тем сильнее эффект
+			return _is_new_buff_stronger(old_mod, new_mod)
+		_:
+			# Для прочих эффектов можно всегда обновлять
+			return true
+
+
+func _is_new_debuff_stronger(old_mod: StatModifierData, new_mod: StatModifierData) -> bool:
+	var old_total := (
+		old_mod.speed_multiplier +
+		old_mod.attack_multiplier +
+		old_mod.armor_multiplier +
+		old_mod.forward_receiving_damage_multiplier +
+		(MAXIMUM_MULTIPLIER - old_mod.attack_duration_multiplier) +
+		(MAXIMUM_MULTIPLIER - old_mod.attack_cd_multiplier)
+	) / NUMBER_OF_BUFFS_AND_DEBUFFS
+
+	var new_total := (
+		new_mod.speed_multiplier +
+		new_mod.attack_multiplier +
+		new_mod.armor_multiplier +
+		new_mod.forward_receiving_damage_multiplier +
+		(MAXIMUM_MULTIPLIER - new_mod.attack_duration_multiplier) +
+		(MAXIMUM_MULTIPLIER - new_mod.attack_cd_multiplier)
+	) / NUMBER_OF_BUFFS_AND_DEBUFFS
+
+	# Чем меньше средний множитель — тем сильнее дебафф
+	return new_total < old_total
+
+
+func _is_new_buff_stronger(old_mod: StatModifierData, new_mod: StatModifierData) -> bool:
+	var old_total := (
+		old_mod.speed_multiplier +
+		old_mod.attack_multiplier +
+		old_mod.armor_multiplier +
+		old_mod.forward_receiving_damage_multiplier +
+		(1.0 - old_mod.attack_duration_multiplier) +
+		(1.0 - old_mod.attack_cd_multiplier)
+	) / NUMBER_OF_BUFFS_AND_DEBUFFS
+
+	var new_total := (
+		new_mod.speed_multiplier +
+		new_mod.attack_multiplier +
+		new_mod.armor_multiplier +
+		new_mod.forward_receiving_damage_multiplier +
+		(1.0 - new_mod.attack_duration_multiplier) +
+		(1.0 - new_mod.attack_cd_multiplier)
+	) / NUMBER_OF_BUFFS_AND_DEBUFFS
+
+	# Чем больше средний множитель — тем сильнее бафф
+	return new_total > old_total
+#endregion stat_modifiers
+
+func is_under(effect_type: Util.EffectType) -> bool:
+	return active_special_states.get(effect_type, false)
+
+
+func clear_effects(type: Util.EffectPositivity) -> void:
+#-------------DOT_EFFECTS-------------------
+	for i in range(active_dots.size() - 1, -1, -1):
+		var dot_data = active_dots[i]
+		var e: Effect = dot_data[\"effect\"]
+		if e.positivity == type:
+			active_dots.remove_at(i)
+			emit_signal(\"effect_ended\", e.effect_type)
+
+#--------------STAT_MODIFIERS-----------------------
+	var expired_stat_modifiers := []
+	for effect_type in active_stat_modifiers.keys():
+		if active_stat_modifiers[effect_type].has(\"positivity\"):
+			var effect_positivity = active_stat_modifiers[effect_type][\"positivity\"]
+			if  effect_positivity == type:
+				expired_stat_modifiers.append(effect_type)
+
+	for effect_type in expired_stat_modifiers:
+		active_stat_modifiers.erase(effect_type)
+		emit_signal(\"effect_ended\", effect_type)
+
+
+#--------SPECIAL_EFFECTS------------
+	for child in get_children():
+		if child is SpecialEffectBehavior \\
+		and child._effect.positivity == type:
+			child.end()
+			child.queue_free()
+
+	_recalculate_stats()
+
+
+func clear_all_effects() -> void:
+	if active_dots.size() > 0:
+		for dot_data in active_dots:
+			var e: Effect = dot_data[\"effect\"]
+			emit_signal(\"effect_ended\", e.effect_type)
+		active_dots.clear()
+
+	if active_stat_modifiers.size() > 0:
+		for effect_type in active_stat_modifiers.keys():
+			emit_signal(\"effect_ended\", effect_type)
+		active_stat_modifiers.clear()
+		_recalculate_stats()
+
+	if active_special_states.size() > 0:
+		for effect_type in active_special_states.keys():
+			emit_signal(\"effect_ended\", effect_type)
+		active_special_states.clear()
+
+		for child in get_children():
+			if child is SpecialEffectBehavior:
+				child.end()
+				child.queue_free()
+
+	stat_modifiers.reset()
+
+
+func set_freeze_multiplier(value: float):
+	movement_component_effects_changed.emit({
+		\"freeze_multilier\": value
+	})
+
+
+func set_attack_duration_multiplier(value: float) -> void:
+	attack_component_effects_changed.emit({
+		\"attack_duration_multiplier\": value
+	})
+
+
+func set_direction_modifier(value: float) -> void:
+	movement_component_effects_changed.emit({
+		\"direction_modifier\": value
+	})
+
+
+func set_leave_stun_state():
+	owner.is_stunned = false
+
+
+func set_stun_state(duration: float):
+	stun_applied.emit(duration)
+	owner.is_stunned = true
+"
+
+[sub_resource type="GDScript" id="GDScript_hrkp4"]
+script/source = "class_name HealthMelee2Component
+extends OwnerAwareComponent
+
+signal died
+signal health_decreased(current_health, max_health)
+signal health_increased(current_health, max_health)
+
+const ROUNDING_ACCURACY: float = 0.1
+const DEFAULT_MULTIPLIER: float = 1.0
+
+@export var armor_component: ArmorComponent
+
+var current_health: float
+var health_ratio: float = 1.0
+
+var forward_damage_multiplier: float = DEFAULT_MULTIPLIER
+var invulnerable: bool = false
+var percent_health_multiplier: float = DEFAULT_MULTIPLIER
+
+var effect_receiver: EffectReceiver
+
+func _ready():
+	super._ready()
+	_connect_signals()
+
+
+func _setup_owner_reference():
+	super._setup_owner_reference()
+
+	if owner_node and owner_node.has_method(\"get_effect_receiver\"):
+		effect_receiver = owner_node.get_effect_receiver()
+	elif _owner_has_property(\"effect_receiver\"):
+		effect_receiver = owner_node.effect_receiver
+
+	current_health = get_max_health()
+
+
+func _setup_stat_subscriptions():
+	subscribe_to_stat(\"max_health\", _on_max_health_changed)
+
+
+func _connect_signals():
+	effect_receiver.health_component_effects_changed.connect(_on_effect_stats_changed)
+
+
+func take_damage(damage: DamageData):
+	if invulnerable:
+		return
+
+	var final_damage = armor_component.calculate_reduced_damage(
+		damage.amount * forward_damage_multiplier,
+	)
+
+	var old_health = current_health
+	current_health = snappedf(max(current_health - final_damage, 0), ROUNDING_ACCURACY)
+
+	# Обновляем ratio
+	var max_hp = get_max_health()
+	if max_hp > 0:
+		health_ratio = current_health / max_hp
+
+	health_decreased.emit(current_health, max_hp)
+
+	if current_health <= 0:
+		died.emit()
+
+
+func take_heal(amount_of_heal: float):
+	var old_health = current_health
+	var max_hp = get_max_health()
+	current_health = snappedf(min(current_health + amount_of_heal, max_hp), ROUNDING_ACCURACY)
+
+	if max_hp > 0:
+		health_ratio = current_health / max_hp
+
+	health_increased.emit(current_health, max_hp)
+
+
+func _on_effect_stats_changed(updated_stats: Dictionary) -> void:
+	if updated_stats.has(\"forward_receiving_damage_multiplier\"):
+		forward_damage_multiplier = updated_stats[\"forward_receiving_damage_multiplier\"]
+
+	if updated_stats.has(\"invulnerable\"):
+		invulnerable = updated_stats[\"invulnerable\"]
+
+	if updated_stats.has(\"percent_of_max_health\"):
+		var percent = updated_stats[\"percent_of_max_health\"]
+		if is_zero_approx(percent - DEFAULT_MULTIPLIER):
+			owner_stats.set_stat(\"max_health\", get_max_health()  / percent_health_multiplier)
+		else:
+			owner_stats.set_stat(\"max_health\", get_max_health() * percent)
+		percent_health_multiplier = percent
+
+
+func _on_max_health_changed(new_max_health: float, old_max_health: float):
+	if old_max_health <= 0:
+		current_health = new_max_health
+		health_increased.emit(current_health, new_max_health)
+		return
+
+	var health_percentage = current_health / old_max_health
+	current_health = health_percentage * new_max_health
+
+	health_increased.emit(current_health, new_max_health)
+
+	print(\"Max health updated: %d -> %d, Current: %d (%.1f%%)\" % [
+		old_max_health, new_max_health, current_health, health_percentage * 100
+	])
+
+
+func get_max_health() -> float:
+	return get_stat(\"max_health\")
+
+
+func get_current_health() -> float:
+	return current_health
+
+
+func get_health_ratio() -> float:
+	return health_ratio
+"
+
+[sub_resource type="GDScript" id="GDScript_icobv"]
+script/source = "class_name ArmorMelee2Component
+extends OwnerAwareComponent  # Меняем наследование
+
+var armor_multiplier: float = 1.0
+var effect_receiver: EffectReceiver
+
+
+func _ready():
+	super._ready()  # Вызовет _setup_owner_reference() и _setup_stat_subscriptions()
+	_connect_signals()
+
+
+func _setup_owner_reference():
+	super._setup_owner_reference()
+	if owner_node and owner_node.has_method(\"get_effect_receiver\"):
+		effect_receiver = owner_node.get_effect_receiver()
+	elif _owner_has_property(\"effect_receiver\"):
+		effect_receiver = owner_node.effect_receiver
+
+
+func _connect_signals():
+	if effect_receiver:
+		effect_receiver.armor_component_effects_changed.connect(_on_effect_stats_changed)
+
+
+func calculate_reduced_damage(damage: float) -> float:
+	var current_armor = get_armor() * armor_multiplier
+	var reduced_damage = _apply_armor_formula(damage, current_armor)
+	return snappedf(reduced_damage, 0.1)
+
+
+func _apply_armor_formula(damage: float, _armor: float) -> float:
+	# 🔧 Здесь можно реализовать любую формулу снижения урона
+	# Пример 1: Процентное снижение (максимум 80%)
+	# var damage_reduction = min(armor / (armor + 100), 0.8)
+	# return damage * (1.0 - damage_reduction)
+
+	# Пример 2: Плоское снижение
+	# return max(damage - armor, damage * 0.1)  # Минимум 10% урона
+
+	# Пример 3: Гибридная формула
+	#var flat_reduction = get_armor() * 0.5
+	#var percentage_reduction = min(armor * 0.01, 0.6)  # Максимум 60%
+	#var after_flat = max(damage - flat_reduction, 0)
+	#return after_flat * (1.0 - percentage_reduction)
+	return damage
+
+
+# Геттер для брони
+func get_armor() -> float:
+	return get_stat(\"armor\") * armor_multiplier
+
+
+func _on_effect_stats_changed(updated_stats: Dictionary) -> void:
+	if updated_stats.has(\"armor_multiplier\"):
+		armor_multiplier = updated_stats[\"armor_multiplier\"]
+"
+
+[sub_resource type="GDScript" id="GDScript_hinnt"]
+script/source = "class_name EnemyMelee2MovementComponent
+
+extends MovementComponent
+
+var is_patrolling: bool = false
+var patrol_timer: Timer
+var dir: Vector2
+var patrol_speed_multiplier: float = 0.5
+
+
+func _ready():
+	super()
+	patrol_timer = Timer.new()
+	patrol_timer.one_shot = true
+	add_child(patrol_timer)
+	patrol_timer.timeout.connect(_on_patrol_timer_timeout)
+
+
+
+func chase_player():
+	var direction = _get_direction_to_player()
+	if direction != Vector2.ZERO:
+		last_direction = direction
+	velocity = accelerate_to_direction(direction)
+	move_and_slide()
+
+
+func _get_direction_to_player() -> Vector2:
+	var mob = owner as Node2D
+	var player = get_tree().get_first_node_in_group(\"player\") as Node2D
+	if player != null:
+		return (player.global_position - mob.global_position).normalized()
+	return Vector2.ZERO
+
+
+func get_back():
+	var direction = (owner.stats.spawn_point - global_position).normalized()
+	if direction != Vector2.ZERO:
+		last_direction = direction
+	velocity = accelerate_to_direction(direction)
+	move_and_slide()
+
+
+func is_reached_spawn_point():
+	return global_position.distance_to(owner.stats.spawn_point) <= 5.0  # погрешность 5 пикселей
+
+
+func _get_direction_to(p_position: Vector2):
+	var direction = (p_position-global_position)
+	if direction != Vector2.ZERO:
+		last_direction = direction
+	return direction.normalized()
+
+
+func start_patrol():
+	is_patrolling = true
+	dir = get_random_direction()
+	_start_random_patrol_timer()
+
+
+func handle_movement():
+	velocity = accelerate_to_direction(dir) * patrol_speed_multiplier
+	move_and_slide()
+
+
+func stop_patrol():
+	is_patrolling = false
+	patrol_timer.stop()
+	velocity = Vector2.ZERO
+	print(\"Patrol stopped\")
+
+
+func get_random_direction() -> Vector2:
+	var random_angle = randf() * TAU
+	return Vector2(cos(random_angle), sin(random_angle))
+
+
+func _on_zone_ended():
+	pass
+
+
+func _start_random_patrol_timer():
+	if is_patrolling:
+		var random_time = randf_range(5.0, 10.0)
+		patrol_timer.start(random_time)
+
+
+func _on_patrol_timer_timeout():
+	if is_patrolling:
+		start_patrol()
+
+
+func stop():
+	velocity = Vector2.ZERO
+	current_speed = 0.0
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sjf8k"]
+atlas = ExtResource("5_d3jdp")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wkc5w"]
+atlas = ExtResource("5_d3jdp")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1466x"]
+atlas = ExtResource("5_d3jdp")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vwfp3"]
+atlas = ExtResource("5_d3jdp")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v3p33"]
+atlas = ExtResource("5_d3jdp")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_khrxd"]
+atlas = ExtResource("6_gtcfh")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6wsra"]
+atlas = ExtResource("6_gtcfh")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vbfnt"]
+atlas = ExtResource("6_gtcfh")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xmqca"]
+atlas = ExtResource("6_gtcfh")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_160a2"]
+atlas = ExtResource("6_gtcfh")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d4hd6"]
+atlas = ExtResource("7_76m35")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l18dp"]
+atlas = ExtResource("7_76m35")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6qmfg"]
+atlas = ExtResource("7_76m35")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_73p3a"]
+atlas = ExtResource("7_76m35")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2kvky"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sjf8k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wkc5w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1466x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vwfp3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v3p33")
+}],
+"loop": true,
+"name": &"aggro",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_khrxd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6wsra")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vbfnt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xmqca")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_160a2")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d4hd6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l18dp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6qmfg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_73p3a")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="GDScript" id="GDScript_lp6jr"]
+script/source = "class_name HurtBoxMelee2
+
+extends Area2D
+
+@export var health_component: HealthComponent
+
+@onready var hurt_box_shape: CollisionShape2D = %HurtBoxShape
+
+func deal_damage(damage_data: DamageData):
+	health_component.take_damage(damage_data)
+
+
+func apply_effect(effects: Array[Effect]):
+	if owner == null:
+		return
+	if effects == null:
+		return
+	for effect in effects:
+		owner.effect_receiver.apply_effect(effect)
+"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_28p2m"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_re5ix"]
+
+[node name="MeleeEnemy2" type="CharacterBody2D" node_paths=PackedStringArray("effect_receiver") groups=["enemy"]]
+collision_layer = 4
+collision_mask = 5
+script = ExtResource("1_jvc2f")
+effect_receiver = NodePath("EffectReceiver")
+
+[node name="EnemyStateMachine" type="Node" parent="."]
+unique_name_in_owner = true
+script = SubResource("GDScript_76m35")
+
+[node name="EffectReceiver" parent="." instance=ExtResource("3_gtcfh")]
+unique_name_in_owner = true
+script = SubResource("GDScript_8tafr")
+
+[node name="HealthComponent" parent="." instance=ExtResource("4_76m35")]
+unique_name_in_owner = true
+script = SubResource("GDScript_hrkp4")
+
+[node name="ArmorComponent" parent="." instance=ExtResource("5_rrxn3")]
+unique_name_in_owner = true
+script = SubResource("GDScript_icobv")
+
+[node name="EnemyMovementComponent" type="Node" parent="."]
+unique_name_in_owner = true
+script = SubResource("GDScript_hinnt")
+metadata/_custom_type_script = "uid://d0iyojlfkjpup"
+
+[node name="EnemyMelee2AttackController" parent="." instance=ExtResource("5_76m35")]
+script = ExtResource("6_rrxn3")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_2kvky")
+animation = &"attack"
+autoplay = "idle"
+frame = 3
+frame_progress = 0.2362763
+
+[node name="HurtBox" parent="." instance=ExtResource("7_hrkp4")]
+collision_layer = 128
+collision_mask = 0
+script = SubResource("GDScript_lp6jr")
+
+[node name="HurtBoxShape" type="CollisionShape2D" parent="HurtBox"]
+unique_name_in_owner = true
+shape = SubResource("CircleShape2D_28p2m")
+
+[node name="AttackZone" type="Area2D" parent="."]
+unique_name_in_owner = true
+z_index = 1
+collision_layer = 4
+collision_mask = 2
+collision_priority = 2.0
+
+[node name="AggroZone" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 4
+collision_mask = 2
+
+[node name="EnviromentCollision" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
+shape = SubResource("CircleShape2D_re5ix")
+
+[connection signal="body_entered" from="AggroZone" to="." method="_on_aggro_zone_body_entered"]

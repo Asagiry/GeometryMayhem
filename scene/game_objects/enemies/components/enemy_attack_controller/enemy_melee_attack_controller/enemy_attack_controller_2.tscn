@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://8vhamnx2bxc5"]
+
+[ext_resource type="Script" uid="uid://cmspkfvjwgmt6" path="res://scene/game_objects/enemies/components/enemy_attack_controller/enemy_melee_attack_controller/enemy_attack_controller_2.gd" id="1_ekj4v"]
+
+[node name="EnemyMeleeAttackController2" type="Node"]
+script = ExtResource("1_ekj4v")
+
+[node name="CooldownTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+
+[connection signal="timeout" from="CooldownTimer" to="." method="_on_cooldown_timer_timeout"]

@@ -1,4 +1,4 @@
-class_name EnemyMeleeAttackController
+class_name EnemyMeleeAttackController2
 
 extends EnemyAttackController
 
@@ -21,11 +21,15 @@ func _create_and_setup_attack() -> Node:
 
 func _setup_attack_instance(attack_instance: Node) -> void:
 	attack_instance.global_position = owner.global_position
-	attack_instance.rotation = owner.movement_component.last_direction.angle()
+	var player = get_tree().get_first_node_in_group("player") as Node2D
+	if player:
+		var dir_to_player: Vector2 = (player.global_position - owner.global_position).normalized()
+		attack_instance.rotation = dir_to_player.angle()
 	attack_instance.set_enemy(owner)
 	attack_instance.set_attack_range(get_attack_range())
 	attack_instance.set_speed_scale(1.0 / get_duration())
 	_set_damage(attack_instance)
+
 
 
 func _wait_for_attack_completion(attack_instance: Node) -> void:
