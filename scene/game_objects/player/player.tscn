@@ -427,7 +427,6 @@ effect_receiver = NodePath("EffectReceiver")
 [node name="PlayerStateMachine" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("7_heqc5")
-is_log_enabled = true
 
 [node name="PlayerAttackController" parent="." instance=ExtResource("2_jxsrc")]
 unique_name_in_owner = true

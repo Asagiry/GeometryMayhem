@@ -25,7 +25,7 @@ unique_name_in_owner = true
 [node name="FrontLayer" type="Node2D" parent="." groups=["front_layer"]]
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(0.2, 0.2)
+zoom = Vector2(0.5, 0.5)
 process_callback = 0
 position_smoothing_enabled = true
 script = ExtResource("3_5lpb7")
