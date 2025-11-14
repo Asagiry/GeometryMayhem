@@ -1,8 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://fu46d3him35o"]
+[gd_scene load_steps=8 format=3 uid="uid://fu46d3him35o"]
 
 [ext_resource type="PackedScene" uid="uid://cffktb7uj82qv" path="res://scene/components/hit_box_component/hit_box_component.tscn" id="1_00tc4"]
 [ext_resource type="Script" uid="uid://da0h753mk80to" path="res://scene/game_objects/enemies/melee_enemy/melee_src/melee_enemy_2_attack_scene.gd" id="1_h7hiw"]
-[ext_resource type="Script" uid="uid://bmmc0i4k4lglc" path="res://scene/game_objects/enemies/melee_enemy/melee_src/cpu_particles_2d.gd" id="2_j21wt"]
 
 [sub_resource type="Animation" id="Animation_j21wt"]
 length = 0.001
@@ -100,7 +99,6 @@ radial_accel_max = 49.7
 scale_amount_min = 0.0
 scale_amount_max = 2.0
 color_ramp = SubResource("Gradient_m0y62")
-script = ExtResource("2_j21wt")
 
 [node name="HitBoxComponent" parent="FireParticles" instance=ExtResource("1_00tc4")]
 unique_name_in_owner = true

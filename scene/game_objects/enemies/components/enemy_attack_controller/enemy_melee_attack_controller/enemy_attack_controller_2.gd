@@ -37,7 +37,7 @@ func _wait_for_attack_completion(attack_instance: Node) -> void:
 
 
 func _create_attack_instance():
-	var attack_instance = attack_scene.instantiate() 
+	var attack_instance = attack_scene.instantiate()
 	owner.add_child(attack_instance)
 	return attack_instance
 

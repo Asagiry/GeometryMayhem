@@ -12,7 +12,7 @@ var attacked: bool = false
 
 func _ready() -> void:
 	randomize()
-	fire_particles.emitting = false  
+	fire_particles.emitting = false
 	fire_particles.local_coords = true
 
 func _on_hit_box_component_area_entered(area: Area2D) -> void:
@@ -31,7 +31,7 @@ func _on_animation_finished(anim_name: String):
 	if anim_name == "attack":
 		fire_particles.emitting = false
 		attacked = true
-		queue_free()  
+		queue_free()
 
 func set_enemy(p_enemy):
 	enemy = p_enemy
