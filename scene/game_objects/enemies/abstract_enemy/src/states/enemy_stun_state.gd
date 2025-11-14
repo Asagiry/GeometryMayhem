@@ -18,17 +18,17 @@ func enter() -> void:
 	enemy.animated_sprite_2d.stop()
 
 
-func physics_process(delta: float) -> void:
+func process(delta: float) -> void:
 	stun_duration-=delta
 	enemy.move_and_collide(Vector2.ZERO)
 	if stun_duration <= 0.0 or !enemy.is_stunned:
-		state_machine.transition(EnemyIdleState.state_name)
+		enemy.is_stunned = false
+		stun_duration = 0.0
+		state_machine._on_update_enemy_state()
 
 
 func exit():
 	stun_finished.emit()
-	enemy.is_stunned = false
-	enemy.animated_sprite_2d.play("idle")
 
 
 func get_state_name() -> String:

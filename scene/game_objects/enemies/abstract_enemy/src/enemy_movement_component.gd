@@ -40,6 +40,9 @@ func get_back():
 	velocity = accelerate_to_direction(direction)
 	move_and_slide()
 
+	if is_reached_spawn_point():
+		owner.get_back = false
+
 
 func is_reached_spawn_point():
 	return global_position.distance_to(owner.stats.spawn_point) <= 5.0  # погрешность 5 пикселей

@@ -64,9 +64,8 @@ func _on_border_area_exited(body: CharacterBody2D):
 		else:
 			exited_zone.emit(self)
 	elif body is EnemyController:
-		if (body.state_machine.current_state.get_state_name()!=EnemyAggroState.state_name)\
-		and body.state_machine.current_state.get_state_name()!=EnemyBackState.state_name:
-			body.state_machine.transition(EnemyBackState.state_name)
+		if (body.state_machine.current_state.get_state_name()!=EnemyAggroState.state_name):
+			body.get_back = true
 		#TODO сделать получше мб
 
 
