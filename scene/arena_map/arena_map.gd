@@ -13,6 +13,7 @@ signal player_exited(zone: ArenaZone)
 
 @export_group("SpawnerController")
 @export var enabled: bool = false
+@export var mobs_frequency_wait_time: float = 0.1
 
 var player: PlayerController
 var arena_zones: Array[ArenaZone]

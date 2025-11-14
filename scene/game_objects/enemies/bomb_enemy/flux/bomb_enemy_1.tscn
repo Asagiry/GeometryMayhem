@@ -1,11 +1,11 @@
 [gd_scene load_steps=34 format=3 uid="uid://cu58eoeg0bvxb"]
 
 [ext_resource type="Script" uid="uid://dsw4lsyt8vegg" path="res://scene/game_objects/enemies/bomb_enemy/bomb_src/enemy_bomb.gd" id="1_uj4o8"]
-[ext_resource type="Script" uid="uid://5m7cpflvnie8" path="res://base/state_machine.gd" id="2_8gjcj"]
 [ext_resource type="Script" uid="uid://vean0446eao1" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_stat_data.gd" id="2_uj4o8"]
 [ext_resource type="Script" uid="uid://cyitjknl16852" path="res://scripts/data/damage/damage_data.gd" id="2_y8ni5"]
 [ext_resource type="PackedScene" uid="uid://bl380xv78onc8" path="res://scene/components/effect_receiver/effect_receiver.tscn" id="3_p8heo"]
 [ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="4_fbn1v"]
+[ext_resource type="Script" uid="uid://bph7rgfajg2et" path="res://scene/game_objects/enemies/abstract_enemy/src/states/enemy_state_machine.gd" id="4_iiu1m"]
 [ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component/armor_component.tscn" id="5_h71mh"]
 [ext_resource type="Script" uid="uid://b845xc5y43cwr" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_movement_component.gd" id="6_s63sj"]
 [ext_resource type="PackedScene" uid="uid://csmleslly1twg" path="res://scene/components/hurt_box_component/hurt_box.tscn" id="8_fgrwm"]
@@ -138,7 +138,7 @@ effect_receiver = NodePath("EffectReceiver")
 
 [node name="EnemyStateMachine" type="Node" parent="."]
 unique_name_in_owner = true
-script = ExtResource("2_8gjcj")
+script = ExtResource("4_iiu1m")
 
 [node name="EffectReceiver" parent="." instance=ExtResource("3_p8heo")]
 unique_name_in_owner = true

@@ -8,6 +8,7 @@ signal enemy_died()
 @export var effect_receiver: EffectReceiver
 
 var is_stunned: bool = false
+var get_back: bool = false
 
 @onready var state_machine: StateMachine = %EnemyStateMachine
 
@@ -61,7 +62,6 @@ func _start_state_machine():
 	var states: Array[State] = [
 		EnemyIdleState.new(self),
 		EnemyAttackState.new(self),
-		EnemyBackState.new(self),
 		EnemyAggroState.new(self),
 		EnemyStunState.new(self)
 	]

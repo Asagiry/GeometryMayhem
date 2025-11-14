@@ -143,7 +143,7 @@ func _handle_chunks(current_chunk: ChunkData):
 		if not (chunk in chunks_in_radius):
 			chunks_to_unload.append(chunk)
 
-	print("to_load: %d, to_unload: %d" % [chunks_to_load.size(), chunks_to_unload.size()])
+	#print("to_load: %d, to_unload: %d" % [chunks_to_load.size(), chunks_to_unload.size()])
 
 
 

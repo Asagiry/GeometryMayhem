@@ -19,6 +19,12 @@ func _create_and_setup_attack() -> Node:
 	return attack_instance
 
 
+func _create_attack_instance():
+	var attack_instance = attack_scene.instantiate() as MeleeEnemyAttackScene1
+	owner.add_child(attack_instance)
+	return attack_instance
+
+
 func _setup_attack_instance(attack_instance: Node) -> void:
 	attack_instance.global_position = owner.global_position
 	attack_instance.rotation = owner.movement_component.last_direction.angle()
@@ -32,10 +38,6 @@ func _wait_for_attack_completion(attack_instance: Node) -> void:
 	await attack_instance.animation_player.animation_finished
 
 
-func _create_attack_instance():
-	var attack_instance = attack_scene.instantiate() as MeleeEnemyAttackScene1
-	owner.add_child(attack_instance)
-	return attack_instance
 
 
 func _on_cooldown_timer_timeout() -> void:

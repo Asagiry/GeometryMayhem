@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://b50isw68gae8x"]
 
 [ext_resource type="Script" uid="uid://c1gjmkoe3un7b" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy.gd" id="1_v5tu5"]
-[ext_resource type="Script" uid="uid://5m7cpflvnie8" path="res://base/state_machine.gd" id="2_08aao"]
+[ext_resource type="Script" uid="uid://bph7rgfajg2et" path="res://scene/game_objects/enemies/abstract_enemy/src/states/enemy_state_machine.gd" id="2_qr5xt"]
 [ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="3_kggke"]
 [ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component/armor_component.tscn" id="4_8m5gp"]
 [ext_resource type="PackedScene" uid="uid://bl380xv78onc8" path="res://scene/components/effect_receiver/effect_receiver.tscn" id="5_72ti2"]
@@ -16,7 +16,8 @@ effect_receiver = NodePath("EffectReceiver")
 
 [node name="EnemyStateMachine" type="Node" parent="."]
 unique_name_in_owner = true
-script = ExtResource("2_08aao")
+script = ExtResource("2_qr5xt")
+is_log_enabled = true
 
 [node name="EffectReceiver" parent="." instance=ExtResource("5_72ti2")]
 unique_name_in_owner = true
