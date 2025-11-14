@@ -32,8 +32,10 @@ func _on_player_exited_attack(body: CharacterBody2D):
 		player_in_attack_zone = false
 
 func _on_player_exited_aggro(body: CharacterBody2D):
-	if body is PlayerController:
-		player_in_aggro_zone = false
+	if body is not PlayerController:
+		return
+	player_in_aggro_zone = false
+	if state_machine.current_state.get_state_name() == get_state_name():
 		state_machine.transition(EnemyBackState.state_name)
 
 func _on_stun_applied(duration: float):

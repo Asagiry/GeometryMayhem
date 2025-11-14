@@ -12,11 +12,10 @@ var on_cooldown: bool = false
 func _init(enemy_controller: EnemyController) -> void:
 	super(enemy_controller)
 	attack_controller.attack_started.connect(_on_attack_started)
-	explosion_delay = enemy_controller.stats.explosion_delay
 
 
 func enter() -> void:
-
+	explosion_delay = enemy.stats.get_stat("explosion_delay")
 	await enemy.get_tree().create_timer(explosion_delay).timeout
 
 	var aggro_state = state_machine.states["EnemyAggroState"] as EnemyAggroState

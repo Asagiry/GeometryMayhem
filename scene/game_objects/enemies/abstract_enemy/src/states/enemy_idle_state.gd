@@ -14,6 +14,7 @@ func enter() -> void:
 func physics_process(_delta: float) -> void:
 	enemy.movement_component.handle_movement()
 
+
 func _on_player_entered_aggro(body:CharacterBody2D):
 	if (state_machine.current_state.get_state_name() == get_state_name()):
 		if body is PlayerController:

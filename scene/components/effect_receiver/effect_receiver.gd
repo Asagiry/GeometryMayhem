@@ -2,7 +2,6 @@ class_name EffectReceiver
 
 extends Node
 
-
 signal effect_started(effect_type: Util.EffectType)
 signal effect_ended(effect_type: Util.EffectType)
 
@@ -28,6 +27,7 @@ var active_stat_modifiers: Dictionary = {}
 var stat_modifiers: StatModifierData = StatModifierData.new()
 
 var active_special_states: Dictionary = {}
+
 
 func _physics_process(delta: float) -> void:
 	_process_dots(delta)

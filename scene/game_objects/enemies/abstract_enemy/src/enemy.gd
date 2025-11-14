@@ -35,15 +35,12 @@ func init():
 	_start_state_machine()
 
 
-
 func _connect_signals():
 	health_component.died.connect(_on_died)
 
 
 func _enter_varibles():
-	stats = stats.duplicate(true)
 	effects = effects.duplicate(true)
-	effect_receiver = effect_receiver.duplicate()
 
 
 func _enter_stats():
@@ -70,6 +67,7 @@ func _start_state_machine():
 	]
 	state_machine.start_machine(states)
 
+
 func _on_died():
 	enemy_died.emit()
 	Global.enemy_died.emit(stats)
@@ -78,3 +76,7 @@ func _on_died():
 
 func set_spawn_point(spawn_point: Vector2):
 	stats.spawn_point = spawn_point
+
+
+func get_stats():
+	return stats  # Всегда возвращаем текущие статы (даже если это копия)
