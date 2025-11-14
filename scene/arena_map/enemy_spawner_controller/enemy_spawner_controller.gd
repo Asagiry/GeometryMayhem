@@ -72,6 +72,8 @@ func _spawn_enemy():
 				return
 			var enemy_instance = enemy_scene.instantiate() as EnemyController
 			enemy_instance.global_position = spawn_point
+			print(enemy_instance.stats)
+			print(enemy_instance.stats.spawn_point)
 			enemy_instance.stats.spawn_point = spawn_point
 			get_tree().get_first_node_in_group("back_layer").call_deferred("add_child",
 			enemy_instance)
