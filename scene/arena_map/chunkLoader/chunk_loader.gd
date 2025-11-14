@@ -1,14 +1,15 @@
 class_name ChunkLoader
 extends Node
 
-@export_enum("8", "16", "32") var chunk_size_str: String = "16"
+@export var arena_map: ArenaMap
+
+var chunk_size_str: String
 var chunk_size: float:
 	get:
 		return float(chunk_size_str)
-@export var draw_distance: int
-@export var arena_map: ArenaMap
-@export var frequency_time: float
-@export var query_wait_time: float
+var draw_distance: int
+var frequency_wait_time: float
+var query_wait_time: float
 
 
 var tile_data: Dictionary = {}
@@ -28,14 +29,20 @@ var is_enabled: bool = true
 
 
 func setup():
+	chunk_size_str = arena_map.chunk_size_str
+	draw_distance = arena_map.draw_distance
+	frequency_wait_time = arena_map.frequency_wait_time
+	query_wait_time = arena_map.query_wait_time
+
 	player = arena_map.player
 	tile_data.clear()
 	chunk_by_coord.clear()
 	chunks_loaded.clear()
 
-	frequency_timer.start(frequency_time)
-	query_timer.start(query_wait_time)
-
+	frequency_timer.wait_time = frequency_wait_time
+	frequency_timer.start()
+	query_timer.wait_time = query_wait_time
+	query_timer.start()
 	for arena_zone in arena_map.arena_zones:
 		_get_tile_data(arena_zone)
 		arena_zone.clear()
@@ -118,6 +125,7 @@ func _on_frequency_timer_timeout() -> void:
 	_handle_chunks(current_chunk)
 
 	query_timer.start(query_wait_time)
+
 
 func _handle_chunks(current_chunk: ChunkData):
 

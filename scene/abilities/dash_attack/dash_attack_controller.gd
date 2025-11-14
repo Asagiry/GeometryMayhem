@@ -99,6 +99,7 @@ func activate_dash(input_state: bool):
 
 func _create_dash_instance():
 	var dash_attack_instance = dash_attack_scene.instantiate() as DashAttack
+	dash_attack_instance.position = _start_pos
 	get_tree().get_first_node_in_group("front_layer").add_child(dash_attack_instance)
 	return dash_attack_instance
 

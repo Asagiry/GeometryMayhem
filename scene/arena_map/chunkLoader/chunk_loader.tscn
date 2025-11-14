@@ -13,7 +13,7 @@ ignore_time_scale = true
 
 [node name="QueryTimer" type="Timer" parent="."]
 unique_name_in_owner = true
-physics_interpolation_mode = 2
+wait_time = 0.1
 autostart = true
 ignore_time_scale = true
 

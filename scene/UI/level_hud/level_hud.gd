@@ -44,7 +44,7 @@ func _resonance_setup():
 	Global.impulse_amount_changed.connect(_on_resonance_changed)
 	_on_resonance_changed(player.resonance_component.current_impulse,
 	player.resonance_component.current_level,
-	player.resonance_component.get_max_impulse(),
+	player.resonance_component.get_current_level_requirement(),
 	)
 
 

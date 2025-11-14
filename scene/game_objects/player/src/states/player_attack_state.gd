@@ -26,7 +26,6 @@ func _init(player_controller: PlayerController) -> void:
 
 func enter() -> void:
 	on_cooldown = true
-
 	attack_controller.activate_dash(input_from_mouse)
 
 	dash_started.emit(start_pos)
