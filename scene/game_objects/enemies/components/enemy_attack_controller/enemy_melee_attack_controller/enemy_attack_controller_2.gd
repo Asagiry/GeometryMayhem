@@ -26,7 +26,7 @@ func _setup_attack_instance(attack_instance: Node) -> void:
 		var dir_to_player: Vector2 = (player.global_position - owner.global_position).normalized()
 		attack_instance.rotation = dir_to_player.angle()
 	attack_instance.set_enemy(owner)
-	attack_instance.set_attack_range(attack_range)
+	attack_instance.set_attack_range(get_attack_range())
 	attack_instance.set_speed_scale(1.0 / get_duration())
 	_set_damage(attack_instance)
 
