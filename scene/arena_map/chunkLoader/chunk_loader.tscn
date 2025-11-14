@@ -1,3 +1,18 @@
-[gd_scene format=3 uid="uid://dniiq63dwbhjy"]
+[gd_scene load_steps=2 format=3 uid="uid://dniiq63dwbhjy"]
+
+[ext_resource type="Script" uid="uid://h20vh0k4x2jh" path="res://scene/arena_map/chunkLoader/chunk_loader.gd" id="1_a36a7"]
 
 [node name="ChunkLoader" type="Node"]
+script = ExtResource("1_a36a7")
+
+[node name="QueryTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+autostart = true
+ignore_time_scale = true
+
+[node name="UnloadTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+autostart = true
+
+[connection signal="timeout" from="QueryTimer" to="." method="_on_query_timer_timeout"]
+[connection signal="timeout" from="UnloadTimer" to="." method="_on_unload_timer_timeout"]

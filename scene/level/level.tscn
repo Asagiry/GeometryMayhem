@@ -13,7 +13,6 @@ script = ExtResource("1_plauu")
 transition_end_screen = ExtResource("2_dcgxc")
 
 [node name="EnemySpawnerController" parent="." node_paths=PackedStringArray("arena_map") instance=ExtResource("3_dcgxc")]
-enabled = true
 arena_map = NodePath("../Arena_map")
 
 [node name="Arena_map" parent="." instance=ExtResource("1_1c01b")]
@@ -22,12 +21,11 @@ arena_map = NodePath("../Arena_map")
 
 [node name="Player" parent="BackLayer" instance=ExtResource("2_hm7p5")]
 unique_name_in_owner = true
-position = Vector2(-50, -64)
 
 [node name="FrontLayer" type="Node2D" parent="." groups=["front_layer"]]
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(2, 2)
+zoom = Vector2(0.2, 0.2)
 process_callback = 0
 position_smoothing_enabled = true
 script = ExtResource("3_5lpb7")

@@ -103,6 +103,7 @@ pause={
 2d_physics/layer_7="pickup"
 2d_physics/layer_8="enemy_hurtbox"
 2d_physics/layer_9="player_hurtbox"
+2d_physics/layer_10="Chunk"
 
 [physics]
 
