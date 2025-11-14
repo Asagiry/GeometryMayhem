@@ -1,6 +1,8 @@
 class_name ChunkData
 extends Resource
 
+const TILE_PIXEL_SIZE = 16
+
 var arena_zone: ArenaZone = null
 var tile_array: Array[Dictionary] = []
 var chunk_coord: Vector2i = Vector2i.ZERO
@@ -23,7 +25,6 @@ p_chunk_size
 
 
 func _create_area():
-	var TILE_PIXEL_SIZE = 16
 	var chunk_size_px = chunk_size * TILE_PIXEL_SIZE
 
 	# --- Area2D (оставляем как есть) ---

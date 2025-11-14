@@ -7,9 +7,6 @@ signal player_exited(zone: ArenaZone)
 
 @export_group("ChunkLoader")
 @export_enum("8", "16", "32") var chunk_size_str: String = "16"
-var chunk_size: float:
-	get:
-		return float(chunk_size_str)
 @export var draw_distance: int = 1
 @export var frequency_wait_time: float = 0.1
 @export var query_wait_time: float = 0.1
@@ -19,6 +16,9 @@ var chunk_size: float:
 
 var player: PlayerController
 var arena_zones: Array[ArenaZone]
+var chunk_size: float:
+	get:
+		return float(chunk_size_str)
 
 @onready var basic_wall: TileMapLayer = %BasicWall
 @onready var details: TileMapLayer = %Details
