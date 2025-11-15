@@ -2,6 +2,10 @@ class_name TestUI
 
 extends CanvasLayer
 
+const PATH_TO_MELEE_ENEMIES: String = "res://scene/game_objects/enemies/melee_enemy/flux/"
+const PATH_TO_RANGE_ENEMIES: String = "res://scene/game_objects/enemies/range_enemy/flux/"
+const PATH_TO_BOMB_ENEMIES: String = "res://scene/game_objects/enemies/bomb_enemy/flux/"
+
 @export var player : PlayerController
 
 var melee1 = preload("res://scene/game_objects/enemies/melee_enemy/flux/melee_enemy_1.tscn")
@@ -37,6 +41,7 @@ var effect_timers: Dictionary = {}
 @onready var enemy_stats_menu_button: MenuButton = %EnemyStatsMenuButton
 @onready var add_to_all_enemies_check_box: CheckBox = %AddToAllEnemiesCheckBox
 @onready var applied_infusions_container: FlowContainer = %AppliedInfusionsContainer
+@onready var enemy_spawn_container: FlowContainer = %EnemySpawnContainer
 
 
 
@@ -44,6 +49,8 @@ var effect_timers: Dictionary = {}
 func _ready():
 	call_deferred("_connect_signal")
 	_enter_variables()
+	_setup_enemy_spawn_buttons()
+	_load_player_infusions()
 
 
 func _enter_variables():
@@ -60,8 +67,229 @@ func _connect_signal():
 	player.health_component.health_increased.connect(_on_health_changed)
 	Global.impulse_amount_changed.connect(_on_impulse_amount_changed)
 	Global.enemy_died.connect(_on_enemy_died)
+	player.player_hurt_box.effect_is_applied.connect(_on_enemy_applied_effect_to_player)
+
+
+func _setup_enemy_spawn_buttons():
+	var enemy_paths = [
+		PATH_TO_MELEE_ENEMIES,
+		PATH_TO_RANGE_ENEMIES,
+		PATH_TO_BOMB_ENEMIES
+	]
+
+	for folder_path in enemy_paths:
+		_load_enemies_from_folder(folder_path)
+
+
+func _load_player_infusions():
+	var player_infusions = player.effects
+	print(player_infusions)
+	for effect in player_infusions:
+		add_infusion(effect.effect_type)
+
+
+func _load_enemies_from_folder(folder_path: String):
+	var dir = DirAccess.open(folder_path)
+	if dir:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			if file_name.ends_with(".tscn") and not file_name.begins_with("."):
+				var enemy_path = folder_path + file_name
+				var enemy_scene = load(enemy_path)
+				if enemy_scene:
+					_create_enemy_spawn_button(enemy_scene, file_name.get_basename())
+			file_name = dir.get_next()
+		dir.list_dir_end()
+
+
+func _create_enemy_spawn_button(enemy_scene: PackedScene, enemy_name: String):
+	var button = Button.new()
+	button.text = enemy_name.replace("enemy_", "")
+	button.pressed.connect(_on_enemy_spawn_button_pressed.bind(enemy_scene, enemy_name))
+	enemy_spawn_container.add_child(button)
+
+
+func _on_enemy_applied_effect_to_player(
+	effect_type: Util.EffectType,
+	effect_duration: float,
+	effect_behavior: Util.EffectBehavior
+):
+	handle_effect_ui(effect_type, effect_duration, effect_behavior)
 #endregion
 
+
+##region EffectsInfoContainer(ApplyEffects)
+#func _on_apply_button_pressed() -> void:
+	#var effect = Effect.new()
+	#effect.effect_type = effect_choose.get_effect_type()
+	#effect.behavior = behavior_choose.get_behavior()
+	#effect.damage = damage_edit.get_damage_data()
+	#effect.stat_modifiers = stat_choose.get_stat_data()
+	#effect.duration = duration_edit.get_duration()
+	#effect.tick_interval = tick_edit.get_tick_interval()
+	#apply_effect(effect)
+#
+#
+#func apply_effect(effect: Effect):
+	#if selected_enemy or add_to_all_enemies_check_box.button_pressed:
+		#apply_effect_to_enemies(effect)
+	#else:
+		#apply_effect_to_player(effect)
+#
+#
+#func apply_effect_to_player(effect: Effect):
+	#update_stats(effect)
+	#if effect_infusion_check_button.button_pressed:
+		#player.effects.append(effect)
+		#add_infusion(effect.effect_type)
+	#else:
+		#player.effect_receiver.apply_effect(effect)
+		#add_effect(effect.effect_type, effect.duration)
+#
+#
+#func update_stats(effect: Effect):
+	#effect_choose.update_effect_type(effect.effect_type)
+	#behavior_choose.update_effect_behavior(effect.behavior)
+	#if effect.damage:
+		#damage_edit.text = str(effect.damage.amount)
+	#else:
+		#damage_edit.text = "NONE"
+	#stat_choose.update_stat_modifiers(effect.stat_modifiers)
+	#duration_edit.text = str(effect.duration)
+	#tick_edit.text = str(effect.tick_interval)
+#
+#
+#func apply_effect_to_enemies(effect):
+	#var targets = get_tree().get_nodes_in_group("enemy") \
+	#if add_to_all_enemies_check_box.button_pressed or !selected_enemy \
+	#else [selected_enemy]
+	#var is_infusion = effect_infusion_check_button.button_pressed
+#
+	#for target in targets:
+		#if is_infusion:
+			#target.effects.append(effect)
+			#_on_infusion_added_to_enemy(target, effect)
+		#else:
+			#target.effect_receiver.apply_effect(effect)
+			#_on_effect_added_to_enemy(target, effect)
+#
+#
+#func add_effect(effect_type, duration):
+	#var panel = _create_effect_panel(
+		#effect_type,
+		#str(duration),
+		#Color.DARK_BLUE,
+		#Color.LIGHT_BLUE
+	#)
+	#applied_effects_container.add_child(panel)
+#
+	#var update_timer = Timer.new()
+	#update_timer.wait_time = 0.1
+	#add_child(update_timer)
+	#update_timer.timeout.connect(_update_timer_progress.bind(panel, duration))
+	#update_timer.start()
+#
+	#var timer = Timer.new()
+	#add_child(timer)
+	#timer.start(duration)
+	#timer.timeout.connect(_on_timer_timeout.bind(timer, panel, update_timer))
+#
+	#effect_timers[panel] = [timer, update_timer]
+#
+#
+#func add_infusion(effect_type):
+	#var panel = _create_effect_panel(effect_type, "", Color.DARK_RED, Color.LIGHT_CORAL)
+	#applied_infusions_container.add_child(panel)
+#
+#
+#func _create_effect_panel(
+	#effect_type: Util.EffectType,
+	#suffix: String,
+	#bg_color: Color,
+	#text_color: Color
+	#) -> PanelContainer:
+	#var panel = PanelContainer.new()
+	#var stylebox = StyleBoxFlat.new()
+	#stylebox.bg_color = bg_color
+	#stylebox.border_color = text_color
+	#stylebox.border_width_left = 2
+	#stylebox.border_width_top = 2
+	#stylebox.border_width_right = 2
+	#stylebox.border_width_bottom = 2
+	#stylebox.corner_radius_top_left = 6
+	#stylebox.corner_radius_top_right = 6
+	#stylebox.corner_radius_bottom_right = 6
+	#stylebox.corner_radius_bottom_left = 6
+	#stylebox.shadow_size = 4
+	#stylebox.shadow_color = Color.BLACK
+	#panel.add_theme_stylebox_override("panel", stylebox)
+#
+	#var hbox = HBoxContainer.new()
+	#hbox.add_theme_constant_override("separation", 4)
+	#panel.add_child(hbox)
+#
+	#var icon = ColorRect.new()
+	#icon.custom_minimum_size = Vector2(8, 8)
+	#icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	#icon.color = text_color
+	#hbox.add_child(icon)
+#
+	#var label = Label.new()
+	#label.text = Util.get_effect_name(effect_type) + " " + suffix
+	#label.add_theme_font_size_override("font_size", 12)
+	#label.add_theme_color_override("font_color", text_color)
+#
+	#var label_settings = LabelSettings.new()
+	#label_settings.outline_size = 2
+	#label_settings.outline_color = Color.BLACK
+	#label.label_settings = label_settings
+#
+	#hbox.add_child(label)
+#
+	#panel.tooltip_text = Util.get_effect_name(effect_type)
+#
+	#return panel
+#
+#
+#func _update_timer_progress(panel: PanelContainer, initial_duration: float):
+	#var hbox = panel.get_child(0)
+	#if hbox and hbox.get_child_count() > 1:
+		#var label = hbox.get_child(1) as Label
+		#if label:
+			#var text = label.text
+			#var regex = RegEx.new()
+			#regex.compile("(\\d+\\.?\\d*)")
+			#var result = regex.search(text)
+			#if result:
+				#var current_value = float(result.get_string())
+				#var new_value = max(0, current_value - 0.1)
+				#var progress = new_value / initial_duration
+				#var hbox_child = panel.get_child(0)
+				#if hbox_child and hbox_child.get_child_count() > 1:
+					#var time_label = hbox_child.get_child(1) as Label
+					#if progress < 0.3:
+						#time_label.add_theme_color_override("font_color", Color.RED)
+					#elif progress < 0.6:
+						#time_label.add_theme_color_override("font_color", Color.YELLOW)
+#
+				#label.text = text.replace(str(current_value), "%.1f" % new_value)
+#
+#func effects_behavior_match_case(effect_type: Util.EffectType):
+	#match Util.EffectType:
+		#Util.EffectType.SLOW:
+			#return true
+		#Util.EffectType.CURSE:
+			#return true
+		#Util.EffectType.CORROSION:
+			#return true
+#
+#func _on_timer_timeout(timer:Timer, ui_element, update_timer: Timer):
+	#ui_element.queue_free()
+	#timer.queue_free()
+	#update_timer.queue_free()
+#
+##endregion
 
 #region EffectsInfoContainer(ApplyEffects)
 func _on_apply_button_pressed() -> void:
@@ -89,7 +317,54 @@ func apply_effect_to_player(effect: Effect):
 		add_infusion(effect.effect_type)
 	else:
 		player.effect_receiver.apply_effect(effect)
-		add_effect(effect)
+		# Для UI: обновляем панель эффекта
+		handle_effect_ui(effect.effect_type, effect.duration, effect.behavior)
+
+
+func handle_effect_ui(effect_type: Util.EffectType, duration: float, behavior: Util.EffectBehavior):
+	print("in function handle_effect_ui")
+	match behavior:
+		Util.EffectBehavior.SPECIAL:
+			print("in matchcase special")
+			if not has_effect_panel(effect_type):
+				add_effect(effect_type, duration)
+		Util.EffectBehavior.INSTANT:
+			print("in matchcase instant")
+			add_effect(effect_type, duration)
+		Util.EffectBehavior.DOT, Util.EffectBehavior.BUFF, Util.EffectBehavior.DEBUFF:
+			remove_effect_panel(effect_type)
+			add_effect(effect_type, duration)
+
+
+func has_effect_panel(effect_type: Util.EffectType) -> bool:
+	for panel in effect_timers:
+		if is_instance_valid(panel):
+			var hbox = panel.get_child(0)
+			if hbox and hbox.get_child_count() > 1:
+				var label = hbox.get_child(1) as Label
+				if label and Util.get_effect_name(effect_type) in label.text:
+					return true
+	return false
+
+
+func remove_effect_panel(effect_type: Util.EffectType):
+	print("in function remove effect panel")
+	for panel in effect_timers:
+		if is_instance_valid(panel):
+			var hbox = panel.get_child(0)
+			if hbox and hbox.get_child_count() > 1:
+				var label = hbox.get_child(1) as Label
+				if label and Util.get_effect_name(effect_type) in label.text:
+					# Удаляем таймеры и панель
+					var timers = effect_timers.get(panel)
+					if timers:
+						timers[0].stop()
+						timers[1].stop()
+						timers[0].queue_free()
+						timers[1].queue_free()
+					panel.queue_free()
+					effect_timers.erase(panel)
+					return
 
 
 func update_stats(effect: Effect):
@@ -116,13 +391,40 @@ func apply_effect_to_enemies(effect):
 			_on_infusion_added_to_enemy(target, effect)
 		else:
 			target.effect_receiver.apply_effect(effect)
-			_on_effect_added_to_enemy(target, effect)
+			# Для UI врагов: обновляем панель эффекта
+			handle_enemy_effect_ui(target, effect.effect_type, effect.duration, effect.behavior)
 
 
-func add_effect(effect):
+func handle_enemy_effect_ui(
+	enemy,
+	effect_type: Util.EffectType,
+	duration: float,
+	behavior: Util.EffectBehavior
+	):
+	for element in enemy_info_container.get_children():
+		if element is EnemyInfo:
+			if is_instance_valid(element.enemy_link) and enemy == element.enemy_link:
+				element.handle_effect_ui(effect_type, duration, behavior)
+				break
+
+
+func _on_applied_effect_to_enemy(
+	effect_type: Util.EffectType,
+	effect_duration: float,
+	effect_behavior: Util.EffectBehavior,
+	enemy
+	):
+	for element in enemy_info_container.get_children():
+		if element is EnemyInfo:
+			if is_instance_valid(element.enemy_link):
+				if enemy == element.enemy_link:
+					element.handle_effect_ui(effect_type, effect_duration, effect_behavior)
+
+
+func add_effect(effect_type, duration):
 	var panel = _create_effect_panel(
-		effect.effect_type,
-		str(effect.duration),
+		effect_type,
+		str(duration),
 		Color.DARK_BLUE,
 		Color.LIGHT_BLUE
 	)
@@ -131,18 +433,26 @@ func add_effect(effect):
 	var update_timer = Timer.new()
 	update_timer.wait_time = 0.1
 	add_child(update_timer)
-	update_timer.timeout.connect(_update_timer_progress.bind(panel, effect.duration))
+	update_timer.timeout.connect(_update_timer_progress.bind(panel, duration))
 	update_timer.start()
 
 	var timer = Timer.new()
 	add_child(timer)
-	timer.start(effect.duration)
+	timer.start(duration)
 	timer.timeout.connect(_on_timer_timeout.bind(timer, panel, update_timer))
 
 	effect_timers[panel] = [timer, update_timer]
 
 
 func add_infusion(effect_type):
+	# Для инфузий проверяем дубликаты
+	for child in applied_infusions_container.get_children():
+		var hbox = child.get_child(0)
+		if hbox and hbox.get_child_count() > 1:
+			var label = hbox.get_child(1) as Label
+			if label and Util.get_effect_name(effect_type) in label.text:
+				return  # Инфузия уже существует, не добавляем дубликат
+
 	var panel = _create_effect_panel(effect_type, "", Color.DARK_RED, Color.LIGHT_CORAL)
 	applied_infusions_container.add_child(panel)
 
@@ -224,6 +534,7 @@ func _on_timer_timeout(timer:Timer, ui_element, update_timer: Timer):
 	ui_element.queue_free()
 	timer.queue_free()
 	update_timer.queue_free()
+	effect_timers.erase(ui_element)
 
 #endregion
 
@@ -492,7 +803,7 @@ func _on_unstun_enemies_button_pressed() -> void:
 func _on_stun_enemies_button_pressed() -> void:
 	var enemies = get_tree().get_nodes_in_group("enemy")
 	for enemy in enemies:
-		enemy.effect_receiver.set_stun_state(9999)
+		enemy.set_stun(9999)
 
 
 func _on_clear_enemy_infusions_button_pressed() -> void:
@@ -527,45 +838,39 @@ func _on_delete_enemy_button_pressed() -> void:
 
 	enemy_to_delete.queue_free()
 
+
+func _on_stun_selected_enemy_button_pressed() -> void:
+	if !selected_enemy:
+		push_warning("Enemy is not selected. Select enemy first.")
+		return
+
+	selected_enemy.set_stun(9999)
+
+
+func _on_unstun_selected_enemy_button_pressed() -> void:
+	if !selected_enemy:
+		push_warning("Enemy is not selected. Select enemy first.")
+		return
+
+	selected_enemy.set_stun(0)
+
 #endregion
 
 
 #region Spawn Enemy
-func _on_melee_1_pressed() -> void:
-	var melee1_instance = melee1.instantiate() as EnemyController
+func _on_enemy_spawn_button_pressed(enemy_scene: PackedScene, enemy_name: String):
+	var enemy_instance = enemy_scene.instantiate()
 
-	melee1_instance.stats = melee1_instance.stats.duplicate(true)
+	enemy_instance.stats = enemy_instance.stats.duplicate(true)
 
-	get_tree().get_first_node_in_group("back_layer").add_child(melee1_instance)
+	get_tree().get_first_node_in_group("back_layer").add_child(enemy_instance)
 
 	var spawn_position = _get_spawn_position_behind_player()
-	melee1_instance.global_position = spawn_position
+	enemy_instance.global_position = spawn_position
 
-	melee1_instance.effect_receiver.set_stun_state(9999)
-	create_enemy_info_panel(melee1_instance, "Melee1")
-
-
-func _on_range_1_pressed() -> void:
-	var range1_instance = range1.instantiate()
-	range1_instance.stats = range1_instance.stats.duplicate(true)
-	get_tree().get_first_node_in_group("back_layer").add_child(range1_instance)
-	var spawn_position = _get_spawn_position_behind_player()
-	range1_instance.global_position = spawn_position
-
-	range1_instance.effect_receiver.set_stun_state(9999)
-	create_enemy_info_panel(range1_instance, "Range1")
-
-
-func _on_bomb_1_pressed() -> void:
-	var bomb1_instance = bomb1.instantiate()
-	bomb1_instance.stats = bomb1_instance.stats.duplicate(true)
-	get_tree().get_first_node_in_group("back_layer").add_child(bomb1_instance)
-	var spawn_position = _get_spawn_position_behind_player()
-	bomb1_instance.global_position = spawn_position
-
-	bomb1_instance.effect_receiver.set_stun_state(9999)
-	create_enemy_info_panel(bomb1_instance, "Bomb1")
-
+	enemy_instance.set_stun(9999)
+	enemy_instance.hurt_box.effect_is_applied.connect(_on_applied_effect_to_enemy.bind(enemy_instance))
+	create_enemy_info_panel(enemy_instance, enemy_name)
 
 func _get_spawn_position_behind_player() -> Vector2:
 	var behind_direction = Vector2.DOWN.normalized()

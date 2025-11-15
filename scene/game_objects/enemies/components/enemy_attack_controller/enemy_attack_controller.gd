@@ -19,7 +19,6 @@ func _ready():
 	super()
 	_connect_signals()
 
-
 func _connect_signals():
 	owner.effect_receiver.attack_component_effects_changed.connect(_on_effect_stats_changed)
 
@@ -35,6 +34,17 @@ func _set_damage(attack_instance):
 
 func _create_attack_instance():
 	pass
+
+
+func _get_direction_to_player():
+	return (_get_player_position() - owner.global_position).normalized()
+
+
+func _get_player_position() -> Vector2:
+	var player = get_tree().get_first_node_in_group("player")
+	if player:
+		return player.global_position
+	return Vector2.ZERO
 
 
 func start_cooldown():

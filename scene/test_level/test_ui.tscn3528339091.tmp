@@ -538,7 +538,7 @@ text = "Freeze"
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/SubMarginContainer/HBoxContainer/PlayerFreezeAndHpContainer"]
 layout_mode = 2
 
-[node name="Current_health_label" type="Label" parent="VBoxContainer/SubMarginContainer/HBoxContainer/PlayerFreezeAndHpContainer/HBoxContainer"]
+[node name="Max_heatlh_label" type="Label" parent="VBoxContainer/SubMarginContainer/HBoxContainer/PlayerFreezeAndHpContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/outline_size = 8
@@ -549,7 +549,7 @@ layout_mode = 2
 theme_override_constants/outline_size = 10
 text = "/"
 
-[node name="Max_heatlh_label" type="Label" parent="VBoxContainer/SubMarginContainer/HBoxContainer/PlayerFreezeAndHpContainer/HBoxContainer"]
+[node name="Current_health_label" type="Label" parent="VBoxContainer/SubMarginContainer/HBoxContainer/PlayerFreezeAndHpContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/outline_size = 8

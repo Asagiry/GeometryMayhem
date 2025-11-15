@@ -5,6 +5,7 @@ signal enemy_info_clicked(enemy_info: EnemyInfo)
 
 var enemy_link
 var is_selected: bool = false
+var effect_timers: Dictionary = {}
 
 @onready var cur_hp_label: Label = %CurHPLabel
 @onready var max_hp_label: Label = %MaxHPLabel
@@ -17,6 +18,48 @@ func _ready():
 	mouse_filter = Control.MOUSE_FILTER_PASS
 	gui_input.connect(_on_gui_input)
 	deselect()
+
+
+func handle_effect_ui(effect_type: Util.EffectType, duration: float, behavior: Util.EffectBehavior):
+	match behavior:
+		Util.EffectBehavior.SPECIAL:
+			if not has_effect_panel(effect_type):
+				add_effect_imanaginable(effect_type, duration)
+		Util.EffectBehavior.INSTANT:
+			add_effect_imanaginable(effect_type, duration)
+		Util.EffectBehavior.DOT, Util.EffectBehavior.BUFF, Util.EffectBehavior.DEBUFF:
+			remove_effect_panel(effect_type)
+			add_effect_imanaginable(effect_type, duration)
+
+
+func has_effect_panel(effect_type: Util.EffectType) -> bool:
+	for panel in effect_timers:
+		if is_instance_valid(panel):
+			var hbox = panel.get_child(0)
+			if hbox and hbox.get_child_count() > 1:
+				var label = hbox.get_child(1) as Label
+				if label and Util.get_effect_name(effect_type) in label.text:
+					return true
+	return false
+
+
+func remove_effect_panel(effect_type: Util.EffectType):
+	for panel in effect_timers:
+		if is_instance_valid(panel):
+			var hbox = panel.get_child(0)
+			if hbox and hbox.get_child_count() > 1:
+				var label = hbox.get_child(1) as Label
+				if label and Util.get_effect_name(effect_type) in label.text:
+					# Удаляем таймеры и панель
+					var timers = effect_timers.get(panel)
+					if timers:
+						timers[0].stop()
+						timers[1].stop()
+						timers[0].queue_free()
+						timers[1].queue_free()
+					panel.queue_free()
+					effect_timers.erase(panel)
+					return
 
 
 func _on_gui_input(event):
@@ -74,24 +117,47 @@ func add_infusion(effect_type):
 
 
 func add_effect(effect):
-	var panel = _create_effect_panel(
+	_add_effect_internal(
 		effect.effect_type,
 		str(effect.duration),
 		Color.DARK_BLUE,
-		Color.LIGHT_BLUE
-	)
+		Color.LIGHT_BLUE,
+		effect.duration
+		)
+
+
+func add_effect_imanaginable(effect_type, effect_duration):
+	_add_effect_internal(
+		effect_type,
+		str(effect_duration),
+		Color.DARK_BLUE,
+		Color.LIGHT_BLUE,
+		effect_duration
+		)
+
+
+func _add_effect_internal(
+	effect_type,
+	suffix: String,
+	bg_color: Color,
+	text_color: Color,
+	duration: float
+	):
+	var panel = _create_effect_panel(effect_type, suffix, bg_color, text_color)
 	enemy_effects_container.add_child(panel)
 
 	var update_timer = Timer.new()
 	update_timer.wait_time = 0.1
 	add_child(update_timer)
-	update_timer.timeout.connect(_update_timer_progress.bind(panel, effect.duration))
+	update_timer.timeout.connect(_update_timer_progress.bind(panel, duration))
 	update_timer.start()
 
 	var timer = Timer.new()
 	add_child(timer)
-	timer.start(effect.duration)
+	timer.start(duration)
 	timer.timeout.connect(_on_timer_timeout.bind(timer, panel, update_timer))
+
+	effect_timers[panel] = [timer, update_timer]
 
 
 func _create_effect_panel(
@@ -171,11 +237,19 @@ func _on_timer_timeout(timer: Timer, panel: PanelContainer, update_timer: Timer)
 	panel.queue_free()
 	timer.queue_free()
 	update_timer.queue_free()
+	effect_timers.erase(panel)
 
 
 func clear_effects():
-	for child in enemy_effects_container.get_children():
-		child.queue_free()
+	for panel in effect_timers:
+		if is_instance_valid(panel):
+			var timers = effect_timers[panel]
+			timers[0].stop()
+			timers[1].stop()
+			timers[0].queue_free()
+			timers[1].queue_free()
+			panel.queue_free()
+	effect_timers.clear()
 
 
 func clear_infusions():

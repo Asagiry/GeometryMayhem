@@ -1,6 +1,6 @@
 [gd_scene load_steps=31 format=3 uid="uid://cl33targsj1tk"]
 
-[ext_resource type="Script" uid="uid://bagohf12yhiai" path="res://scene/game_objects/enemies/range_enemy/range_src/enemy_range.gd" id="1_p8bgf"]
+[ext_resource type="Script" uid="uid://c1gjmkoe3un7b" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy.gd" id="1_3sd0s"]
 [ext_resource type="Script" uid="uid://cyitjknl16852" path="res://scripts/data/damage/damage_data.gd" id="2_6pjib"]
 [ext_resource type="Script" uid="uid://vean0446eao1" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_stat_data.gd" id="2_jncjd"]
 [ext_resource type="Script" uid="uid://bph7rgfajg2et" path="res://scene/game_objects/enemies/abstract_enemy/src/states/enemy_state_machine.gd" id="4_3qlvl"]
@@ -26,26 +26,26 @@
 [ext_resource type="Texture2D" uid="uid://bef21t7obwnjc" path="res://assets/mobs/range/Easy/1/IDLE/IDLE4.png" id="24_xtf01"]
 [ext_resource type="PackedScene" uid="uid://csmleslly1twg" path="res://scene/components/hurt_box_component/hurt_box.tscn" id="25_ulyax"]
 
-[sub_resource type="Resource" id="Resource_jncjd"]
+[sub_resource type="Resource" id="Resource_3qlvl"]
 script = ExtResource("2_6pjib")
 amount = 5.0
 metadata/_custom_type_script = "uid://cyitjknl16852"
 
-[sub_resource type="Resource" id="Resource_6pjib"]
+[sub_resource type="Resource" id="Resource_jncjd"]
 script = ExtResource("2_jncjd")
 max_health = 1000.0
-max_speed = 40.0
+max_speed = 100.0
 acceleration = 12.5
-rotation_speed = 4.0
-attack_damage = SubResource("Resource_jncjd")
+attack_damage = SubResource("Resource_3qlvl")
 attack_cd = 1.0
-knowledge_count = 15
-echo_chance = 0.3
-echo_count = 23
-impulse_count = 30
-aggro_range = 200.0
-attack_range_zone = 150.0
-projectile_speed = 200.0
+attack_range = 20.0
+knowledge_count = 10
+echo_chance = 10.0
+echo_count = 5
+impulse_count = 35
+aggro_range = 220.0
+attack_range_zone = 180.0
+projectile_speed = 125.0
 chance_to_additional_projectile = 0.5
 metadata/_custom_type_script = "uid://vean0446eao1"
 
@@ -121,8 +121,8 @@ size = Vector2(15.556351, 15.556351)
 [node name="RangeEnemy1" type="CharacterBody2D" node_paths=PackedStringArray("effect_receiver") groups=["enemy"]]
 collision_layer = 4
 collision_mask = 5
-script = ExtResource("1_p8bgf")
-stats = SubResource("Resource_6pjib")
+script = ExtResource("1_3sd0s")
+stats = SubResource("Resource_jncjd")
 effect_receiver = NodePath("EffectReceiver")
 
 [node name="EnemyStateMachine" type="Node" parent="."]
@@ -154,6 +154,7 @@ animation = &"aggro"
 autoplay = "idle"
 
 [node name="HurtBox" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("25_ulyax")]
+unique_name_in_owner = true
 collision_layer = 128
 collision_mask = 0
 health_component = NodePath("../HealthComponent")
