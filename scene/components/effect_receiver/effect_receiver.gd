@@ -59,7 +59,7 @@ func _apply_special_effect(effect: Effect):
 		return
 
 	active_special_states[effect.effect_type] = true
-	emit_signal("effect_started", effect.effect_type)
+	effect_started.emit(effect.effect_type, effect.duration)
 
 	var path = "res://scripts/data/effect/behavior/"+\
 	Util.get_effect_name(effect.effect_type).to_lower()+"_effect.gd"
@@ -79,7 +79,7 @@ func _apply_special_effect(effect: Effect):
 
 #region instant
 func _apply_instant_effect(effect: Effect):
-	emit_signal("effect_started", effect.effect_type)
+	effect_started.emit(effect.effect_type, effect.duration)
 
 	if effect.effect_type == Util.EffectType.DISPEL:
 		clear_effects(Util.EffectPositivity.NEGATIVE)
@@ -91,7 +91,7 @@ func _apply_instant_effect(effect: Effect):
 	if effect.stat_modifiers:
 		_add_stat_modifier(effect)
 
-	emit_signal("effect_ended", effect.effect_type)
+	effect_ended.emit(effect.effect_type)
 #endregion instant
 
 
@@ -107,7 +107,7 @@ func _add_dot_effect(effect: Effect):
 			if _should_replace_dot(existing_effect, effect):
 				dot_data["elapsed"] = 0.0
 				dot_data["effect"] = effect
-				emit_signal("effect_started", effect.effect_type)
+				effect_started.emit(effect.effect_type, effect.duration)
 			else:
 				dot_data["elapsed"] = 0.0
 			return
@@ -117,7 +117,7 @@ func _add_dot_effect(effect: Effect):
 		"timer": 0.0,
 		"elapsed": 0.0
 	})
-	emit_signal("effect_started", effect.effect_type)
+	effect_started.emit(effect.effect_type, effect.duration)
 
 
 func _process_dots(delta: float):
@@ -140,7 +140,7 @@ func _process_dots(delta: float):
 		# Если время эффекта истекло — удаляем
 		if dot["elapsed"] >= e.duration:
 			active_dots.remove_at(i)
-			emit_signal("effect_ended", e.effect_type)
+			effect_ended.emit(e.effect_type)
 
 
 func _should_replace_dot(old_dot: Effect, new_dot: Effect) -> bool:
@@ -166,7 +166,7 @@ func _add_stat_modifier(effect: Effect):
 			"positivity": effect.positivity
 		}
 		_recalculate_stats()
-		emit_signal("effect_started", new_type)
+		effect_started.emit(new_type, new_duration)
 		return
 
 	var existing_data = active_stat_modifiers[new_type]
@@ -179,7 +179,7 @@ func _add_stat_modifier(effect: Effect):
 			"positivity": effect.positivity
 		}
 		_recalculate_stats()
-		emit_signal("effect_started", new_type)
+		effect_started.emit(new_type, new_duration)
 	else:
 		existing_data["remaining_time"] = new_duration
 
@@ -260,7 +260,7 @@ func _process_stat_modifiers(delta: float):
 	if expired_effects.size() > 0:
 		for effect_type in expired_effects:
 			active_stat_modifiers.erase(effect_type)
-			emit_signal("effect_ended", effect_type)
+			effect_ended.emit(effect_type)
 		_recalculate_stats()
 
 
@@ -338,7 +338,7 @@ func clear_effects(type: Util.EffectPositivity) -> void:
 		var e: Effect = dot_data["effect"]
 		if e.positivity == type:
 			active_dots.remove_at(i)
-			emit_signal("effect_ended", e.effect_type)
+			effect_ended.emit(e.effect_type)
 
 #--------------STAT_MODIFIERS-----------------------
 	var expired_stat_modifiers := []
@@ -350,7 +350,7 @@ func clear_effects(type: Util.EffectPositivity) -> void:
 
 	for effect_type in expired_stat_modifiers:
 		active_stat_modifiers.erase(effect_type)
-		emit_signal("effect_ended", effect_type)
+		effect_ended.emit(effect_type)
 
 
 #--------SPECIAL_EFFECTS------------
@@ -367,18 +367,18 @@ func clear_all_effects() -> void:
 	if active_dots.size() > 0:
 		for dot_data in active_dots:
 			var e: Effect = dot_data["effect"]
-			emit_signal("effect_ended", e.effect_type)
+			effect_ended.emit(e.effect_type)
 		active_dots.clear()
 
 	if active_stat_modifiers.size() > 0:
 		for effect_type in active_stat_modifiers.keys():
-			emit_signal("effect_ended", effect_type)
+			effect_ended.emit(effect_type)
 		active_stat_modifiers.clear()
 		_recalculate_stats()
 
 	if active_special_states.size() > 0:
 		for effect_type in active_special_states.keys():
-			emit_signal("effect_ended", effect_type)
+			effect_ended.emit(effect_type)
 		active_special_states.clear()
 
 		for child in get_children():

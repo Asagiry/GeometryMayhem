@@ -21,7 +21,7 @@ func _create_and_setup_attack() -> Node:
 
 func _setup_attack_instance(attack_instance: Node) -> void:
 	attack_instance.global_position = owner.global_position
-	attack_instance.rotation = owner.movement_component.last_direction.angle()
+	attack_instance.rotation = _get_direction_to_player().angle()
 	attack_instance.set_enemy(owner)
 	attack_instance.set_attack_range(get_attack_range())
 	attack_instance.set_speed_scale(1.0 / get_duration())
@@ -34,7 +34,8 @@ func _wait_for_attack_completion(attack_instance: Node) -> void:
 
 func _create_attack_instance():
 	var attack_instance = attack_scene.instantiate()
-	owner.add_child(attack_instance)
+	#owner.add_child(attack_instance)
+	get_tree().get_first_node_in_group("front_layer").add_child(attack_instance)
 	return attack_instance
 
 

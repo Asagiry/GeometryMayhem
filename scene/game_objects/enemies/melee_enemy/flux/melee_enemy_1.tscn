@@ -136,6 +136,7 @@ animation = &"attack"
 autoplay = "idle"
 
 [node name="HurtBox" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("12_yggd7")]
+unique_name_in_owner = true
 collision_layer = 132
 collision_mask = 0
 health_component = NodePath("../HealthComponent")
