@@ -85,4 +85,8 @@ func set_spawn_point(spawn_point: Vector2):
 
 
 func get_stats():
-	return stats  # Всегда возвращаем текущие статы (даже если это копия)
+	return stats
+
+
+func get_effect_receiver():
+	return effect_receiver

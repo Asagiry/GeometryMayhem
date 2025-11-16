@@ -26,25 +26,6 @@ func _ready():
 	super._ready()  # Вызовет _setup_owner_reference() и _setup_stat_subscriptions()
 
 
-func _setup_owner_reference():
-	super._setup_owner_reference()
-
-	# Получаем player из owner
-	if owner_node is PlayerController:
-		player = owner_node
-	else:
-		player = get_tree().get_first_node_in_group("player") as PlayerController
-
-	if parry_scene:
-		parry_instance = parry_scene.instantiate() as Parry
-		parry_instance.init(get_angle(), get_radius())
-
-
-func _connect_signals():
-	if player and player.effect_receiver:
-		player.effect_receiver.attack_component_effects_changed.connect(_on_effect_stats_changed)
-
-
 func _physics_process(_delta):
 	# Обновляем позицию парри только если он активен
 	if parry_instance and is_instance_valid(parry_instance) and parry_instance.get_parent():
@@ -90,6 +71,49 @@ func activate_parry(input_state: bool):
 	is_parrying = false
 	start_cooldown()
 	parry_finished.emit()
+
+
+func get_cooldown() -> float:
+	return get_stat("parry_cd") * cooldown_multiplier
+
+
+func get_push_distance() -> float:
+	return get_stat("parry_push_distance")
+
+
+func get_angle() -> float:
+	return get_stat("parry_angle")
+
+
+func get_radius() -> float:
+	return get_stat("parry_radius")
+
+
+func get_duration() -> float:
+	return get_stat("parry_duration") * duration_multiplier
+
+
+func get_parry_damage() -> DamageData:
+	return get_stat("parry_damage")
+
+
+func _setup_owner_reference():
+	super._setup_owner_reference()
+
+	# Получаем player из owner
+	if owner_node is PlayerController:
+		player = owner_node
+	else:
+		player = get_tree().get_first_node_in_group("player") as PlayerController
+
+	if parry_scene:
+		parry_instance = parry_scene.instantiate() as Parry
+		parry_instance.init(get_angle(), get_radius())
+
+
+func _connect_signals():
+	if player and player.effect_receiver:
+		player.effect_receiver.attack_component_effects_changed.connect(_on_effect_stats_changed)
 
 
 func _parry():
@@ -227,27 +251,3 @@ func _on_effect_stats_changed(updated_stats) -> void:
 	#     cooldown_multiplier = updated_stats["parry_cd_multiplier"]
 	# if updated_stats.has("damage_multiplier"):
 	#     damage_multiplier = updated_stats["(parry)damage_multiplier"]
-
-
-func get_cooldown() -> float:
-	return get_stat("parry_cd") * cooldown_multiplier
-
-
-func get_push_distance() -> float:
-	return get_stat("parry_push_distance")
-
-
-func get_angle() -> float:
-	return get_stat("parry_angle")
-
-
-func get_radius() -> float:
-	return get_stat("parry_radius")
-
-
-func get_duration() -> float:
-	return get_stat("parry_duration") * duration_multiplier
-
-
-func get_parry_damage() -> DamageData:
-	return get_stat("parry_damage")

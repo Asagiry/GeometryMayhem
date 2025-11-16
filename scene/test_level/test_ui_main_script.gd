@@ -381,6 +381,7 @@ func _on_slow_preset_pressed() -> void:
 				.speed_multiplier(0.5)
 				.build()
 			)
+			.with_chance(0.3)
 			.build()
 	)
 

@@ -2,8 +2,9 @@ class_name MeleeEnemyAttackScene1
 
 extends Node2D
 
-var enemy
 var direction: float = 1.0
+var effects: Array[Effect]
+var magic_find: float
 
 @onready var hit_box_component = %HitBoxComponent
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
@@ -21,7 +22,11 @@ func _on_hit_box_component_area_entered(area: Area2D) -> void:
 	if area.has_method("deal_damage"):
 		area.deal_damage(hit_box_component.damage_data)
 	if area.has_method("apply_effect"):
-		area.apply_effect(enemy.effects, hit_box_component.damage_data)
+		area.apply_effect(
+			effects,
+			magic_find,
+			hit_box_component.damage_data
+			)
 
 
 func start_swing():
@@ -32,7 +37,8 @@ func start_swing():
 
 
 func set_enemy(p_enemy):
-	enemy = p_enemy
+	effects = p_enemy.effects
+	magic_find = p_enemy.stats.magic_find
 
 
 func set_attack_range(attack_range):

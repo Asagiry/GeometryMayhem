@@ -53,6 +53,37 @@ func apply_effect(effect: Effect):
 		Util.EffectBehavior.BUFF, Util.EffectBehavior.DEBUFF:
 			_add_stat_modifier(effect)
 
+
+func set_freeze_multiplier(value: float):
+	movement_component_effects_changed.emit({
+		"freeze_multilier": value
+	})
+
+
+func set_attack_duration_multiplier(value: float) -> void:
+	attack_component_effects_changed.emit({
+		"attack_duration_multiplier": value
+	})
+
+
+func set_direction_modifier(value: float) -> void:
+	movement_component_effects_changed.emit({
+		"direction_modifier": value
+	})
+
+
+func set_leave_stun_state():
+	owner.is_stunned = false
+
+
+func set_stun_state(duration: float):
+	owner.set_stun(duration)
+
+
+func get_stat(stat_name: String):
+	return owner.stats.get_stat(stat_name)
+
+
 #region special
 func _apply_special_effect(effect: Effect):
 	if is_under(effect.effect_type):
@@ -94,6 +125,29 @@ func _apply_instant_effect(effect: Effect):
 
 
 #region dot
+func _process_dots(delta: float):
+	for i in range(active_dots.size() - 1, -1, -1):
+		var dot = active_dots[i]
+		var e: Effect = dot["effect"]
+
+		dot["elapsed"] += delta
+		dot["timer"] += delta
+
+		# Пора тикать урон
+		if dot["timer"]>= e.tick_interval:
+			dot["timer"] = 0.0
+			if e.damage:
+				if e.positivity == Util.EffectPositivity.POSITIVE:
+					owner.health_component.take_heal(e.damage.amount)
+				else:
+					owner.health_component.take_damage(e.damage)
+
+		# Если время эффекта истекло — удаляем
+		if dot["elapsed"] >= e.duration:
+			active_dots.remove_at(i)
+			effect_ended.emit(e.effect_type)
+
+
 func _add_dot_effect(effect: Effect):
 	if effect.effect_type == Util.EffectType.BLEED:
 		effect.damage.amount = owner.stats.attack_damage.amount \
@@ -118,29 +172,6 @@ func _add_dot_effect(effect: Effect):
 	effect_started.emit(effect.effect_type, effect.duration)
 
 
-func _process_dots(delta: float):
-	for i in range(active_dots.size() - 1, -1, -1):
-		var dot = active_dots[i]
-		var e: Effect = dot["effect"]
-
-		dot["elapsed"] += delta
-		dot["timer"] += delta
-
-		# Пора тикать урон
-		if dot["timer"]>= e.tick_interval:
-			dot["timer"] = 0.0
-			if e.damage:
-				if e.positivity == Util.EffectPositivity.POSITIVE:
-					owner.health_component.take_heal(e.damage.amount)
-				else:
-					owner.health_component.take_damage(e.damage)
-
-		# Если время эффекта истекло — удаляем
-		if dot["elapsed"] >= e.duration:
-			active_dots.remove_at(i)
-			effect_ended.emit(e.effect_type)
-
-
 func _should_replace_dot(old_dot: Effect, new_dot: Effect) -> bool:
 	var old_total = old_dot.damage.amount * (old_dot.duration / old_dot.tick_interval)
 	var new_total = new_dot.damage.amount * (new_dot.duration / new_dot.tick_interval)
@@ -149,6 +180,21 @@ func _should_replace_dot(old_dot: Effect, new_dot: Effect) -> bool:
 
 
 #region stat_modifiers
+func _process_stat_modifiers(delta: float):
+	var expired_effects: Array = []
+
+	for effect_type in active_stat_modifiers.keys():
+		active_stat_modifiers[effect_type]["remaining_time"] -= delta
+		if active_stat_modifiers[effect_type]["remaining_time"] <= 0:
+			expired_effects.append(effect_type)
+
+	if expired_effects.size() > 0:
+		for effect_type in expired_effects:
+			active_stat_modifiers.erase(effect_type)
+			effect_ended.emit(effect_type)
+		_recalculate_stats()
+
+
 func _add_stat_modifier(effect: Effect):
 	if effect.stat_modifiers == null:
 		return
@@ -246,21 +292,6 @@ func _signal_sender(stat: String, value: float):
 			})
 
 
-func _process_stat_modifiers(delta: float):
-	var expired_effects: Array = []
-
-	for effect_type in active_stat_modifiers.keys():
-		active_stat_modifiers[effect_type]["remaining_time"] -= delta
-		if active_stat_modifiers[effect_type]["remaining_time"] <= 0:
-			expired_effects.append(effect_type)
-
-	if expired_effects.size() > 0:
-		for effect_type in expired_effects:
-			active_stat_modifiers.erase(effect_type)
-			effect_ended.emit(effect_type)
-		_recalculate_stats()
-
-
 func _should_replace_modifier(
 	old_mod: StatModifierData,
 	new_mod: StatModifierData,
@@ -324,6 +355,8 @@ func _is_new_buff_stronger(old_mod: StatModifierData, new_mod: StatModifierData)
 	return new_total > old_total
 #endregion stat_modifiers
 
+
+#region util functions
 func is_under(effect_type: Util.EffectType) -> bool:
 	return active_special_states.get(effect_type, false)
 
@@ -384,29 +417,4 @@ func clear_all_effects() -> void:
 				child.queue_free()
 
 	stat_modifiers.reset()
-
-
-func set_freeze_multiplier(value: float):
-	movement_component_effects_changed.emit({
-		"freeze_multilier": value
-	})
-
-
-func set_attack_duration_multiplier(value: float) -> void:
-	attack_component_effects_changed.emit({
-		"attack_duration_multiplier": value
-	})
-
-
-func set_direction_modifier(value: float) -> void:
-	movement_component_effects_changed.emit({
-		"direction_modifier": value
-	})
-
-
-func set_leave_stun_state():
-	owner.is_stunned = false
-
-
-func set_stun_state(duration: float):
-	owner.set_stun(duration)
+#endregion

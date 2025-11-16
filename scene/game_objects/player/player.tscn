@@ -111,6 +111,7 @@ metadata/_custom_type_script = "uid://cyitjknl16852"
 [sub_resource type="Resource" id="Resource_lduo2"]
 script = ExtResource("3_3v612")
 max_health = 10000.0
+regeneration = 0.001
 armor = 1.0
 max_speed = 200.0
 acceleration = 9.0
@@ -127,7 +128,7 @@ parry_angle = 90.0
 parry_radius = 60.0
 parry_duration = 0.3
 grace_period_time = 0.5
-magic_find = 10.0
+magic_find = 100.0
 metadata/_custom_type_script = "uid://cyhnm76rkr2ny"
 
 [sub_resource type="Resource" id="Resource_hfat0"]

@@ -1,41 +1,41 @@
 class_name Effect
 extends Resource
 
-### Кэш предзагруженных скриптов по умолчанию
+## Кэш предзагруженных скриптов по умолчанию
 static var _default_scripts_cache: Dictionary = {}
 
-### Тип эффекта (Slow, Burn, Freeze и т.д.)
+## Тип эффекта (Slow, Burn, Freeze и т.д.)
 var effect_type: Util.EffectType = Util.EffectType.NONE
 
-### Поведение эффекта (DOT, BUFF, DEBUFF, SPECIAL, INSTANT)
+## Поведение эффекта (DOT, BUFF, DEBUFF, SPECIAL, INSTANT)
 var behavior: Util.EffectBehavior = Util.EffectBehavior.NONE
 
-### Позитивность эффекта (POSITIVE, NEGATIVE, NONE)
+## Позитивность эффекта (POSITIVE, NEGATIVE, NONE)
 var positivity: Util.EffectPositivity = Util.EffectPositivity.NONE
 
-### Длительность эффекта в секундах. 0.0 - мгновенный эффект
+## Длительность эффекта в секундах. 0.0 - мгновенный эффект
 var duration: float = 0.0
 
-### Данные об уроне, который наносит эффект
+## Данные об уроне, который наносит эффект
 var damage: DamageData
 
-### Модификаторы характеристик, которые применяет эффект
+## Модификаторы характеристик, которые применяет эффект
 var stat_modifiers: StatModifierData
 
-### Интервал между тиками для DOT-эффектов в секундах
+## Интервал между тиками для DOT-эффектов в секундах
 var tick_interval: float = 1.0
 
-### Используется для bleed, wounded. В первом случае считает процент урона
-### от атаки, во втором случае считает процент урона от max_hp сущности.
+## Используется для bleed, wounded. В первом случае считает процент урона
+## от атаки, во втором случае считает процент урона от max_hp сущности.
 var percent: float
 
-### Скрипт поведения для SPECIAL эффектов
+## Скрипт поведения для SPECIAL эффектов
 var behavior_script: Script
 
-### Шанс применения эффекта (0.0 - 1.0). 1.0 - всегда применяется
+## Шанс применения эффекта (0.0 - 1.0). 1.0 - всегда применяется
 var chance_to_apply: float = 1.0
 
-### Создает и возвращает инстанс behavior скрипта для этого эффекта
+## Создает и возвращает инстанс behavior скрипта для этого эффекта
 func create_behavior_instance() -> Object:
 	if behavior_script:
 		return behavior_script.new()
@@ -48,7 +48,7 @@ func create_behavior_instance() -> Object:
 	return null
 
 
-### Получает скрипт по умолчанию для типа эффекта (с кэшированием)
+## Получает скрипт по умолчанию для типа эффекта (с кэшированием)
 func _get_default_behavior_script() -> Script:
 	var effect_name = Util.get_effect_name(effect_type).to_lower()
 
@@ -62,6 +62,6 @@ func _get_default_behavior_script() -> Script:
 
 	return _default_scripts_cache[effect_name]
 
-### Установить damage_data у эффекта
+## Установить damage_data у эффекта
 func set_damage_data(damage_data: DamageData) -> void:
 	damage = damage_data

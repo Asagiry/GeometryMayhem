@@ -11,9 +11,11 @@ func tick(_delta: float) -> void:
 	_timer += _delta
 	if _timer >= _effect.tick_interval:
 		_timer = 0.0
-		_effect.damage.amount = _effect.percent * _receiver.owner.stats.max_health
 		_receiver.owner.health_component.take_damage(
-			_effect.damage
+			DamageData.new(
+			_receiver.get_stat("max_health") * _effect.percent,
+			Util.DamageCategory.DEFAULT
+			)
 		)
 
 
