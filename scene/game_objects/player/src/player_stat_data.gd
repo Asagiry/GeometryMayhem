@@ -29,6 +29,7 @@ signal stat_changed(stat_name: String, old_value, new_value)
 
 @export_group("Other")
 @export var grace_period_time: float
+## Параметр удачи
 @export var magic_find: float
 
 var _previous_values: Dictionary = {}

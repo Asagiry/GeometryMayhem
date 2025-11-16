@@ -61,12 +61,10 @@ func _apply_special_effect(effect: Effect):
 	active_special_states[effect.effect_type] = true
 	effect_started.emit(effect.effect_type, effect.duration)
 
-	var path = "res://scripts/data/effect/behavior/"+\
-	Util.get_effect_name(effect.effect_type).to_lower()+"_effect.gd"
-	print(path)
-	var instance = load(path).new()
+	var instance = effect.create_behavior_instance()
 	if instance == null:
-		push_warning("⚠️ Special effect %s not found" % str(effect.effect_type))
+		push_warning("⚠️ Behavior instance not created for effect: " +
+			Util.get_effect_name(effect.effect_type))
 		return
 
 	add_child(instance)
@@ -243,7 +241,6 @@ func _signal_sender(stat: String, value: float):
 				"attack_duration_multiplier": value
 			})
 		"percent_of_max_health":
-			print("percent_of_max_health = ", value)
 			health_component_effects_changed.emit({
 				"percent_of_max_health": value
 			})

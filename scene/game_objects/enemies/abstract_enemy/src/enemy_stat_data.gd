@@ -48,6 +48,10 @@ const DEFAULT_INT_STAT: int = 0
 ## Задаются значения только для bomb врага.
 @export var explosion_delay: float
 
+@export_group("Other")
+## Параметр удачи
+@export var magic_find: float
+
 var _previous_values: Dictionary = {}
 
 func get_attack_damage_amount() -> float:

@@ -21,7 +21,7 @@ func _on_hit_box_component_area_entered(area: Area2D) -> void:
 	if area.has_method("deal_damage"):
 		area.deal_damage(hit_box_component.damage_data)
 	if area.has_method("apply_effect"):
-		area.apply_effect(enemy.effects)
+		area.apply_effect(enemy.effects, hit_box_component.damage_data)
 
 
 func start_swing():

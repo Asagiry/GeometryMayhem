@@ -105,8 +105,7 @@ func _create_dash_instance():
 
 
 func _set_damage(dash_attack_instance: DashAttack):
-	dash_attack_instance.hit_box_component.damage_data = get_attack_damage()
-	dash_attack_instance.hit_box_component.damage_data.amount *= damage_multiplier
+	dash_attack_instance.hit_box_component.set_damage_data(get_attack_damage())
 
 
 func _disable_player_hurt_box(disable: bool):
@@ -228,7 +227,9 @@ func get_dash_width() -> float:
 
 
 func get_attack_damage() -> DamageData:
-	return get_stat("attack_damage")
+	var damage_data = get_stat("attack_damage")
+	damage_data.multiply_damage_amount(damage_multiplier)
+	return damage_data
 
 
 func get_duration() -> float:

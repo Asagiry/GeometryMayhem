@@ -225,6 +225,8 @@ func _on_effect_stats_changed(updated_stats) -> void:
 	# Добавь другие эффекты если нужно
 	# if updated_stats.has("parry_cd_multiplier"):
 	#     cooldown_multiplier = updated_stats["parry_cd_multiplier"]
+	# if updated_stats.has("damage_multiplier"):
+	#     damage_multiplier = updated_stats["(parry)damage_multiplier"]
 
 
 func get_cooldown() -> float:

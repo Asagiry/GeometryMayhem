@@ -6,7 +6,7 @@ const MAX_MULTIPLIER: float = 10.0
 const DEFAULT_MULTIPLIER: float = 1.0
 const MIN_MULTIPLIER: float = 0.0
 
-@export_group("Attack Comp Mults")
+@export_group("Attack Comp Mults", "attack")
 @export var attack_multiplier: float = DEFAULT_MULTIPLIER
 @export var attack_cd_multiplier: float = DEFAULT_MULTIPLIER
 @export var attack_duration_multiplier: float = DEFAULT_MULTIPLIER
