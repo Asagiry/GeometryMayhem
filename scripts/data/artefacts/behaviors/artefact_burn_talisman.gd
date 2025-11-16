@@ -2,14 +2,16 @@ extends ArtefactBehavior
 
 var runtime_effects: Array[Effect] = []
 
-func apply_to_player(player: PlayerController, params: Dictionary) -> void:
-	runtime_effects = EffectFactory.create_effect(params)
-	for e in runtime_effects:
-		player.effects.append(e)
+func apply_to_player(_player: PlayerController, _params: Dictionary) -> void:
+	#runtime_effects = EffectFactory.create_effect(params)
+	#for e in runtime_effects:
+		#player.effects.append(e)
+		pass
 
-func remove_from_player(player: PlayerController, _params: Dictionary) -> void:
-	for e in runtime_effects:
-		player.effects.erase(e)
+func remove_from_player(_player: PlayerController, _params: Dictionary) -> void:
+	#for e in runtime_effects:
+		#player.effects.erase(e)
+		pass
 
 func _effect_to_string():
 	var data: String = ""

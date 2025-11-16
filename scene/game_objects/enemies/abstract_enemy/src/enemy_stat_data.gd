@@ -11,6 +11,10 @@ const DEFAULT_INT_STAT: int = 0
 
 @export_group("HP")
 @export var max_health: float
+## Раз в секунду добавляет здоровье по такой формуле regeneration * max_health
+@export var regeneration: float
+
+@export_group("Resistance")
 @export var armor: float
 
 @export_group("Movement")
@@ -47,6 +51,10 @@ const DEFAULT_INT_STAT: int = 0
 @export_group("Bomb Enemy")
 ## Задаются значения только для bomb врага.
 @export var explosion_delay: float
+
+@export_group("Other")
+## Параметр удачи
+@export var magic_find: float
 
 var _previous_values: Dictionary = {}
 

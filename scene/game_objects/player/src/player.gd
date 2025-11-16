@@ -52,6 +52,7 @@ func _connect_signals():
 	effect_receiver.silenced.connect(_on_silenced)
 	effect_receiver.collision_disabled.connect(_on_collision_disabled)
 
+
 func get_effect_receiver():
 	return effect_receiver
 
