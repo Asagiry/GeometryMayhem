@@ -14,7 +14,7 @@ var _enemy_scene_cache: Dictionary = {}
 
 
 func setup() -> void:
-	is_enabled = arena_map.is_enabled_Spawner_controller
+	is_enabled = arena_map.is_enabled_spawner_controller
 
 	arena_map.player_entered.connect(_on_player_entered)
 	arena_map.player_exited.connect(_on_player_exited)

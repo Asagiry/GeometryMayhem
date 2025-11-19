@@ -33,7 +33,7 @@ func setup():
 	draw_distance = arena_map.draw_distance
 	frequency_wait_time = arena_map.frequency_wait_time
 	query_wait_time = arena_map.query_wait_time
-	is_enabled = arena_map.is_enabled_Chunk_loader
+	is_enabled = arena_map.is_enabled_chunk_loader
 	player = arena_map.player
 	tile_data.clear()
 	chunk_by_coord.clear()

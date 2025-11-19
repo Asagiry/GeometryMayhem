@@ -11,10 +11,10 @@ signal player_exited(zone: ArenaZone)
 @export var draw_distance: int = 1
 @export var frequency_wait_time: float = 0.1
 @export var query_wait_time: float = 0.1
-@export var is_enabled_Chunk_loader = true
+@export var is_enabled_chunk_loader = true
 
 @export_group("SpawnerController")
-@export var is_enabled_Spawner_controller: bool = false
+@export var is_enabled_spawner_controller: bool = false
 
 @export_group("BossArena")
 @export var tiles_per_frame = 32
