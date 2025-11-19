@@ -10,13 +10,7 @@ var freeze_multiplier: float = 1.0
 
 var current_velocity = Vector2.ZERO
 var last_direction: Vector2 = Vector2.UP
-var external_force: Vector2 = Vector2.ZERO
 
-var is_pulled_to_center: bool = false
-var pull_strength_base: float = 100.0      # начальная сила
-var pull_strength_max: float = 2000.0      # максимальная сила
-var pull_strength: float= pull_strength_base
-var pull_grow_speed: float = 250.0         # скорость роста силы в секунду
 
 var effect_receiver: EffectReceiver
 
@@ -78,18 +72,6 @@ func stop() -> void:
 func is_moving() -> bool:
 	return current_velocity.length_squared() > 1.0
 
-
-func start_pull_to_center(
-	base_strength: float = 100.0,
-	strength_grow: float = 250.0
-	):
-	pull_strength_base = base_strength
-	pull_grow_speed = strength_grow
-	is_pulled_to_center = true
-
-
-func stop_pull_to_center():
-	is_pulled_to_center = false
 
 
 func set_freeze_multiplier(multiplier: float) -> void:

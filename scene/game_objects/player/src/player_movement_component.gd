@@ -5,6 +5,12 @@ extends MovementComponent
 signal movement_started(pos: Vector2)
 
 var is_enable : bool = false
+var is_pulled_to_center: bool = false
+var pull_strength_base: float = 100.0      # начальная сила
+var pull_strength_max: float = 2000.0      # максимальная сила
+var pull_strength: float= pull_strength_base
+var pull_grow_speed: float = 250.0         # скорость роста силы в секунду
+var external_force: Vector2 = Vector2.ZERO
 
 func _ready():
 	super()
@@ -37,6 +43,18 @@ func get_movement_vector() -> Vector2:
 	var vector = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	return vector
 
+func start_pull_to_center(
+	base_strength: float = 100.0,
+	strength_grow: float = 250.0
+	):
+	pull_strength_base = base_strength
+	pull_grow_speed = strength_grow
+	is_pulled_to_center = true
+
+
+func stop_pull_to_center():
+	is_pulled_to_center = false
+
 
 func _connect_signals():
 	super()
@@ -54,6 +72,7 @@ func _get_center_pull_velocity(delta: float) -> Vector2:
 	if distance < 10.0:
 		is_pulled_to_center = false
 		pull_strength = pull_strength_base
+		Global.player_pulled.emit()
 		return Vector2.ZERO
 
 	pull_strength = pull_strength + pull_grow_speed * delta
