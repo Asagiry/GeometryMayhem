@@ -17,3 +17,7 @@ func format_timer(seconds: float):
 	var minutes = int(floor(seconds / 60))
 	var remaining_seconds = int(floor(seconds - (minutes * 60)))
 	return str(minutes) + ":" + "%02d" % (remaining_seconds)
+
+
+func _on_game_timer_timeout() -> void:
+	Global.game_timer_timeout.emit()

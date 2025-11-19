@@ -33,7 +33,7 @@ func setup():
 	draw_distance = arena_map.draw_distance
 	frequency_wait_time = arena_map.frequency_wait_time
 	query_wait_time = arena_map.query_wait_time
-
+	is_enabled = arena_map.is_enabled_Chunk_loader
 	player = arena_map.player
 	tile_data.clear()
 	chunk_by_coord.clear()
@@ -95,6 +95,8 @@ func _create_chunk_areas(arena_zone: ArenaZone):
 
 
 func _on_query_timer_timeout() -> void:
+	if !is_enabled:
+		return
 	var operations = 0
 
 	if chunks_to_load.size()>0:
@@ -115,6 +117,9 @@ func _on_query_timer_timeout() -> void:
 		query_timer.stop()
 
 func _on_frequency_timer_timeout() -> void:
+	if !is_enabled:
+		return
+
 	var current_chunk = get_current_chunk()
 
 	if current_chunk == last_chunk:
@@ -143,7 +148,6 @@ func _handle_chunks(current_chunk: ChunkData):
 		if not (chunk in chunks_in_radius):
 			chunks_to_unload.append(chunk)
 
-	#print("to_load: %d, to_unload: %d" % [chunks_to_load.size(), chunks_to_unload.size()])
 
 
 
@@ -193,3 +197,16 @@ radius: int = draw_distance) -> Array[ChunkData]:
 				result.append(chunk_by_coord[target_coord])
 
 	return result
+
+
+func unload_all():
+	for chunk: ChunkData in chunks_loaded.values():
+		chunk.unload_chunk()
+		chunks_loaded.erase(chunk.chunk_coord)
+
+
+func load_around_boss_arena():
+	for chunk: ChunkData in chunk_by_coord.values():
+		if chunk.chunk_coord.x > -6 and chunk.chunk_coord.x < 5 \
+		and chunk.chunk_coord.y >-6 and chunk.chunk_coord.y < 5:
+			chunk.load_chunk()
