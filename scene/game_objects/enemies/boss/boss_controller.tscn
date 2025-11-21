@@ -1,0 +1,241 @@
+[gd_scene load_steps=19 format=3 uid="uid://nvvc41pbwmx"]
+
+[ext_resource type="Script" uid="uid://c1ldi8rsyr01h" path="res://scene/game_objects/enemies/boss/boss_controller.gd" id="1_rt2cv"]
+[ext_resource type="Texture2D" uid="uid://rt2hmxnff82u" path="res://assets/mobs/boss/Boss.png" id="2_8osxn"]
+[ext_resource type="PackedScene" uid="uid://bl380xv78onc8" path="res://scene/components/effect_receiver/effect_receiver.tscn" id="2_mew1x"]
+[ext_resource type="Script" uid="uid://bup4tgd7uqktm" path="res://scene/game_objects/enemies/boss/src/boss_stat_data.gd" id="2_tqviw"]
+[ext_resource type="Texture2D" uid="uid://bwtv8fy00bxcw" path="res://assets/mobs/boss/BossWeapon.png" id="3_6vwcg"]
+[ext_resource type="Script" uid="uid://sd2mjtsajor" path="res://scene/game_objects/enemies/boss/attack_controller.gd" id="3_l0uhr"]
+[ext_resource type="Script" uid="uid://d31ucj1wbsnwb" path="res://scene/game_objects/enemies/boss/src/attack_stats_data.gd" id="4_3agj5"]
+[ext_resource type="Script" uid="uid://3kej3ej8p81t" path="res://scene/game_objects/enemies/boss/boss_armor_component.gd" id="5_537hj"]
+[ext_resource type="Script" uid="uid://ccc7gfmr8apra" path="res://scene/game_objects/enemies/boss/src/boss_health_component.gd" id="5_l0uhr"]
+[ext_resource type="Script" uid="uid://pa5s2mtrbitd" path="res://scene/game_objects/enemies/boss/src/boss_movement_component.gd" id="6_l0uhr"]
+[ext_resource type="Script" uid="uid://crl43rwfxbyrd" path="res://scene/game_objects/enemies/boss/tentacle_controller.gd" id="6_tqviw"]
+[ext_resource type="Script" uid="uid://1l1dhvux028b" path="res://scene/game_objects/enemies/boss/src/boss_hurt_box.gd" id="12_pnvgi"]
+
+[sub_resource type="Resource" id="Resource_l0uhr"]
+script = ExtResource("2_tqviw")
+tentacle_max_hp = 200.0
+tentacle_regen = 1.0
+body_max_hp = 300.0
+body_regen = 1.0
+max_speed = 100.0
+acceleration = 1.0
+rotation_speed = 0.5
+metadata/_custom_type_script = "uid://bup4tgd7uqktm"
+
+[sub_resource type="Resource" id="Resource_pnvgi"]
+script = ExtResource("4_3agj5")
+metadata/_custom_type_script = "uid://d31ucj1wbsnwb"
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6vwcg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_8osxn")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8osxn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_6vwcg")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0yr02"]
+radius = 69.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6vwcg"]
+radius = 24.748741
+height = 103.23758
+
+[node name="BossController" type="CharacterBody2D" node_paths=PackedStringArray("effect_receiver") groups=["boss"]]
+collision_layer = 4
+collision_mask = 5
+script = ExtResource("1_rt2cv")
+stats = SubResource("Resource_l0uhr")
+effect_receiver = NodePath("EffectReceiver")
+
+[node name="AttackController" type="Node" parent="."]
+script = ExtResource("3_l0uhr")
+attack_stats = SubResource("Resource_pnvgi")
+
+[node name="Node" type="Node" parent="AttackController"]
+
+[node name="Node2" type="Node" parent="AttackController"]
+
+[node name="Node3" type="Node" parent="AttackController"]
+
+[node name="Node4" type="Node" parent="AttackController"]
+
+[node name="Node5" type="Node" parent="AttackController"]
+
+[node name="EffectReceiver" parent="." instance=ExtResource("2_mew1x")]
+unique_name_in_owner = true
+
+[node name="HealthComponent" type="Node" parent="." node_paths=PackedStringArray("armor_component", "effect_receiver")]
+unique_name_in_owner = true
+script = ExtResource("5_l0uhr")
+armor_component = NodePath("../ArmorComponent")
+effect_receiver = NodePath("../EffectReceiver")
+
+[node name="RegenerationTimer" type="Timer" parent="HealthComponent"]
+autostart = true
+
+[node name="ArmorComponent" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("5_537hj")
+
+[node name="TentacleController" type="Node" parent="." node_paths=PackedStringArray("health_component")]
+unique_name_in_owner = true
+script = ExtResource("6_tqviw")
+health_component = NodePath("../HealthComponent")
+
+[node name="MovementComponent" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("6_l0uhr")
+
+[node name="BodySprite" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_6vwcg")
+autoplay = "default"
+
+[node name="T1Sprite" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+show_behind_parent = true
+position = Vector2(71.5, -71)
+rotation = 0.7853982
+scale = Vector2(1.1648057, 1.3019197)
+sprite_frames = SubResource("SpriteFrames_8osxn")
+
+[node name="T2Sprite" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+show_behind_parent = true
+position = Vector2(-70.57897, 71.87058)
+rotation = 0.7853982
+scale = Vector2(1.1648057, 1.3019197)
+sprite_frames = SubResource("SpriteFrames_8osxn")
+flip_v = true
+
+[node name="T3Sprite" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+show_behind_parent = true
+position = Vector2(-71.50063, -70.94892)
+rotation = -0.7853982
+scale = Vector2(1.1648057, 1.3019197)
+sprite_frames = SubResource("SpriteFrames_8osxn")
+flip_h = true
+
+[node name="T4Sprite" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+show_behind_parent = true
+position = Vector2(70.57897, 71.87058)
+rotation = -0.7853982
+scale = Vector2(1.1648057, 1.3019197)
+sprite_frames = SubResource("SpriteFrames_8osxn")
+flip_h = true
+flip_v = true
+
+[node name="BodyCollision" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
+shape = SubResource("CircleShape2D_0yr02")
+
+[node name="T1Collision" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(68, -69)
+rotation = 0.7853982
+shape = SubResource("CapsuleShape2D_6vwcg")
+
+[node name="T2Collision" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(-65, 66)
+rotation = 0.7853982
+shape = SubResource("CapsuleShape2D_6vwcg")
+
+[node name="T3Collision" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(-68, -69)
+rotation = -0.7853982
+shape = SubResource("CapsuleShape2D_6vwcg")
+
+[node name="T4Collision" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(67, 67)
+rotation = -0.7853982
+shape = SubResource("CapsuleShape2D_6vwcg")
+
+[node name="BodyHurtBox" type="Area2D" parent="." node_paths=PackedStringArray("health_component")]
+unique_name_in_owner = true
+collision_layer = 128
+collision_mask = 0
+script = ExtResource("12_pnvgi")
+health_component = NodePath("../HealthComponent")
+
+[node name="BodyHurtCollision" type="CollisionShape2D" parent="BodyHurtBox"]
+shape = SubResource("CircleShape2D_0yr02")
+
+[node name="T1HurtBox" type="Area2D" parent="." node_paths=PackedStringArray("health_component")]
+unique_name_in_owner = true
+collision_layer = 128
+collision_mask = 0
+script = ExtResource("12_pnvgi")
+health_component = NodePath("../HealthComponent")
+
+[node name="T1HurtCollision" type="CollisionShape2D" parent="T1HurtBox"]
+unique_name_in_owner = true
+position = Vector2(68, -69)
+rotation = 0.7853982
+scale = Vector2(0.99999994, 0.99999994)
+shape = SubResource("CapsuleShape2D_6vwcg")
+
+[node name="T2HurtBox" type="Area2D" parent="." node_paths=PackedStringArray("health_component")]
+unique_name_in_owner = true
+collision_layer = 128
+collision_mask = 0
+script = ExtResource("12_pnvgi")
+health_component = NodePath("../HealthComponent")
+
+[node name="T2HurtCollision" type="CollisionShape2D" parent="T2HurtBox"]
+unique_name_in_owner = true
+position = Vector2(-65, 66)
+rotation = 0.7853982
+scale = Vector2(0.99999994, 0.99999994)
+shape = SubResource("CapsuleShape2D_6vwcg")
+
+[node name="T3HurtBox" type="Area2D" parent="." node_paths=PackedStringArray("health_component")]
+unique_name_in_owner = true
+collision_layer = 128
+collision_mask = 0
+script = ExtResource("12_pnvgi")
+health_component = NodePath("../HealthComponent")
+
+[node name="T3HurtCollision" type="CollisionShape2D" parent="T3HurtBox"]
+unique_name_in_owner = true
+position = Vector2(-68, -69)
+rotation = -0.7853982
+scale = Vector2(0.99999994, 0.99999994)
+shape = SubResource("CapsuleShape2D_6vwcg")
+
+[node name="T4HurtBox" type="Area2D" parent="." node_paths=PackedStringArray("health_component")]
+unique_name_in_owner = true
+collision_layer = 128
+collision_mask = 0
+script = ExtResource("12_pnvgi")
+health_component = NodePath("../HealthComponent")
+
+[node name="T4HurtCollision" type="CollisionShape2D" parent="T4HurtBox"]
+unique_name_in_owner = true
+position = Vector2(67, 67)
+rotation = -0.7853982
+scale = Vector2(0.99999994, 0.99999994)
+shape = SubResource("CapsuleShape2D_6vwcg")
+
+[connection signal="timeout" from="HealthComponent/RegenerationTimer" to="HealthComponent" method="_on_regeneration_timer_timeout"]

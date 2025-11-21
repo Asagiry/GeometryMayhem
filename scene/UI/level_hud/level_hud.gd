@@ -8,7 +8,7 @@ extends CanvasLayer
 @onready var health_bar: HealthBarUI = %HealthBar
 @onready var resonance_bar: ResonanceBarUI = %ResonanceBar
 @onready var cooldown_bar: CooldownBar = %CooldownBar
-@onready var arena_time: ArenaTimeUI = %ArenaTime
+@onready var arena_time: BossInfoUI = %BossInfoUI
 @onready var echo_label: Label = %EchoLabel
 @onready var level_label: Label = %LevelLabel
 @onready var current_zone_label: Label = %CurrentZoneLabel
@@ -16,7 +16,6 @@ extends CanvasLayer
 
 
 func _process(delta: float) -> void:
-	# delta — время предыдущего кадра в секундах
 	var frame_time_ms = delta * 1000.0
 	fps_label.text = "FPS: %d | Frame: %.2f ms" % [Engine.get_frames_per_second(),
 	frame_time_ms]

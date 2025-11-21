@@ -7,6 +7,7 @@ signal impulse_amount_changed(
 	current_level: int,
 	requirment_impulse: int
 	)
+
 signal player_died
 signal player_spawned(player: PlayerController)
 signal player_damage_done

@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://cr3crnc84mvpt" path="res://scene/test_level/test_level.gd" id="1_n6eni"]
 [ext_resource type="PackedScene" uid="uid://dpvptcshibxt0" path="res://scene/game_objects/player/player.tscn" id="1_r8dxa"]
 [ext_resource type="Script" uid="uid://b3w4epa6tgic2" path="res://scene/level/camera_2d.gd" id="3_sj7wh"]
-[ext_resource type="PackedScene" uid="uid://4a1xvj1y4hm" path="res://scene/test_level/arena_time_ui.tscn" id="4_5mq0g"]
+[ext_resource type="PackedScene" uid="uid://4a1xvj1y4hm" path="res://scene/UI/level_hud/elements/boss_hud/boss_hud.tscn" id="4_5mq0g"]
 [ext_resource type="PackedScene" uid="uid://cn0xxo2ifv50j" path="res://scene/arena_map/arena_map.tscn" id="6_n6eni"]
 
 [node name="TestLevel" type="Node" groups=["level"]]
