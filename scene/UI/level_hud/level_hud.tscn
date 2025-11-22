@@ -51,7 +51,6 @@ size_flags_vertical = 0
 [node name="MiniMap" parent="MarginContainer/VBoxContainer/TopHBOX/HBoxContainer/VBoxContainer2" instance=ExtResource("2_d8w8s")]
 layout_mode = 2
 size_flags_horizontal = 1
-stretch = true
 
 [node name="CurrentZoneLabel" type="Label" parent="MarginContainer/VBoxContainer/TopHBOX/HBoxContainer/VBoxContainer2"]
 unique_name_in_owner = true

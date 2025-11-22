@@ -1,25 +1,53 @@
-[gd_scene load_steps=3 format=3 uid="uid://dbtp7vxslxtvp"]
+[gd_scene load_steps=6 format=3 uid="uid://dbtp7vxslxtvp"]
 
-[ext_resource type="Script" uid="uid://qxk3mng3b44p" path="res://scene/UI/level_hud/elements/minimap/mini_map.gd" id="1_g78vr"]
+[ext_resource type="Texture2D" uid="uid://cikodsl4a2ugu" path="res://assets/UI/MiniMap/Border.png" id="1_dlbym"]
+[ext_resource type="Script" uid="uid://c4gp6wr65cyq6" path="res://scene/UI/level_hud/elements/minimap/mini_map.gd" id="1_g78vr"]
 [ext_resource type="Script" uid="uid://cjfxleb5lxaps" path="res://scene/UI/level_hud/elements/minimap/sub_viewport.gd" id="2_0giy3"]
+[ext_resource type="Texture2D" uid="uid://dag8j8qt6m2l6" path="res://assets/UI/MiniMap/BorderFill.png" id="2_wbmiy"]
+[ext_resource type="Script" uid="uid://qxk3mng3b44p" path="res://scene/UI/level_hud/elements/minimap/sub_viewport_container.gd" id="4_kw41v"]
 
-[node name="MiniMap" type="SubViewportContainer"]
-custom_minimum_size = Vector2(128, 128)
-offset_right = 128.0
-offset_bottom = 128.0
+[node name="Minimap" type="MarginContainer"]
+custom_minimum_size = Vector2(200, 200)
+offset_right = 200.0
+offset_bottom = 200.0
+scale = Vector2(1.0026351, 1.0232204)
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_g78vr")
 
-[node name="SubViewport" type="SubViewport" parent="."]
+[node name="MinimapBorder" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("1_dlbym")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+show_behind_parent = true
+clip_children = 1
+layout_mode = 2
+texture = ExtResource("2_wbmiy")
+
+[node name="MarginContainer" type="MarginContainer" parent="TextureRect"]
+show_behind_parent = true
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 200.0
+theme_override_constants/margin_right = 0
+
+[node name="SubViewPortContainer" type="SubViewportContainer" parent="TextureRect/MarginContainer"]
+layout_mode = 2
+stretch = true
+script = ExtResource("4_kw41v")
+
+[node name="SubViewport" type="SubViewport" parent="TextureRect/MarginContainer/SubViewPortContainer"]
 unique_name_in_owner = true
 handle_input_locally = false
-size = Vector2i(128, 128)
+size = Vector2i(200, 200)
 render_target_clear_mode = 1
 render_target_update_mode = 4
 script = ExtResource("2_0giy3")
 
-[node name="Camera2D" type="Camera2D" parent="SubViewport"]
+[node name="Camera2D" type="Camera2D" parent="TextureRect/MarginContainer/SubViewPortContainer/SubViewport"]
 unique_name_in_owner = true
+scale = Vector2(11.119999, 1)
 zoom = Vector2(0.25, 0.25)
 process_callback = 0
