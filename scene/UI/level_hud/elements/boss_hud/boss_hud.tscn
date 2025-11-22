@@ -1,13 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://4a1xvj1y4hm"]
+[gd_scene load_steps=3 format=3 uid="uid://4a1xvj1y4hm"]
 
 [ext_resource type="Script" uid="uid://bmd2q42drpi3y" path="res://scene/UI/level_hud/elements/boss_hud/boss_hud.gd" id="1_uk0rw"]
+[ext_resource type="PackedScene" uid="uid://dxm7mkhdd6vpa" path="res://scene/UI/level_hud/elements/boss_hud/boss_hp_bar.tscn" id="2_aeuxs"]
 
 [node name="MarginContainer" type="MarginContainer"]
+custom_minimum_size = Vector2(400, 400)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -880.0
+offset_bottom = -320.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(3.397186, 3.8653772)
 script = ExtResource("1_uk0rw")
 
 [node name="TimerLabel" type="Label" parent="."]
@@ -26,64 +31,45 @@ vertical_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="BodyHP" type="Label" parent="BossHpContainer"]
-unique_name_in_owner = true
+[node name="HBoxContainer2" type="HBoxContainer" parent="BossHpContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 0
-theme_override_constants/outline_size = 12
-theme_override_font_sizes/font_size = 22
-text = "Body hp = 0"
-horizontal_alignment = 1
-vertical_alignment = 1
 
-[node name="T1HP" type="Label" parent="BossHpContainer"]
-unique_name_in_owner = true
+[node name="Control" type="Control" parent="BossHpContainer/HBoxContainer2"]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 0
-theme_override_constants/outline_size = 12
-theme_override_font_sizes/font_size = 22
-text = "tentacle_1 hp = 0"
-horizontal_alignment = 1
-vertical_alignment = 1
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
 
-[node name="T2HP" type="Label" parent="BossHpContainer"]
+[node name="BodyHPBar" parent="BossHpContainer/HBoxContainer2" instance=ExtResource("2_aeuxs")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 0
-theme_override_constants/outline_size = 12
-theme_override_font_sizes/font_size = 22
-text = "tentacle_1 hp = 0"
-horizontal_alignment = 1
-vertical_alignment = 1
 
-[node name="T3HP" type="Label" parent="BossHpContainer"]
-unique_name_in_owner = true
+[node name="Control2" type="Control" parent="BossHpContainer/HBoxContainer2"]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 0
-theme_override_constants/outline_size = 12
-theme_override_font_sizes/font_size = 22
-text = "tentacle_1 hp = 0"
-horizontal_alignment = 1
-vertical_alignment = 1
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
 
-[node name="T4HP" type="Label" parent="BossHpContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="BossHpContainer"]
+layout_mode = 2
+
+[node name="TentacleHPBar1" parent="BossHpContainer/HBoxContainer" instance=ExtResource("2_aeuxs")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 0
-theme_override_constants/outline_size = 12
-theme_override_font_sizes/font_size = 22
-text = "tentacle_1 hp = 0"
-horizontal_alignment = 1
-vertical_alignment = 1
+
+[node name="TentacleHPBar2" parent="BossHpContainer/HBoxContainer" instance=ExtResource("2_aeuxs")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="TentacleHPBar3" parent="BossHpContainer/HBoxContainer" instance=ExtResource("2_aeuxs")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="TentacleHPBar4" parent="BossHpContainer/HBoxContainer" instance=ExtResource("2_aeuxs")]
+unique_name_in_owner = true
+layout_mode = 2
 
 [node name="GameTimer" type="Timer" parent="."]
 unique_name_in_owner = true
-wait_time = 30.0
+wait_time = 5.0
 one_shot = true
 
 [connection signal="timeout" from="GameTimer" to="." method="_on_game_timer_timeout"]

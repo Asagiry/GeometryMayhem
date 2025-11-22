@@ -1,0 +1,49 @@
+[gd_scene load_steps=6 format=3 uid="uid://dxm7mkhdd6vpa"]
+
+[ext_resource type="Texture2D" uid="uid://den8bwx76bm3w" path="res://assets/UI/BossHud/BossHPBar.png" id="1_2221w"]
+[ext_resource type="Script" uid="uid://cl0prtr6lby7n" path="res://scene/UI/level_hud/elements/boss_hud/boss_hp_bar.gd" id="1_piqya"]
+[ext_resource type="Texture2D" uid="uid://d152c15texw2u" path="res://assets/UI/BossHud/BossHPFill.png" id="2_erjf5"]
+[ext_resource type="Shader" uid="uid://dhedtmwp03cpf" path="res://scene/UI/level_hud/elements/boss_hud/boss_hp_bar.gdshader" id="2_piqya"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r663b"]
+resource_local_to_scene = true
+shader = ExtResource("2_piqya")
+shader_parameter/progress = 1.0
+shader_parameter/progress_tail = 1.0
+shader_parameter/tail_color = Color(0.99995595, 0.443726, 0.45017713, 1)
+
+[node name="Boss_hp_bar" type="MarginContainer"]
+size_flags_horizontal = 3
+script = ExtResource("1_piqya")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_vertical = 0
+texture = ExtResource("1_2221w")
+patch_margin_left = 20
+patch_margin_right = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="HBoxContainer"]
+custom_minimum_size = Vector2(5.5, 0)
+layout_mode = 2
+size_flags_stretch_ratio = 0.1
+
+[node name="ProgressShader" type="NinePatchRect" parent="HBoxContainer"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_r663b")
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+texture = ExtResource("2_erjf5")
+patch_margin_left = 20
+patch_margin_right = 20
+
+[node name="Control2" type="Control" parent="HBoxContainer"]
+custom_minimum_size = Vector2(5.5, 0)
+layout_mode = 2
+size_flags_stretch_ratio = 0.1
