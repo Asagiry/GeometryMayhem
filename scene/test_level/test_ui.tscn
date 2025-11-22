@@ -1,14 +1,14 @@
 [gd_scene load_steps=11 format=3 uid="uid://vwuw6r5inl58"]
 
 [ext_resource type="Script" uid="uid://iyvadf7lx683" path="res://scene/test_level/effect_choose.gd" id="1_m7682"]
-[ext_resource type="Script" path="res://scene/test_level/test_ui_main_script.gd" id="1_ua26r"]
+[ext_resource type="Script" uid="uid://crr37x8e18o8b" path="res://scene/test_level/test_ui_main_script.gd" id="1_ua26r"]
 [ext_resource type="Script" uid="uid://ctd343g7w8ayi" path="res://scene/test_level/behavior_choose.gd" id="2_ljpay"]
 [ext_resource type="Script" uid="uid://0n7yfkwgwees" path="res://scene/test_level/stat_choose.gd" id="3_uyd4g"]
 [ext_resource type="Script" uid="uid://djbasrloc7dxg" path="res://scene/test_level/damage_edit.gd" id="4_foe47"]
 [ext_resource type="Script" uid="uid://6bk2jivovjb1" path="res://scene/test_level/duration_edit.gd" id="6_gh5sb"]
 [ext_resource type="Script" uid="uid://dgi7it0l8lj6s" path="res://scene/test_level/tick_edit.gd" id="7_61gd2"]
-[ext_resource type="Script" path="res://scene/test_level/player_stats_menu_button.gd" id="8_cnrth"]
-[ext_resource type="Script" path="res://scene/test_level/enemy_stats_menu_button.gd" id="9_800oc"]
+[ext_resource type="Script" uid="uid://q1yganyngi13" path="res://scene/test_level/player_stats_menu_button.gd" id="8_cnrth"]
+[ext_resource type="Script" uid="uid://0nwafaptpcxj" path="res://scene/test_level/enemy_stats_menu_button.gd" id="9_800oc"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_800oc"]
 color = Color(0.16862746, 0.16862746, 0.16862746, 1)
@@ -161,80 +161,107 @@ layout_mode = 2
 theme_override_constants/outline_size = 8
 text = "PRESET EFFECTS"
 
-[node name="EffectsContainer" type="FlowContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer"]
 layout_mode = 2
 
-[node name="SlowPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/outline_size = 8
+text = "GENERAL EFFECTS"
+horizontal_alignment = 1
+
+[node name="GeneralEffectsContainer" type="FlowContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SlowPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/GeneralEffectsContainer"]
 layout_mode = 2
 text = "SLOW"
 
-[node name="CursePreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
+[node name="CursePreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/GeneralEffectsContainer"]
 layout_mode = 2
 text = "CURSE"
 
-[node name="BurnPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
+[node name="BurnPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/GeneralEffectsContainer"]
 layout_mode = 2
 text = "BURN"
 
-[node name="SilencePreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
-layout_mode = 2
-text = "SILENCE"
-
-[node name="FreezePreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
-layout_mode = 2
-text = "FREEZE"
-
-[node name="RupturePreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
-layout_mode = 2
-text = "RUPTURE"
-
-[node name="PhasedPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
-layout_mode = 2
-text = "PHASED"
-
-[node name="SonicPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
-layout_mode = 2
-text = "SONIC"
-
-[node name="FortifyPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
-layout_mode = 2
-text = "FORTIFY"
-
-[node name="BlindPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
-layout_mode = 2
-text = "BLIND"
-
-[node name="DispelPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
-layout_mode = 2
-text = "DISPEL"
-
-[node name="BKBPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
-layout_mode = 2
-text = "BKB"
-
-[node name="ColliderPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
-layout_mode = 2
-text = "COLLIDER"
-
-[node name="CorrosionPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
+[node name="CorrosionPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/GeneralEffectsContainer"]
 layout_mode = 2
 text = "CORROSION"
 
-[node name="RegenerationPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
+[node name="RegenerationPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/GeneralEffectsContainer"]
 layout_mode = 2
 text = "REGENERATION"
 
-[node name="FearPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
+[node name="WoundedPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/GeneralEffectsContainer"]
 layout_mode = 2
-text = "FEAR"
+text = "WOUNDED"
 
-[node name="BleedPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
+[node name="BleedPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/GeneralEffectsContainer"]
 layout_mode = 2
 text = "BLEED"
 
-[node name="WoundedPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer"]
+[node name="Label2" type="Label" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer"]
 layout_mode = 2
-text = "WOUNDED"
+theme_override_constants/outline_size = 8
+text = "ENEMY EFFECTS"
+horizontal_alignment = 1
+
+[node name="EnemyEffectsContainer" type="FlowContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SilencePreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/EnemyEffectsContainer"]
+layout_mode = 2
+text = "SILENCE"
+
+[node name="FreezePreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/EnemyEffectsContainer"]
+layout_mode = 2
+text = "FREEZE"
+
+[node name="RupturePreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/EnemyEffectsContainer"]
+layout_mode = 2
+text = "RUPTURE"
+
+[node name="PhasedPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/EnemyEffectsContainer"]
+layout_mode = 2
+text = "PHASED"
+
+[node name="SonicPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/EnemyEffectsContainer"]
+layout_mode = 2
+text = "SONIC"
+
+[node name="FortifyPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/EnemyEffectsContainer"]
+layout_mode = 2
+text = "FORTIFY"
+
+[node name="BlindPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/EnemyEffectsContainer"]
+layout_mode = 2
+text = "BLIND"
+
+[node name="BKBPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/EnemyEffectsContainer"]
+layout_mode = 2
+text = "BKB"
+
+[node name="ColliderPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/EnemyEffectsContainer"]
+layout_mode = 2
+text = "COLLIDER"
+
+[node name="Label3" type="Label" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/outline_size = 8
+text = "PLAYER EFFECTS"
+horizontal_alignment = 1
+
+[node name="PlayerEffectsContainer" type="FlowContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="DispelPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/PlayerEffectsContainer"]
+layout_mode = 2
+text = "DISPEL"
+
+[node name="FearPreset" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/PlayerEffectsContainer"]
+layout_mode = 2
+text = "FEAR"
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer"]
 layout_mode = 2
@@ -400,6 +427,14 @@ horizontal_alignment = 1
 [node name="EnemySettingsButtonsContainer" type="FlowContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/EnemySettingsContainer"]
 layout_mode = 2
 
+[node name="StunSelectedEnemyButton" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/EnemySettingsContainer/EnemySettingsButtonsContainer"]
+layout_mode = 2
+text = "STUN"
+
+[node name="UnstunSelectedEnemyButton" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/EnemySettingsContainer/EnemySettingsButtonsContainer"]
+layout_mode = 2
+text = "UNSTUN"
+
 [node name="StunEnemiesButton" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/EnemySettingsContainer/EnemySettingsButtonsContainer"]
 layout_mode = 2
 text = "STUN ALL"
@@ -429,20 +464,8 @@ theme_override_constants/outline_size = 8
 text = "SPAWN ENEMY"
 
 [node name="EnemySpawnContainer" type="FlowContainer" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/SpawnEnemy"]
+unique_name_in_owner = true
 layout_mode = 2
-
-[node name="Melee1" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/SpawnEnemy/EnemySpawnContainer"]
-layout_mode = 2
-text = "MELEE1
-"
-
-[node name="Range1" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/SpawnEnemy/EnemySpawnContainer"]
-layout_mode = 2
-text = "RANGE1"
-
-[node name="Bomb1" type="Button" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/SpawnEnemy/EnemySpawnContainer"]
-layout_mode = 2
-text = "BOMB1"
 
 [node name="HSeparator5" type="HSeparator" parent="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer"]
 layout_mode = 2
@@ -542,7 +565,7 @@ text = "Freeze"
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/SubMarginContainer/HBoxContainer/PlayerFreezeAndHpContainer"]
 layout_mode = 2
 
-[node name="Max_heatlh_label" type="Label" parent="VBoxContainer/SubMarginContainer/HBoxContainer/PlayerFreezeAndHpContainer/HBoxContainer"]
+[node name="Current_health_label" type="Label" parent="VBoxContainer/SubMarginContainer/HBoxContainer/PlayerFreezeAndHpContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/outline_size = 8
@@ -553,7 +576,7 @@ layout_mode = 2
 theme_override_constants/outline_size = 10
 text = "/"
 
-[node name="Current_health_label" type="Label" parent="VBoxContainer/SubMarginContainer/HBoxContainer/PlayerFreezeAndHpContainer/HBoxContainer"]
+[node name="Max_heatlh_label" type="Label" parent="VBoxContainer/SubMarginContainer/HBoxContainer/PlayerFreezeAndHpContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/outline_size = 8
@@ -564,35 +587,34 @@ layout_mode = 2
 text = "HealPlayer"
 
 [connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/ApplyButton" to="." method="_on_apply_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/SlowPreset" to="." method="_on_slow_preset_pressed"]
-[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/CursePreset" to="." method="_on_curse_preset_pressed"]
-[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/BurnPreset" to="." method="_on_burn_preset_pressed"]
-[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/SilencePreset" to="." method="_on_silence_preset_pressed"]
-[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/FreezePreset" to="." method="_on_freeze_preset_pressed"]
-[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/RupturePreset" to="." method="_on_rupture_preset_pressed"]
-[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/PhasedPreset" to="." method="_on_phased_preset_pressed"]
-[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/SonicPreset" to="." method="_on_sonic_preset_pressed"]
-[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/FortifyPreset" to="." method="_on_fortify_preset_pressed"]
-[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/BlindPreset" to="." method="_on_blind_preset_pressed"]
-[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/DispelPreset" to="." method="_on_dispel_preset_pressed"]
-[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/BKBPreset" to="." method="_on_bkb_preset_pressed"]
-[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/ColliderPreset" to="." method="_on_collider_preset_pressed"]
-[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/CorrosionPreset" to="." method="_on_corrosion_preset_pressed"]
-[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/RegenerationPreset" to="." method="_on_regeneration_preset_pressed"]
-[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/FearPreset" to="." method="_on_fear_preset_pressed"]
-[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/BleedPreset" to="." method="_on_bleed_preset_pressed"]
-[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/EffectsContainer/WoundedPreset" to="." method="_on_wounded_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/GeneralEffectsContainer/SlowPreset" to="." method="_on_slow_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/GeneralEffectsContainer/CursePreset" to="." method="_on_curse_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/GeneralEffectsContainer/BurnPreset" to="." method="_on_burn_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/GeneralEffectsContainer/CorrosionPreset" to="." method="_on_corrosion_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/GeneralEffectsContainer/RegenerationPreset" to="." method="_on_regeneration_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/GeneralEffectsContainer/WoundedPreset" to="." method="_on_wounded_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/GeneralEffectsContainer/BleedPreset" to="." method="_on_bleed_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/EnemyEffectsContainer/SilencePreset" to="." method="_on_silence_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/EnemyEffectsContainer/FreezePreset" to="." method="_on_freeze_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/EnemyEffectsContainer/RupturePreset" to="." method="_on_rupture_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/EnemyEffectsContainer/PhasedPreset" to="." method="_on_phased_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/EnemyEffectsContainer/SonicPreset" to="." method="_on_sonic_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/EnemyEffectsContainer/FortifyPreset" to="." method="_on_fortify_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/EnemyEffectsContainer/BlindPreset" to="." method="_on_blind_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/EnemyEffectsContainer/BKBPreset" to="." method="_on_bkb_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/EnemyEffectsContainer/ColliderPreset" to="." method="_on_collider_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/PlayerEffectsContainer/DispelPreset" to="." method="_on_dispel_preset_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/EffectInfoContainer/GeneralEffectInfoContainer/VBoxContainer/PlayerEffectsContainer/FearPreset" to="." method="_on_fear_preset_pressed"]
 [connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/PlayerSettingsContainer/PlayerSettingsButtonsContainer/ClearPlayerInfusionsButton" to="." method="_on_clear_player_infusions_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/PlayerSettingsContainer/PlayerSettingsButtonsContainer/ClearAllEffects" to="." method="_on_clear_all_effects_pressed"]
 [connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/PlayerSettingsContainer/PlayerSettingsButtonsContainer/AddResonanceLevelButton" to="." method="_on_add_resonance_level_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/PlayerSettingsContainer/PlayerSettingsButtonsContainer/RemoveResonanceLevelButton" to="." method="_on_remove_resonance_level_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/PlayerSettingsContainer/PlayerSettingsButtonsContainer/RemoveAllResonanceButton" to="." method="_on_remove_all_resonance_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/EnemySettingsContainer/EnemySettingsButtonsContainer/StunSelectedEnemyButton" to="." method="_on_stun_selected_enemy_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/EnemySettingsContainer/EnemySettingsButtonsContainer/UnstunSelectedEnemyButton" to="." method="_on_unstun_selected_enemy_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/EnemySettingsContainer/EnemySettingsButtonsContainer/StunEnemiesButton" to="." method="_on_stun_enemies_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/EnemySettingsContainer/EnemySettingsButtonsContainer/UnstunEnemiesButton" to="." method="_on_unstun_enemies_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/EnemySettingsContainer/EnemySettingsButtonsContainer/ClearEnemyInfusionsButton" to="." method="_on_clear_enemy_infusions_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/EnemySettingsContainer/EnemySettingsButtonsContainer/DeleteEnemyButton" to="." method="_on_delete_enemy_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/SpawnEnemy/EnemySpawnContainer/Melee1" to="." method="_on_melee_1_pressed"]
-[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/SpawnEnemy/EnemySpawnContainer/Range1" to="." method="_on_range_1_pressed"]
-[connection signal="pressed" from="VBoxContainer/MainMarginContainer/MainContainer/PlayerStatsAndSettingsContainer/SpawnEnemy/EnemySpawnContainer/Bomb1" to="." method="_on_bomb_1_pressed"]
 [connection signal="pressed" from="VBoxContainer/SubMarginContainer/HBoxContainer/PlayerFreezeAndHpContainer/FreezeButton" to="." method="_on_freeze_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/SubMarginContainer/HBoxContainer/PlayerFreezeAndHpContainer/HealPlayer" to="." method="_on_heal_player_pressed"]

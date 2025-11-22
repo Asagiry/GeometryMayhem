@@ -9,7 +9,6 @@ extends Resource
 @export var rarity: Util.ArtefactRarity
 @export_enum("always", "achievement", "random_drop") var unlock_condition: String = "always"
 @export var unlock_achievement_id: String = ""
-#TODO понять, как это будем взаимодействовать с artefact_pool
 @export var drop_chance: float = 0.0
 @export var behavior_script: Script
 #поле для того, чтобы указывать допольнительные параметры. Ex:

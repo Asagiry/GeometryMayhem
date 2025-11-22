@@ -36,38 +36,8 @@ func _ready():
 	_setup_dash_circle()
 
 
-func _setup_owner_reference():
-	super._setup_owner_reference()
-
-	# Получаем player из owner
-	if owner_node is PlayerController:
-		player = owner_node
-	else:
-		player = get_tree().get_first_node_in_group("player") as PlayerController
-
-
-func _setup_stat_subscriptions():
-	subscribe_to_stat("attack_range", _on_attack_range_changed)
-
-
-func _connect_signals():
-	if player and player.effect_receiver:
-		player.effect_receiver.attack_component_effects_changed.connect(_on_effect_stats_changed)
-
-
-func _setup_dash_circle():
-	_dash_circle = preload("res://scene/game_objects/player/dash_circle.tscn")\
-	.instantiate() as DashCircle
-	player.add_child.call_deferred(_dash_circle)
-	enable_range(is_range_enable)
-
-
-func get_start_pos()-> Vector2:
-	return _start_pos
-
-
-func get_end_pos()-> Vector2:
-	return _end_pos
+func start_cooldown():
+	cooldown_timer.start(get_cooldown())
 
 
 func enable_range(enable: bool):
@@ -97,6 +67,66 @@ func activate_dash(input_state: bool):
 		_activate_keyboard_dash(dash_attack_instance)
 
 
+func get_start_pos()-> Vector2:
+	return _start_pos
+
+
+func get_end_pos()-> Vector2:
+	return _end_pos
+
+
+func get_dash_width() -> float:
+	return get_stat("attack_width")
+
+
+func get_attack_damage() -> DamageData:
+	var damage_data = get_stat("attack_damage")
+	damage_data.multiply_damage_amount(damage_multiplier)
+	return damage_data
+
+
+func get_duration() -> float:
+	return get_stat("attack_duration") * dash_duration_multiplier
+
+
+func get_dash_range() -> float:
+	return get_stat("attack_range") * attack_range_multiplier
+
+
+func get_cooldown() -> float:
+	return get_stat("attack_cd") * attack_cd_multiplier
+
+
+func get_damage() -> float:
+	return get_stat("attack_damage") * damage_multiplier
+
+
+func _setup_owner_reference():
+	super._setup_owner_reference()
+
+	# Получаем player из owner
+	if owner_node is PlayerController:
+		player = owner_node
+	else:
+		player = get_tree().get_first_node_in_group("player") as PlayerController
+
+
+func _setup_stat_subscriptions():
+	subscribe_to_stat("attack_range", _on_attack_range_changed)
+
+
+func _connect_signals():
+	if player and player.effect_receiver:
+		player.effect_receiver.attack_component_effects_changed.connect(_on_effect_stats_changed)
+
+
+func _setup_dash_circle():
+	_dash_circle = preload("res://scene/game_objects/player/dash_circle.tscn")\
+	.instantiate() as DashCircle
+	player.add_child.call_deferred(_dash_circle)
+	enable_range(is_range_enable)
+
+
 func _create_dash_instance():
 	var dash_attack_instance = dash_attack_scene.instantiate() as DashAttack
 	dash_attack_instance.position = _start_pos
@@ -105,8 +135,7 @@ func _create_dash_instance():
 
 
 func _set_damage(dash_attack_instance: DashAttack):
-	dash_attack_instance.hit_box_component.damage_data = get_attack_damage()
-	dash_attack_instance.hit_box_component.damage_data.amount *= damage_multiplier
+	dash_attack_instance.hit_box_component.set_damage_data(get_attack_damage())
 
 
 func _disable_player_hurt_box(disable: bool):
@@ -198,10 +227,6 @@ func _set_final_end_pos():
 	test_body.queue_free()
 
 
-func start_cooldown():
-	cooldown_timer.start(get_cooldown())
-
-
 func _on_cooldown_timer_timeout() -> void:
 	attack_cd_timeout.emit()
 
@@ -221,27 +246,3 @@ func _on_attack_range_changed(new_range: float, old_range: float):
 	print("Attack range changed: ", old_range, " -> ", new_range)
 	if _dash_circle and is_range_enable:
 		_dash_circle.set_range(new_range)
-
-
-func get_dash_width() -> float:
-	return get_stat("attack_width")
-
-
-func get_attack_damage() -> DamageData:
-	return get_stat("attack_damage")
-
-
-func get_duration() -> float:
-	return get_stat("attack_duration") * dash_duration_multiplier
-
-
-func get_dash_range() -> float:
-	return get_stat("attack_range") * attack_range_multiplier
-
-
-func get_cooldown() -> float:
-	return get_stat("attack_cd") * attack_cd_multiplier
-
-
-func get_damage() -> float:
-	return get_stat("attack_damage") * damage_multiplier

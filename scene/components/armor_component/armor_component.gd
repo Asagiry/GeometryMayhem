@@ -10,12 +10,14 @@ func _ready():
 	_connect_signals()
 
 
-func _setup_owner_reference():
-	super._setup_owner_reference()
-	if owner_node and owner_node.has_method("get_effect_receiver"):
-		effect_receiver = owner_node.get_effect_receiver()
-	elif _owner_has_property("effect_receiver"):
-		effect_receiver = owner_node.effect_receiver
+func calculate_reduced_damage(damage: float) -> float:
+	var current_armor = get_armor() * armor_multiplier
+	var reduced_damage = _apply_armor_formula(damage, current_armor)
+	return snappedf(reduced_damage, 0.1)
+
+
+func get_armor() -> float:
+	return get_stat("armor") * armor_multiplier
 
 
 func _connect_signals():
@@ -23,10 +25,12 @@ func _connect_signals():
 		effect_receiver.armor_component_effects_changed.connect(_on_effect_stats_changed)
 
 
-func calculate_reduced_damage(damage: float) -> float:
-	var current_armor = get_armor() * armor_multiplier
-	var reduced_damage = _apply_armor_formula(damage, current_armor)
-	return snappedf(reduced_damage, 0.1)
+func _setup_owner_reference():
+	super._setup_owner_reference()
+	if owner_node and owner_node.has_method("get_effect_receiver"):
+		effect_receiver = owner_node.get_effect_receiver()
+	elif _owner_has_property("effect_receiver"):
+		effect_receiver = owner_node.effect_receiver
 
 
 func _apply_armor_formula(damage: float, _armor: float) -> float:
@@ -44,11 +48,6 @@ func _apply_armor_formula(damage: float, _armor: float) -> float:
 	#var after_flat = max(damage - flat_reduction, 0)
 	#return after_flat * (1.0 - percentage_reduction)
 	return damage
-
-
-# Геттер для брони
-func get_armor() -> float:
-	return get_stat("armor") * armor_multiplier
 
 
 func _on_effect_stats_changed(updated_stats: Dictionary) -> void:

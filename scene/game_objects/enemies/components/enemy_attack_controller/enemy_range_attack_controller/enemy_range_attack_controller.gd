@@ -5,17 +5,12 @@ extends EnemyAttackController
 const DELAY_BETWEEN_PROJECTILES: float = 0.1
 
 var chance_to_deploy_additional_projectile: float
-var player: PlayerController
-
-func _ready():
-	super._ready()
-	player = get_tree().get_first_node_in_group("player")
-	chance_to_deploy_additional_projectile = get_chance_to_additional_projectile()
 
 
 func activate_attack():
 	attack_started.emit()
 
+	chance_to_deploy_additional_projectile = get_chance_to_additional_projectile()
 	await _spawn_attack_instance()
 
 	attack_finished.emit()
@@ -42,10 +37,6 @@ func _setup_attack_instance(attack_instance, direction_to_player):
 	attack_instance.set_enemy(owner)
 	attack_instance.set_projectile_speed(get_projectile_speed())
 	_set_damage(attack_instance)
-
-
-func _get_direction_to_player():
-	return (player.global_position - owner.global_position).normalized()
 
 
 func _create_attack_instance():

@@ -5,6 +5,10 @@ signal stat_changed(stat_name: String, old_value, new_value)
 
 @export_group("HP")
 @export var max_health: float
+## Раз в секунду добавляет здоровье по такой формуле regeneration * max_health
+@export var regeneration: float
+
+@export_group("Resistance")
 @export var armor: float
 
 @export_group("Movement")
@@ -29,6 +33,7 @@ signal stat_changed(stat_name: String, old_value, new_value)
 
 @export_group("Other")
 @export var grace_period_time: float
+## Параметр удачи
 @export var magic_find: float
 
 var _previous_values: Dictionary = {}

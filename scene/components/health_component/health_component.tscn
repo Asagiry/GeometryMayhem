@@ -4,3 +4,8 @@
 
 [node name="HealthComponent" type="Node"]
 script = ExtResource("1_uw852")
+
+[node name="RegenerationTimer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="RegenerationTimer" to="." method="_on_regeneration_timer_timeout"]

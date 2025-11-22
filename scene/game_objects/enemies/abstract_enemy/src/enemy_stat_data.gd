@@ -11,6 +11,10 @@ const DEFAULT_INT_STAT: int = 0
 
 @export_group("HP")
 @export var max_health: float
+## Раз в секунду добавляет здоровье по такой формуле regeneration * max_health
+@export var regeneration: float
+
+@export_group("Resistance")
 @export var armor: float
 
 @export_group("Movement")
@@ -18,7 +22,7 @@ const DEFAULT_INT_STAT: int = 0
 @export var acceleration: float
 @export var rotation_speed: float
 
-@export_group("Attack")
+@export_group("Attack", "attack")
 @export var attack_damage: DamageData
 @export var attack_cd: float
 @export var attack_duration: float
@@ -37,12 +41,20 @@ const DEFAULT_INT_STAT: int = 0
 ## Зона войдя в которую враг начнет атаковать
 @export var attack_range_zone: float
 
+
 @export_group("Range Enemy")
+## Задаются значения только для range врага.
 @export var projectile_speed: float
+## Задаются значения только для range врага.
 @export var chance_to_additional_projectile: float
 
 @export_group("Bomb Enemy")
+## Задаются значения только для bomb врага.
 @export var explosion_delay: float
+
+@export_group("Other")
+## Параметр удачи
+@export var magic_find: float
 
 var _previous_values: Dictionary = {}
 

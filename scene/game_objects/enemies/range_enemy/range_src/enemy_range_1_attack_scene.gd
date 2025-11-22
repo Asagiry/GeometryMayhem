@@ -6,7 +6,8 @@ const LIFETIME_OF_PROJECTILE: float = 6.0
 
 var projectile_speed: float = 200.0
 var direction: Vector2 = Vector2.ZERO
-var effects
+var effects: Array[Effect]
+var magic_find: float
 
 @onready var hit_box_component = %HitBoxComponent
 @onready var queue_free_timer: Timer = $QueueFreeTimer
@@ -25,7 +26,11 @@ func _on_hit_box_component_area_entered(area: Area2D) -> void:
 	if area.has_method("deal_damage"):
 		area.deal_damage(hit_box_component.damage_data)
 	if area.has_method("apply_effect"):
-		area.apply_effect(effects)
+		area.apply_effect(
+			effects,
+			magic_find,
+			hit_box_component.damage_data
+			)
 	queue_free()
 
 
@@ -35,7 +40,8 @@ func change_collision():
 
 
 func set_enemy(p_enemy: EnemyController):
-	effects = p_enemy.effects.duplicate()
+	effects = p_enemy.effects
+	magic_find = p_enemy.stats.magic_find
 
 
 func set_projectile_speed(p_projectile_speed):

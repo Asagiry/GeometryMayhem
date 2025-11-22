@@ -1,7 +1,7 @@
 class_name MovementComponent
-extends BaseComponent # Меняем наследование
 
-var entity: CharacterBody2D
+extends BaseComponent
+
 var current_speed: float = 0.0
 var direction_modifier: float = 1.0
 
@@ -10,61 +10,39 @@ var freeze_multiplier: float = 1.0
 
 var current_velocity = Vector2.ZERO
 var last_direction: Vector2 = Vector2.UP
-var external_force: Vector2 = Vector2.ZERO
 
-var is_pulled_to_center: bool = false
-var pull_strength_base: float = 100.0      # начальная сила
-var pull_strength_max: float = 2000.0      # максимальная сила
-var pull_strength: float= pull_strength_base
-var pull_grow_speed: float = 250.0         # скорость роста силы в секунду
+
+var effect_receiver: EffectReceiver
 
 var velocity: Vector2:
-	get: return entity.velocity if entity else Vector2.ZERO
+	get: return owner_node.velocity if owner_node else Vector2.ZERO
 	set(value):
-		if entity:
-			entity.velocity = value
+		if owner_node:
+			owner_node.velocity = value
 
 
 var rotation: float:
-	get: return entity.rotation if entity else 0.0
+	get: return owner_node.rotation if owner_node else 0.0
 	set(value):
-		if entity:
-			entity.rotation = value
+		if owner_node:
+			owner_node.rotation = value
 
 
 var global_position: Vector2:
-	get: return entity.global_position if entity else Vector2.ZERO
+	get: return owner_node.global_position if owner_node else Vector2.ZERO
 	set(value):
-		if entity:
-			entity.global_position = value
+		if owner_node:
+			owner_node.global_position = value
+
 
 func _ready() -> void:
 	super._ready()
-
-
-func _setup_owner_reference():
-	super._setup_owner_reference()
-
-	if owner_node is CharacterBody2D:
-		entity = owner_node
-	else:
-		push_error("MovementComponent owner must be CharacterBody2D")
-
-
-func get_max_speed() -> float:
-	return get_stat("max_speed") * speed_multiplier * freeze_multiplier
-
-
-func get_acceleration() -> float:
-	return get_stat("acceleration")
-
-
-func get_rotation_speed() -> float:
-	return get_stat("rotation_speed")
+	_enter_variables()
+	_connect_signals()
 
 
 func accelerate_to_direction(direction: Vector2) -> Vector2:
-	if not entity:
+	if not owner_node:
 		return Vector2.ZERO
 
 	direction *= direction_modifier
@@ -81,8 +59,19 @@ func accelerate_to_direction(direction: Vector2) -> Vector2:
 
 
 func move_and_slide() -> void:
-	if entity:
-		entity.move_and_slide()
+	if owner_node:
+		owner_node.move_and_slide()
+
+
+func stop() -> void:
+	current_velocity = Vector2.ZERO
+	if owner_node:
+		owner_node.velocity = Vector2.ZERO
+
+
+func is_moving() -> bool:
+	return current_velocity.length_squared() > 1.0
+
 
 
 func set_freeze_multiplier(multiplier: float) -> void:
@@ -97,28 +86,36 @@ func set_direction_modifier(modifier: float) -> void:
 	direction_modifier = modifier
 
 
-func stop() -> void:
-	current_velocity = Vector2.ZERO
-	if entity:
-		entity.velocity = Vector2.ZERO
+func get_max_speed() -> float:
+	return get_stat("max_speed") * speed_multiplier * freeze_multiplier
+
+
+func get_acceleration() -> float:
+	return get_stat("acceleration")
+
+
+func get_rotation_speed() -> float:
+	return get_stat("rotation_speed")
 
 
 func get_last_direction() -> Vector2:
 	return last_direction
 
 
-func is_moving() -> bool:
-	return current_velocity.length_squared() > 1.0
+func _enter_variables():
+	effect_receiver = owner.get_effect_receiver()
 
 
-func start_pull_to_center(
-	base_strength: float = 100.0,
-	strength_grow: float = 250.0
-	):
-	pull_strength_base = base_strength
-	pull_grow_speed = strength_grow
-	is_pulled_to_center = true
+func _connect_signals():
+	effect_receiver.movement_component_effects_changed.connect(_on_effect_stats_changed)
 
 
-func stop_pull_to_center():
-	is_pulled_to_center = false
+func _on_effect_stats_changed(updated_stats: Dictionary):
+	if updated_stats.has("freeze_multiplier"):
+		freeze_multiplier = updated_stats["freeze_multiplier"]
+
+	if updated_stats.has("speed_multiplier"):
+		speed_multiplier = updated_stats["speed_multiplier"]
+
+	if updated_stats.has("direction_modifier"):
+		direction_modifier = updated_stats["direction_modifier"]

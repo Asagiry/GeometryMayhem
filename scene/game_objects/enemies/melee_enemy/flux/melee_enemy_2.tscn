@@ -22,7 +22,7 @@ metadata/_custom_type_script = "uid://cyitjknl16852"
 
 [sub_resource type="Resource" id="Resource_hrkp4"]
 script = ExtResource("2_rrxn3")
-max_health = 100.0
+max_health = 400.0
 max_speed = 100.0
 acceleration = 9.0
 rotation_speed = 9.0
@@ -151,7 +151,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l18dp"]
-size = Vector2(27.75, 27)
+size = Vector2(18.899494, 18.899494)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6qmfg"]
 radius = 20.0
@@ -194,12 +194,16 @@ autoplay = "idle"
 offset = Vector2(0.5, -1)
 
 [node name="HurtBox" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("7_hrkp4")]
+unique_name_in_owner = true
 collision_layer = 128
 collision_mask = 0
 health_component = NodePath("../HealthComponent")
 
 [node name="HurtBoxShape" type="CollisionShape2D" parent="HurtBox"]
 unique_name_in_owner = true
+position = Vector2(0, -0.36396092)
+rotation = 0.7853982
+scale = Vector2(0.99999994, 0.99999994)
 shape = SubResource("RectangleShape2D_l18dp")
 
 [node name="AttackZone" type="Area2D" parent="."]
