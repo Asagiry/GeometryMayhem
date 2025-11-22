@@ -21,7 +21,7 @@ tiles_per_frame = 16
 unique_name_in_owner = true
 
 [node name="BossController" parent="BackLayer" instance=ExtResource("5_n6afj")]
-position = Vector2(-166, -134)
+position = Vector2(-25, -20)
 
 [node name="FrontLayer" type="Node2D" parent="." groups=["front_layer"]]
 

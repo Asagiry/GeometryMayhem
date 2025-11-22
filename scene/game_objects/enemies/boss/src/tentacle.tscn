@@ -1,0 +1,70 @@
+[gd_scene load_steps=12 format=3 uid="uid://cqcp1owfe5ndh"]
+
+[ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="1_l8rcf"]
+[ext_resource type="Script" uid="uid://plxc3lw76sxu" path="res://scene/game_objects/enemies/boss/src/tentacle.gd" id="1_uwkaj"]
+[ext_resource type="Texture2D" uid="uid://bwtv8fy00bxcw" path="res://assets/mobs/boss/BossWeapon.png" id="1_vvohx"]
+[ext_resource type="Script" uid="uid://16myiecxcmq2" path="res://scene/game_objects/enemies/boss/src/tentacle_stat_data.gd" id="2_5m7sp"]
+[ext_resource type="PackedScene" uid="uid://bl380xv78onc8" path="res://scene/components/effect_receiver/effect_receiver.tscn" id="3_t0bcr"]
+[ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component/armor_component.tscn" id="5_t0bcr"]
+[ext_resource type="PackedScene" uid="uid://csmleslly1twg" path="res://scene/components/hurt_box_component/hurt_box.tscn" id="7_v3hd8"]
+
+[sub_resource type="Resource" id="Resource_t0bcr"]
+script = ExtResource("2_5m7sp")
+max_health = 100.0
+metadata/_custom_type_script = "uid://16myiecxcmq2"
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_l8rcf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_vvohx")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_v3hd8"]
+radius = 27.0
+height = 74.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vvohx"]
+radius = 24.0
+height = 72.0
+
+[node name="Tentacle" type="CharacterBody2D" node_paths=PackedStringArray("effect_receiver")]
+collision_layer = 1024
+collision_mask = 5
+safe_margin = 5.0
+script = ExtResource("1_uwkaj")
+effect_receiver = NodePath("EffectReceiver")
+stats = SubResource("Resource_t0bcr")
+
+[node name="HealthComponent" parent="." node_paths=PackedStringArray("armor_component") instance=ExtResource("1_l8rcf")]
+unique_name_in_owner = true
+armor_component = NodePath("../ArmorComponent")
+
+[node name="ArmorComponent" parent="." instance=ExtResource("5_t0bcr")]
+unique_name_in_owner = true
+
+[node name="EffectReceiver" parent="." instance=ExtResource("3_t0bcr")]
+unique_name_in_owner = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_l8rcf")
+
+[node name="EnvironmentCollision" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
+visible = false
+shape = SubResource("CapsuleShape2D_v3hd8")
+disabled = true
+
+[node name="HurtBox" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("7_v3hd8")]
+collision_layer = 132
+collision_mask = 0
+health_component = NodePath("../HealthComponent")
+
+[node name="HurtBoxShape" type="CollisionShape2D" parent="HurtBox"]
+unique_name_in_owner = true
+shape = SubResource("CapsuleShape2D_vvohx")

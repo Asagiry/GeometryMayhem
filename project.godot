@@ -33,6 +33,10 @@ window/size/viewport_height=720
 window/size/resizable=false
 window/stretch/scale_mode="integer"
 
+[dotnet]
+
+project/assembly_name="GeometryMayhem"
+
 [global_group]
 
 boss=""
@@ -108,6 +112,7 @@ pause={
 2d_physics/layer_8="enemy_hurtbox"
 2d_physics/layer_9="player_hurtbox"
 2d_physics/layer_10="Chunk"
+2d_physics/layer_11="tentacle"
 
 [physics]
 

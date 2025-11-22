@@ -1,71 +1,50 @@
-class_name BossTentacleController
+class_name TentacleController
 
 extends Node
 
-@export var health_component: BossHealthComponent
+var alive_tentacles: int = 4
 
-var tentacle_data: Dictionary = {}
-
-@onready var t_1_collision: CollisionShape2D = %T1Collision
-@onready var t_2_collision: CollisionShape2D = %T2Collision
-@onready var t_3_collision: CollisionShape2D = %T3Collision
-@onready var t_4_collision: CollisionShape2D = %T4Collision
-@onready var t_1_hurt_box: BossHurtBox = %T1HurtBox
-@onready var t_2_hurt_box: BossHurtBox = %T2HurtBox
-@onready var t_3_hurt_box: BossHurtBox = %T3HurtBox
-@onready var t_4_hurt_box: BossHurtBox = %T4HurtBox
-@onready var t_1_sprite: AnimatedSprite2D = %T1Sprite
-@onready var t_2_sprite: AnimatedSprite2D = %T2Sprite
-@onready var t_3_sprite: AnimatedSprite2D = %T3Sprite
-@onready var t_4_sprite: AnimatedSprite2D = %T4Sprite
-
-@onready var body_hurt_box: BossHurtBox = %BodyHurtBox
-@onready var body_sprite: AnimatedSprite2D = %BodySprite
-@onready var body_collision: CollisionShape2D = %BodyCollision
-
+@onready var boss_hurt_box: HurtBox = %HurtBox
+@onready var environment_collision: CollisionShape2D = %EnvironmentCollision
+@onready var tentacles: Array[Tentacle] = [
+	%Tentacle,
+	%Tentacle2,
+	%Tentacle3,
+	%Tentacle4
+]
 
 func _ready() -> void:
-	body_hurt_box.monitorable = false
-	body_hurt_box.monitoring = false
-
-	tentacle_data["T1HurtBox"] = {
-		"hurt_box" = t_1_hurt_box,
-		"collision" = t_1_collision,
-		"sprite" = t_1_sprite
-	}
-	tentacle_data["T2HurtBox"] = {
-			"hurt_box" = t_2_hurt_box,
-			"collision" = t_2_collision,
-			"sprite" = t_2_sprite
-		}
-	tentacle_data["T3HurtBox"] = {
-		"hurt_box" = t_3_hurt_box,
-		"collision" = t_3_collision,
-		"sprite" = t_3_sprite
-	}
-	tentacle_data["T4HurtBox"] = {
-		"hurt_box" = t_4_hurt_box,
-		"collision" = t_4_collision,
-		"sprite" = t_4_sprite
-	}
-	tentacle_data["BodyHurtBox"] = {
-		"hurt_box" = body_hurt_box,
-		"collision" = body_collision,
-		"sprite" = body_sprite
-	}
-	health_component.tentacle_died.connect(_on_tentacle_died)
+	_set_tentacles()
+	boss_hurt_box.set_deferred("monitoring", false)
+	boss_hurt_box.set_deferred("monitorable", false)
 
 
-func _on_tentacle_died(t_name: String):
-	var tentacle = tentacle_data[t_name]
-	tentacle["hurt_box"].queue_free()
-	tentacle["collision"].queue_free()
-	tentacle["sprite"].queue_free()
-	tentacle_data.erase(t_name)
+func _set_tentacles():
+	for tentacle in tentacles:
+		tentacle.tentacle_died.connect(_on_tentacle_died)
+		tentacle.tentacle_health_changed.connect(_on_tentacle_health_changed)
+	tentacles.sort_custom(func(a, b): return a.id < b.id)
 
-	if tentacle_data.size()==1:
-		body_hurt_box.set_deferred("monitoring", true)
-		body_hurt_box.set_deferred("monitorable", true)
 
-	if tentacle_data.size()==0:
-		owner.queue_free()
+func _delete_died_tentacles(tentacle_id):
+	for tentacle in tentacles:
+		if tentacle.id == tentacle_id:
+			tentacles.erase(tentacle)
+			tentacle.queue_free()
+			alive_tentacles -= 1
+			break
+
+
+func _on_tentacle_health_changed(current_health, max_health, tentacle_id: int):
+	print(
+		"TENTACLE ID = ", tentacle_id,
+		" HP = ", current_health,
+		" MAX_HP = ", max_health
+	)
+
+func _on_tentacle_died(tentacle_id: int):
+	_delete_died_tentacles(tentacle_id)
+	#STATE MACHINE?
+	if tentacles.size() == 0:
+		boss_hurt_box.set_deferred("monitoring", true)
+		boss_hurt_box.set_deferred("monitorable", true)
