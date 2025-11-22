@@ -2,6 +2,10 @@ class_name TestUI
 
 extends CanvasLayer
 
+const PATH_TO_MELEE_ENEMIES: String = "res://scene/game_objects/enemies/melee_enemy/flux/"
+const PATH_TO_RANGE_ENEMIES: String = "res://scene/game_objects/enemies/range_enemy/flux/"
+const PATH_TO_BOMB_ENEMIES: String = "res://scene/game_objects/enemies/bomb_enemy/flux/"
+
 @export var player : PlayerController
 
 var melee1 = preload("res://scene/game_objects/enemies/melee_enemy/flux/melee_enemy_1.tscn")
@@ -37,6 +41,7 @@ var effect_timers: Dictionary = {}
 @onready var enemy_stats_menu_button: MenuButton = %EnemyStatsMenuButton
 @onready var add_to_all_enemies_check_box: CheckBox = %AddToAllEnemiesCheckBox
 @onready var applied_infusions_container: FlowContainer = %AppliedInfusionsContainer
+@onready var enemy_spawn_container: FlowContainer = %EnemySpawnContainer
 
 
 
@@ -44,6 +49,8 @@ var effect_timers: Dictionary = {}
 func _ready():
 	call_deferred("_connect_signal")
 	_enter_variables()
+	_setup_enemy_spawn_buttons()
+	_load_player_infusions()
 
 
 func _enter_variables():
@@ -60,8 +67,56 @@ func _connect_signal():
 	player.health_component.health_increased.connect(_on_health_changed)
 	Global.impulse_amount_changed.connect(_on_impulse_amount_changed)
 	Global.enemy_died.connect(_on_enemy_died)
-#endregion
+	player.player_hurt_box.effect_is_applied.connect(_on_enemy_applied_effect_to_player)
 
+
+func _setup_enemy_spawn_buttons():
+	var enemy_paths = [
+		PATH_TO_MELEE_ENEMIES,
+		PATH_TO_RANGE_ENEMIES,
+		PATH_TO_BOMB_ENEMIES
+	]
+
+	for folder_path in enemy_paths:
+		_load_enemies_from_folder(folder_path)
+
+
+func _load_player_infusions():
+	var player_infusions = player.effects
+	print(player_infusions)
+	for effect in player_infusions:
+		add_infusion(effect.effect_type)
+
+
+func _load_enemies_from_folder(folder_path: String):
+	var dir = DirAccess.open(folder_path)
+	if dir:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			if file_name.ends_with(".tscn") and not file_name.begins_with("."):
+				var enemy_path = folder_path + file_name
+				var enemy_scene = load(enemy_path)
+				if enemy_scene:
+					_create_enemy_spawn_button(enemy_scene, file_name.get_basename())
+			file_name = dir.get_next()
+		dir.list_dir_end()
+
+
+func _create_enemy_spawn_button(enemy_scene: PackedScene, enemy_name: String):
+	var button = Button.new()
+	button.text = enemy_name.replace("enemy_", "")
+	button.pressed.connect(_on_enemy_spawn_button_pressed.bind(enemy_scene, enemy_name))
+	enemy_spawn_container.add_child(button)
+
+
+func _on_enemy_applied_effect_to_player(
+	effect_type: Util.EffectType,
+	effect_duration: float,
+	effect_behavior: Util.EffectBehavior
+):
+	handle_effect_ui(effect_type, effect_duration, effect_behavior)
+#endregion
 
 #region EffectsInfoContainer(ApplyEffects)
 func _on_apply_button_pressed() -> void:
@@ -89,7 +144,54 @@ func apply_effect_to_player(effect: Effect):
 		add_infusion(effect.effect_type)
 	else:
 		player.effect_receiver.apply_effect(effect)
-		add_effect(effect)
+		# Для UI: обновляем панель эффекта
+		handle_effect_ui(effect.effect_type, effect.duration, effect.behavior)
+
+
+func handle_effect_ui(effect_type: Util.EffectType, duration: float, behavior: Util.EffectBehavior):
+	print("in function handle_effect_ui")
+	match behavior:
+		Util.EffectBehavior.SPECIAL:
+			print("in matchcase special")
+			if not has_effect_panel(effect_type):
+				add_effect(effect_type, duration)
+		Util.EffectBehavior.INSTANT:
+			print("in matchcase instant")
+			add_effect(effect_type, duration)
+		Util.EffectBehavior.DOT, Util.EffectBehavior.BUFF, Util.EffectBehavior.DEBUFF:
+			remove_effect_panel(effect_type)
+			add_effect(effect_type, duration)
+
+
+func has_effect_panel(effect_type: Util.EffectType) -> bool:
+	for panel in effect_timers:
+		if is_instance_valid(panel):
+			var hbox = panel.get_child(0)
+			if hbox and hbox.get_child_count() > 1:
+				var label = hbox.get_child(1) as Label
+				if label and Util.get_effect_name(effect_type) in label.text:
+					return true
+	return false
+
+
+func remove_effect_panel(effect_type: Util.EffectType):
+	print("in function remove effect panel")
+	for panel in effect_timers:
+		if is_instance_valid(panel):
+			var hbox = panel.get_child(0)
+			if hbox and hbox.get_child_count() > 1:
+				var label = hbox.get_child(1) as Label
+				if label and Util.get_effect_name(effect_type) in label.text:
+					# Удаляем таймеры и панель
+					var timers = effect_timers.get(panel)
+					if timers:
+						timers[0].stop()
+						timers[1].stop()
+						timers[0].queue_free()
+						timers[1].queue_free()
+					panel.queue_free()
+					effect_timers.erase(panel)
+					return
 
 
 func update_stats(effect: Effect):
@@ -116,13 +218,40 @@ func apply_effect_to_enemies(effect):
 			_on_infusion_added_to_enemy(target, effect)
 		else:
 			target.effect_receiver.apply_effect(effect)
-			_on_effect_added_to_enemy(target, effect)
+			# Для UI врагов: обновляем панель эффекта
+			handle_enemy_effect_ui(target, effect.effect_type, effect.duration, effect.behavior)
 
 
-func add_effect(effect):
+func handle_enemy_effect_ui(
+	enemy,
+	effect_type: Util.EffectType,
+	duration: float,
+	behavior: Util.EffectBehavior
+	):
+	for element in enemy_info_container.get_children():
+		if element is EnemyInfo:
+			if is_instance_valid(element.enemy_link) and enemy == element.enemy_link:
+				element.handle_effect_ui(effect_type, duration, behavior)
+				break
+
+
+func _on_applied_effect_to_enemy(
+	effect_type: Util.EffectType,
+	effect_duration: float,
+	effect_behavior: Util.EffectBehavior,
+	enemy
+	):
+	for element in enemy_info_container.get_children():
+		if element is EnemyInfo:
+			if is_instance_valid(element.enemy_link):
+				if enemy == element.enemy_link:
+					element.handle_effect_ui(effect_type, effect_duration, effect_behavior)
+
+
+func add_effect(effect_type, duration):
 	var panel = _create_effect_panel(
-		effect.effect_type,
-		str(effect.duration),
+		effect_type,
+		str(duration),
 		Color.DARK_BLUE,
 		Color.LIGHT_BLUE
 	)
@@ -131,18 +260,26 @@ func add_effect(effect):
 	var update_timer = Timer.new()
 	update_timer.wait_time = 0.1
 	add_child(update_timer)
-	update_timer.timeout.connect(_update_timer_progress.bind(panel, effect.duration))
+	update_timer.timeout.connect(_update_timer_progress.bind(panel, duration))
 	update_timer.start()
 
 	var timer = Timer.new()
 	add_child(timer)
-	timer.start(effect.duration)
+	timer.start(duration)
 	timer.timeout.connect(_on_timer_timeout.bind(timer, panel, update_timer))
 
 	effect_timers[panel] = [timer, update_timer]
 
 
 func add_infusion(effect_type):
+	# Для инфузий проверяем дубликаты
+	for child in applied_infusions_container.get_children():
+		var hbox = child.get_child(0)
+		if hbox and hbox.get_child_count() > 1:
+			var label = hbox.get_child(1) as Label
+			if label and Util.get_effect_name(effect_type) in label.text:
+				return  # Инфузия уже существует, не добавляем дубликат
+
 	var panel = _create_effect_panel(effect_type, "", Color.DARK_RED, Color.LIGHT_CORAL)
 	applied_infusions_container.add_child(panel)
 
@@ -224,196 +361,288 @@ func _on_timer_timeout(timer:Timer, ui_element, update_timer: Timer):
 	ui_element.queue_free()
 	timer.queue_free()
 	update_timer.queue_free()
+	effect_timers.erase(ui_element)
 
 #endregion
 
 
 #region Effects presets
 func _on_slow_preset_pressed() -> void:
-	var effect = Effect.new()
-	effect.effect_type = Util.EffectType.SLOW
-	effect.behavior = Util.EffectBehavior.DEBUFF
-	effect.stat_modifiers = StatModifierData.new()
-	effect.stat_modifiers.set_speed_multiplier(0.5)
-	effect.duration = 5.0
-	effect.positivity = Util.EffectPositivity.NEGATIVE
-	apply_effect(effect)
+	apply_effect(
+		EffectBuilder.new()
+			.set_basic(
+				Util.EffectType.SLOW,
+				Util.EffectBehavior.DEBUFF,
+				Util.EffectPositivity.NEGATIVE,
+				5.0
+			)
+			.with_stat_modifiers(
+				StatModifierBuilder.new()
+				.speed_multiplier(0.5)
+				.build()
+			)
+			.with_chance(0.3)
+			.build()
+	)
 
 
 func _on_curse_preset_pressed() -> void:
-	var effect = Effect.new()
-	effect.effect_type = Util.EffectType.CURSE
-	effect.behavior = Util.EffectBehavior.DEBUFF
-	effect.stat_modifiers = StatModifierData.new()
-	effect.stat_modifiers.set_forward_receiving_damage_multiplier(1.25)
-	effect.duration = 5.0
-	effect.positivity = Util.EffectPositivity.NEGATIVE
-	apply_effect(effect)
+	apply_effect(
+		EffectBuilder.new()
+			.set_basic(
+				Util.EffectType.CURSE,
+				Util.EffectBehavior.DEBUFF,
+				Util.EffectPositivity.NEGATIVE,
+				5.0
+			)
+			.with_stat_modifiers(
+				StatModifierBuilder.new()
+					.forward_receiving_damage_multiplier(1.25)
+					.build()
+			)
+			.build()
+	)
 
 
 func _on_burn_preset_pressed() -> void:
-	var effect = Effect.new()
-	effect.effect_type = Util.EffectType.BURN
-	effect.behavior = Util.EffectBehavior.DOT
-	effect.damage = DamageData.new(10)
-	effect.duration = 5.0
-	effect.tick_interval = 1.0
-	effect.positivity = Util.EffectPositivity.NEGATIVE
-	apply_effect(effect)
+	apply_effect(
+		EffectBuilder.new()
+			.set_basic(
+				Util.EffectType.BURN,
+				Util.EffectBehavior.DOT,
+				Util.EffectPositivity.NEGATIVE,
+				5.0
+			)
+			.with_damage(10)
+			.with_tick_interval(1.0)
+			.build()
+	)
 
 
 func _on_silence_preset_pressed() -> void:
-	var effect = Effect.new()
-	effect.effect_type = Util.EffectType.SILENCE
-	effect.behavior = Util.EffectBehavior.SPECIAL
-	effect.duration = 5.0
-	effect.positivity = Util.EffectPositivity.NEGATIVE
-	apply_effect(effect)
+	apply_effect(
+		EffectBuilder.new()
+			.set_basic(
+				Util.EffectType.SILENCE,
+				Util.EffectBehavior.SPECIAL,
+				Util.EffectPositivity.NEGATIVE,
+				5.0
+			)
+			.build()
+	)
 
 
 func _on_freeze_preset_pressed() -> void:
-	var effect = Effect.new()
-	effect.effect_type = Util.EffectType.FREEZE
-	effect.behavior = Util.EffectBehavior.SPECIAL
-	effect.duration = 6.0
-	effect.positivity = Util.EffectPositivity.NEGATIVE
-	apply_effect(effect)
+	apply_effect(
+		EffectBuilder.new()
+			.set_basic(
+				Util.EffectType.FREEZE,
+				Util.EffectBehavior.SPECIAL,
+				Util.EffectPositivity.NEGATIVE,
+				6.0
+			)
+			.build()
+	)
 
 
 func _on_rupture_preset_pressed() -> void:
-	var effect = Effect.new()
-	effect.effect_type = Util.EffectType.RUPTURE
-	effect.behavior = Util.EffectBehavior.SPECIAL
-	effect.damage = DamageData.new(0.5)
-	effect.duration = 5.0
-	effect.positivity = Util.EffectPositivity.NEGATIVE
-	apply_effect(effect)
+	apply_effect(
+		EffectBuilder.new()
+			.set_basic(
+				Util.EffectType.RUPTURE,
+				Util.EffectBehavior.SPECIAL,
+				Util.EffectPositivity.NEGATIVE,
+				5.0
+			)
+			.with_damage(0.5)
+			.build()
+	)
 
 
 func _on_phased_preset_pressed() -> void:
-	var effect = Effect.new()
-	effect.effect_type = Util.EffectType.PHASED
-	effect.behavior = Util.EffectBehavior.SPECIAL
-	effect.stat_modifiers = StatModifierData.new()
-	effect.stat_modifiers.set_speed_multiplier(2.0)
-	effect.stat_modifiers.set_invulnerable(true)
-	effect.duration = 5.0
-	effect.positivity = Util.EffectPositivity.POSITIVE
-	apply_effect(effect)
+	apply_effect(
+		EffectBuilder.new()
+			.set_basic(
+				Util.EffectType.PHASED,
+				Util.EffectBehavior.SPECIAL,
+				Util.EffectPositivity.POSITIVE,
+				5.0
+			)
+			.with_stat_modifiers(
+				StatModifierBuilder.new()
+					.speed_multiplier(2.0)
+					.invulnerable(true)
+					.build()
+			)
+			.build()
+	)
 
 
 func _on_sonic_preset_pressed() -> void:
-	var effect = Effect.new()
-	effect.effect_type = Util.EffectType.SONIC
-	effect.behavior = Util.EffectBehavior.BUFF
-	effect.stat_modifiers = StatModifierData.new()
-	effect.stat_modifiers.set_speed_multiplier(2.0)
-	effect.stat_modifiers.set_attack_cd_multiplier(0.6)
-	effect.stat_modifiers.set_attack_duration_multiplier(0.5)
-	effect.duration = 5.0
-	effect.positivity = Util.EffectPositivity.POSITIVE
-	apply_effect(effect)
+	apply_effect(
+		EffectBuilder.new()
+			.set_basic(
+				Util.EffectType.SONIC,
+				Util.EffectBehavior.BUFF,
+				Util.EffectPositivity.POSITIVE,
+				5.0
+			)
+			.with_stat_modifiers(
+				StatModifierBuilder.new()
+					.speed_multiplier(2.0)
+					.attack_cd_multiplier(0.6)
+					.attack_duration_multiplier(0.5)
+					.build()
+			)
+			.build()
+	)
 
 
 func _on_fortify_preset_pressed() -> void:
-	var effect = Effect.new()
-	effect.effect_type = Util.EffectType.FORTIFY
-	effect.behavior = Util.EffectBehavior.BUFF
-	effect.stat_modifiers = StatModifierData.new()
-	effect.stat_modifiers.set_armor_multiplier(2.0)
-	effect.stat_modifiers.set_percent_of_max_health_multiplier(2.0)
-	effect.duration = 7.0
-	effect.positivity = Util.EffectPositivity.POSITIVE
-	apply_effect(effect)
+	apply_effect(
+		EffectBuilder.new()
+			.set_basic(
+				Util.EffectType.FORTIFY,
+				Util.EffectBehavior.BUFF,
+				Util.EffectPositivity.POSITIVE,
+				7.0
+			)
+			.with_stat_modifiers(
+				StatModifierBuilder.new()
+					.armor_multiplier(2.0)
+					.percent_of_max_health_multiplier(2.0)
+					.build()
+			)
+			.build()
+	)
 
 
 func _on_blind_preset_pressed() -> void:
-	var effect = Effect.new()
-	effect.effect_type = Util.EffectType.BLIND
-	effect.behavior = Util.EffectBehavior.SPECIAL
-	effect.duration = 6.0
-	effect.positivity = Util.EffectPositivity.NEGATIVE
-	apply_effect(effect)
+	apply_effect(
+		EffectBuilder.new()
+			.set_basic(
+				Util.EffectType.BLIND,
+				Util.EffectBehavior.SPECIAL,
+				Util.EffectPositivity.NEGATIVE,
+				6.0
+			)
+			.build()
+	)
 
 
 func _on_dispel_preset_pressed() -> void:
-	var effect = Effect.new()
-	effect.effect_type =Util.EffectType.DISPEL
-	effect.behavior = Util.EffectBehavior.INSTANT
-	effect.positivity = Util.EffectPositivity.POSITIVE
-	apply_effect(effect)
+	apply_effect(
+		EffectBuilder.new()
+			.set_basic(
+				Util.EffectType.DISPEL,
+				Util.EffectBehavior.INSTANT,
+				Util.EffectPositivity.POSITIVE
+			)
+			.build()
+	)
 
 
 func _on_bkb_preset_pressed() -> void:
-	var effect = Effect.new()
-	effect.effect_type = Util.EffectType.BKB
-	effect.behavior = Util.EffectBehavior.SPECIAL
-	effect.duration = 7.0
-	effect.positivity = Util.EffectPositivity.POSITIVE
-	apply_effect(effect)
+	apply_effect(
+		EffectBuilder.new()
+			.set_basic(
+				Util.EffectType.BKB,
+				Util.EffectBehavior.SPECIAL,
+				Util.EffectPositivity.POSITIVE,
+				7.0
+			)
+			.build()
+	)
 
 
 func _on_collider_preset_pressed() -> void:
-	var effect = Effect.new()
-	effect.effect_type = Util.EffectType.COLLIDER
-	effect.behavior = Util.EffectBehavior.SPECIAL
-	effect.duration = 7.0
-	effect.positivity = Util.EffectPositivity.POSITIVE
-	apply_effect(effect)
+	apply_effect(
+		EffectBuilder.new()
+			.set_basic(
+				Util.EffectType.COLLIDER,
+				Util.EffectBehavior.SPECIAL,
+				Util.EffectPositivity.POSITIVE,
+				7.0
+			)
+			.build()
+	)
 
 
 func _on_corrosion_preset_pressed() -> void:
-	var effect = Effect.new()
-	effect.effect_type = Util.EffectType.CORROSION
-	effect.behavior = Util.EffectBehavior.DEBUFF
-	effect.stat_modifiers = StatModifierData.new()
-	effect.stat_modifiers.set_armor_multiplier(0.5)
-	effect.duration = 5.0
-	effect.positivity = Util.EffectPositivity.NEGATIVE
-	apply_effect(effect)
+	apply_effect(
+		EffectBuilder.new()
+			.set_basic(
+				Util.EffectType.CORROSION,
+				Util.EffectBehavior.DEBUFF,
+				Util.EffectPositivity.NEGATIVE,
+				5.0
+			)
+			.with_stat_modifiers(
+				StatModifierBuilder.new()
+					.armor_multiplier(0.5)
+					.build()
+			)
+			.build()
+	)
 
 
 func _on_regeneration_preset_pressed() -> void:
-	var effect = Effect.new()
-	effect.effect_type = Util.EffectType.REGENERATION
-	effect.behavior = Util.EffectBehavior.DOT
-	effect.damage = DamageData.new(15)
-	effect.duration = 5.0
-	effect.positivity = Util.EffectPositivity.POSITIVE
-	effect.tick_interval = 0.5
-	apply_effect(effect)
+	apply_effect(
+		EffectBuilder.new()
+			.set_basic(
+				Util.EffectType.REGENERATION,
+				Util.EffectBehavior.DOT,
+				Util.EffectPositivity.POSITIVE,
+				5.0
+			)
+			.with_damage(20)
+			.with_tick_interval(0.25)
+			.build()
+	)
 
 
 func _on_fear_preset_pressed() -> void:
-	var effect = Effect.new()
-	effect.effect_type = Util.EffectType.FEAR
-	effect.behavior = Util.EffectBehavior.SPECIAL
-	effect.duration = 3.0
-	effect.positivity = Util.EffectPositivity.NEGATIVE
-	apply_effect(effect)
+	apply_effect(
+		EffectBuilder.new()
+			.set_basic(
+				Util.EffectType.FEAR,
+				Util.EffectBehavior.SPECIAL,
+				Util.EffectPositivity.NEGATIVE,
+				4.0
+			)
+			.build()
+	)
 
 
 func _on_bleed_preset_pressed() -> void:
-	var effect = Effect.new()
-	effect.effect_type = Util.EffectType.BLEED
-	effect.behavior = Util.EffectBehavior.SPECIAL
-	effect.duration = 4.0
-	effect.damage = DamageData.new()
-	effect.positivity = Util.EffectPositivity.NEGATIVE
-	effect.source = player
-	effect.percent = 0.5
-	apply_effect(effect)
+	if not effect_infusion_check_button.button_pressed:
+		return
+
+	apply_effect(
+		EffectBuilder.new()
+			.set_basic(
+				Util.EffectType.BLEED,
+				Util.EffectBehavior.SPECIAL,
+				Util.EffectPositivity.NEGATIVE,
+				4.0
+			)
+			.with_percent(0.5)
+			.build()
+	)
 
 
 func _on_wounded_preset_pressed() -> void:
-	var effect = Effect.new()
-	effect.effect_type = Util.EffectType.WOUNDED
-	effect.behavior = Util.EffectBehavior.SPECIAL
-	effect.duration = 5.0
-	effect.damage = DamageData.new()
-	effect.positivity = Util.EffectPositivity.NEGATIVE
-	effect.percent = 0.02
-	apply_effect(effect)
+	apply_effect(
+		EffectBuilder.new()
+			.set_basic(
+				Util.EffectType.WOUNDED,
+				Util.EffectBehavior.SPECIAL,
+				Util.EffectPositivity.NEGATIVE,
+				5.0
+			)
+			.with_percent(0.05)
+			.build()
+	)
 #endregion
 
 
@@ -492,7 +721,7 @@ func _on_unstun_enemies_button_pressed() -> void:
 func _on_stun_enemies_button_pressed() -> void:
 	var enemies = get_tree().get_nodes_in_group("enemy")
 	for enemy in enemies:
-		enemy.effect_receiver.set_stun_state(9999)
+		enemy.set_stun(9999)
 
 
 func _on_clear_enemy_infusions_button_pressed() -> void:
@@ -527,45 +756,39 @@ func _on_delete_enemy_button_pressed() -> void:
 
 	enemy_to_delete.queue_free()
 
+
+func _on_stun_selected_enemy_button_pressed() -> void:
+	if !selected_enemy:
+		push_warning("Enemy is not selected. Select enemy first.")
+		return
+
+	selected_enemy.set_stun(9999)
+
+
+func _on_unstun_selected_enemy_button_pressed() -> void:
+	if !selected_enemy:
+		push_warning("Enemy is not selected. Select enemy first.")
+		return
+
+	selected_enemy.set_stun(0)
+
 #endregion
 
 
 #region Spawn Enemy
-func _on_melee_1_pressed() -> void:
-	var melee1_instance = melee1.instantiate() as EnemyController
+func _on_enemy_spawn_button_pressed(enemy_scene: PackedScene, enemy_name: String):
+	var enemy_instance = enemy_scene.instantiate()
 
-	melee1_instance.stats = melee1_instance.stats.duplicate(true)
+	enemy_instance.stats = enemy_instance.stats.duplicate(true)
 
-	get_tree().get_first_node_in_group("back_layer").add_child(melee1_instance)
+	get_tree().get_first_node_in_group("back_layer").add_child(enemy_instance)
 
 	var spawn_position = _get_spawn_position_behind_player()
-	melee1_instance.global_position = spawn_position
+	enemy_instance.global_position = spawn_position
 
-	melee1_instance.effect_receiver.set_stun_state(9999)
-	create_enemy_info_panel(melee1_instance, "Melee1")
-
-
-func _on_range_1_pressed() -> void:
-	var range1_instance = range1.instantiate()
-	range1_instance.stats = range1_instance.stats.duplicate(true)
-	get_tree().get_first_node_in_group("back_layer").add_child(range1_instance)
-	var spawn_position = _get_spawn_position_behind_player()
-	range1_instance.global_position = spawn_position
-
-	range1_instance.effect_receiver.set_stun_state(9999)
-	create_enemy_info_panel(range1_instance, "Range1")
-
-
-func _on_bomb_1_pressed() -> void:
-	var bomb1_instance = bomb1.instantiate()
-	bomb1_instance.stats = bomb1_instance.stats.duplicate(true)
-	get_tree().get_first_node_in_group("back_layer").add_child(bomb1_instance)
-	var spawn_position = _get_spawn_position_behind_player()
-	bomb1_instance.global_position = spawn_position
-
-	bomb1_instance.effect_receiver.set_stun_state(9999)
-	create_enemy_info_panel(bomb1_instance, "Bomb1")
-
+	enemy_instance.set_stun(9999)
+	enemy_instance.hurt_box.effect_is_applied.connect(_on_applied_effect_to_enemy.bind(enemy_instance))
+	create_enemy_info_panel(enemy_instance, enemy_name)
 
 func _get_spawn_position_behind_player() -> Vector2:
 	var behind_direction = Vector2.DOWN.normalized()

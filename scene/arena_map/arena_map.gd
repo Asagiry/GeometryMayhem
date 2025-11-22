@@ -5,20 +5,29 @@ extends Node
 signal player_entered(zone: ArenaZone)
 signal player_exited(zone: ArenaZone)
 
+
 @export_group("ChunkLoader")
 @export_enum("8", "16", "32") var chunk_size_str: String = "16"
 @export var draw_distance: int = 1
 @export var frequency_wait_time: float = 0.1
 @export var query_wait_time: float = 0.1
+@export var is_enabled_chunk_loader = true
 
 @export_group("SpawnerController")
-@export var enabled: bool = false
+@export var is_enabled_spawner_controller: bool = false
+
+@export_group("BossArena")
+@export var tiles_per_frame = 32
 
 var player: PlayerController
 var arena_zones: Array[ArenaZone]
 var chunk_size: float:
 	get:
 		return float(chunk_size_str)
+
+var boss_arena_tiles: Dictionary = {}
+var floor_index: int = 0
+var wall_index: int = 0
 
 @onready var basic_wall: TileMapLayer = %BasicWall
 @onready var details: TileMapLayer = %Details
@@ -32,6 +41,8 @@ var chunk_size: float:
 @onready var enemy_spawner_controller: EnemySpawnerController = %EnemySpawnerController
 @onready var chunk_loader: ChunkLoader = %ChunkLoader
 
+@onready var boss_arena_floor: TileMapLayer = %BossArenaFloor
+@onready var boss_arena_walls: TileMapLayer = %BossArenaWalls
 
 
 func _ready() -> void:
@@ -42,6 +53,50 @@ func _ready() -> void:
 
 	chunk_loader.setup()
 	enemy_spawner_controller.setup()
+
+	set_process(false)
+	boss_arena_tiles["floor"] = _extract_tiles(boss_arena_floor)
+	boss_arena_tiles["walls"] = _extract_tiles(boss_arena_walls)
+	boss_arena_floor.clear()
+	boss_arena_walls.clear()
+
+
+	Global.game_timer_timeout.connect(func():
+		set_process(true)
+		boss_arena_floor.collision_enabled = false
+		boss_arena_walls.collision_enabled = false)
+
+	Global.player_pulled.connect(func():
+		boss_arena_walls.collision_enabled = true
+		chunk_loader.is_enabled = false
+		chunk_loader.unload_all()
+		chunk_loader.load_around_boss_arena())
+
+
+func _process(_delta):
+	var done = true
+
+	# Пол
+	for i in range(tiles_per_frame):
+		if floor_index >= boss_arena_tiles["floor"].size():
+			break
+		var tile = boss_arena_tiles["floor"][floor_index]
+		boss_arena_floor.set_cell(tile.pos, tile.source, tile.atlas, tile.alt)
+		floor_index += 1
+		done = false
+
+	# Стены
+	for i in range(tiles_per_frame):
+		if wall_index >= boss_arena_tiles["walls"].size():
+			break
+		var tile = boss_arena_tiles["walls"][wall_index]
+		boss_arena_walls.set_cell(tile.pos, tile.source, tile.atlas, tile.alt)
+		wall_index += 1
+		done = false
+
+	if done:
+		set_process(false)
+
 
 
 func create_areas():
@@ -83,3 +138,19 @@ func get_previous_zone(current_zone: ArenaZone):
 			return flux_zone
 		chaotic_zone:
 			return overload_zone
+
+
+func _extract_tiles(layer: TileMapLayer) -> Array:
+	var tiles = []
+	var used = layer.get_used_cells()
+	for pos in used:
+		tiles.append({
+			"pos": pos,
+			"source": layer.get_cell_source_id(pos),
+			"atlas": layer.get_cell_atlas_coords(pos),
+			"alt": layer.get_cell_alternative_tile(pos),
+			"flip_h": layer.is_cell_flipped_h(pos),
+			"flip_v": layer.is_cell_flipped_v(pos),
+			"transpose": layer.is_cell_transposed(pos)
+		})
+	return tiles

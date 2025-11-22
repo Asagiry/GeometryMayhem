@@ -28,30 +28,6 @@ func _ready():
 	loss_timer.wait_time = resonance_data.impulse_loss_timer_tick
 
 
-func _is_max_level() -> bool:
-	return current_level == resonance_data.max_level
-
-
-func _is_at_safe_level() -> bool:
-	return current_level % resonance_data.safe_level == 0
-
-
-func _has_no_impulse() -> bool:
-	return current_impulse == 0
-
-
-func _can_increase_level() -> bool:
-	return not _is_max_level()
-
-
-func _can_decrease_level() -> bool:
-	return current_level > LEVEL_ZERO and (not _is_at_safe_level() or force_impulse_loss)
-
-
-func _should_skip_decrease() -> bool:
-	return _is_at_safe_level() and _has_no_impulse() and not force_impulse_loss
-
-
 func get_current_level_requirement() -> int:
 	return resonance_data.get_required_impulse(current_level)
 
@@ -77,6 +53,30 @@ func get_current_impulse() -> int:
 
 func get_current_level() -> int:
 	return current_level
+
+
+func _is_max_level() -> bool:
+	return current_level == resonance_data.max_level
+
+
+func _is_at_safe_level() -> bool:
+	return current_level % resonance_data.safe_level == 0
+
+
+func _has_no_impulse() -> bool:
+	return current_impulse == 0
+
+
+func _can_increase_level() -> bool:
+	return not _is_max_level()
+
+
+func _can_decrease_level() -> bool:
+	return current_level > LEVEL_ZERO and (not _is_at_safe_level() or force_impulse_loss)
+
+
+func _should_skip_decrease() -> bool:
+	return _is_at_safe_level() and _has_no_impulse() and not force_impulse_loss
 
 
 func reset_resonance():

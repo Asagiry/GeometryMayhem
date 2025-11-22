@@ -52,6 +52,7 @@ func _connect_signals():
 	effect_receiver.silenced.connect(_on_silenced)
 	effect_receiver.collision_disabled.connect(_on_collision_disabled)
 
+
 func get_effect_receiver():
 	return effect_receiver
 
@@ -74,6 +75,7 @@ func _on_collision_disabled(status: bool) -> void:
 func get_stats():
 	return stats
 
-func set_stun_state(duration: float):
-	state_machine.current_state._stun_applied(duration)
+
+func set_stun(duration: float):
+	state_machine.current_state._on_stun_applied(duration)
 	is_stunned = true

@@ -11,7 +11,7 @@ func tick(_delta: float) -> void:
 	var distance_moved = current_position.distance_to(last_position)
 
 	if distance_moved > 0.01:
-		var damage = _effect.damage.duplicate()
+		var damage = _effect.damage.duplicate(true)
 		damage.amount *= distance_moved
 		_receiver.owner.health_component.take_damage(damage)
 		last_position = current_position

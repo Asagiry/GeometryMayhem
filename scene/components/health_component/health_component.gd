@@ -25,25 +25,6 @@ func _ready():
 	_connect_signals()
 
 
-func _setup_owner_reference():
-	super._setup_owner_reference()
-
-	if owner_node and owner_node.has_method("get_effect_receiver"):
-		effect_receiver = owner_node.get_effect_receiver()
-	elif _owner_has_property("effect_receiver"):
-		effect_receiver = owner_node.effect_receiver
-
-	current_health = get_max_health()
-
-
-func _setup_stat_subscriptions():
-	subscribe_to_stat("max_health", _on_max_health_changed)
-
-
-func _connect_signals():
-	effect_receiver.health_component_effects_changed.connect(_on_effect_stats_changed)
-
-
 func take_damage(damage: DamageData):
 	if invulnerable:
 		return
@@ -77,6 +58,45 @@ func take_heal(amount_of_heal: float):
 	health_increased.emit(current_health, max_hp)
 
 
+func get_max_health() -> float:
+	return get_stat("max_health")
+
+
+func get_current_health() -> float:
+	return current_health
+
+
+func get_health_ratio() -> float:
+	return health_ratio
+
+
+func get_regeneration() -> float:
+	return get_stat("regeneration")
+
+
+func _setup_owner_reference():
+	super._setup_owner_reference()
+
+	if owner_node and owner_node.has_method("get_effect_receiver"):
+		effect_receiver = owner_node.get_effect_receiver()
+	elif _owner_has_property("effect_receiver"):
+		effect_receiver = owner_node.effect_receiver
+
+	current_health = get_max_health()
+
+
+func _setup_stat_subscriptions():
+	subscribe_to_stat("max_health", _on_max_health_changed)
+
+
+func _connect_signals():
+	effect_receiver.health_component_effects_changed.connect(_on_effect_stats_changed)
+
+
+func _on_regeneration_timer_timeout() -> void:
+	take_heal(get_regeneration() * get_max_health())
+
+
 func _on_effect_stats_changed(updated_stats: Dictionary) -> void:
 	if updated_stats.has("forward_receiving_damage_multiplier"):
 		forward_damage_multiplier = updated_stats["forward_receiving_damage_multiplier"]
@@ -107,15 +127,3 @@ func _on_max_health_changed(new_max_health: float, old_max_health: float):
 	print("Max health updated: %d -> %d, Current: %d (%.1f%%)" % [
 		old_max_health, new_max_health, current_health, health_percentage * 100
 	])
-
-
-func get_max_health() -> float:
-	return get_stat("max_health")
-
-
-func get_current_health() -> float:
-	return current_health
-
-
-func get_health_ratio() -> float:
-	return health_ratio

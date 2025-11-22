@@ -53,20 +53,49 @@ func apply_effect(effect: Effect):
 		Util.EffectBehavior.BUFF, Util.EffectBehavior.DEBUFF:
 			_add_stat_modifier(effect)
 
+
+func set_freeze_multiplier(value: float):
+	movement_component_effects_changed.emit({
+		"freeze_multilier": value
+	})
+
+
+func set_attack_duration_multiplier(value: float) -> void:
+	attack_component_effects_changed.emit({
+		"attack_duration_multiplier": value
+	})
+
+
+func set_direction_modifier(value: float) -> void:
+	movement_component_effects_changed.emit({
+		"direction_modifier": value
+	})
+
+
+func set_leave_stun_state():
+	owner.is_stunned = false
+
+
+func set_stun_state(duration: float):
+	owner.set_stun(duration)
+
+
+func get_stat(stat_name: String):
+	return owner.stats.get_stat(stat_name)
+
+
 #region special
 func _apply_special_effect(effect: Effect):
 	if is_under(effect.effect_type):
 		return
 
 	active_special_states[effect.effect_type] = true
-	emit_signal("effect_started", effect.effect_type)
+	effect_started.emit(effect.effect_type, effect.duration)
 
-	var path = "res://scripts/data/effect/behavior/"+\
-	Util.get_effect_name(effect.effect_type).to_lower()+"_effect.gd"
-	print(path)
-	var instance = load(path).new()
+	var instance = effect.create_behavior_instance()
 	if instance == null:
-		push_warning("⚠️ Special effect %s not found" % str(effect.effect_type))
+		push_warning("⚠️ Behavior instance not created for effect: " +
+			Util.get_effect_name(effect.effect_type))
 		return
 
 	add_child(instance)
@@ -79,7 +108,7 @@ func _apply_special_effect(effect: Effect):
 
 #region instant
 func _apply_instant_effect(effect: Effect):
-	emit_signal("effect_started", effect.effect_type)
+	effect_started.emit(effect.effect_type, effect.duration)
 
 	if effect.effect_type == Util.EffectType.DISPEL:
 		clear_effects(Util.EffectPositivity.NEGATIVE)
@@ -91,35 +120,11 @@ func _apply_instant_effect(effect: Effect):
 	if effect.stat_modifiers:
 		_add_stat_modifier(effect)
 
-	emit_signal("effect_ended", effect.effect_type)
+	effect_ended.emit(effect.effect_type)
 #endregion instant
 
 
 #region dot
-func _add_dot_effect(effect: Effect):
-	if effect.effect_type == Util.EffectType.BLEED:
-		effect.damage.amount = owner.stats.attack_damage.amount \
-		* effect.percent_of_attack
-
-	for dot_data in active_dots:
-		var existing_effect: Effect = dot_data["effect"]
-		if existing_effect.effect_type == effect.effect_type:
-			if _should_replace_dot(existing_effect, effect):
-				dot_data["elapsed"] = 0.0
-				dot_data["effect"] = effect
-				emit_signal("effect_started", effect.effect_type)
-			else:
-				dot_data["elapsed"] = 0.0
-			return
-
-	active_dots.append({
-		"effect": effect,
-		"timer": 0.0,
-		"elapsed": 0.0
-	})
-	emit_signal("effect_started", effect.effect_type)
-
-
 func _process_dots(delta: float):
 	for i in range(active_dots.size() - 1, -1, -1):
 		var dot = active_dots[i]
@@ -140,7 +145,31 @@ func _process_dots(delta: float):
 		# Если время эффекта истекло — удаляем
 		if dot["elapsed"] >= e.duration:
 			active_dots.remove_at(i)
-			emit_signal("effect_ended", e.effect_type)
+			effect_ended.emit(e.effect_type)
+
+
+func _add_dot_effect(effect: Effect):
+	if effect.effect_type == Util.EffectType.BLEED:
+		effect.damage.amount = owner.stats.attack_damage.amount \
+		* effect.percent_of_attack
+
+	for dot_data in active_dots:
+		var existing_effect: Effect = dot_data["effect"]
+		if existing_effect.effect_type == effect.effect_type:
+			if _should_replace_dot(existing_effect, effect):
+				dot_data["elapsed"] = 0.0
+				dot_data["effect"] = effect
+				effect_started.emit(effect.effect_type, effect.duration)
+			else:
+				dot_data["elapsed"] = 0.0
+			return
+
+	active_dots.append({
+		"effect": effect,
+		"timer": 0.0,
+		"elapsed": 0.0
+	})
+	effect_started.emit(effect.effect_type, effect.duration)
 
 
 func _should_replace_dot(old_dot: Effect, new_dot: Effect) -> bool:
@@ -151,6 +180,21 @@ func _should_replace_dot(old_dot: Effect, new_dot: Effect) -> bool:
 
 
 #region stat_modifiers
+func _process_stat_modifiers(delta: float):
+	var expired_effects: Array = []
+
+	for effect_type in active_stat_modifiers.keys():
+		active_stat_modifiers[effect_type]["remaining_time"] -= delta
+		if active_stat_modifiers[effect_type]["remaining_time"] <= 0:
+			expired_effects.append(effect_type)
+
+	if expired_effects.size() > 0:
+		for effect_type in expired_effects:
+			active_stat_modifiers.erase(effect_type)
+			effect_ended.emit(effect_type)
+		_recalculate_stats()
+
+
 func _add_stat_modifier(effect: Effect):
 	if effect.stat_modifiers == null:
 		return
@@ -166,7 +210,7 @@ func _add_stat_modifier(effect: Effect):
 			"positivity": effect.positivity
 		}
 		_recalculate_stats()
-		emit_signal("effect_started", new_type)
+		effect_started.emit(new_type, new_duration)
 		return
 
 	var existing_data = active_stat_modifiers[new_type]
@@ -179,7 +223,7 @@ func _add_stat_modifier(effect: Effect):
 			"positivity": effect.positivity
 		}
 		_recalculate_stats()
-		emit_signal("effect_started", new_type)
+		effect_started.emit(new_type, new_duration)
 	else:
 		existing_data["remaining_time"] = new_duration
 
@@ -243,25 +287,9 @@ func _signal_sender(stat: String, value: float):
 				"attack_duration_multiplier": value
 			})
 		"percent_of_max_health":
-			print("percent_of_max_health = ", value)
 			health_component_effects_changed.emit({
 				"percent_of_max_health": value
 			})
-
-
-func _process_stat_modifiers(delta: float):
-	var expired_effects: Array = []
-
-	for effect_type in active_stat_modifiers.keys():
-		active_stat_modifiers[effect_type]["remaining_time"] -= delta
-		if active_stat_modifiers[effect_type]["remaining_time"] <= 0:
-			expired_effects.append(effect_type)
-
-	if expired_effects.size() > 0:
-		for effect_type in expired_effects:
-			active_stat_modifiers.erase(effect_type)
-			emit_signal("effect_ended", effect_type)
-		_recalculate_stats()
 
 
 func _should_replace_modifier(
@@ -327,6 +355,8 @@ func _is_new_buff_stronger(old_mod: StatModifierData, new_mod: StatModifierData)
 	return new_total > old_total
 #endregion stat_modifiers
 
+
+#region util functions
 func is_under(effect_type: Util.EffectType) -> bool:
 	return active_special_states.get(effect_type, false)
 
@@ -338,7 +368,7 @@ func clear_effects(type: Util.EffectPositivity) -> void:
 		var e: Effect = dot_data["effect"]
 		if e.positivity == type:
 			active_dots.remove_at(i)
-			emit_signal("effect_ended", e.effect_type)
+			effect_ended.emit(e.effect_type)
 
 #--------------STAT_MODIFIERS-----------------------
 	var expired_stat_modifiers := []
@@ -350,7 +380,7 @@ func clear_effects(type: Util.EffectPositivity) -> void:
 
 	for effect_type in expired_stat_modifiers:
 		active_stat_modifiers.erase(effect_type)
-		emit_signal("effect_ended", effect_type)
+		effect_ended.emit(effect_type)
 
 
 #--------SPECIAL_EFFECTS------------
@@ -367,18 +397,18 @@ func clear_all_effects() -> void:
 	if active_dots.size() > 0:
 		for dot_data in active_dots:
 			var e: Effect = dot_data["effect"]
-			emit_signal("effect_ended", e.effect_type)
+			effect_ended.emit(e.effect_type)
 		active_dots.clear()
 
 	if active_stat_modifiers.size() > 0:
 		for effect_type in active_stat_modifiers.keys():
-			emit_signal("effect_ended", effect_type)
+			effect_ended.emit(effect_type)
 		active_stat_modifiers.clear()
 		_recalculate_stats()
 
 	if active_special_states.size() > 0:
 		for effect_type in active_special_states.keys():
-			emit_signal("effect_ended", effect_type)
+			effect_ended.emit(effect_type)
 		active_special_states.clear()
 
 		for child in get_children():
@@ -387,29 +417,4 @@ func clear_all_effects() -> void:
 				child.queue_free()
 
 	stat_modifiers.reset()
-
-
-func set_freeze_multiplier(value: float):
-	movement_component_effects_changed.emit({
-		"freeze_multilier": value
-	})
-
-
-func set_attack_duration_multiplier(value: float) -> void:
-	attack_component_effects_changed.emit({
-		"attack_duration_multiplier": value
-	})
-
-
-func set_direction_modifier(value: float) -> void:
-	movement_component_effects_changed.emit({
-		"direction_modifier": value
-	})
-
-
-func set_leave_stun_state():
-	owner.is_stunned = false
-
-
-func set_stun_state(duration: float):
-	owner.set_stun(duration)
+#endregion
