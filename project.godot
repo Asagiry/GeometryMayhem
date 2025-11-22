@@ -33,6 +33,10 @@ window/size/viewport_height=720
 window/size/resizable=false
 window/stretch/scale_mode="integer"
 
+[dotnet]
+
+project/assembly_name="GeometryMayhem"
+
 [global_group]
 
 boss=""

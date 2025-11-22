@@ -41,6 +41,13 @@ enum ArtefactRarity {
 	MAYHEM,
 }
 
+enum EnemyType {
+	NORMAL,
+	AMPLIFIED,
+	DISTORTED,
+	ANOMALY,
+	BOSS,
+}
 
 const EFFECT_NAMES = {
 	EffectType.NONE: "None",
@@ -64,8 +71,6 @@ const EFFECT_NAMES = {
 	EffectType.FORTIFY: "Fortify",
 	EffectType.WOUNDED: "Wounded",
 }
-
-
 
 const EFFECT_BEHAVIOR_NAMES = {
 	EffectBehavior.NONE: "None",
@@ -94,11 +99,14 @@ const ARTEFACT_RARITY_NAMES = {
 static func get_effect_name(effect_type: EffectType) -> String:
 	return EFFECT_NAMES.get(effect_type, "Unknown")
 
+
 static func get_effect_behavior_name(behavior: EffectBehavior) -> String:
 	return EFFECT_BEHAVIOR_NAMES.get(behavior, "Unknown")
 
+
 static func get_damage_category_name(category: DamageCategory) -> String:
 	return DAMAGE_CATEGORY_NAMES.get(category, "Unknown")
+
 
 static func get_artefact_rarity_name(rarity: ArtefactRarity) -> String:
 	return ARTEFACT_RARITY_NAMES.get(rarity, "Unknown")
