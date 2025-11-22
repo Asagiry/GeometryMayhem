@@ -4,9 +4,9 @@ extends Node2D
 const PARTICLES_MULTIPLIER:int = 40
 const ATTACK_SECTOR_ANIMATION_MULTIPLIER:float = 1.8
 
-var enemy
 var attacked: bool = false
-
+var effects: Array[Effect]
+var magic_find: float
 var _attack_range: float = 0.0
 var _attack_angle: float = 90.0
 var _attack_duration: float = 0.3
@@ -33,7 +33,11 @@ func _on_hit_box_component_area_entered(area: Area2D) -> void:
 		area.deal_damage(hit_box_component.damage_data)
 		attacked = true
 	if area.has_method("apply_effect"):
-		area.apply_effect(enemy.effects)
+		area.apply_effect(
+			effects,
+			magic_find,
+			hit_box_component.damage_data
+			)
 
 
 func start_swing():
@@ -54,7 +58,8 @@ func _on_animation_finished(anim_name: String):
 
 
 func set_enemy(p_enemy):
-	enemy = p_enemy
+	effects = p_enemy.effects
+	magic_find = p_enemy.stats.magic_find
 
 
 func set_attack_range(attack_range: float, angle_deg: float) -> void:
