@@ -1,7 +1,7 @@
 class_name EnemyMeleeAttackController2
 extends EnemyAttackController
 
-const FIRE_SECTOR_ANGLE := 90.0
+const FIRE_SECTOR_ANGLE: float = 90.0
 
 func activate_attack():
 	attack_started.emit()

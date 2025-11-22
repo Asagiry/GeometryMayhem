@@ -2,6 +2,7 @@ class_name MeleeEnemyAttackScene2
 extends Node2D
 
 const PARTICLES_MULTIPLIER:int = 40
+const ATTACK_SECTOR_ANIMATION_MULTIPLIER:float = 1.8
 
 var enemy
 var attacked: bool = false
@@ -40,7 +41,7 @@ func start_swing():
 	collision_shape_2d.disabled = false
 	var attack_anim := animation_player.get_animation("attack")
 	var anim_len := attack_anim.length / animation_player.speed_scale
-	_attack_duration = anim_len * 1.8
+	_attack_duration = anim_len * ATTACK_SECTOR_ANIMATION_MULTIPLIER
 	_start_fire_tween()
 
 
@@ -105,4 +106,3 @@ func _start_fire_tween() -> void:
 			_update_collision_sector(0.0)
 			collision_shape_2d.disabled = true
 	)
-	
