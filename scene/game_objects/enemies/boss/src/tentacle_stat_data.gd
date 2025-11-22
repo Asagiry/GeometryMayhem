@@ -1,4 +1,4 @@
-class_name BossStatData
+class_name TentacleStatData
 
 extends Resource
 
@@ -6,21 +6,17 @@ signal stat_changed(stat_name: String, old_value, new_value)
 
 @export_group("HP")
 @export var max_health: float
-@export var regeneration: float
+@export var regeneration:float
 
 @export_group("Resistance")
 @export var armor: float
-
-@export_group("Movement")
-@export var max_speed: float
-@export var acceleration: float
-@export var rotation_speed: float
 
 @export_group("Currency")
 @export var knowledge_count: int
 @export var echo_chance: float
 @export var echo_count: int
 @export var impulse_count: int
+
 
 var _previous_values: Dictionary = {}
 

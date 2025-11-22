@@ -1,5 +1,6 @@
 class_name ArmorComponent
-extends BaseComponent  # Меняем наследование
+
+extends BaseComponent
 
 var armor_multiplier: float = 1.0
 var effect_receiver: EffectReceiver

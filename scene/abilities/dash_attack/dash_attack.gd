@@ -14,7 +14,7 @@ func _ready():
 
 
 func _on_hit_box_component_area_entered(area: Area2D) -> void:
-	if area is not HurtBox and area is not BossHurtBox:
+	if area is not HurtBox:
 		return
 	if area.has_method("deal_damage"):
 		area.deal_damage(hit_box_component.damage_data)

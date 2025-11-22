@@ -419,7 +419,7 @@ points = PackedVector2Array(-15, 15, -7, -1, 0, -14, 7, -1, 15, 15, 0, 11)
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("effect_receiver") groups=["player"]]
 collision_layer = 514
-collision_mask = 5
+collision_mask = 1029
 safe_margin = 0.5
 script = ExtResource("1_heqc5")
 stats = SubResource("Resource_lduo2")
@@ -480,7 +480,7 @@ player = NodePath("..")
 attack_controller = NodePath("../PlayerAttackController")
 parry_controller = NodePath("../ParryController")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="EnvironmentCollision" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true
 position = Vector2(0, 2)
 shape = SubResource("CircleShape2D_lfjyr")

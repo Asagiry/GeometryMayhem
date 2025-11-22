@@ -11,17 +11,14 @@ func _ready():
 	_connect_signals()
 
 
-func calculate_reduced_damage(damage: float, p_name) -> float:
-	var current_armor = get_armor(p_name) * armor_multiplier
+func calculate_reduced_damage(damage: float) -> float:
+	var current_armor = get_armor() * armor_multiplier
 	var reduced_damage = _apply_armor_formula(damage, current_armor)
 	return snappedf(reduced_damage, 0.1)
 
 
-func get_armor(p_name : String) -> float:
-	if p_name.contains("T"):
-		return get_stat("tentacle_armor") * armor_multiplier
-	else:
-		return get_stat("body_armor") * armor_multiplier
+func get_armor() -> float:
+	return get_stat("body_armor") * armor_multiplier
 
 
 func _connect_signals():
