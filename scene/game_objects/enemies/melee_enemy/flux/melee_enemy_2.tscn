@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://vean0446eao1" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_stat_data.gd" id="2_rrxn3"]
 [ext_resource type="PackedScene" uid="uid://bl380xv78onc8" path="res://scene/components/effect_receiver/effect_receiver.tscn" id="3_gtcfh"]
 [ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="4_76m35"]
-[ext_resource type="Script" path="res://scene/game_objects/enemies/abstract_enemy/src/states/enemy_state_machine.gd" id="4_icobv"]
+[ext_resource type="Script" uid="uid://bph7rgfajg2et" path="res://scene/game_objects/enemies/abstract_enemy/src/states/enemy_state_machine.gd" id="4_icobv"]
 [ext_resource type="Texture2D" uid="uid://cemwnp8o7vast" path="res://assets/mobs/melee/Easy/2/AGGRO/romb_walk(идущий).png" id="5_d3jdp"]
 [ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component/armor_component.tscn" id="5_rrxn3"]
 [ext_resource type="Script" uid="uid://b845xc5y43cwr" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_movement_component.gd" id="6_8tafr"]
@@ -29,7 +29,7 @@ rotation_speed = 9.0
 attack_damage = SubResource("Resource_hinnt")
 attack_cd = 2.0
 attack_duration = 1.0
-attack_range = 100.0
+attack_range = 200.0
 aggro_range = 150.0
 attack_range_zone = 40.0
 metadata/_custom_type_script = "uid://vean0446eao1"
