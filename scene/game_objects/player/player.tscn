@@ -99,7 +99,7 @@
 
 [sub_resource type="Resource" id="Resource_itr6r"]
 script = ExtResource("4_1tyhs")
-amount = 100.0
+amount = 10000.0
 damage_category = 1
 metadata/_custom_type_script = "uid://cyitjknl16852"
 

@@ -13,6 +13,7 @@ extends CanvasLayer
 @onready var level_label: Label = %LevelLabel
 @onready var current_zone_label: Label = %CurrentZoneLabel
 @onready var fps_label: Label = %FpsLabel
+@onready var resonance_level_label: Label = %ResonanceLevelLabel
 
 
 func _process(delta: float) -> void:
@@ -50,7 +51,7 @@ func _resonance_setup():
 func _on_resonance_changed(current_impulse,current_level,required):
 	resonance_bar.max_value = required
 	resonance_bar.value = current_impulse
-	resonance_bar.current_level_label.text = str(current_level)
+	resonance_level_label.text = str(current_level)
 
 
 func _cooldown_setup():

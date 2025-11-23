@@ -11,7 +11,7 @@
 [ext_resource type="Script" uid="uid://crl43rwfxbyrd" path="res://scene/game_objects/enemies/boss/tentacle_controller.gd" id="6_tqviw"]
 [ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component/armor_component.tscn" id="7_pnvgi"]
 [ext_resource type="PackedScene" uid="uid://cye5xxca2nrxh" path="res://scene/game_objects/enemies/boss/src/tentacle.tscn" id="10_3agj5"]
-[ext_resource type="Script" path="res://scene/game_objects/enemies/boss/src/tentacle_stat_data.gd" id="11_pnvgi"]
+[ext_resource type="Script" uid="uid://16myiecxcmq2" path="res://scene/game_objects/enemies/boss/src/tentacle_stat_data.gd" id="11_pnvgi"]
 [ext_resource type="PackedScene" uid="uid://csmleslly1twg" path="res://scene/components/hurt_box_component/hurt_box.tscn" id="12_3agj5"]
 
 [sub_resource type="Resource" id="Resource_l0uhr"]
