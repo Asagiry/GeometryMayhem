@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://dbtp7vxslxtvp"]
 
-[ext_resource type="Texture2D" uid="uid://cikodsl4a2ugu" path="res://assets/UI/MiniMap/Border.png" id="1_dlbym"]
 [ext_resource type="Script" uid="uid://c4gp6wr65cyq6" path="res://scene/UI/level_hud/elements/minimap/mini_map.gd" id="1_g78vr"]
 [ext_resource type="Script" uid="uid://cjfxleb5lxaps" path="res://scene/UI/level_hud/elements/minimap/sub_viewport.gd" id="2_0giy3"]
+[ext_resource type="Texture2D" uid="uid://bwb8goc0b8360" path="res://assets/UI/MiniMap/BorderSimple.png" id="2_kw41v"]
 [ext_resource type="Texture2D" uid="uid://dag8j8qt6m2l6" path="res://assets/UI/MiniMap/BorderFill.png" id="2_wbmiy"]
 [ext_resource type="Script" uid="uid://qxk3mng3b44p" path="res://scene/UI/level_hud/elements/minimap/sub_viewport_container.gd" id="4_kw41v"]
 
@@ -18,7 +18,7 @@ script = ExtResource("1_g78vr")
 [node name="MinimapBorder" type="TextureRect" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
-texture = ExtResource("1_dlbym")
+texture = ExtResource("2_kw41v")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 show_behind_parent = true

@@ -20,7 +20,7 @@ var current_zone : ArenaZone
 @onready var armor_component: ArmorComponent = %ArmorComponent
 @onready var attack_controller: PlayerAttackController = %PlayerAttackController
 @onready var parry_controller: ParryController = %ParryController
-@onready var collision: CollisionShape2D = %EnvironmentCollision
+@onready var collision = %EnvironmentCollision
 @onready var player_hurt_box: HurtBox = %PlayerHurtBox
 @onready var resonance_component: ResonanceComponent = %ResonanceComponent
 

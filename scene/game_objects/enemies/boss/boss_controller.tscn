@@ -71,8 +71,6 @@ radius = 63.0
 
 [node name="BossController" type="CharacterBody2D" node_paths=PackedStringArray("effect_receiver") groups=["boss"]]
 collision_layer = 4
-collision_mask = 5
-safe_margin = 1.0
 script = ExtResource("1_rt2cv")
 stats = SubResource("Resource_l0uhr")
 effect_receiver = NodePath("EffectReceiver")

@@ -17,7 +17,7 @@ const LUCK_POTENCY: float = 0.01
 
 @export var health_component: HealthComponent
 
-@onready var hurt_box_shape: CollisionShape2D = %HurtBoxShape
+@onready var hurt_box_shape = %HurtBoxShape
 
 func deal_damage(damage_data: DamageData):
 	health_component.take_damage(damage_data)
