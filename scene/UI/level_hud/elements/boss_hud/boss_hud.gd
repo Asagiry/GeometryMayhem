@@ -55,18 +55,8 @@ func _on_player_pulled():
 	boss_hp_container.visible = true
 	var boss = get_tree().get_first_node_in_group("boss") as BossController
 
-	boss.health_component.health_decreased.connect(_on_body_hp_changed)
-	boss.health_component.health_increased.connect(_on_body_hp_changed)
-
-	for i in range(4):
-		boss.tentacle_controller.tentacles[i].\
-		health_component.\
-		health_increased.\
-		connect(_on_tentacle_hp_changed.bind(i))
-		boss.tentacle_controller.tentacles[i].\
-		health_component.\
-		health_decreased.\
-		connect(_on_tentacle_hp_changed.bind(i))
+	boss.boss_health_changed.connect(_on_body_hp_changed)
+	boss.tentacle_controller.tentacle_health_changed.connect(_on_tentacle_hp_changed)
 
 
 func _on_body_hp_changed(current_health: float,max_health: float):
@@ -76,15 +66,15 @@ func _on_body_hp_changed(current_health: float,max_health: float):
 
 func _on_tentacle_hp_changed(current_health: float, max_health: float, id: int):
 	match id:
-		0:
+		1:
 			tentacle_hp_bar_1.max_value = max_health
 			tentacle_hp_bar_1.value = current_health
-		1:
+		2:
 			tentacle_hp_bar_2.max_value = max_health
 			tentacle_hp_bar_2.value = current_health
-		2:
+		3:
 			tentacle_hp_bar_3.max_value = max_health
 			tentacle_hp_bar_3.value = current_health
-		3:
+		4:
 			tentacle_hp_bar_4.max_value = max_health
 			tentacle_hp_bar_4.value = current_health

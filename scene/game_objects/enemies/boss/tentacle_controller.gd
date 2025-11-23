@@ -2,6 +2,8 @@ class_name TentacleController
 
 extends Node
 
+signal tentacle_health_changed(current_health, max_health, tentacle_id)
+
 var alive_tentacles: int = 4
 
 @onready var boss_hurt_box: HurtBox = %HurtBox
@@ -41,6 +43,7 @@ func _on_tentacle_health_changed(current_health, max_health, tentacle_id: int):
 		" HP = ", current_health,
 		" MAX_HP = ", max_health
 	)
+	tentacle_health_changed.emit(current_health, max_health, tentacle_id)
 
 func _on_tentacle_died(tentacle_id: int):
 	_delete_died_tentacles(tentacle_id)
