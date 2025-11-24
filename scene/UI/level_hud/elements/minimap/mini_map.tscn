@@ -23,8 +23,12 @@ texture = ExtResource("2_kw41v")
 [node name="TextureRect" type="TextureRect" parent="."]
 show_behind_parent = true
 clip_children = 1
+custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 texture = ExtResource("2_wbmiy")
+expand_mode = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="TextureRect"]
 show_behind_parent = true
