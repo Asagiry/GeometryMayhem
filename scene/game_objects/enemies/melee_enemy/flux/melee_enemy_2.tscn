@@ -17,10 +17,11 @@
 
 [sub_resource type="Resource" id="Resource_hinnt"]
 script = ExtResource("2_icobv")
-amount = 1.0
+amount = 999.0
 metadata/_custom_type_script = "uid://cyitjknl16852"
 
 [sub_resource type="Resource" id="Resource_hrkp4"]
+resource_local_to_scene = true
 script = ExtResource("2_rrxn3")
 max_health = 400.0
 max_speed = 100.0
@@ -166,6 +167,7 @@ effect_receiver = NodePath("EffectReceiver")
 [node name="EnemyStateMachine" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("4_icobv")
+is_log_enabled = true
 
 [node name="EffectReceiver" parent="." instance=ExtResource("3_gtcfh")]
 unique_name_in_owner = true
@@ -210,13 +212,12 @@ shape = SubResource("RectangleShape2D_l18dp")
 unique_name_in_owner = true
 z_index = 1
 collision_layer = 4
-collision_mask = 2
-collision_priority = 2.0
+collision_mask = 256
 
 [node name="AggroZone" type="Area2D" parent="."]
 unique_name_in_owner = true
 collision_layer = 4
-collision_mask = 2
+collision_mask = 256
 
 [node name="EnvironmentCollision" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true
