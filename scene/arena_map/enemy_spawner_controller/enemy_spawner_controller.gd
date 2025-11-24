@@ -3,6 +3,7 @@ class_name EnemySpawnerController
 extends Node
 
 @export var arena_map: ArenaMap
+
 var is_enabled: bool = false
 var player: PlayerController
 var current_zone: ArenaZone
