@@ -10,7 +10,8 @@ const MAX_DIGITS = 8
 func set_value(p_value: int):
 	var count: int = 0
 	for i in range(MAX_DIGITS):
-		var digit = p_value / int(pow(10,i))
+		@warning_ignore("integer_division")
+		var digit =  p_value / int(pow(10,i))
 		if digit!=0:
 			count+=1
 	print(count)
