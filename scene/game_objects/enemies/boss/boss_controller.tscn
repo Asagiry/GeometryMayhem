@@ -1,0 +1,145 @@
+[gd_scene load_steps=22 format=3 uid="uid://nvvc41pbwmx"]
+
+[ext_resource type="Script" uid="uid://c1ldi8rsyr01h" path="res://scene/game_objects/enemies/boss/boss_controller.gd" id="1_rt2cv"]
+[ext_resource type="Texture2D" uid="uid://rt2hmxnff82u" path="res://assets/mobs/boss/Boss.png" id="2_8osxn"]
+[ext_resource type="PackedScene" uid="uid://bl380xv78onc8" path="res://scene/components/effect_receiver/effect_receiver.tscn" id="2_mew1x"]
+[ext_resource type="Script" uid="uid://bup4tgd7uqktm" path="res://scene/game_objects/enemies/boss/src/boss_stat_data.gd" id="2_tqviw"]
+[ext_resource type="Script" uid="uid://sd2mjtsajor" path="res://scene/game_objects/enemies/boss/attack_controller.gd" id="3_l0uhr"]
+[ext_resource type="Script" uid="uid://d31ucj1wbsnwb" path="res://scene/game_objects/enemies/boss/src/attack_stats_data.gd" id="4_3agj5"]
+[ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="6_3agj5"]
+[ext_resource type="Script" uid="uid://pa5s2mtrbitd" path="res://scene/game_objects/enemies/boss/src/boss_movement_component.gd" id="6_l0uhr"]
+[ext_resource type="Script" uid="uid://crl43rwfxbyrd" path="res://scene/game_objects/enemies/boss/tentacle_controller.gd" id="6_tqviw"]
+[ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component/armor_component.tscn" id="7_pnvgi"]
+[ext_resource type="PackedScene" uid="uid://cye5xxca2nrxh" path="res://scene/game_objects/enemies/boss/src/tentacle.tscn" id="10_3agj5"]
+[ext_resource type="Script" uid="uid://16myiecxcmq2" path="res://scene/game_objects/enemies/boss/src/tentacle_stat_data.gd" id="11_pnvgi"]
+[ext_resource type="PackedScene" uid="uid://csmleslly1twg" path="res://scene/components/hurt_box_component/hurt_box.tscn" id="12_3agj5"]
+
+[sub_resource type="Resource" id="Resource_l0uhr"]
+script = ExtResource("2_tqviw")
+max_health = 1000.0
+regeneration = 0.01
+max_speed = 100.0
+acceleration = 1.0
+rotation_speed = 0.5
+metadata/_custom_type_script = "uid://bup4tgd7uqktm"
+
+[sub_resource type="Resource" id="Resource_pnvgi"]
+script = ExtResource("4_3agj5")
+metadata/_custom_type_script = "uid://d31ucj1wbsnwb"
+
+[sub_resource type="Resource" id="Resource_lajpc"]
+resource_local_to_scene = true
+script = ExtResource("11_pnvgi")
+max_health = 300.0
+regeneration = 0.01
+metadata/_custom_type_script = "uid://16myiecxcmq2"
+
+[sub_resource type="Resource" id="Resource_ilks4"]
+resource_local_to_scene = true
+script = ExtResource("11_pnvgi")
+max_health = 200.0
+regeneration = 0.01
+metadata/_custom_type_script = "uid://16myiecxcmq2"
+
+[sub_resource type="Resource" id="Resource_q0y05"]
+resource_local_to_scene = true
+script = ExtResource("11_pnvgi")
+max_health = 300.0
+regeneration = 0.01
+metadata/_custom_type_script = "uid://16myiecxcmq2"
+
+[sub_resource type="Resource" id="Resource_beysw"]
+resource_local_to_scene = true
+script = ExtResource("11_pnvgi")
+max_health = 300.0
+regeneration = 0.01
+metadata/_custom_type_script = "uid://16myiecxcmq2"
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6vwcg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_8osxn")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0yr02"]
+radius = 63.0
+
+[node name="BossController" type="CharacterBody2D" node_paths=PackedStringArray("effect_receiver") groups=["boss"]]
+collision_layer = 4
+script = ExtResource("1_rt2cv")
+stats = SubResource("Resource_l0uhr")
+effect_receiver = NodePath("EffectReceiver")
+
+[node name="AttackController" type="Node" parent="."]
+script = ExtResource("3_l0uhr")
+attack_stats = SubResource("Resource_pnvgi")
+
+[node name="EffectReceiver" parent="." instance=ExtResource("2_mew1x")]
+unique_name_in_owner = true
+
+[node name="HealthComponent" parent="." node_paths=PackedStringArray("armor_component") instance=ExtResource("6_3agj5")]
+unique_name_in_owner = true
+armor_component = NodePath("../ArmorComponent")
+
+[node name="ArmorComponent" parent="." instance=ExtResource("7_pnvgi")]
+unique_name_in_owner = true
+
+[node name="TentacleController" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("6_tqviw")
+
+[node name="MovementComponent" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("6_l0uhr")
+
+[node name="Tentacle" parent="." instance=ExtResource("10_3agj5")]
+unique_name_in_owner = true
+position = Vector2(71.5, -71)
+rotation = 0.7853982
+scale = Vector2(1.165, 1.302)
+stats = SubResource("Resource_lajpc")
+
+[node name="Tentacle2" parent="." instance=ExtResource("10_3agj5")]
+unique_name_in_owner = true
+position = Vector2(-70.5, 71.8)
+rotation = 3.9269907
+scale = Vector2(1.165, 1.302)
+stats = SubResource("Resource_ilks4")
+
+[node name="Tentacle3" parent="." instance=ExtResource("10_3agj5")]
+unique_name_in_owner = true
+position = Vector2(-71.5, -70.9)
+rotation = -0.7853982
+scale = Vector2(1.165, 1.302)
+stats = SubResource("Resource_q0y05")
+
+[node name="Tentacle4" parent="." instance=ExtResource("10_3agj5")]
+unique_name_in_owner = true
+position = Vector2(70.5, 71.8)
+rotation = 2.3561945
+scale = Vector2(1.165, 1.302)
+stats = SubResource("Resource_beysw")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_6vwcg")
+autoplay = "default"
+
+[node name="EnvironmentCollision" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
+shape = SubResource("CircleShape2D_0yr02")
+
+[node name="HurtBox" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("12_3agj5")]
+unique_name_in_owner = true
+collision_layer = 132
+collision_mask = 0
+health_component = NodePath("../HealthComponent")
+
+[node name="HurtBoxShape" type="CollisionShape2D" parent="HurtBox"]
+unique_name_in_owner = true
+shape = SubResource("CircleShape2D_0yr02")

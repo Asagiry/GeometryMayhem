@@ -1,17 +1,12 @@
-@tool  # ← ОБЯЗАТЕЛЬНО для отображения в редакторе
-class_name MiniMap
-extends SubViewportContainer
+extends MarginContainer
 
-@onready var sub_viewport: SubViewport = %SubViewport
+@onready var minimap_border: TextureRect = %MinimapBorder
 
-func _ready():
-	stretch = true
-	_update_viewport_size()
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	minimap_border.pivot_offset = Vector2(100,100)
 
-func _notification(what):
-	if what == NOTIFICATION_RESIZED:
-		_update_viewport_size()
 
-func _update_viewport_size():
-	if sub_viewport:
-		sub_viewport.size = size
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	minimap_border.rotation += delta*0.1

@@ -36,11 +36,10 @@ func take_damage(damage: DamageData):
 	var old_health = current_health
 	current_health = snappedf(max(current_health - final_damage, 0), ROUNDING_ACCURACY)
 
-	# Обновляем ratio
 	var max_hp = get_max_health()
 	if max_hp > 0:
 		health_ratio = current_health / max_hp
-
+	print("OWNER = ", owner," HP = ", current_health)
 	health_decreased.emit(current_health, max_hp)
 
 	if current_health <= 0:
@@ -94,7 +93,10 @@ func _connect_signals():
 
 
 func _on_regeneration_timer_timeout() -> void:
-	take_heal(get_regeneration() * get_max_health())
+	var regeneration = get_regeneration()
+	if regeneration == 0.0:
+		return
+	take_heal(regeneration * get_max_health())
 
 
 func _on_effect_stats_changed(updated_stats: Dictionary) -> void:

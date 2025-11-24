@@ -6,28 +6,35 @@ var is_patrolling: bool = false
 var patrol_timer: Timer
 var dir: Vector2
 var patrol_speed_multiplier: float = 0.5
-
+var is_rotating_to_player: bool = false
+var player: PlayerController
 
 func _ready():
 	super()
+	player = get_tree().get_first_node_in_group("player") as PlayerController
 	patrol_timer = Timer.new()
 	patrol_timer.one_shot = true
 	add_child(patrol_timer)
 	patrol_timer.timeout.connect(_on_patrol_timer_timeout)
 
 
+func set_rotating_to_player(enable: bool):
+	is_rotating_to_player = enable
 
-func chase_player():
+
+func chase_player(delta: float = 0):
 	var direction = _get_direction_to_player()
 	if direction != Vector2.ZERO:
 		last_direction = direction
 	velocity = accelerate_to_direction(direction)
+	if is_rotating_to_player:
+		var target_angle = (player.global_position - global_position).angle() - PI/2
+		rotation = lerp_angle(rotation, target_angle, get_rotation_speed() * delta)
 	move_and_slide()
 
 
 func _get_direction_to_player() -> Vector2:
 	var mob = owner as Node2D
-	var player = get_tree().get_first_node_in_group("player") as Node2D
 	if player != null:
 		return (player.global_position - mob.global_position).normalized()
 	return Vector2.ZERO

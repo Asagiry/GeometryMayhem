@@ -13,6 +13,8 @@ script = ExtResource("1_plauu")
 transition_end_screen = ExtResource("2_dcgxc")
 
 [node name="Arena_map" parent="." instance=ExtResource("1_1c01b")]
+draw_distance = 3
+is_enabled_spawner_controller = true
 tiles_per_frame = 16
 
 [node name="BackLayer" type="Node2D" parent="." groups=["back_layer"]]

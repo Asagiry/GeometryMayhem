@@ -29,6 +29,8 @@ var boss_arena_tiles: Dictionary = {}
 var floor_index: int = 0
 var wall_index: int = 0
 
+var boss_scene = preload("res://scene/game_objects/enemies/boss/boss_controller.tscn")
+
 @onready var basic_wall: TileMapLayer = %BasicWall
 @onready var details: TileMapLayer = %Details
 @onready var chunks: Node = %Chunks
@@ -70,13 +72,20 @@ func _ready() -> void:
 		boss_arena_walls.collision_enabled = true
 		chunk_loader.is_enabled = false
 		chunk_loader.unload_all()
-		chunk_loader.load_around_boss_arena())
+		chunk_loader.load_around_boss_arena()
+		spawn_boss())
+
+
+func spawn_boss():
+	var boss = boss_scene.instantiate() as BossController
+	boss.global_position = Vector2(0.0,-256.0)
+	get_tree().get_first_node_in_group("back_layer").add_child(boss)
+
 
 
 func _process(_delta):
 	var done = true
 
-	# Пол
 	for i in range(tiles_per_frame):
 		if floor_index >= boss_arena_tiles["floor"].size():
 			break

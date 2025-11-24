@@ -1,0 +1,54 @@
+[gd_scene load_steps=5 format=3 uid="uid://j61h4u22k4r5"]
+
+[ext_resource type="Texture2D" uid="uid://c4s4b7yhkkuw5" path="res://assets/UI/MetaValue/EchoValue.png" id="1_5emk1"]
+[ext_resource type="Script" uid="uid://dplh6rr5h47uw" path="res://scene/UI/level_hud/elements/metaValue/echo.gd" id="1_g01oq"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_g01oq"]
+line_spacing = 4.0
+font_size = 30
+font_color = Color(1, 1, 1, 0.5019608)
+outline_size = 2
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_6p4e3"]
+font_size = 30
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[node name="EchoUI" type="MarginContainer"]
+custom_minimum_size = Vector2(183, 32)
+offset_right = 142.0
+offset_bottom = 32.0
+size_flags_horizontal = 2
+size_flags_vertical = 3
+script = ExtResource("1_g01oq")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Icon" type="TextureRect" parent="HBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("1_5emk1")
+expand_mode = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="GhostLabel" type="Label" parent="HBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0000000"
+label_settings = SubResource("LabelSettings_g01oq")
+horizontal_alignment = 1
+
+[node name="RealLabel" type="Label" parent="HBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1"
+label_settings = SubResource("LabelSettings_6p4e3")
+horizontal_alignment = 1
