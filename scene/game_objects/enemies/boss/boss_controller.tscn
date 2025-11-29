@@ -1,17 +1,26 @@
-[gd_scene load_steps=22 format=3 uid="uid://nvvc41pbwmx"]
+[gd_scene load_steps=35 format=3 uid="uid://nvvc41pbwmx"]
 
 [ext_resource type="Script" uid="uid://c1ldi8rsyr01h" path="res://scene/game_objects/enemies/boss/boss_controller.gd" id="1_rt2cv"]
 [ext_resource type="Texture2D" uid="uid://rt2hmxnff82u" path="res://assets/mobs/boss/Boss.png" id="2_8osxn"]
 [ext_resource type="PackedScene" uid="uid://bl380xv78onc8" path="res://scene/components/effect_receiver/effect_receiver.tscn" id="2_mew1x"]
 [ext_resource type="Script" uid="uid://bup4tgd7uqktm" path="res://scene/game_objects/enemies/boss/src/boss_stat_data.gd" id="2_tqviw"]
-[ext_resource type="Script" uid="uid://sd2mjtsajor" path="res://scene/game_objects/enemies/boss/attack_controller.gd" id="3_l0uhr"]
-[ext_resource type="Script" uid="uid://d31ucj1wbsnwb" path="res://scene/game_objects/enemies/boss/src/attack_stats_data.gd" id="4_3agj5"]
+[ext_resource type="Script" uid="uid://cqb8dbwujgjmr" path="res://scene/game_objects/enemies/boss/attacks/boss_attack_controller.gd" id="3_pnvgi"]
+[ext_resource type="Script" uid="uid://bkyhk82rimhn0" path="res://scene/game_objects/enemies/boss/attacks/attack_stage_config.gd" id="4_aifxs"]
+[ext_resource type="PackedScene" uid="uid://c8tikgmecugey" path="res://scene/game_objects/enemies/boss/attacks/awp_attack/awp_attack_controller.tscn" id="4_ilks4"]
+[ext_resource type="PackedScene" uid="uid://cs5iohljtcy7j" path="res://scene/game_objects/enemies/boss/attacks/awp_attack/awp_attack_scene.tscn" id="5_q0y05"]
+[ext_resource type="Script" uid="uid://vkk4bo4ep10v" path="res://scene/game_objects/enemies/boss/attacks/base_attack_config.gd" id="5_umugx"]
 [ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="6_3agj5"]
+[ext_resource type="Script" uid="uid://bnfpbrwhqmj37" path="res://scene/game_objects/enemies/boss/attacks/awp_attack/awp_attack_config.gd" id="6_kuf5e"]
 [ext_resource type="Script" uid="uid://pa5s2mtrbitd" path="res://scene/game_objects/enemies/boss/src/boss_movement_component.gd" id="6_l0uhr"]
+[ext_resource type="PackedScene" uid="uid://c2w2mf2sxssl1" path="res://scene/game_objects/enemies/boss/attacks/false_base_mutation_attack/false_base_mutation_attack_controller.tscn" id="6_q0y05"]
 [ext_resource type="Script" uid="uid://crl43rwfxbyrd" path="res://scene/game_objects/enemies/boss/tentacle_controller.gd" id="6_tqviw"]
+[ext_resource type="Script" uid="uid://cyitjknl16852" path="res://scripts/data/damage/damage_data.gd" id="6_umugx"]
+[ext_resource type="PackedScene" uid="uid://bkh3nm050b3p6" path="res://scene/game_objects/enemies/boss/attacks/false_base_mutation_attack/false_base_mutation_attack_scene.tscn" id="7_beysw"]
+[ext_resource type="Script" uid="uid://cq2wm3wsfoeac" path="res://scene/game_objects/enemies/boss/attacks/false_base_mutation_attack/false_mutation_attack_config.gd" id="7_faqfl"]
 [ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component/armor_component.tscn" id="7_pnvgi"]
-[ext_resource type="PackedScene" uid="uid://cye5xxca2nrxh" path="res://scene/game_objects/enemies/boss/src/tentacle.tscn" id="10_3agj5"]
-[ext_resource type="Script" uid="uid://16myiecxcmq2" path="res://scene/game_objects/enemies/boss/src/tentacle_stat_data.gd" id="11_pnvgi"]
+[ext_resource type="PackedScene" uid="uid://cye5xxca2nrxh" path="res://scene/game_objects/enemies/boss/src/tentacle/tentacle.tscn" id="10_3agj5"]
+[ext_resource type="Script" uid="uid://5m7cpflvnie8" path="res://base/state_machine.gd" id="10_lajpc"]
+[ext_resource type="Script" uid="uid://16myiecxcmq2" path="res://scene/game_objects/enemies/boss/src/tentacle/tentacle_stat_data.gd" id="11_pnvgi"]
 [ext_resource type="PackedScene" uid="uid://csmleslly1twg" path="res://scene/components/hurt_box_component/hurt_box.tscn" id="12_3agj5"]
 
 [sub_resource type="Resource" id="Resource_l0uhr"]
@@ -23,9 +32,30 @@ acceleration = 1.0
 rotation_speed = 0.5
 metadata/_custom_type_script = "uid://bup4tgd7uqktm"
 
-[sub_resource type="Resource" id="Resource_pnvgi"]
-script = ExtResource("4_3agj5")
-metadata/_custom_type_script = "uid://d31ucj1wbsnwb"
+[sub_resource type="Resource" id="Resource_aifxs"]
+script = ExtResource("6_umugx")
+amount = 100.0
+metadata/_custom_type_script = "uid://cyitjknl16852"
+
+[sub_resource type="Resource" id="Resource_umugx"]
+script = ExtResource("6_kuf5e")
+damage = SubResource("Resource_aifxs")
+metadata/_custom_type_script = "uid://bnfpbrwhqmj37"
+
+[sub_resource type="Resource" id="Resource_kuf5e"]
+script = ExtResource("6_umugx")
+amount = 1000.0
+metadata/_custom_type_script = "uid://cyitjknl16852"
+
+[sub_resource type="Resource" id="Resource_faqfl"]
+script = ExtResource("7_faqfl")
+damage = SubResource("Resource_kuf5e")
+metadata/_custom_type_script = "uid://cq2wm3wsfoeac"
+
+[sub_resource type="Resource" id="Resource_3kaq0"]
+script = ExtResource("4_aifxs")
+attacks = Array[ExtResource("5_umugx")]([SubResource("Resource_umugx"), SubResource("Resource_faqfl")])
+metadata/_custom_type_script = "uid://bkyhk82rimhn0"
 
 [sub_resource type="Resource" id="Resource_lajpc"]
 resource_local_to_scene = true
@@ -76,8 +106,15 @@ stats = SubResource("Resource_l0uhr")
 effect_receiver = NodePath("EffectReceiver")
 
 [node name="AttackController" type="Node" parent="."]
-script = ExtResource("3_l0uhr")
-attack_stats = SubResource("Resource_pnvgi")
+unique_name_in_owner = true
+script = ExtResource("3_pnvgi")
+stages = Array[ExtResource("4_aifxs")]([SubResource("Resource_3kaq0")])
+
+[node name="AwpAttackController" parent="AttackController" instance=ExtResource("4_ilks4")]
+attack_scene = ExtResource("5_q0y05")
+
+[node name="FalseBaseMutationAttackController" parent="AttackController" instance=ExtResource("6_q0y05")]
+attack_scene = ExtResource("7_beysw")
 
 [node name="EffectReceiver" parent="." instance=ExtResource("2_mew1x")]
 unique_name_in_owner = true
@@ -96,6 +133,11 @@ script = ExtResource("6_tqviw")
 [node name="MovementComponent" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("6_l0uhr")
+
+[node name="StateMachine" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("10_lajpc")
+is_log_enabled = true
 
 [node name="Tentacle" parent="." instance=ExtResource("10_3agj5")]
 unique_name_in_owner = true

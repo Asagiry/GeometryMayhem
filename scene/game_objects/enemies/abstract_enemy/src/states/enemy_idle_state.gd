@@ -1,4 +1,5 @@
 class_name EnemyIdleState
+
 extends EnemyState
 
 static var state_name = "EnemyIdleState"

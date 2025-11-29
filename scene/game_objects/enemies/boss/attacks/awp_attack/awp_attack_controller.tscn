@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8tikgmecugey"]
+
+[ext_resource type="Script" uid="uid://d2y6cbpy7w06s" path="res://scene/game_objects/enemies/boss/attacks/awp_attack/awp_attack_controller.gd" id="1_juemb"]
+
+[node name="AwpAttackController" type="Node"]
+script = ExtResource("1_juemb")

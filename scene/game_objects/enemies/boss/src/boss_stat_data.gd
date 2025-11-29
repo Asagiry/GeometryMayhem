@@ -22,6 +22,9 @@ signal stat_changed(stat_name: String, old_value, new_value)
 @export var echo_count: int
 @export var impulse_count: int
 
+@export_group("Other")
+@export var magic_find: float
+
 var _previous_values: Dictionary = {}
 
 func _set(property: StringName, value) -> bool:
