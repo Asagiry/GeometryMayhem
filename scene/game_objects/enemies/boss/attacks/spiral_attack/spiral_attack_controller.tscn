@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://b81yngvgx2ff2"]
+
+[ext_resource type="Script" uid="uid://dhjqgaa4f4bcv" path="res://scene/game_objects/enemies/boss/attacks/spiral_attack/spiral_attack_controller.gd" id="1_fal0w"]
+
+[node name="SpiralAttackController" type="Node"]
+script = ExtResource("1_fal0w")
+
+[node name="CooldownTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+
+[connection signal="timeout" from="CooldownTimer" to="." method="_on_cooldown_timer_timeout"]

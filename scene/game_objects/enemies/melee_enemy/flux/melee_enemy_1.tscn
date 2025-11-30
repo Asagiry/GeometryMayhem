@@ -36,7 +36,7 @@ rotation_speed = 9.0
 attack_damage = SubResource("Resource_s0nn8")
 attack_cd = 1.0
 attack_duration = 1.0
-attack_range = 25.0
+attack_range = 20.0
 knowledge_count = 10
 echo_chance = 0.2
 echo_count = 10
@@ -109,6 +109,7 @@ effect_receiver = NodePath("EffectReceiver")
 [node name="EnemyStateMachine" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("4_xbs3f")
+is_log_enabled = true
 
 [node name="EffectReceiver" parent="." instance=ExtResource("4_xvgj7")]
 unique_name_in_owner = true
@@ -132,8 +133,9 @@ attack_scene = ExtResource("9_v18kr")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_c73ew")
-animation = &"attack"
+animation = &"idle"
 autoplay = "idle"
+frame_progress = 0.21834609
 
 [node name="HurtBox" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("12_yggd7")]
 unique_name_in_owner = true
@@ -147,12 +149,12 @@ shape = SubResource("RectangleShape2D_irisk")
 
 [node name="AttackZone" type="Area2D" parent="."]
 unique_name_in_owner = true
-collision_layer = 4
+collision_layer = 0
 collision_mask = 256
 
 [node name="AggroZone" type="Area2D" parent="."]
 unique_name_in_owner = true
-collision_layer = 4
+collision_layer = 0
 collision_mask = 256
 
 [node name="EnvironmentCollision" type="CollisionShape2D" parent="."]

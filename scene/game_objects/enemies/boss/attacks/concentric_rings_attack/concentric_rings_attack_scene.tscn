@@ -1,0 +1,51 @@
+[gd_scene load_steps=9 format=3 uid="uid://bliv27wk6l2mm"]
+
+[ext_resource type="Script" uid="uid://bcpd1ntmkast3" path="res://scene/game_objects/enemies/boss/attacks/concentric_rings_attack/concentric_rings_attack_scene.gd" id="1_dhgbu"]
+[ext_resource type="Texture2D" uid="uid://jbnwchi5mdcu" path="res://assets/mobs/range/Easy/1/ATTACK/ATTACK_INSTANCE1.png" id="1_ptgyi"]
+[ext_resource type="Texture2D" uid="uid://b5le4kq6knr6a" path="res://assets/mobs/range/Easy/1/ATTACK/ATTACK_INSTANCE2.png" id="2_dhgbu"]
+[ext_resource type="Texture2D" uid="uid://bbggia22tar3k" path="res://assets/mobs/range/Easy/1/ATTACK/ATTACK_INSTANCE3.png" id="3_3sqyw"]
+[ext_resource type="Texture2D" uid="uid://c10qcclobhw38" path="res://assets/mobs/range/Easy/1/ATTACK/ATTACK_INSTANCE4.png" id="4_ggbhv"]
+[ext_resource type="PackedScene" uid="uid://cffktb7uj82qv" path="res://scene/components/hit_box_component/hit_box_component.tscn" id="5_f4ktr"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hcfr8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_ptgyi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_dhgbu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_3sqyw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_ggbhv")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 7.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ptgyi"]
+size = Vector2(10, 9)
+
+[node name="ConcentricRingsAttackScene" type="Node2D"]
+script = ExtResource("1_dhgbu")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_hcfr8")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="HitBoxComponent" parent="AnimatedSprite2D" groups=["projectile"] instance=ExtResource("5_f4ktr")]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/HitBoxComponent"]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_ptgyi")
+
+[connection signal="area_entered" from="AnimatedSprite2D/HitBoxComponent" to="." method="_on_hit_box_component_area_entered"]

@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://bkh3nm050b3p6"]
+
+[ext_resource type="Script" uid="uid://cgnkavvam5eeq" path="res://scene/game_objects/enemies/boss/attacks/false_base_mutation_attack/false_base_mutation_attack_scene.gd" id="1_n0hwx"]
+[ext_resource type="PackedScene" uid="uid://cffktb7uj82qv" path="res://scene/components/hit_box_component/hit_box_component.tscn" id="2_i06mk"]
+
+[node name="FalseBaseMutationAttackScene" type="Node2D"]
+script = ExtResource("1_n0hwx")
+
+[node name="HitBoxComponent" parent="." instance=ExtResource("2_i06mk")]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxComponent"]
+unique_name_in_owner = true
+
+[connection signal="area_entered" from="HitBoxComponent" to="." method="_on_hit_box_component_area_entered"]

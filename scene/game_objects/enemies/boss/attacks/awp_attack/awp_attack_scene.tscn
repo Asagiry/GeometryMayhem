@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://cs5iohljtcy7j"]
+
+[ext_resource type="Script" uid="uid://d2nc8swwg1q2b" path="res://scene/game_objects/enemies/boss/attacks/awp_attack/awp_attack_scene.gd" id="1_nsc8f"]
+[ext_resource type="PackedScene" uid="uid://cffktb7uj82qv" path="res://scene/components/hit_box_component/hit_box_component.tscn" id="2_ny2rt"]
+
+[node name="AwpAttackScene" type="Node2D"]
+script = ExtResource("1_nsc8f")
+
+[node name="Line2D" type="Line2D" parent="."]
+
+[node name="HitBoxComponent" parent="." instance=ExtResource("2_ny2rt")]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxComponent"]
+
+[connection signal="area_entered" from="HitBoxComponent" to="." method="_on_hit_box_component_area_entered"]

@@ -53,6 +53,11 @@ func _connect_signals():
 	effect_receiver.collision_disabled.connect(_on_collision_disabled)
 
 
+func apply_knockback(force: Vector2):
+	if movement_component:
+		movement_component.apply_knockback(force)
+
+
 func get_effect_receiver():
 	return effect_receiver
 

@@ -26,6 +26,7 @@ func _ready() -> void:
 	_update_collision_sector(0.0)
 
 
+
 func _on_hit_box_component_area_entered(area: Area2D) -> void:
 	if area is not HurtBox:
 		return
@@ -40,6 +41,7 @@ func _on_hit_box_component_area_entered(area: Area2D) -> void:
 			)
 
 
+
 func start_swing():
 	fire_particles.emitting = true
 	collision_shape_2d.disabled = false
@@ -47,6 +49,7 @@ func start_swing():
 	var anim_len := attack_anim.length / animation_player.speed_scale
 	_attack_duration = anim_len * ATTACK_SECTOR_ANIMATION_MULTIPLIER
 	_start_fire_tween()
+
 
 
 func _on_animation_finished(anim_name: String):

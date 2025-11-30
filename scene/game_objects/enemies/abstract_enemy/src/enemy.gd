@@ -10,15 +10,15 @@ signal enemy_died()
 var is_stunned: bool = false
 var get_back: bool = false
 
-@onready var state_machine: EnemyStateMachine = %EnemyStateMachine
+var aggro_zone_radius = null
+var attack_zone_radius = null
 
+@onready var state_machine: EnemyStateMachine = %EnemyStateMachine
 @onready var health_component: HealthComponent = %HealthComponent
 @onready var armor_component: ArmorComponent = %ArmorComponent
 @onready var movement_component: EnemyMovementComponent = %EnemyMovementComponent
 @onready var attack_controller: EnemyAttackController = %EnemyAttackController
-
 @onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
-
 @onready var aggro_zone: Area2D = %AggroZone
 @onready var attack_zone: Area2D = %AttackZone
 @onready var collision = %EnvironmentCollision
@@ -32,31 +32,37 @@ func _ready():
 
 func init():
 	_enter_stats()
-	_enter_varibles()
+	_enter_variables()
 	_connect_signals()
 	_start_state_machine()
+
+
+func _enter_stats():
+	var aggro_collision = CollisionShape2D.new()
+	var aggro_shape = CircleShape2D.new()
+	if aggro_zone_radius != null:
+		aggro_shape.radius = aggro_zone_radius
+	else:
+		aggro_shape.radius = stats.aggro_range
+	aggro_collision.shape = aggro_shape
+	aggro_zone.add_child(aggro_collision)
+
+	var attack_collision = CollisionShape2D.new()
+	var attack_shape = CircleShape2D.new()
+	if attack_zone_radius != null:
+		attack_shape.radius = attack_zone_radius
+	else:
+		attack_shape.radius = stats.attack_range_zone
+	attack_collision.shape = attack_shape
+	attack_zone.add_child(attack_collision)
 
 
 func _connect_signals():
 	health_component.died.connect(_on_died)
 
 
-func _enter_varibles():
+func _enter_variables():
 	effects = effects.duplicate(true)
-
-
-func _enter_stats():
-	var aggro_collision = CollisionShape2D.new()
-	var aggro_shape = CircleShape2D.new()
-	aggro_shape.radius = stats.aggro_range
-	aggro_collision.shape = aggro_shape
-	aggro_zone.add_child(aggro_collision)
-
-	var attack_collision = CollisionShape2D.new()
-	var attack_shape = CircleShape2D.new()
-	attack_shape.radius = stats.attack_range_zone
-	attack_collision.shape = attack_shape
-	attack_zone.add_child(attack_collision)
 
 
 func _start_state_machine():
@@ -67,6 +73,10 @@ func _start_state_machine():
 		EnemyStunState.new(self)
 	]
 	state_machine.start_machine(states)
+
+
+func transition_to_aggro_state():
+	state_machine.transition(EnemyAggroState.state_name)
 
 
 func _on_died():

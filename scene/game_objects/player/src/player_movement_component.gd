@@ -4,6 +4,8 @@ extends MovementComponent
 
 signal movement_started(pos: Vector2)
 
+const DISTANCE_TO_CENTER: float = 50.0
+
 var is_enable : bool = false
 var is_pulled_to_center: bool = false
 var pull_strength_base: float = 100.0      # начальная сила
@@ -69,7 +71,7 @@ func _get_center_pull_velocity(delta: float) -> Vector2:
 	var dir = target - global_position
 	var distance = dir.length()
 
-	if distance < 10.0:
+	if distance < DISTANCE_TO_CENTER:
 		is_pulled_to_center = false
 		pull_strength = pull_strength_base
 		Global.player_pulled.emit()
@@ -81,5 +83,4 @@ func _get_center_pull_velocity(delta: float) -> Vector2:
 
 
 func _on_game_timer_timeout():
-	print("🌀 Притяжение к центру активировано!")
-	start_pull_to_center(0.001, 5.0) # сила притяжения
+	start_pull_to_center(0.001, 5.0)

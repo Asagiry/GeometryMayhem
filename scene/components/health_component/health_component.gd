@@ -39,7 +39,7 @@ func take_damage(damage: DamageData):
 	var max_hp = get_max_health()
 	if max_hp > 0:
 		health_ratio = current_health / max_hp
-	print("OWNER = ", owner," HP = ", current_health)
+
 	health_decreased.emit(current_health, max_hp)
 
 	if current_health <= 0:

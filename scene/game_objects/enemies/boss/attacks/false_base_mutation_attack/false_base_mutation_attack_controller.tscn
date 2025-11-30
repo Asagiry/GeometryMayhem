@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://c2w2mf2sxssl1"]
+
+[ext_resource type="Script" uid="uid://ngjsj1s0qrm8" path="res://scene/game_objects/enemies/boss/attacks/false_base_mutation_attack/false_base_mutation_attack_controller.gd" id="1_pfyi8"]
+
+[node name="FalseBaseMutationAttackController" type="Node"]
+script = ExtResource("1_pfyi8")
+
+[node name="CooldownTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
+
+[connection signal="timeout" from="CooldownTimer" to="." method="_on_cooldown_timer_timeout"]
