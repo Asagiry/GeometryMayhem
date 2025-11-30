@@ -2,6 +2,18 @@ class_name Util
 
 extends Resource
 
+enum AttackType {
+	SEQUENTIAL,
+	PARALLEL,
+}
+
+enum Zone {
+	STABILITY,
+	FLUX,
+	OVERLOAD,
+	CHAOTIC,
+}
+
 enum EffectType {
 	NONE,
 	SLOW, CURSE, CORROSION, #CLASSIC DEBUFF

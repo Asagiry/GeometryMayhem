@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://cp17ddl2wpqnc"]
+
+[ext_resource type="Script" uid="uid://rs4j5tpb60p0" path="res://scene/game_objects/enemies/boss/attacks/concentric_rings_attack/concentriс_rings_attack_controller.gd" id="1_js3r8"]
+
+[node name="ConcentriсRingsAttackController" type="Node"]
+script = ExtResource("1_js3r8")
+
+[node name="CooldownTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+
+[connection signal="timeout" from="CooldownTimer" to="." method="_on_cooldown_timer_timeout"]

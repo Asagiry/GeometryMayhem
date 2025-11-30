@@ -63,6 +63,10 @@ func move_and_slide() -> void:
 		owner_node.move_and_slide()
 
 
+func apply_knockback(force: Vector2):
+	current_velocity += force
+
+
 func stop() -> void:
 	current_velocity = Vector2.ZERO
 	if owner_node:

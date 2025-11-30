@@ -2,12 +2,18 @@ class_name AwpAttackController
 
 extends BaseBossAttackController
 
+
 var damage: DamageData = DamageData.new()
 var aim_duration: float
 ## Задержка между стадией прицеливания и стрельбой
 var delay_before_attack: float
 var number_of_shots: int
 var time_between_shots: float
+
+var is_parallel_mode: bool = true
+
+@onready var cooldown_timer: Timer = %CooldownTimer
+
 
 func activate_attack():
 	attack_started.emit()
@@ -16,6 +22,12 @@ func activate_attack():
 	await _wait_for_attack_completion(attack_instance)
 	_start_movement()
 	attack_finished.emit()
+
+
+func activate_parallel_attack():
+	await activate_attack()
+	if is_parallel_mode:
+		_start_cooldown()
 
 
 func _create_and_setup_attack():
@@ -64,3 +76,16 @@ func set_delay_before_attack(value: float):
 
 func set_time_between_shots(value: float):
 	time_between_shots = value
+
+
+func set_cooldown_time(value: float) -> void:
+	cooldown_timer.wait_time = value
+
+
+func _start_cooldown():
+	cooldown_timer.start()
+
+
+func _on_cooldown_timer_timeout() -> void:
+	if is_parallel_mode:
+		activate_parallel_attack()

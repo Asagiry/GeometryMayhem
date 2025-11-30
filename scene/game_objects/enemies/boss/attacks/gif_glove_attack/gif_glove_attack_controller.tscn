@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://b87yidwoxks7f"]
+
+[ext_resource type="Script" uid="uid://3eon6wrxblq7" path="res://scene/game_objects/enemies/boss/attacks/gif_glove_attack/gif_glove_attack_controller.gd" id="1_id1aa"]
+
+[node name="GifGloveAttackController" type="Node"]
+script = ExtResource("1_id1aa")
+
+[node name="CooldownTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+
+[connection signal="timeout" from="CooldownTimer" to="." method="_on_cooldown_timer_timeout"]

@@ -38,6 +38,7 @@ func calculate_position_ahead_of_player():
 	print("Player not found, using default position")
 	return Vector2(100, 100)
 
+
 func setup_attack():
 	current_radius = initial_radius
 	current_color = START_COLOR

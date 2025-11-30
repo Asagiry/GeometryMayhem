@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://dagfekqxmobnp"]
+
+[ext_resource type="Script" uid="uid://dhmgbui1bi4vg" path="res://scene/game_objects/enemies/boss/attacks/summon_attack_controller/summon_attack_controller.gd" id="1_lqjg1"]
+
+[node name="SummonAttackController" type="Node"]
+script = ExtResource("1_lqjg1")
+
+[node name="CooldownTimer" type="Timer" parent="."]
+unique_name_in_owner = true

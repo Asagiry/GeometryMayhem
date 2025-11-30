@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://debyw7gk4hb28"]
+
+[ext_resource type="Script" uid="uid://b7vdc63h1l5id" path="res://scene/game_objects/enemies/boss/attacks/sawed_off_attack/sawed_off_attack_controller.gd" id="1_l41gi"]
+
+[node name="SawedOffAttackController" type="Node"]
+script = ExtResource("1_l41gi")
+
+[node name="CooldownTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
+
+[connection signal="timeout" from="CooldownTimer" to="." method="_on_cooldown_timer_timeout"]

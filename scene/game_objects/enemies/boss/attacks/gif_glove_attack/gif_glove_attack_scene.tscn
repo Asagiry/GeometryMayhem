@@ -1,0 +1,59 @@
+[gd_scene load_steps=9 format=3 uid="uid://b75ppjgsnnvxq"]
+
+[ext_resource type="Script" uid="uid://r8mhqtpom6m3" path="res://scene/game_objects/enemies/boss/attacks/gif_glove_attack/gif_glove_attack_scene.gd" id="1_fvah6"]
+[ext_resource type="Texture2D" uid="uid://jbnwchi5mdcu" path="res://assets/mobs/range/Easy/1/ATTACK/ATTACK_INSTANCE1.png" id="2_p483s"]
+[ext_resource type="PackedScene" uid="uid://cffktb7uj82qv" path="res://scene/components/hit_box_component/hit_box_component.tscn" id="2_v4oym"]
+[ext_resource type="Texture2D" uid="uid://b5le4kq6knr6a" path="res://assets/mobs/range/Easy/1/ATTACK/ATTACK_INSTANCE2.png" id="3_0obkb"]
+[ext_resource type="Texture2D" uid="uid://bbggia22tar3k" path="res://assets/mobs/range/Easy/1/ATTACK/ATTACK_INSTANCE3.png" id="4_1occ1"]
+[ext_resource type="Texture2D" uid="uid://c10qcclobhw38" path="res://assets/mobs/range/Easy/1/ATTACK/ATTACK_INSTANCE4.png" id="5_lkpfb"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pvu53"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_p483s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_0obkb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_1occ1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_lkpfb")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 7.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p483s"]
+size = Vector2(10, 9)
+
+[node name="GifGloveAttackScene" type="Node2D"]
+rotation = -1.5707964
+script = ExtResource("1_fvah6")
+
+[node name="QueueFreeTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_pvu53")
+animation = &"idle"
+autoplay = "idle"
+frame = 1
+frame_progress = 0.2931579
+
+[node name="HitBoxComponent" parent="AnimatedSprite2D" groups=["projectile"] instance=ExtResource("2_v4oym")]
+unique_name_in_owner = true
+collision_layer = 32
+collision_mask = 256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/HitBoxComponent"]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_p483s")
+
+[connection signal="timeout" from="QueueFreeTimer" to="." method="_on_queue_free_timer_timeout"]
+[connection signal="area_entered" from="AnimatedSprite2D/HitBoxComponent" to="." method="_on_hit_box_component_area_entered"]

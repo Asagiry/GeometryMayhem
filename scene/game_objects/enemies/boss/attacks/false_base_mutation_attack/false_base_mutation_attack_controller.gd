@@ -8,12 +8,22 @@ var final_radius: float = 50.0
 var expansion_time: float = 0.8
 var damage_duration: float = 1.0
 
+var is_parallel_mode: bool = true
+
+@onready var cooldown_timer: Timer = %CooldownTimer
+
 
 func activate_attack():
 	attack_started.emit()
 	var attack_instance = _create_and_setup_attack()
 	await _wait_for_attack_completion(attack_instance)
 	attack_finished.emit()
+
+
+func activate_parallel_attack():
+	await activate_attack()
+	if is_parallel_mode:
+		_start_cooldown()
 
 
 func _create_and_setup_attack():
@@ -62,3 +72,15 @@ func set_expansion_time(value: float):
 
 func set_damage_duration(value: float):
 	damage_duration = value
+
+
+func set_cooldown_time(value: float) -> void:
+	cooldown_timer.wait_time = value
+
+func _start_cooldown():
+	cooldown_timer.start()
+
+
+func _on_cooldown_timer_timeout() -> void:
+	if is_parallel_mode:
+		activate_parallel_attack()

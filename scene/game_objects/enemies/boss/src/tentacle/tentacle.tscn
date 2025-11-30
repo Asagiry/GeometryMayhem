@@ -1,18 +1,26 @@
-[gd_scene load_steps=12 format=3 uid="uid://cye5xxca2nrxh"]
+[gd_scene load_steps=14 format=3 uid="uid://cye5xxca2nrxh"]
 
 [ext_resource type="Script" uid="uid://plxc3lw76sxu" path="res://scene/game_objects/enemies/boss/src/tentacle/tentacle.gd" id="1_v0n67"]
 [ext_resource type="Script" uid="uid://16myiecxcmq2" path="res://scene/game_objects/enemies/boss/src/tentacle/tentacle_stat_data.gd" id="2_ac5mw"]
+[ext_resource type="Script" uid="uid://cyitjknl16852" path="res://scripts/data/damage/damage_data.gd" id="2_q2a8f"]
 [ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="3_q2a8f"]
 [ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component/armor_component.tscn" id="4_8ipxc"]
 [ext_resource type="PackedScene" uid="uid://bl380xv78onc8" path="res://scene/components/effect_receiver/effect_receiver.tscn" id="5_w3ng0"]
 [ext_resource type="Texture2D" uid="uid://d0vhyjbl0h4o2" path="res://assets/mobs/boss/tentacle.png" id="6_ukr4j"]
 [ext_resource type="PackedScene" uid="uid://csmleslly1twg" path="res://scene/components/hurt_box_component/hurt_box.tscn" id="7_i3uf0"]
+[ext_resource type="PackedScene" uid="uid://cffktb7uj82qv" path="res://scene/components/hit_box_component/hit_box_component.tscn" id="8_ac5mw"]
+
+[sub_resource type="Resource" id="Resource_8ipxc"]
+script = ExtResource("2_q2a8f")
+amount = 100.0
+metadata/_custom_type_script = "uid://cyitjknl16852"
 
 [sub_resource type="Resource" id="Resource_t0bcr"]
 resource_local_to_scene = true
 script = ExtResource("2_ac5mw")
 max_health = 300.0
 regeneration = 0.01
+damage = SubResource("Resource_8ipxc")
 metadata/_custom_type_script = "uid://16myiecxcmq2"
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_l8rcf"]
@@ -29,10 +37,6 @@ animations = [{
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_v3hd8"]
 radius = 19.0
 height = 56.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vvohx"]
-radius = 16.0
-height = 52.0
 
 [node name="Tentacle" type="CharacterBody2D" node_paths=PackedStringArray("effect_receiver")]
 collision_layer = 4
@@ -59,12 +63,24 @@ sprite_frames = SubResource("SpriteFrames_l8rcf")
 [node name="EnvironmentCollision" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true
 shape = SubResource("CapsuleShape2D_v3hd8")
+disabled = true
 
 [node name="HurtBox" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("7_i3uf0")]
 collision_layer = 132
 collision_mask = 0
 health_component = NodePath("../HealthComponent")
 
-[node name="HurtBoxShape" type="CollisionShape2D" parent="HurtBox"]
+[node name="HurtBoxShape" type="CollisionPolygon2D" parent="HurtBox"]
 unique_name_in_owner = true
-shape = SubResource("CapsuleShape2D_vvohx")
+polygon = PackedVector2Array(0, 22, -24, 22, 0, -27, 24, 22)
+
+[node name="HitBoxComponent" parent="." instance=ExtResource("8_ac5mw")]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 256
+
+[node name="HitBoxShape" type="CollisionPolygon2D" parent="HitBoxComponent"]
+unique_name_in_owner = true
+polygon = PackedVector2Array(0, 22, -24, 22, 0, -27, 24, 22)
+
+[connection signal="area_entered" from="HitBoxComponent" to="." method="_on_hit_box_component_area_entered"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://nvvc41pbwmx"]
+[gd_scene load_steps=52 format=3 uid="uid://nvvc41pbwmx"]
 
 [ext_resource type="Script" uid="uid://c1ldi8rsyr01h" path="res://scene/game_objects/enemies/boss/boss_controller.gd" id="1_rt2cv"]
 [ext_resource type="Texture2D" uid="uid://rt2hmxnff82u" path="res://assets/mobs/boss/Boss.png" id="2_8osxn"]
@@ -10,7 +10,6 @@
 [ext_resource type="PackedScene" uid="uid://cs5iohljtcy7j" path="res://scene/game_objects/enemies/boss/attacks/awp_attack/awp_attack_scene.tscn" id="5_q0y05"]
 [ext_resource type="Script" uid="uid://vkk4bo4ep10v" path="res://scene/game_objects/enemies/boss/attacks/base_attack_config.gd" id="5_umugx"]
 [ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="6_3agj5"]
-[ext_resource type="Script" uid="uid://bnfpbrwhqmj37" path="res://scene/game_objects/enemies/boss/attacks/awp_attack/awp_attack_config.gd" id="6_kuf5e"]
 [ext_resource type="Script" uid="uid://pa5s2mtrbitd" path="res://scene/game_objects/enemies/boss/src/boss_movement_component.gd" id="6_l0uhr"]
 [ext_resource type="PackedScene" uid="uid://c2w2mf2sxssl1" path="res://scene/game_objects/enemies/boss/attacks/false_base_mutation_attack/false_base_mutation_attack_controller.tscn" id="6_q0y05"]
 [ext_resource type="Script" uid="uid://crl43rwfxbyrd" path="res://scene/game_objects/enemies/boss/tentacle_controller.gd" id="6_tqviw"]
@@ -18,10 +17,21 @@
 [ext_resource type="PackedScene" uid="uid://bkh3nm050b3p6" path="res://scene/game_objects/enemies/boss/attacks/false_base_mutation_attack/false_base_mutation_attack_scene.tscn" id="7_beysw"]
 [ext_resource type="Script" uid="uid://cq2wm3wsfoeac" path="res://scene/game_objects/enemies/boss/attacks/false_base_mutation_attack/false_mutation_attack_config.gd" id="7_faqfl"]
 [ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component/armor_component.tscn" id="7_pnvgi"]
+[ext_resource type="Script" uid="uid://djkwg18t0akth" path="res://scene/game_objects/enemies/boss/attacks/spiral_attack/spiral_attack_config.gd" id="8_a00ti"]
+[ext_resource type="Script" uid="uid://b2ytap7aa6alp" path="res://scene/game_objects/enemies/boss/attacks/sawed_off_attack/sawed_off_attack_config.gd" id="8_q3uxg"]
+[ext_resource type="Script" uid="uid://l473rm4vhlp8" path="res://scene/game_objects/enemies/boss/attacks/gif_glove_attack/gif_glove_attack_config.gd" id="9_3kaq0"]
 [ext_resource type="PackedScene" uid="uid://cye5xxca2nrxh" path="res://scene/game_objects/enemies/boss/src/tentacle/tentacle.tscn" id="10_3agj5"]
 [ext_resource type="Script" uid="uid://5m7cpflvnie8" path="res://base/state_machine.gd" id="10_lajpc"]
 [ext_resource type="Script" uid="uid://16myiecxcmq2" path="res://scene/game_objects/enemies/boss/src/tentacle/tentacle_stat_data.gd" id="11_pnvgi"]
 [ext_resource type="PackedScene" uid="uid://csmleslly1twg" path="res://scene/components/hurt_box_component/hurt_box.tscn" id="12_3agj5"]
+[ext_resource type="PackedScene" uid="uid://b87yidwoxks7f" path="res://scene/game_objects/enemies/boss/attacks/gif_glove_attack/gif_glove_attack_controller.tscn" id="13_kuf5e"]
+[ext_resource type="PackedScene" uid="uid://b75ppjgsnnvxq" path="res://scene/game_objects/enemies/boss/attacks/gif_glove_attack/gif_glove_attack_scene.tscn" id="14_faqfl"]
+[ext_resource type="PackedScene" uid="uid://debyw7gk4hb28" path="res://scene/game_objects/enemies/boss/attacks/sawed_off_attack/sawed_off_attack_controller.tscn" id="16_q3uxg"]
+[ext_resource type="PackedScene" uid="uid://ci0kgtpoyeuxa" path="res://scene/game_objects/enemies/boss/attacks/sawed_off_attack/sawed_off_attack_scene.tscn" id="17_2e6mv"]
+[ext_resource type="PackedScene" uid="uid://cp17ddl2wpqnc" path="res://scene/game_objects/enemies/boss/attacks/concentric_rings_attack/concentriс_rings_attack_controller.tscn" id="17_qy7n7"]
+[ext_resource type="PackedScene" uid="uid://dagfekqxmobnp" path="res://scene/game_objects/enemies/boss/attacks/summon_attack_controller/summon_attack_controller.tscn" id="17_ywnba"]
+[ext_resource type="PackedScene" uid="uid://bliv27wk6l2mm" path="res://scene/game_objects/enemies/boss/attacks/concentric_rings_attack/concentric_rings_attack_scene.tscn" id="18_qy7n7"]
+[ext_resource type="PackedScene" uid="uid://b81yngvgx2ff2" path="res://scene/game_objects/enemies/boss/attacks/spiral_attack/spiral_attack_controller.tscn" id="19_ywnba"]
 
 [sub_resource type="Resource" id="Resource_l0uhr"]
 script = ExtResource("2_tqviw")
@@ -32,58 +42,106 @@ acceleration = 1.0
 rotation_speed = 0.5
 metadata/_custom_type_script = "uid://bup4tgd7uqktm"
 
-[sub_resource type="Resource" id="Resource_aifxs"]
-script = ExtResource("6_umugx")
-amount = 100.0
-metadata/_custom_type_script = "uid://cyitjknl16852"
-
-[sub_resource type="Resource" id="Resource_umugx"]
-script = ExtResource("6_kuf5e")
-damage = SubResource("Resource_aifxs")
-number_of_shots = 2
-metadata/_custom_type_script = "uid://bnfpbrwhqmj37"
-
-[sub_resource type="Resource" id="Resource_kuf5e"]
+[sub_resource type="Resource" id="Resource_ffxv6"]
 script = ExtResource("6_umugx")
 amount = 1000.0
 metadata/_custom_type_script = "uid://cyitjknl16852"
 
-[sub_resource type="Resource" id="Resource_faqfl"]
+[sub_resource type="Resource" id="Resource_8nbhb"]
 script = ExtResource("7_faqfl")
-damage = SubResource("Resource_kuf5e")
+damage = SubResource("Resource_ffxv6")
 metadata/_custom_type_script = "uid://cq2wm3wsfoeac"
+
+[sub_resource type="Resource" id="Resource_bk53k"]
+script = ExtResource("8_a00ti")
+rotation_speed = 200.0
+cooldown_time = 5.0
+metadata/_custom_type_script = "uid://djkwg18t0akth"
+
+[sub_resource type="Resource" id="Resource_hxfva"]
+script = ExtResource("6_umugx")
+amount = 150.0
+metadata/_custom_type_script = "uid://cyitjknl16852"
+
+[sub_resource type="Resource" id="Resource_kgc00"]
+script = ExtResource("9_3kaq0")
+damage = SubResource("Resource_hxfva")
+projectile_speed = 400.0
+projectile_size = 2.0
+shots_per_burst = 5
+cooldown_time = 0.7
+metadata/_custom_type_script = "uid://l473rm4vhlp8"
+
+[sub_resource type="Resource" id="Resource_th75v"]
+script = ExtResource("6_umugx")
+amount = 150.0
+metadata/_custom_type_script = "uid://cyitjknl16852"
+
+[sub_resource type="Resource" id="Resource_68s2s"]
+script = ExtResource("8_q3uxg")
+damage = SubResource("Resource_th75v")
+projectile_speed = 400.0
+projectile_size = 2.0
+shots_per_burst = 20
+cooldown_time = 2.0
+metadata/_custom_type_script = "uid://b2ytap7aa6alp"
 
 [sub_resource type="Resource" id="Resource_3kaq0"]
 script = ExtResource("4_aifxs")
-attacks = Array[ExtResource("5_umugx")]([SubResource("Resource_umugx"), SubResource("Resource_faqfl")])
+attack_cooldown = 2.0
+attacks = Array[ExtResource("5_umugx")]([SubResource("Resource_8nbhb"), SubResource("Resource_bk53k"), SubResource("Resource_kgc00"), SubResource("Resource_68s2s")])
 metadata/_custom_type_script = "uid://bkyhk82rimhn0"
+
+[sub_resource type="Resource" id="Resource_qy7n7"]
+script = ExtResource("6_umugx")
+amount = 100.0
+metadata/_custom_type_script = "uid://cyitjknl16852"
 
 [sub_resource type="Resource" id="Resource_lajpc"]
 resource_local_to_scene = true
 script = ExtResource("11_pnvgi")
 max_health = 300.0
 regeneration = 0.01
+damage = SubResource("Resource_qy7n7")
 metadata/_custom_type_script = "uid://16myiecxcmq2"
+
+[sub_resource type="Resource" id="Resource_ywnba"]
+script = ExtResource("6_umugx")
+amount = 100.0
+metadata/_custom_type_script = "uid://cyitjknl16852"
 
 [sub_resource type="Resource" id="Resource_ilks4"]
 resource_local_to_scene = true
 script = ExtResource("11_pnvgi")
 max_health = 200.0
 regeneration = 0.01
+damage = SubResource("Resource_ywnba")
 metadata/_custom_type_script = "uid://16myiecxcmq2"
+
+[sub_resource type="Resource" id="Resource_a00ti"]
+script = ExtResource("6_umugx")
+amount = 100.0
+metadata/_custom_type_script = "uid://cyitjknl16852"
 
 [sub_resource type="Resource" id="Resource_q0y05"]
 resource_local_to_scene = true
 script = ExtResource("11_pnvgi")
 max_health = 300.0
 regeneration = 0.01
+damage = SubResource("Resource_a00ti")
 metadata/_custom_type_script = "uid://16myiecxcmq2"
+
+[sub_resource type="Resource" id="Resource_3ql53"]
+script = ExtResource("6_umugx")
+amount = 100.0
+metadata/_custom_type_script = "uid://cyitjknl16852"
 
 [sub_resource type="Resource" id="Resource_beysw"]
 resource_local_to_scene = true
 script = ExtResource("11_pnvgi")
 max_health = 300.0
 regeneration = 0.01
+damage = SubResource("Resource_3ql53")
 metadata/_custom_type_script = "uid://16myiecxcmq2"
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_6vwcg"]
@@ -116,6 +174,19 @@ attack_scene = ExtResource("5_q0y05")
 
 [node name="FalseBaseMutationAttackController" parent="AttackController" instance=ExtResource("6_q0y05")]
 attack_scene = ExtResource("7_beysw")
+
+[node name="GifGloveAttackController" parent="AttackController" instance=ExtResource("13_kuf5e")]
+attack_scene = ExtResource("14_faqfl")
+
+[node name="SawedOffAttackController" parent="AttackController" instance=ExtResource("16_q3uxg")]
+attack_scene = ExtResource("17_2e6mv")
+
+[node name="ConcentricRingsAttackController" parent="AttackController" instance=ExtResource("17_qy7n7")]
+attack_scene = ExtResource("18_qy7n7")
+
+[node name="SummonAttackController" parent="AttackController" instance=ExtResource("17_ywnba")]
+
+[node name="SpiralAttackController" parent="AttackController" instance=ExtResource("19_ywnba")]
 
 [node name="EffectReceiver" parent="." instance=ExtResource("2_mew1x")]
 unique_name_in_owner = true
@@ -190,3 +261,5 @@ health_component = NodePath("../HealthComponent")
 [node name="HurtBoxShape" type="CollisionShape2D" parent="HurtBox"]
 unique_name_in_owner = true
 shape = SubResource("CircleShape2D_0yr02")
+
+[connection signal="timeout" from="CooldownBetweenAttacks" to="AttackController" method="_on_cooldown_between_attacks_timeout"]
