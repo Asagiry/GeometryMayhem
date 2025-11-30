@@ -30,7 +30,7 @@ func _ready():
 	start_attack_sequence()
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if player and is_instance_valid(player) and is_aiming_phase:
 		target_position = player.global_position
 		var attack_direction = global_position.direction_to(target_position)
@@ -84,8 +84,18 @@ func start_multiple_shots():
 
 	for shot_number in number_of_shots:
 		var shot_tween = create_tween()
-		shot_tween.tween_property(line_renderer, "default_color", Color(1, 1, 1, 0.9), 0.05)  # Белая вспышка
-		shot_tween.tween_property(line_renderer, "default_color", Color(1, 0, 0, 0.8), 0.05)  # Возврат к красному
+		shot_tween.tween_property(
+			line_renderer,
+			"default_color",
+			Color(1, 1, 1, 0.9),
+			0.05
+		)  # Белая вспышка
+		shot_tween.tween_property(
+			line_renderer,
+			"default_color",
+			Color(1, 0, 0, 0.8),
+			0.05
+		)  # Возврат к красному
 
 		await perform_single_shot()
 

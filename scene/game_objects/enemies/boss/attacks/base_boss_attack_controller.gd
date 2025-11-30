@@ -17,11 +17,11 @@ func _create_attack_instance():
 	pass
 
 
-func _setup_attack_instance(attack_instance) -> void:
+func _setup_attack_instance(_attack_instance) -> void:
 	pass
 
 
-func _wait_for_attack_completion(attack_instance):
+func _wait_for_attack_completion(_attack_instance):
 	pass
 
 

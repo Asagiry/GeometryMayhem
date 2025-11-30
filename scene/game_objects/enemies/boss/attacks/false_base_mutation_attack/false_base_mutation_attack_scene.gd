@@ -8,7 +8,7 @@ const START_COLOR: Color = Color(0.8, 0.2, 0.8, 0.6)
 const END_COLOR: Color = Color(1, 0, 0, 0.8)
 
 var initial_radius: float = 15.0
-var final_radius: float = 50.0  
+var final_radius: float = 50.0
 var expansion_time: float = 0.8
 var damage_duration: float = 1.0
 
@@ -35,9 +35,8 @@ func calculate_position_ahead_of_player():
 		var player_direction = player_velocity.normalized()
 		var distance_ahead = player_velocity.length() * PLAYER_PREDICTION_MOVEMENT
 		return player.global_position + player_direction * distance_ahead
-	else:
-		print("Player not found, using default position")
-		return Vector2(100, 100)  # или любая другая позиция по умолчанию
+	print("Player not found, using default position")
+	return Vector2(100, 100)
 
 func setup_attack():
 	current_radius = initial_radius

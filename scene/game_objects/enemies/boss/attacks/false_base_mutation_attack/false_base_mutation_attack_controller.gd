@@ -4,7 +4,7 @@ extends BaseBossAttackController
 
 var damage: DamageData = DamageData.new()
 var initial_radius: float = 15.0
-var final_radius: float = 50.0  
+var final_radius: float = 50.0
 var expansion_time: float = 0.8
 var damage_duration: float = 1.0
 

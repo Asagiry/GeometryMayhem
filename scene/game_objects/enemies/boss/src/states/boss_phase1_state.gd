@@ -1,11 +1,13 @@
 class_name BossPhase1State
+
 extends BossState
 #TODO Функционал для последовательных атак
 #TODO Функционал для запуска конкретной атаки параллельно
 #TODO Функционал для запуска параллельно атак.
-static var state_name = "BossPhase1State"
 
 const STAGE_INDEX: int = 0
+
+static var state_name = "BossPhase1State"
 
 func enter() -> void:
 	_connect_or_disconnect_signals(true)
@@ -51,6 +53,7 @@ func _setup_timer():
 
 
 func _on_stage_ready():
+	#TODO Костыль убрать
 	await boss.get_tree().create_timer(0.5).timeout
 	_execute_random_attack()
 

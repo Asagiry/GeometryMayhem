@@ -4,6 +4,11 @@ extends Node
 signal stage_ready
 signal attack_finished
 
+const TYPE_TO_CONTROLLER = {
+		"AwpAttackConfig": "AwpAttackController",
+		"MutationAttackConfig": "FalseBaseMutationAttackController"
+	}
+
 @export var cooldown_between_attacks: float = 3.0
 
 @export var stages: Array[AttackStageConfig] = []
@@ -13,12 +18,6 @@ var current_stage_attacks: Array[Node]
 
 func _ready() -> void:
 	_load_attack_instances()
-
-
-func wait_load():
-	print("1234")
-	await stage_ready
-	print("123")
 
 
 func _load_attack_instances():
@@ -41,7 +40,7 @@ func prepare_stage(stage_index: int):
 
 	for i in range(stage.attacks.size()):
 		var attack_config = stage.attacks[i]
-		var attack_instance = _find_controller_for_config(attack_config, i)
+		var attack_instance = _find_controller_for_config(attack_config)
 		if attack_instance:
 			print("Found controller: ", attack_instance.name)
 			_apply_attack_parameters(attack_instance, attack_config.get_parameters_dict())
@@ -54,14 +53,13 @@ func prepare_stage(stage_index: int):
 	stage_ready.emit()
 
 
-func _find_controller_for_config(attack_config: BaseAttackConfig, index: int) -> Node:
-	var controller_names = attack_instances.keys()
-	
-	if index < controller_names.size():
-		var controller_name = controller_names[index]
-		return attack_instances[controller_name]
-	
-	push_error("No controller found for index: ", index)
+func _find_controller_for_config(attack_config: BaseAttackConfig) -> Node:
+	var config_class_name = attack_config.get_script().get_global_name()
+	if TYPE_TO_CONTROLLER.has(config_class_name):
+		var controller_name = TYPE_TO_CONTROLLER[config_class_name]
+		if attack_instances.has(controller_name):
+			return attack_instances[controller_name]
+	push_error("No controller found for config: ", config_class_name)
 	return null
 
 
@@ -92,11 +90,11 @@ func get_stage_name(stage_index: int) -> String:
 
 
 func activate_attack(attack_instance: Node):
-	print("BossAttackController: Activating attack: ", attack_instance.name)
+	if not attack_instance.attack_finished.is_connected(_on_attack_finished):
+		attack_instance.attack_finished.connect(_on_attack_finished.bind(attack_instance))
 	attack_instance.activate_attack()
-	attack_instance.attack_finished.connect(_on_attack_finished.bind(attack_instance))
-#TODO Костыль - переделать
+
 
 func _on_attack_finished(attack_instance):
+	print("Attack finished: ", attack_instance.name)
 	attack_finished.emit()
-	attack_instance.attack_finished.disconnect(_on_attack_finished)
