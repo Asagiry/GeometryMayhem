@@ -13,7 +13,7 @@ func activate_attack():
 
 	_wait_for_attack_completion(attack_instance)
 
-	attack_finished.emit()
+	owner_node.queue_free()
 
 
 func _create_and_setup_attack_instance():

@@ -21,7 +21,7 @@ var get_back: bool = false
 
 @onready var aggro_zone: Area2D = %AggroZone
 @onready var attack_zone: Area2D = %AttackZone
-@onready var collision: CollisionShape2D = %EnviromentCollision
+@onready var collision = %EnvironmentCollision
 @onready var hurt_box_shape: CollisionShape2D = %HurtBoxShape
 @onready var hurt_box: HurtBox = %HurtBox
 

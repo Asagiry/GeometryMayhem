@@ -1,0 +1,34 @@
+[gd_scene load_steps=4 format=3 uid="uid://bp1wmo3uihhml"]
+
+[ext_resource type="Script" uid="uid://wxgmud55ns4q" path="res://scene/UI/level_hud/elements/metaValue/level_value_ui.gd" id="1_sd8wu"]
+[ext_resource type="Texture2D" uid="uid://dbgcpl1ly0ciy" path="res://assets/UI/MetaValue/LevelValue.png" id="2_2q80w"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_6p4e3"]
+font_size = 30
+font_color = Color(0.50103563, 0.50103563, 0.50103563, 1)
+outline_size = 4
+outline_color = Color(0.20544356, 0.7350533, 0.85417134, 1)
+
+[node name="LevelUI" type="MarginContainer"]
+custom_minimum_size = Vector2(183, 32)
+size_flags_horizontal = 8
+script = ExtResource("1_sd8wu")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Icon" type="TextureRect" parent="HBoxContainer"]
+custom_minimum_size = Vector2(84, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("2_2q80w")
+expand_mode = 1
+
+[node name="RealLabel" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+text = "1"
+label_settings = SubResource("LabelSettings_6p4e3")
+horizontal_alignment = 1

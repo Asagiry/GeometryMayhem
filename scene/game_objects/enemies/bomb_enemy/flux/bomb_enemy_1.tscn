@@ -1,6 +1,6 @@
 [gd_scene load_steps=34 format=3 uid="uid://cu58eoeg0bvxb"]
 
-[ext_resource type="Script" uid="uid://dsw4lsyt8vegg" path="res://scene/game_objects/enemies/bomb_enemy/bomb_src/enemy_bomb.gd" id="1_uj4o8"]
+[ext_resource type="Script" uid="uid://c1gjmkoe3un7b" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy.gd" id="1_iiu1m"]
 [ext_resource type="Script" uid="uid://vean0446eao1" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_stat_data.gd" id="2_uj4o8"]
 [ext_resource type="Script" uid="uid://cyitjknl16852" path="res://scripts/data/damage/damage_data.gd" id="2_y8ni5"]
 [ext_resource type="PackedScene" uid="uid://bl380xv78onc8" path="res://scene/components/effect_receiver/effect_receiver.tscn" id="3_p8heo"]
@@ -132,7 +132,7 @@ size = Vector2(16, 16)
 [node name="BombEnemy1" type="CharacterBody2D" node_paths=PackedStringArray("effect_receiver") groups=["enemy"]]
 collision_layer = 4
 collision_mask = 5
-script = ExtResource("1_uj4o8")
+script = ExtResource("1_iiu1m")
 stats = SubResource("Resource_iiu1m")
 effect_receiver = NodePath("EffectReceiver")
 
@@ -179,15 +179,15 @@ shape = SubResource("RectangleShape2D_svwon")
 unique_name_in_owner = true
 z_index = 1
 collision_layer = 4
-collision_mask = 2
+collision_mask = 256
 collision_priority = 2.0
 
 [node name="AggroZone" type="Area2D" parent="."]
 unique_name_in_owner = true
 collision_layer = 4
-collision_mask = 2
+collision_mask = 256
 
-[node name="EnviromentCollision" type="CollisionShape2D" parent="."]
+[node name="EnvironmentCollision" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true
 shape = SubResource("RectangleShape2D_jxvco")
 

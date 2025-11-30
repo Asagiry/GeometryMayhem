@@ -1,56 +1,56 @@
-[gd_scene load_steps=8 format=3 uid="uid://xg4bnnehfsvo"]
+[gd_scene load_steps=7 format=3 uid="uid://xg4bnnehfsvo"]
 
 [ext_resource type="Texture2D" uid="uid://bvmed20aqwal4" path="res://assets/UI/Bars/ResonanceBar.png" id="1_ajqw5"]
 [ext_resource type="Script" uid="uid://bjy0un8lxvksk" path="res://scene/UI/level_hud/elements/bar/resonanceBar/resonance_bar.gd" id="2_t7qfp"]
 [ext_resource type="Texture2D" uid="uid://dr6ems1e5loyb" path="res://assets/UI/Bars/ResonanceFill.png" id="3_madem"]
-[ext_resource type="Shader" uid="uid://cbkeft8b6tpxj" path="res://scene/UI/level_hud/elements/bar/healthBar/health_bar.gdshader" id="3_t7qfp"]
+[ext_resource type="Shader" uid="uid://0o7yi7tm655l" path="res://scene/UI/level_hud/elements/bar/resonanceBar/resonance_bar.gdshader" id="3_t7qfp"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_t7qfp"]
-font_size = 20
-outline_size = 4
-outline_color = Color(0, 0, 0, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_k1rwv"]
-font_color = Color(0.18000486, 0.18000486, 0.18000486, 1)
-outline_color = Color(0, 0, 0, 1)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_t7qfp"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2drl0"]
 shader = ExtResource("3_t7qfp")
 shader_parameter/progress = 1.0
 shader_parameter/progress_tail = 1.0
 shader_parameter/tail_color = Color(0.45840502, 0.45840508, 0.45840502, 1)
 
+[sub_resource type="LabelSettings" id="LabelSettings_k1rwv"]
+font_color = Color(0.18000486, 0.18000486, 0.18000486, 1)
+outline_color = Color(0, 0, 0, 1)
+
 [node name="ResonanceBar" type="NinePatchRect"]
 clip_contents = true
 custom_minimum_size = Vector2(196, 30)
-offset_right = 404.0
-offset_bottom = 40.0
+offset_right = 196.0
+offset_bottom = 30.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource("1_ajqw5")
-patch_margin_left = 17
-patch_margin_top = 5
-patch_margin_right = 17
-patch_margin_bottom = 5
+patch_margin_left = 20
+patch_margin_top = 4
+patch_margin_right = 20
+patch_margin_bottom = 4
 script = ExtResource("2_t7qfp")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.054
-anchor_right = 0.9480001
+anchors_preset = 15
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 0.18400002
-offset_right = 0.007965088
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="CurrentLevel" type="Label" parent="HBoxContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(23, 0)
+[node name="Control2" type="Control" parent="HBoxContainer"]
+custom_minimum_size = Vector2(6, 0)
 layout_mode = 2
-text = "10"
-label_settings = SubResource("LabelSettings_t7qfp")
+
+[node name="ProgressShader" type="NinePatchRect" parent="HBoxContainer"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_2drl0")
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+texture = ExtResource("3_madem")
+patch_margin_left = 20
+patch_margin_right = 20
 
 [node name="CurrentValue" type="Label" parent="HBoxContainer"]
 unique_name_in_owner = true
@@ -60,21 +60,6 @@ text = "2000"
 label_settings = SubResource("LabelSettings_k1rwv")
 horizontal_alignment = 2
 
-[node name="ProgressShader" type="NinePatchRect" parent="HBoxContainer"]
-unique_name_in_owner = true
-material = SubResource("ShaderMaterial_t7qfp")
-custom_minimum_size = Vector2(0, 20)
+[node name="Control" type="Control" parent="HBoxContainer"]
+custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-texture = ExtResource("3_madem")
-patch_margin_left = 30
-patch_margin_right = 30
-
-[node name="MaxValue" type="Label" parent="HBoxContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(36, 0)
-layout_mode = 2
-text = "2000"
-label_settings = SubResource("LabelSettings_k1rwv")
-horizontal_alignment = 2

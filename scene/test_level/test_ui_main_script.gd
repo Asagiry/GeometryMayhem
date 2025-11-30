@@ -838,8 +838,8 @@ func create_enemy_info_panel(enemy, enemy_name: String):
 	enemy_info_panel_instance.set_enemy_info(enemy, enemy_name)
 	enemy.health_component.health_increased.connect(_on_enemy_health_changed.bind(enemy))
 	enemy.health_component.health_decreased.connect(_on_enemy_health_changed.bind(enemy))
-	if enemy is EnemyBombController:
-		enemy.attack_controller.attack_finished.connect(_on_enemy_bomb_enemy_died)
+	#if enemy is EnemyBombController:
+		#enemy.attack_controller.attack_finished.connect(_on_enemy_bomb_enemy_died)
 
 
 func _on_enemy_info_clicked(clicked_enemy_info: EnemyInfo):

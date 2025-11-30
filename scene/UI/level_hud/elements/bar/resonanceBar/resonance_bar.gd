@@ -15,8 +15,6 @@ var _tween: Tween
 
 @onready var progress_shader: ShaderMaterial = %ProgressShader.material
 @onready var current_value_label: Label = %CurrentValue
-@onready var max_value_label: Label = %MaxValue
-@onready var current_level_label: Label = %CurrentLevel
 
 
 func _ready() -> void:
@@ -25,10 +23,6 @@ func _ready() -> void:
 
 func set_max_value(p_value: float):
 	max_value = p_value
-
-	if max_value_label == null:
-		return
-	max_value_label.text = "%.0f" % p_value
 
 
 func set_value(p_value: float):

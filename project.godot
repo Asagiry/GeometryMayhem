@@ -33,9 +33,13 @@ window/size/viewport_height=720
 window/size/resizable=false
 window/stretch/scale_mode="integer"
 
+[dotnet]
+
+project/assembly_name="GeometryMayhem"
+
 [global_group]
 
-MobFrequencyTimer=""
+boss=""
 
 [gui]
 
@@ -108,6 +112,8 @@ pause={
 2d_physics/layer_8="enemy_hurtbox"
 2d_physics/layer_9="player_hurtbox"
 2d_physics/layer_10="Chunk"
+2d_physics/layer_11="tentacle"
+2d_physics/layer_12="boss"
 
 [physics]
 
@@ -116,6 +122,5 @@ common/physics_ticks_per_second=320
 [rendering]
 
 textures/canvas_textures/default_texture_filter=3
-anti_aliasing/quality/smaa_edge_detection_threshold=0.2
 textures/light_projectors/filter=0
 lights_and_shadows/tighter_shadow_caster_culling=false

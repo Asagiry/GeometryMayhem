@@ -137,7 +137,7 @@ autoplay = "idle"
 
 [node name="HurtBox" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("12_yggd7")]
 unique_name_in_owner = true
-collision_layer = 132
+collision_layer = 128
 collision_mask = 0
 health_component = NodePath("../HealthComponent")
 
@@ -148,14 +148,13 @@ shape = SubResource("RectangleShape2D_irisk")
 [node name="AttackZone" type="Area2D" parent="."]
 unique_name_in_owner = true
 collision_layer = 4
-collision_mask = 2
-priority = 1
+collision_mask = 256
 
 [node name="AggroZone" type="Area2D" parent="."]
 unique_name_in_owner = true
 collision_layer = 4
-collision_mask = 2
+collision_mask = 256
 
-[node name="EnviromentCollision" type="CollisionShape2D" parent="."]
+[node name="EnvironmentCollision" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true
 shape = SubResource("RectangleShape2D_c73ew")

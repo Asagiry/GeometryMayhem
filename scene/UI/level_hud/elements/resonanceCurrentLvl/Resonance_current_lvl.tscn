@@ -1,0 +1,78 @@
+[gd_scene load_steps=9 format=3 uid="uid://ctixxl0uqrscj"]
+
+[ext_resource type="Texture2D" uid="uid://bkbdf6dpeof1c" path="res://assets/UI/ResonanceLvl/ResonanceLvl.png" id="1_1smg8"]
+[ext_resource type="Shader" uid="uid://db0kccvg31sn6" path="res://scene/UI/level_hud/elements/resonanceCurrentLvl/ResonanceBorder_current_lvl.gdshader" id="1_eiwxm"]
+[ext_resource type="Script" uid="uid://b6yblwyopiyoh" path="res://scene/UI/level_hud/elements/resonanceCurrentLvl/resonance_current_lvl.gd" id="2_dagph"]
+[ext_resource type="Shader" uid="uid://1omv5opodgfh" path="res://scene/UI/level_hud/elements/resonanceCurrentLvl/Resonance_current_lvl.gdshader" id="2_nf74i"]
+[ext_resource type="Texture2D" uid="uid://bemvil23q2l3h" path="res://assets/UI/ResonanceLvl/ResonanceFill.png" id="2_opdc6"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eiwxm"]
+resource_local_to_scene = true
+shader = ExtResource("1_eiwxm")
+shader_parameter/progress = 1.0
+shader_parameter/fill_color = Color(0.03137255, 0.627451, 0.75686276, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dagph"]
+resource_local_to_scene = true
+shader = ExtResource("2_nf74i")
+shader_parameter/progress = 1.0
+shader_parameter/start_color = Color(1, 1, 1, 1)
+shader_parameter/end_color = Color(0.03137255, 0.627451, 0.75686276, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_1smg8"]
+font_size = 10
+
+[node name="ResonanceLevelUI" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1248.0
+offset_bottom = -688.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 0
+script = ExtResource("2_dagph")
+current_lvl = 10
+
+[node name="ResonanceFill" type="TextureRect" parent="."]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_eiwxm")
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_vertical = 7
+texture = ExtResource("1_1smg8")
+expand_mode = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="ResonanceFill"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_top = -1.0
+offset_right = -2.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.0868503, 1.0644909)
+theme_override_constants/margin_left = 0
+
+[node name="ProgressShader" type="TextureRect" parent="ResonanceFill/MarginContainer"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_dagph")
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_vertical = 7
+size_flags_stretch_ratio = 0.0
+texture = ExtResource("2_opdc6")
+expand_mode = 1
+
+[node name="CurrentLvl" type="Label" parent="."]
+unique_name_in_owner = true
+texture_filter = 2
+layout_mode = 2
+text = "10"
+label_settings = SubResource("LabelSettings_1smg8")
+horizontal_alignment = 1
+vertical_alignment = 1

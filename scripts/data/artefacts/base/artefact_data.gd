@@ -7,14 +7,9 @@ extends Resource
 @export var description: String
 @export var icon: Texture2D
 @export var rarity: Util.ArtefactRarity
-@export_enum("always", "achievement", "random_drop") var unlock_condition: String = "always"
+@export_enum("achievement", "random_drop") var unlock_condition: String
+@export var level_requirment: int
 @export var unlock_achievement_id: String = ""
 @export var drop_chance: float = 0.0
 @export var behavior_script: Script
-#поле для того, чтобы указывать допольнительные параметры. Ex:
-	#params = {
-	#"clone_lifetime": 1.5,
-	#"clone_damage_mult": 0.5,
-	#"clone_count": 1
-#}
 @export var base_params := {}
