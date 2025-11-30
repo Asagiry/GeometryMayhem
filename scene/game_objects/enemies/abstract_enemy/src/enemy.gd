@@ -90,3 +90,15 @@ func get_stats():
 
 func get_effect_receiver():
 	return effect_receiver
+
+
+func _on_attack_zone_body_entered(body: Node2D) -> void:
+	pass # Replace with function body.
+
+
+func _on_attack_zone_area_entered(area: Area2D) -> void:
+	pass # Replace with function body.
+
+
+func _on_attack_deal_area_entered(area: Area2D) -> void:
+	pass # Replace with function body.

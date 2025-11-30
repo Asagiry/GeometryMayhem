@@ -1,0 +1,239 @@
+[gd_scene load_steps=35 format=3 uid="uid://qpp2edoy345f"]
+
+[ext_resource type="Script" uid="uid://c1gjmkoe3un7b" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy.gd" id="1_68yrm"]
+[ext_resource type="Script" uid="uid://bph7rgfajg2et" path="res://scene/game_objects/enemies/abstract_enemy/src/states/enemy_state_machine.gd" id="2_0l81t"]
+[ext_resource type="Script" uid="uid://cyitjknl16852" path="res://scripts/data/damage/damage_data.gd" id="2_dcw4w"]
+[ext_resource type="Script" uid="uid://vean0446eao1" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_stat_data.gd" id="2_fn51p"]
+[ext_resource type="PackedScene" uid="uid://bl380xv78onc8" path="res://scene/components/effect_receiver/effect_receiver.tscn" id="3_fn51p"]
+[ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="4_dcw4w"]
+[ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component/armor_component.tscn" id="5_2bt1o"]
+[ext_resource type="Script" uid="uid://b845xc5y43cwr" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_movement_component.gd" id="6_itsan"]
+[ext_resource type="Texture2D" uid="uid://bm22bf8m08tus" path="res://assets/mobs/melee/Easy/3/AGGRO/romb(agro).png" id="7_ff33c"]
+[ext_resource type="Texture2D" uid="uid://c5p8u1xauliu0" path="res://assets/mobs/melee/Easy/3/ATTACK/romb(attack).png" id="8_ctssy"]
+[ext_resource type="PackedScene" uid="uid://b51b63idljt2q" path="res://scene/game_objects/enemies/components/enemy_attack_controller/enemy_melee_attack_controller/enemy_melee_attack_controller_3.tscn" id="8_fn51p"]
+[ext_resource type="Texture2D" uid="uid://b3ay3gnxle5wd" path="res://assets/mobs/melee/Easy/3/IDLE/idel2-romb.png" id="9_2xol7"]
+[ext_resource type="PackedScene" uid="uid://csmleslly1twg" path="res://scene/components/hurt_box_component/hurt_box.tscn" id="10_h2t6l"]
+[ext_resource type="Script" uid="uid://c4il2speuu74" path="res://scene/game_objects/enemies/melee_enemy/flux/melee_hitbox.gd" id="14_2bt1o"]
+
+[sub_resource type="Resource" id="Resource_2bt1o"]
+script = ExtResource("2_dcw4w")
+amount = 100.0
+metadata/_custom_type_script = "uid://cyitjknl16852"
+
+[sub_resource type="Resource" id="Resource_itsan"]
+script = ExtResource("2_fn51p")
+max_health = 500.0
+max_speed = 100.0
+acceleration = 9.0
+rotation_speed = 9.0
+attack_damage = SubResource("Resource_2bt1o")
+attack_cd = 1.0
+attack_duration = 1.0
+attack_range = 30.0
+aggro_range = 100.0
+attack_range_zone = 15.0
+metadata/_custom_type_script = "uid://vean0446eao1"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_efomm"]
+atlas = ExtResource("7_ff33c")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qiku6"]
+atlas = ExtResource("7_ff33c")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bep42"]
+atlas = ExtResource("7_ff33c")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ubbx2"]
+atlas = ExtResource("7_ff33c")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_afd6q"]
+atlas = ExtResource("8_ctssy")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qaemu"]
+atlas = ExtResource("8_ctssy")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_amkcn"]
+atlas = ExtResource("8_ctssy")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7jgi7"]
+atlas = ExtResource("8_ctssy")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ukna7"]
+atlas = ExtResource("8_ctssy")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_70vg4"]
+atlas = ExtResource("8_ctssy")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j81um"]
+atlas = ExtResource("8_ctssy")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0ktej"]
+atlas = ExtResource("9_2xol7")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ryfbq"]
+atlas = ExtResource("9_2xol7")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ootus"]
+atlas = ExtResource("9_2xol7")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n4f4b"]
+atlas = ExtResource("9_2xol7")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nfgwx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_efomm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qiku6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bep42")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ubbx2")
+}],
+"loop": true,
+"name": &"aggro",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_afd6q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qaemu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_amkcn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7jgi7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ukna7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_70vg4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j81um")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0ktej")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ryfbq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ootus")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n4f4b")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_68yrm"]
+size = Vector2(15.93503, 15.93503)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0l81t"]
+radius = 10.049875
+
+[node name="MeleeEnemy3" type="CharacterBody2D" node_paths=PackedStringArray("effect_receiver") groups=["enemy"]]
+collision_layer = 4
+collision_mask = 5
+script = ExtResource("1_68yrm")
+stats = SubResource("Resource_itsan")
+effect_receiver = NodePath("EffectReceiver")
+
+[node name="EnemyStateMachine" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_0l81t")
+is_log_enabled = true
+
+[node name="EffectReceiver" parent="." instance=ExtResource("3_fn51p")]
+unique_name_in_owner = true
+
+[node name="HealthComponent" parent="." node_paths=PackedStringArray("armor_component") instance=ExtResource("4_dcw4w")]
+unique_name_in_owner = true
+armor_component = NodePath("../ArmorComponent")
+
+[node name="ArmorComponent" parent="." instance=ExtResource("5_2bt1o")]
+unique_name_in_owner = true
+
+[node name="EnemyMovementComponent" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("6_itsan")
+metadata/_custom_type_script = "uid://d0iyojlfkjpup"
+
+[node name="EnemyAttackController" parent="." instance=ExtResource("8_fn51p")]
+unique_name_in_owner = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_nfgwx")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="HurtBox" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("10_h2t6l")]
+unique_name_in_owner = true
+visible = false
+collision_layer = 128
+collision_mask = 0
+health_component = NodePath("../HealthComponent")
+
+[node name="HurtBoxShape" type="CollisionShape2D" parent="HurtBox"]
+unique_name_in_owner = true
+rotation = -0.7853982
+scale = Vector2(0.9999999, 0.9999999)
+shape = SubResource("RectangleShape2D_68yrm")
+
+[node name="AttackZone" type="Area2D" parent="."]
+unique_name_in_owner = true
+z_index = 1
+collision_layer = 4
+collision_mask = 2
+collision_priority = 2.0
+
+[node name="MeleeHitbox" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 256
+script = ExtResource("14_2bt1o")
+
+[node name="AggroZone" type="Area2D" parent="."]
+unique_name_in_owner = true
+visible = false
+collision_layer = 4
+collision_mask = 2
+
+[node name="EnviromentCollision" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
+shape = SubResource("CircleShape2D_0l81t")
+
+[connection signal="area_entered" from="MeleeHitbox" to="." method="_on_attack_deal_area_entered"]
+[connection signal="body_entered" from="AggroZone" to="." method="_on_aggro_zone_body_entered"]

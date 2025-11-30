@@ -220,7 +220,6 @@ collision_mask = 2
 
 [node name="EnviromentCollision" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true
-visible = false
 shape = SubResource("CircleShape2D_6qmfg")
 
 [connection signal="body_entered" from="AggroZone" to="." method="_on_aggro_zone_body_entered"]
