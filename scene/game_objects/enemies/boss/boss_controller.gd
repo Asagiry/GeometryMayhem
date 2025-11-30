@@ -18,6 +18,7 @@ var effects: Array[Effect] = []
 @onready var state_machine: StateMachine = %StateMachine
 @onready var boss_hurt_box: HurtBox = %HurtBox
 @onready var attack_controller: BossAttackController = %AttackController
+@onready var cooldown_between_attacks: Timer = %CooldownBetweenAttacks
 
 
 

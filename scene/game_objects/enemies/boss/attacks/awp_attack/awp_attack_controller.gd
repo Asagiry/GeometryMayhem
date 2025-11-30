@@ -10,17 +10,12 @@ var number_of_shots: int
 var time_between_shots: float
 
 func activate_attack():
-	print("AwpAttackController: activate_attack called")
 	attack_started.emit()
-	print("Movement stopped")
 	_stop_movement()
 	var attack_instance = _create_and_setup_attack()
-	print("Waiting for attack completion...")
 	await _wait_for_attack_completion(attack_instance)
-	print("Attack completed, starting movement")
 	_start_movement()
 	attack_finished.emit()
-	print("AwpAttackController: activate_attack finished")
 
 
 func _create_and_setup_attack():

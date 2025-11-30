@@ -40,6 +40,7 @@ metadata/_custom_type_script = "uid://cyitjknl16852"
 [sub_resource type="Resource" id="Resource_umugx"]
 script = ExtResource("6_kuf5e")
 damage = SubResource("Resource_aifxs")
+number_of_shots = 2
 metadata/_custom_type_script = "uid://bnfpbrwhqmj37"
 
 [sub_resource type="Resource" id="Resource_kuf5e"]
@@ -138,6 +139,10 @@ script = ExtResource("6_l0uhr")
 unique_name_in_owner = true
 script = ExtResource("10_lajpc")
 is_log_enabled = true
+
+[node name="CooldownBetweenAttacks" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
 
 [node name="Tentacle" parent="." instance=ExtResource("10_3agj5")]
 unique_name_in_owner = true
