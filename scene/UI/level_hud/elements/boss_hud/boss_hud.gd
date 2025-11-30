@@ -40,8 +40,8 @@ func format_timer(seconds: float) -> String:
 	var minutes = int(seconds / 60)
 	var secs = int(fmod(seconds, 60))
 
-	var sign = "-" if is_negative else ""
-	return sign + str(minutes) + ":" + "%02d" % secs
+	var time_sign = "-" if is_negative else ""
+	return time_sign + str(minutes) + ":" + "%02d" % secs
 
 
 func _on_game_timer_timeout() -> void:

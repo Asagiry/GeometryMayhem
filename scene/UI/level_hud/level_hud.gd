@@ -9,10 +9,13 @@ extends CanvasLayer
 @onready var resonance_bar: ResonanceBarUI = %ResonanceBar
 @onready var cooldown_bar: CooldownBar = %CooldownBar
 @onready var arena_time: BossInfoUI = %BossInfoUI
-@onready var echo_label: Label = %EchoLabel
-@onready var level_label: Label = %LevelLabel
+
+@onready var echo_ui: EchoUI = %EchoUI
+@onready var level_ui: LevelValueUI = %LevelUI
+
 @onready var current_zone_label: Label = %CurrentZoneLabel
 @onready var fps_label: Label = %FpsLabel
+@onready var resonance_level: ResonanceLevelUI = %ResonanceLevel
 
 
 func _process(delta: float) -> void:
@@ -50,7 +53,7 @@ func _resonance_setup():
 func _on_resonance_changed(current_impulse,current_level,required):
 	resonance_bar.max_value = required
 	resonance_bar.value = current_impulse
-	resonance_bar.current_level_label.text = str(current_level)
+	resonance_level.current_lvl = current_level
 
 
 func _cooldown_setup():
@@ -80,8 +83,8 @@ func _meta_setup():
 	_on_update_meta(Global.meta_progression.player_data)
 
 func _on_update_meta(player_meta: PlayerData):
-	echo_label.text  = str(player_meta.currency)
-	level_label.text = str(player_meta.level)
+	echo_ui.set_value(player_meta.currency)
+	level_ui.set_value(player_meta.level)
 
 func _on_player_died():
 	queue_free()

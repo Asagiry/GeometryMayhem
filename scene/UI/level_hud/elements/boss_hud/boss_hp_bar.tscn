@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dxm7mkhdd6vpa"]
+[gd_scene load_steps=7 format=3 uid="uid://dxm7mkhdd6vpa"]
 
 [ext_resource type="Texture2D" uid="uid://den8bwx76bm3w" path="res://assets/UI/BossHud/BossHPBar.png" id="1_2221w"]
 [ext_resource type="Script" uid="uid://cl0prtr6lby7n" path="res://scene/UI/level_hud/elements/boss_hud/boss_hp_bar.gd" id="1_piqya"]
@@ -10,7 +10,12 @@ resource_local_to_scene = true
 shader = ExtResource("2_piqya")
 shader_parameter/progress = 1.0
 shader_parameter/progress_tail = 1.0
-shader_parameter/tail_color = Color(0.99995595, 0.443726, 0.45017713, 1)
+shader_parameter/tail_color = Color(0.78656036, 0.6280967, 0.19226852, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_piqya"]
+font_color = Color(0.9019608, 0.9019608, 0.9411765, 1)
+outline_size = 4
+outline_color = Color(0.078431375, 0.078431375, 0.09019608, 1)
 
 [node name="Boss_hp_bar" type="MarginContainer"]
 size_flags_horizontal = 3
@@ -42,6 +47,26 @@ size_flags_vertical = 4
 texture = ExtResource("2_erjf5")
 patch_margin_left = 20
 patch_margin_right = 20
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/ProgressShader"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="CurrentHPLabel" type="Label" parent="HBoxContainer/ProgressShader/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "200"
+label_settings = SubResource("LabelSettings_piqya")
+horizontal_alignment = 1
 
 [node name="Control2" type="Control" parent="HBoxContainer"]
 custom_minimum_size = Vector2(5.5, 0)

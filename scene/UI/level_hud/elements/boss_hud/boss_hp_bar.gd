@@ -14,6 +14,7 @@ const ANIMATION_DURATION : float = 0.5
 var _tween: Tween
 
 @onready var progress_shader: ShaderMaterial = %ProgressShader.material
+@onready var current_hp_label: Label = %CurrentHPLabel
 
 
 func _ready() -> void:
@@ -28,6 +29,7 @@ func set_value(p_value: float):
 	value = clampf(p_value,min_value,max_value)
 	if progress_shader:
 		update_texture(sign(diff))
+	current_hp_label.text = str(int(value))
 
 
 func update_texture(direction: int):
@@ -50,6 +52,7 @@ func update_texture(direction: int):
 	else:
 		progress_shader.set_shader_parameter("progress_tail",progress)
 		progress_shader.set_shader_parameter("progress",progress)
+
 
 func get_tween() -> Tween:
 	if _tween:

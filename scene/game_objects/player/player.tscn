@@ -99,7 +99,7 @@
 
 [sub_resource type="Resource" id="Resource_itr6r"]
 script = ExtResource("4_1tyhs")
-amount = 100.0
+amount = 10000.0
 damage_category = 1
 metadata/_custom_type_script = "uid://cyitjknl16852"
 
@@ -117,10 +117,10 @@ max_speed = 200.0
 acceleration = 9.0
 rotation_speed = 9.0
 attack_damage = SubResource("Resource_itr6r")
-attack_cd = 1.0
+attack_cd = 0.1
 attack_duration = 0.2
 attack_width = 32.0
-attack_range = 100.0
+attack_range = 200.0
 parry_damage = SubResource("Resource_cykr3")
 parry_cd = 1.0
 parry_push_distance = 80.0
@@ -147,7 +147,8 @@ metadata/_custom_type_script = "uid://dqdjr57cibah6"
 [sub_resource type="Resource" id="Resource_38wc0"]
 script = ExtResource("14_lduo2")
 max_health_multiplier = 2.0
-max_speed_multiplier = 2.0
+max_speed_multiplier = 1.1
+attack_cd_multiplier = 0.9
 attack_range_multiplier = 2.0
 metadata/_custom_type_script = "uid://dc7q0l0m185nd"
 
@@ -489,6 +490,5 @@ health_component = NodePath("../HealthComponent")
 
 [node name="HurtBoxShape" type="CollisionPolygon2D" parent="PlayerHurtBox"]
 unique_name_in_owner = true
-visible = false
 position = Vector2(0, 2)
 polygon = PackedVector2Array(-15, 12, -8, -3, 0, -18, 8, -3, 15, 12, 0, 8)

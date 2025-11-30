@@ -23,25 +23,28 @@ texture = ExtResource("2_kw41v")
 [node name="TextureRect" type="TextureRect" parent="."]
 show_behind_parent = true
 clip_children = 1
+custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 texture = ExtResource("2_wbmiy")
+expand_mode = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="TextureRect"]
 show_behind_parent = true
 layout_mode = 0
-offset_right = 200.0
-offset_bottom = 200.0
+offset_right = 160.0
+offset_bottom = 160.0
 theme_override_constants/margin_right = 0
 
 [node name="SubViewPortContainer" type="SubViewportContainer" parent="TextureRect/MarginContainer"]
 layout_mode = 2
-stretch = true
 script = ExtResource("4_kw41v")
 
 [node name="SubViewport" type="SubViewport" parent="TextureRect/MarginContainer/SubViewPortContainer"]
 unique_name_in_owner = true
 handle_input_locally = false
-size = Vector2i(200, 200)
+size = Vector2i(160, 160)
 render_target_clear_mode = 1
 render_target_update_mode = 4
 script = ExtResource("2_0giy3")

@@ -6,13 +6,15 @@
 [ext_resource type="PackedScene" uid="uid://dpvptcshibxt0" path="res://scene/game_objects/player/player.tscn" id="2_hm7p5"]
 [ext_resource type="Script" uid="uid://b3w4epa6tgic2" path="res://scene/level/camera_2d.gd" id="3_5lpb7"]
 [ext_resource type="PackedScene" uid="uid://4t3ckdvi728j" path="res://scene/UI/level_hud/level_hud.tscn" id="3_n6afj"]
-[ext_resource type="PackedScene" uid="uid://nvvc41pbwmx" path="res://scene/game_objects/enemies/boss/boss_controller.tscn" id="5_n6afj"]
+[ext_resource type="PackedScene" uid="uid://ddyr6ppwg1vc5" path="res://scene/game_objects/enemies/melee_enemy/flux/melee_enemy_2.tscn" id="5_n6afj"]
 
 [node name="Level" type="Node" groups=["level"]]
 script = ExtResource("1_plauu")
 transition_end_screen = ExtResource("2_dcgxc")
 
 [node name="Arena_map" parent="." instance=ExtResource("1_1c01b")]
+draw_distance = 3
+is_enabled_spawner_controller = true
 tiles_per_frame = 16
 
 [node name="BackLayer" type="Node2D" parent="." groups=["back_layer"]]

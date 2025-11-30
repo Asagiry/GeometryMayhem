@@ -86,11 +86,11 @@ autoplay = "attack"
 [node name="FireParticles" type="CPUParticles2D" parent="."]
 unique_name_in_owner = true
 emitting = false
-amount = 2000
+amount = 1
 one_shot = true
 emission_shape = 2
 emission_sphere_radius = 3.46
-spread = 30.99
+spread = 42.0
 gravity = Vector2(0, 0)
 initial_velocity_min = 100.0
 initial_velocity_max = 100.0

@@ -6,7 +6,7 @@ uniform vec3 tail_color : source_color = vec3(1.0);
 
 void fragment() {
 	if (COLOR.a != 0.0){
-	COLOR.a = UV.x > progress_tail ? 0.3 : COLOR.a;
+	COLOR.a = UV.x > progress_tail ? 0.6 : COLOR.a;
 	COLOR.rgb = UV.x > progress && UV.x < progress_tail ? tail_color : COLOR.rgb;
 	}
 }
