@@ -1,9 +1,11 @@
 class_name EnemyMeleeAttackController3
 extends EnemyAttackController
 
-@onready var melee_hitbox: Area2D = %MeleeHitbox
 
 var melee_shape: CollisionShape2D
+
+@onready var melee_hitbox: Area2D = %MeleeHitbox
+
 
 func _ready() -> void:
 	super()
