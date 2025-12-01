@@ -5,8 +5,12 @@ const FIRE_SECTOR_ANGLE: float = 90.0
 
 func activate_attack():
 	attack_started.emit()
+	_stop_movement()
 	var attack_instance = _create_and_setup_attack()
+	if attack_instance.has_method("perform_attack"):
+		attack_instance.perform_attack()
 	await _wait_for_attack_completion(attack_instance)
+	_start_movement()
 	attack_finished.emit()
 	start_cooldown()
 
@@ -27,7 +31,7 @@ func _setup_attack_instance(attack_instance: Node) -> void:
 
 
 func _wait_for_attack_completion(attack_instance: Node) -> void:
-	await attack_instance.animation_player.animation_finished
+	await attack_instance.attack_finished
 
 
 func _create_attack_instance():

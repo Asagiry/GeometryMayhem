@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://fu46d3him35o"]
+[gd_scene load_steps=7 format=3 uid="uid://fu46d3him35o"]
 
 [ext_resource type="PackedScene" uid="uid://cffktb7uj82qv" path="res://scene/components/hit_box_component/hit_box_component.tscn" id="1_00tc4"]
 [ext_resource type="Script" uid="uid://da0h753mk80to" path="res://scene/game_objects/enemies/melee_enemy/melee_src/melee_enemy_2_attack_scene.gd" id="1_h7hiw"]
@@ -71,8 +71,6 @@ _data = {
 offsets = PackedFloat32Array(0, 0.24475524, 0.5979021, 0.8496503, 0.9685315)
 colors = PackedColorArray(1, 0.1882353, 0, 1, 1, 0.2784314, 0.11372549, 1, 1, 0.42745098, 0.32941177, 1, 1, 0.7372549, 0.52156866, 1, 1, 0.63529414, 0.45882353, 1)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_1qdgi"]
-
 [node name="MeleeEnemy2AttackScene" type="Node2D"]
 script = ExtResource("1_h7hiw")
 
@@ -81,7 +79,6 @@ unique_name_in_owner = true
 libraries = {
 &"": SubResource("AnimationLibrary_m0y62")
 }
-autoplay = "attack"
 
 [node name="FireParticles" type="CPUParticles2D" parent="."]
 unique_name_in_owner = true
@@ -105,8 +102,7 @@ unique_name_in_owner = true
 collision_layer = 0
 collision_mask = 256
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="FireParticles/HitBoxComponent"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="FireParticles/HitBoxComponent"]
 unique_name_in_owner = true
-shape = SubResource("RectangleShape2D_1qdgi")
 
 [connection signal="area_entered" from="FireParticles/HitBoxComponent" to="." method="_on_hit_box_component_area_entered"]
