@@ -13,6 +13,7 @@ var attack_duration_multiplier: float = 1.0
 var damage_multiplier: float = 1.0
 var attack_cd_multiplier: float = 1.0
 
+var is_performing_attack: bool = false
 @onready var cooldown_timer: Timer = $CooldownTimer
 
 func _ready():
@@ -65,6 +66,17 @@ func get_attack_range() -> float:
 
 func get_attack_damage() -> DamageData:
 	return get_stat("attack_damage")
+
+
+func _stop_movement():
+	if owner and owner.movement_component:
+		owner.movement_component.set_speed_multiplier(0.0)
+		owner.movement_component.stop()
+
+
+func _start_movement():
+	if owner and owner.movement_component:
+		owner.movement_component.set_speed_multiplier(1.0)
 
 
 func get_projectile_speed() -> float:

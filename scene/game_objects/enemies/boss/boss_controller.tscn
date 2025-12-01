@@ -209,7 +209,6 @@ script = ExtResource("6_l0uhr")
 [node name="StateMachine" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("10_lajpc")
-is_log_enabled = true
 
 [node name="CooldownBetweenAttacks" type="Timer" parent="."]
 unique_name_in_owner = true

@@ -8,9 +8,6 @@ const PATH_TO_BOMB_ENEMIES: String = "res://scene/game_objects/enemies/bomb_enem
 
 @export var player : PlayerController
 
-var melee1 = preload("res://scene/game_objects/enemies/melee_enemy/flux/melee_enemy_1.tscn")
-var range1 = preload("res://scene/game_objects/enemies/range_enemy/flux/range_enemy_1.tscn")
-var bomb1 = preload("res://scene/game_objects/enemies/bomb_enemy/flux/bomb_enemy_1.tscn")
 var enemy_info_panel = preload("res://scene/test_level/enemy_info.tscn")
 
 var state_machine: StateMachine
@@ -791,7 +788,7 @@ func _on_enemy_spawn_button_pressed(enemy_scene: PackedScene, enemy_name: String
 	create_enemy_info_panel(enemy_instance, enemy_name)
 
 func _get_spawn_position_behind_player() -> Vector2:
-	var behind_direction = Vector2.DOWN.normalized()
+	var behind_direction = player.movement_component.last_direction
 	var spawn_offset = behind_direction * 32
 	return player.global_position + spawn_offset
 

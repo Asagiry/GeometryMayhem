@@ -17,28 +17,28 @@ var player_zones: Dictionary = {
 
 func start_machine(init_states: Array[State]) -> void:
 	super(init_states)
-
 	player = get_tree().get_first_node_in_group("player") as PlayerController
 	enemy = owner as EnemyController
-
 	enemy.attack_zone.monitorable = false
 	enemy.aggro_zone.monitorable = false
-
 	enemy.attack_zone.area_entered.connect(func(body):
-		player_zones[PlayerVisibility.ATTACK] = true
-		call_deferred("_on_update_enemy_state")
+			player_zones[PlayerVisibility.ATTACK] = true
+			call_deferred("_on_update_enemy_state")
 	)
+
 	enemy.attack_zone.area_exited.connect(func(body):
-		player_zones[PlayerVisibility.ATTACK] = false
-		call_deferred("_on_update_enemy_state")
+			player_zones[PlayerVisibility.ATTACK] = false
+			call_deferred("_on_update_enemy_state")
 	)
+
 	enemy.aggro_zone.area_entered.connect(func(body):
-		player_zones[PlayerVisibility.AGGRO] = true
-		call_deferred("_on_update_enemy_state")
+			player_zones[PlayerVisibility.AGGRO] = true
+			call_deferred("_on_update_enemy_state")
 	)
+
 	enemy.aggro_zone.area_exited.connect(func(body):
-		player_zones[PlayerVisibility.AGGRO] = false
-		call_deferred("_on_update_enemy_state")
+			player_zones[PlayerVisibility.AGGRO] = false
+			call_deferred("_on_update_enemy_state")
 	)
 
 
