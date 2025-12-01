@@ -1,7 +1,7 @@
 class_name MeleeEnemyAttackScene2
 extends Node2D
 
-signal attack_finished 
+signal attack_finished
 
 const PARTICLES_MULTIPLIER: int = 40
 const ATTACK_SECTOR_ANIMATION_MULTIPLIER: float = 1.8
@@ -22,11 +22,11 @@ func _ready() -> void:
 	randomize()
 	fire_particles.emitting = false
 	fire_particles.local_coords = true
-	
+
 	collision_polygon_2d.polygon = PackedVector2Array()
 	collision_polygon_2d.disabled = true
-	
-	animation_player.stop() 
+
+	animation_player.stop()
 
 
 func perform_attack() -> void:
@@ -51,15 +51,15 @@ func start_swing():
 
 	fire_particles.emitting = true
 	collision_polygon_2d.disabled = false
-	
+
 	var attack_anim = animation_player.get_animation("attack")
 	var anim_len = attack_anim.length / animation_player.speed_scale
 	_attack_duration = anim_len * ATTACK_SECTOR_ANIMATION_MULTIPLIER
-	
+
 	_start_fire_tween()
 
 
-func _on_animation_finished(anim_name: String):
+func _on_animation_finished(_anim_name: String):
 	fire_particles.emitting = false
 	collision_polygon_2d.disabled = true
 	attack_finished.emit()
@@ -97,7 +97,7 @@ func _start_fire_tween() -> void:
 		end_progress,
 		_attack_duration
 	).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_SINE)
-	tween.tween_callback(func(): 
+	tween.tween_callback(func():
 		_update_collision_sector(0.0)
 		collision_polygon_2d.disabled = true
 	)
