@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://8adv387ncikr"]
+[gd_scene load_steps=28 format=3 uid="uid://8adv387ncikr"]
 
 [ext_resource type="Script" uid="uid://c1gjmkoe3un7b" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy.gd" id="1_w1pxg"]
 [ext_resource type="Script" uid="uid://vean0446eao1" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_stat_data.gd" id="2_4shhi"]
@@ -34,7 +34,7 @@ max_speed = 100.0
 acceleration = 9.0
 rotation_speed = 9.0
 attack_damage = SubResource("Resource_s0nn8")
-attack_cd = 1.0
+attack_cd = 0.5
 attack_duration = 1.0
 attack_range = 20.0
 knowledge_count = 10
@@ -99,6 +99,9 @@ size = Vector2(16, 16)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c73ew"]
 size = Vector2(16, 16)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_xbs3f"]
+radius = 19.0
+
 [node name="MeleeEnemy1" type="CharacterBody2D" node_paths=PackedStringArray("effect_receiver") groups=["enemy"]]
 collision_layer = 4
 collision_mask = 5
@@ -160,3 +163,11 @@ collision_mask = 256
 [node name="EnvironmentCollision" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true
 shape = SubResource("RectangleShape2D_c73ew")
+
+[node name="SoftCollisionArea" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SoftCollisionArea"]
+shape = SubResource("CircleShape2D_xbs3f")

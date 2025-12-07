@@ -100,6 +100,11 @@ func _on_patrol_timer_timeout():
 		start_patrol()
 
 
+func handle_knockback_only():
+	velocity = accelerate_to_direction(Vector2.ZERO)
+	move_and_slide()
+
+
 func stop():
 	velocity = Vector2.ZERO
 	current_speed = 0.0

@@ -4,66 +4,64 @@ extends Node2D
 signal attack_finished
 
 const PARTICLES_MULTIPLIER: int = 40
-const ATTACK_SECTOR_ANIMATION_MULTIPLIER: float = 1.8
+# Скорость полета огня (пикселей в секунду).
+# Настройте это число под себя (300 - медленный огонь, 600 - быстрый)
+const FIRE_SPEED: float = 200.0
 
 var attacked: bool = false
 var effects: Array[Effect]
 var magic_find: float
+
 var _attack_range: float = 0.0
 var _attack_angle: float = 90.0
-var _attack_duration: float = 0.3
+var _attack_duration: float = 1.0
 
 @onready var hit_box_component: HitBoxComponent = %HitBoxComponent
-@onready var animation_player: AnimationPlayer = %AnimationPlayer
 @onready var fire_particles: CPUParticles2D = %FireParticles
 @onready var collision_polygon_2d: CollisionPolygon2D = %HitBoxComponent/CollisionPolygon2D
 
 func _ready() -> void:
 	randomize()
+	fire_particles.local_coords = false
 	fire_particles.emitting = false
-	fire_particles.local_coords = true
+
+	# Сброс гравитации и других сил, чтобы полет был ровным
+	fire_particles.gravity = Vector2.ZERO
+	fire_particles.orbit_velocity_min = 0.0
+	fire_particles.orbit_velocity_max = 0.0
 
 	collision_polygon_2d.polygon = PackedVector2Array()
 	collision_polygon_2d.disabled = true
 
-	animation_player.stop()
-
 
 func perform_attack() -> void:
-	animation_player.play("attack")
-
-
-func _on_hit_box_component_area_entered(area: Area2D) -> void:
-	if area is not HurtBox:
-		return
-	print("Area owner = ", area.owner)
-	if area.has_method("deal_damage") and attacked == false:
-		area.deal_damage(hit_box_component.damage_data)
-		attacked = true
-	if area.has_method("apply_effect"):
-		area.apply_effect(effects, magic_find, hit_box_component.damage_data)
-
-
-func start_swing():
+	# --- ОТЛАДКА ---
+	print("ATTACK START DEBUG:")
+	print(" > Range: ", _attack_range)
+	print(" > Duration: ", _attack_duration)
+	print(" > Speed (Const): ", FIRE_SPEED)
+	print(" > Calc Lifetime: ", _attack_range / FIRE_SPEED)
 	if _attack_range <= 0.0:
 		push_warning("MeleeAttack: Radius is 0!")
+		_finish_attack()
 		return
 
+	# --- ИЗМЕНЕННАЯ ЛОГИКА ---
+
+	# 1. Задаем постоянную скорость
+	fire_particles.initial_velocity_min = FIRE_SPEED
+	fire_particles.initial_velocity_max = FIRE_SPEED
+
+	# 2. Вычисляем время жизни: Время = Расстояние / Скорость
+	# Теперь частица исчезнет ровно тогда, когда пролетит _attack_range пикселей
+	fire_particles.lifetime = _attack_range / FIRE_SPEED
 	fire_particles.emitting = true
 	collision_polygon_2d.disabled = false
-
-	var attack_anim = animation_player.get_animation("attack")
-	var anim_len = attack_anim.length / animation_player.speed_scale
-	_attack_duration = anim_len * ATTACK_SECTOR_ANIMATION_MULTIPLIER
-
 	_start_fire_tween()
 
 
-func _on_animation_finished(_anim_name: String):
-	fire_particles.emitting = false
-	collision_polygon_2d.disabled = true
-	attack_finished.emit()
-	queue_free()
+func set_attack_duration(duration: float) -> void:
+	_attack_duration = duration
 
 
 func set_enemy(p_enemy):
@@ -75,32 +73,21 @@ func set_attack_range(attack_range: float, angle_deg: float) -> void:
 	_attack_range = attack_range
 	_attack_angle = angle_deg
 	fire_particles.amount = max(1, int(_attack_range) * PARTICLES_MULTIPLIER)
-	var vel = fire_particles.initial_velocity_min
-	if vel <= 0.0: vel = 1.0
-	fire_particles.lifetime = attack_range / vel
 
 
-func set_speed_scale(p_speed_scale: float) -> void:
-	fire_particles.speed_scale = p_speed_scale
-	animation_player.speed_scale = p_speed_scale
-
-
+# --- TWEEN (Хитбокс) ---
+# Хитбокс расширяется независимо от скорости частиц, за время _attack_duration
 func _start_fire_tween() -> void:
 	var tween = create_tween()
 	tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
-	var start_progress = 0.0
-	var end_progress = 1.0
+
 	tween.tween_method(
-		func(progress_value: float) -> void:
-			_update_collision_sector(progress_value),
-		start_progress,
-		end_progress,
+		func(progress: float): _update_collision_sector(progress),
+		0.0,
+		1.0,
 		_attack_duration
 	).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_SINE)
-	tween.tween_callback(func():
-		_update_collision_sector(0.0)
-		collision_polygon_2d.disabled = true
-	)
+	tween.finished.connect(_finish_attack)
 
 
 func _update_collision_sector(progress: float) -> void:
@@ -116,3 +103,23 @@ func _update_collision_sector(progress: float) -> void:
 		var overlapping_areas = hit_box_component.get_overlapping_areas()
 		for area in overlapping_areas:
 			_on_hit_box_component_area_entered(area)
+
+
+# --- ЗАВЕРШЕНИЕ ---
+func _finish_attack():
+	fire_particles.emitting = false
+	collision_polygon_2d.disabled = true
+	attack_finished.emit()
+	# Ждем, пока последние выпущенные частицы долетят свой путь (lifetime)
+	# Lifetime теперь рассчитан точно под дистанцию
+	await get_tree().create_timer(fire_particles.lifetime).timeout
+	queue_free()
+
+
+func _on_hit_box_component_area_entered(area: Area2D) -> void:
+	if area is not HurtBox: return
+	if area.has_method("deal_damage") and not attacked:
+		area.deal_damage(hit_box_component.damage_data)
+		attacked = true
+	if area.has_method("apply_effect"):
+		area.apply_effect(effects, magic_find, hit_box_component.damage_data)

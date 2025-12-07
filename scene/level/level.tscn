@@ -10,24 +10,23 @@
 [ext_resource type="Script" uid="uid://cyitjknl16852" path="res://scripts/data/damage/damage_data.gd" id="5_yrl12"]
 [ext_resource type="Script" uid="uid://vean0446eao1" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_stat_data.gd" id="6_cqsgc"]
 
-[sub_resource type="Resource" id="Resource_hinnt"]
+[sub_resource type="Resource" id="Resource_icobv"]
 script = ExtResource("5_yrl12")
-amount = 999.0
+amount = 100.0
 metadata/_custom_type_script = "uid://cyitjknl16852"
 
-[sub_resource type="Resource" id="Resource_gavly"]
+[sub_resource type="Resource" id="Resource_yrl12"]
 resource_local_to_scene = true
 script = ExtResource("6_cqsgc")
-max_health = 400.0
+max_health = 1000.0
 max_speed = 100.0
-acceleration = 9.0
-rotation_speed = 9.0
-attack_damage = SubResource("Resource_hinnt")
-attack_cd = 2.0
+acceleration = 5.0
+attack_damage = SubResource("Resource_icobv")
+attack_cd = 0.5
 attack_duration = 1.0
-attack_range = 200.0
-aggro_range = 150.0
-attack_range_zone = 40.0
+attack_range = 100.0
+aggro_range = 200.0
+attack_range_zone = 100.0
 metadata/_custom_type_script = "uid://vean0446eao1"
 
 [node name="Level" type="Node" groups=["level"]]
@@ -42,8 +41,7 @@ tiles_per_frame = 16
 [node name="BackLayer" type="Node2D" parent="." groups=["back_layer"]]
 
 [node name="MeleeEnemy2" parent="BackLayer" instance=ExtResource("5_n6afj")]
-position = Vector2(-180, -218)
-stats = SubResource("Resource_gavly")
+stats = SubResource("Resource_yrl12")
 
 [node name="Player" parent="BackLayer" instance=ExtResource("2_hm7p5")]
 unique_name_in_owner = true

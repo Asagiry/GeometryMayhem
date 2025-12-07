@@ -9,6 +9,7 @@ enum PlayerVisibility {
 
 var player: PlayerController
 var enemy: EnemyController
+var busy: bool = false
 
 var player_zones: Dictionary = {
 	PlayerVisibility.ATTACK: false,
@@ -19,8 +20,10 @@ func start_machine(init_states: Array[State]) -> void:
 	super(init_states)
 	player = get_tree().get_first_node_in_group("player") as PlayerController
 	enemy = owner as EnemyController
+
 	enemy.attack_zone.monitorable = false
 	enemy.aggro_zone.monitorable = false
+
 	enemy.attack_zone.area_entered.connect(func(body):
 			player_zones[PlayerVisibility.ATTACK] = true
 			call_deferred("_on_update_enemy_state")
@@ -46,7 +49,7 @@ func _on_update_enemy_state():
 	if is_log_enabled:
 		print("[%s]: Current state \"%s\"" % [_parent_node_name, current_state.get_state_name()])
 
-	if enemy.is_stunned:
+	if enemy.is_stunned or busy:
 		return
 
 	var current_state_name = current_state.get_state_name()
@@ -54,14 +57,16 @@ func _on_update_enemy_state():
 	if player_zones[PlayerVisibility.ATTACK]:
 		if current_state_name !=EnemyAttackState.state_name:
 			transition(EnemyAttackState.state_name)
-
+			return true
 	elif player_zones[PlayerVisibility.AGGRO]:
 		if current_state_name != EnemyAggroState.state_name:
 			transition(EnemyAggroState.state_name)
-
+			return true
 	else:
 		if current_state_name != EnemyIdleState.state_name:
 			transition(EnemyIdleState.state_name)
+			return true
+	return false
 
 
 func set_stun(duration: float):
