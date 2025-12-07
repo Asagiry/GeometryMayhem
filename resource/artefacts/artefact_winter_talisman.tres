@@ -13,6 +13,7 @@ icon = ExtResource("1_qt50t")
 behavior_script = ExtResource("1_y2k07")
 base_params = {
 0: {
+"chance": [20.0, 25.0, 30.0, 50.0],
 "duration": [1.0, 2.0, 3.0, 4.0],
 "speed_multiplier": [0.7, 0.5, 0.4, 0.2]
 }

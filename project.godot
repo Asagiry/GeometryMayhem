@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 Global="*res://scripts/global/global.gd"
+DamageNumber="*res://scripts/global/damage_number_manager/damage_number_manager.gd"
 
 [debug]
 

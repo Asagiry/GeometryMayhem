@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://ddb6q2cmgjiok"]
+
+[ext_resource type="Script" uid="uid://c2h7n8akxgwlu" path="res://scripts/global/damage_number_manager/damage_popup.gd" id="1_nc5n8"]
+[ext_resource type="Shader" uid="uid://c7r8opbctcypq" path="res://scripts/global/damage_number_manager/damage_popup.gdshader" id="2_vsmsm"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nc5n8"]
+shader = ExtResource("2_vsmsm")
+shader_parameter/color_top = Color(1, 1, 1, 1)
+shader_parameter/color_bottom = Color(0.9, 0.9, 0.9, 1)
+
+[node name="DamagePopup" type="Node2D"]
+script = ExtResource("1_nc5n8")
+
+[node name="Label" type="Label" parent="."]
+material = SubResource("ShaderMaterial_nc5n8")
+offset_right = 40.0
+offset_bottom = 16.0
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/outline_size = 6
+theme_override_constants/shadow_outline_size = 3

@@ -30,6 +30,7 @@ signal stat_changed(stat_name: String, old_value, new_value)
 @export var parry_angle: float
 @export var parry_radius: float
 @export var parry_duration: float
+@export var parry_push_force: float
 
 @export_group("Other")
 @export var grace_period_time: float

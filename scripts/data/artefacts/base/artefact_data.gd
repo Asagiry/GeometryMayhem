@@ -1,7 +1,6 @@
 class_name ArtefactData
 extends Resource
 
-# Используем настоящий enum для удобства в коде (if condition == UnlockCondition.ACHIEVEMENT)
 enum UnlockCondition {
 	ACHIEVEMENT,
 	RANDOM_DROP,

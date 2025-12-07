@@ -42,6 +42,13 @@ func take_damage(damage: DamageData):
 
 	health_decreased.emit(current_health, max_hp)
 
+	if owner:
+		DamageNumber.display_number(
+			final_damage,
+			owner.global_position,
+			damage.damage_category
+		)
+
 	if current_health <= 0:
 		died.emit()
 

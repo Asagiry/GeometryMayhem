@@ -57,13 +57,13 @@ func _init_player_artefact(
 	return player_artefact
 
 
-func _calculate_params(base_params: Dictionary, level: int) -> Dictionary:
+func _calculate_params(base_params: Dictionary, level) -> Dictionary:
 	var params: Dictionary = {}
-	var index = level - 1
-	for key in base_params:
-		var values_array = base_params[key]
-		var safe_index = clampi(index, 0, values_array.size() - 1)
-		params[key] = values_array[safe_index]
+	for number_of_effect in base_params:
+		var effect: Dictionary = {}
+		for key in base_params[number_of_effect]:
+			effect[key] = base_params[number_of_effect][key][level - 1]
+			params[number_of_effect] = effect
 	return params
 
 

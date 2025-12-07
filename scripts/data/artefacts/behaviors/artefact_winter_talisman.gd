@@ -3,15 +3,31 @@ extends ArtefactBehavior
 var runtime_effects: Array[Effect] = []
 
 func apply_to_player(_player: PlayerController, _params: Dictionary) -> void:
-	#runtime_effects = EffectFactory.create_effect(params)
-	#for e in runtime_effects:
-		#player.effects.append(e)
-		pass
+	var effect = EffectBuilder.new() \
+			.set_basic(
+				Util.EffectType.SLOW,
+				Util.EffectBehavior.DEBUFF,
+				Util.EffectPositivity.NEGATIVE,
+				_params.get("duration")
+			) \
+			.with_stat_modifiers(
+				StatModifierBuilder.new()
+				.speed_multiplier(
+					_params.get("speed_multiplier")
+				)
+				.build()
+			) \
+			.with_chance(
+				_params.get("chance")
+			) \
+			.build()
+	_player.effects.append(effect)
+	runtime_effects.append(effect)
 
 func remove_from_player(_player: PlayerController, _params: Dictionary) -> void:
-	#for e in runtime_effects:
-		#player.effects.erase(e)
-		pass
+	for e in runtime_effects:
+		_player.effects.erase(e)
+
 
 func _effect_to_string():
 	var data: String = ""

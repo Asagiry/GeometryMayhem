@@ -88,23 +88,17 @@ func activate_parry(input_state: bool):
 
 func _parry_logic(input_state):
 	if not parry_instance: return
-
-	# Если был поворот мышкой - принудительно обновляем список
 	if input_state:
 		parry_instance.force_refresh_targets()
-
 	var successful_parry: bool = false
-	var push_force = 1000.0
-
-	# Враги
 	for enemy in parry_instance.enemies_in_range:
 		if is_instance_valid(enemy):
 			var direction = (enemy.global_position - player.global_position).normalized()
 			if enemy.has_method("apply_knockback"):
-				enemy.apply_knockback(direction * push_force)
+				enemy.apply_knockback(direction * get_push_force())
 				successful_parry = true
 
-	# Снаряды
+
 	for proj in parry_instance.projectiles_in_range:
 		if is_instance_valid(proj):
 			print("SUCCESSFUL PROJECTILE PARRY")
@@ -118,6 +112,7 @@ func get_cooldown() -> float: return get_stat("parry_cd") * cooldown_multiplier
 func get_angle() -> float: return get_stat("parry_angle")
 func get_radius() -> float: return get_stat("parry_radius")
 func get_duration() -> float: return get_stat("parry_duration") * duration_multiplier
+func get_push_force() -> float: return get_stat("parry_push_force")
 
 func _connect_signals():
 	if player and player.effect_receiver:
