@@ -25,8 +25,11 @@ func _on_enemy_died(enemy_stats: EnemyStatData) -> void:
 		player_luck = player.stats.magic_find
 	var rarity = _calculate_rarity(enemy_stats.enemy_type, player_luck)
 	if rarity != null:
-		print(Global.artefact_database.get_random_accessible_artefact(rarity))
-		print("Drop! Rarity: ", Util.ArtefactRarity.keys()[rarity])
+		var artefact = Global.artefact_database.get_random_accessible_artefact(rarity)
+		if artefact:
+			Global.inventory.add_artefact(artefact.id)
+			print("Drop! Rarity: ", Util.ArtefactRarity.keys()[rarity])
+			return
 	if rarity == null:
 		print("Выпало ровным счетом ничего....")
 

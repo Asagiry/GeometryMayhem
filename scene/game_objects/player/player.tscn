@@ -129,6 +129,7 @@ parry_push_distance = 80.0
 parry_angle = 110.0
 parry_radius = 80.0
 parry_duration = 0.3
+parry_push_force = 2000.0
 grace_period_time = 0.5
 magic_find = 100.0
 metadata/_custom_type_script = "uid://cyhnm76rkr2ny"

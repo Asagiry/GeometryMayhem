@@ -34,7 +34,8 @@ script = ExtResource("1_plauu")
 transition_end_screen = ExtResource("2_dcgxc")
 
 [node name="Arena_map" parent="." instance=ExtResource("1_1c01b")]
-draw_distance = 3
+draw_distance = 4
+query_wait_time = 0.01
 is_enabled_spawner_controller = true
 tiles_per_frame = 16
 
