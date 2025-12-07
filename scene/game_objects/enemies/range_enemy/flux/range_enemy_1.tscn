@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://cl33targsj1tk"]
+[gd_scene load_steps=34 format=3 uid="uid://cl33targsj1tk"]
 
 [ext_resource type="Script" uid="uid://c1gjmkoe3un7b" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy.gd" id="1_3sd0s"]
 [ext_resource type="Script" uid="uid://cyitjknl16852" path="res://scripts/data/damage/damage_data.gd" id="2_6pjib"]
@@ -9,7 +9,9 @@
 [ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component/armor_component.tscn" id="6_1puqm"]
 [ext_resource type="Script" uid="uid://b845xc5y43cwr" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_movement_component.gd" id="7_udvbf"]
 [ext_resource type="Texture2D" uid="uid://cbv0r1bi17b7i" path="res://assets/mobs/range/Easy/1/AGGRO/AGGRO1.png" id="10_0x0gi"]
+[ext_resource type="PackedScene" uid="uid://dp3g1t6m35rea" path="res://scene/components/flash_component/flash_component.tscn" id="10_6pjib"]
 [ext_resource type="PackedScene" uid="uid://djrhdbcq83wvc" path="res://scene/game_objects/enemies/components/enemy_attack_controller/enemy_range_attack_controller/enemy_range_attack_controller.tscn" id="10_jncjd"]
+[ext_resource type="Shader" uid="uid://dr8g2h3oov65t" path="res://scene/components/flash_component/flash_material.gdshader" id="11_6pjib"]
 [ext_resource type="Texture2D" uid="uid://8l6ox28cyi7q" path="res://assets/mobs/range/Easy/1/AGGRO/AGGRO2.png" id="11_y1owt"]
 [ext_resource type="Texture2D" uid="uid://d0h11llw7b7lg" path="res://assets/mobs/range/Easy/1/AGGRO/AGGRO3.png" id="12_32nmh"]
 [ext_resource type="Texture2D" uid="uid://m0kt04npy7t0" path="res://assets/mobs/range/Easy/1/AGGRO/AGGRO4.png" id="13_uqmsf"]
@@ -48,6 +50,11 @@ attack_range_zone = 180.0
 projectile_speed = 125.0
 chance_to_additional_projectile = 0.5
 metadata/_custom_type_script = "uid://vean0446eao1"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s5283"]
+resource_local_to_scene = true
+shader = ExtResource("11_6pjib")
+shader_parameter/percent = 0.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_bgcy3"]
 animations = [{
@@ -146,6 +153,11 @@ metadata/_custom_type_script = "uid://d0iyojlfkjpup"
 
 [node name="EnemyAttackController" parent="." instance=ExtResource("10_jncjd")]
 unique_name_in_owner = true
+
+[node name="FlashComponent" parent="." node_paths=PackedStringArray("health_component", "sprite") instance=ExtResource("10_6pjib")]
+health_component = NodePath("../HealthComponent")
+sprite = NodePath("../AnimatedSprite2D")
+flash_material = SubResource("ShaderMaterial_s5283")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
