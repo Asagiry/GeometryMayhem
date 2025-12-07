@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="DropTableData" load_steps=2 format=3 uid="uid://dvwognjvk58x"]
+
+[ext_resource type="Script" uid="uid://cuoe6q6rfvnwr" path="res://scripts/data/artefacts/base/drop_table_data.gd" id="1_v83n1"]
+
+[resource]
+script = ExtResource("1_v83n1")
+metadata/_custom_type_script = "uid://cuoe6q6rfvnwr"

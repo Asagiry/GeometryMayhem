@@ -1,17 +1,33 @@
 extends ArtefactBehavior
 
 var runtime_effects: Array[Effect] = []
+#TODO Мне кажется стоит использовать вот это в runtime_script
+func apply_to_player(player: PlayerController, _params: Dictionary) -> void:
+	var effect = EffectBuilder.new() \
+		.set_basic(
+			Util.EffectType.BURN,
+			Util.EffectBehavior.DOT,
+			Util.EffectPositivity.NEGATIVE,
+			_params.get("duration")
+		) \
+		.with_damage(
+			_params.get("damage")
+		) \
+		.with_tick_interval(
+			_params.get("tick_interval")
+		) \
+		.with_chance(
+			_params.get("chance")
+		) \
+		.build()
+	player.effects.append(effect)
+	runtime_effects.append(effect)
 
-func apply_to_player(_player: PlayerController, _params: Dictionary) -> void:
-	#runtime_effects = EffectFactory.create_effect(params)
-	#for e in runtime_effects:
-		#player.effects.append(e)
-		pass
 
-func remove_from_player(_player: PlayerController, _params: Dictionary) -> void:
-	#for e in runtime_effects:
-		#player.effects.erase(e)
-		pass
+func remove_from_player(player: PlayerController, _params: Dictionary) -> void:
+	for e in runtime_effects:
+		player.effects.erase(e)
+
 
 func _effect_to_string():
 	var data: String = ""

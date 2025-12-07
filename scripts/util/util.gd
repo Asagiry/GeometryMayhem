@@ -45,11 +45,10 @@ enum DamageCategory {
 	TRUE
 }
 
+
 enum ArtefactRarity {
-	COMMON,
 	RARE,
 	LEGENDARY,
-	MYTHIC,
 	MAYHEM,
 }
 
@@ -100,10 +99,8 @@ const DAMAGE_CATEGORY_NAMES = {
 }
 
 const ARTEFACT_RARITY_NAMES = {
-	ArtefactRarity.COMMON: "Common",
 	ArtefactRarity.RARE: "Rare",
 	ArtefactRarity.LEGENDARY: "Legendary",
-	ArtefactRarity.MYTHIC: "Mythic",
 	ArtefactRarity.MAYHEM: "Mayhem"
 }
 

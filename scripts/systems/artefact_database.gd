@@ -47,3 +47,19 @@ func has_artefact(id: String) -> bool:
 
 func get_all_artefacts() -> Array:
 	return _artefacts.values()
+
+
+func get_random_accessible_artefact(rarity: Util.ArtefactRarity):
+	var candidates: Array[ArtefactData] = []
+	var player_level = Global.meta_progression.player_data.level
+	for artefact in _artefacts.values():
+		if artefact.rarity != rarity:
+			continue
+		if artefact.level_requirement > player_level:
+			continue
+		if Global.inventory.has_artefact(artefact.id):
+			continue
+		candidates.append(artefact)
+	if candidates.is_empty():
+		return null
+	return candidates.pick_random()

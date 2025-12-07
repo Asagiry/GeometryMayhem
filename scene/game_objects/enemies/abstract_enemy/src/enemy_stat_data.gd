@@ -55,6 +55,7 @@ const DEFAULT_INT_STAT: int = 0
 @export_group("Other")
 ## Параметр удачи
 @export var magic_find: float
+@export var enemy_type: Util.EnemyType = Util.EnemyType.NORMAL
 
 var _previous_values: Dictionary = {}
 

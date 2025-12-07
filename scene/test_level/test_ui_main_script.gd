@@ -80,7 +80,6 @@ func _setup_enemy_spawn_buttons():
 
 func _load_player_infusions():
 	var player_infusions = player.effects
-	print(player_infusions)
 	for effect in player_infusions:
 		add_infusion(effect.effect_type)
 

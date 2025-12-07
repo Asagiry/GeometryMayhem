@@ -57,13 +57,13 @@ func _init_player_artefact(
 	return player_artefact
 
 
-func _calculate_params(base_params: Dictionary, level) -> Dictionary:
+func _calculate_params(base_params: Dictionary, level: int) -> Dictionary:
 	var params: Dictionary = {}
-	for number_of_effect in base_params:
-		var effect: Dictionary = {}
-		for key in base_params[number_of_effect]:
-			effect[key] = base_params[number_of_effect][key][level - 1]
-		params[number_of_effect] = effect
+	var index = level - 1
+	for key in base_params:
+		var values_array = base_params[key]
+		var safe_index = clampi(index, 0, values_array.size() - 1)
+		params[key] = values_array[safe_index]
 	return params
 
 
@@ -114,6 +114,10 @@ func save_inventory():
 
 func get_all_artefacts():
 	return inventory.duplicate()
+
+
+func has_artefact(id: String) -> bool:
+	return get_player_artefact_by_id(id) != null
 
 
 func _on_player_spawned(player: PlayerController):

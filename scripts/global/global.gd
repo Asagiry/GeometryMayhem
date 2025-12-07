@@ -24,11 +24,12 @@ signal game_ended
 const DELAY_IN_CLOSING: float = 0.5
 var meta_ui_instance
 
-@onready var database := DatabaseManager.new()
-@onready var artefact_database := ArtefactDatabase.new()
-@onready var inventory := InventoryManager.new(database, artefact_database)
-@onready var meta_progression := MetaProgression.new(database)
-@onready var meta_ui := preload("res://scene/UI/meta/meta.tscn")
+@onready var database: DatabaseManager = DatabaseManager.new()
+@onready var artefact_database: ArtefactDatabase = ArtefactDatabase.new()
+@onready var inventory: InventoryManager = InventoryManager.new(database, artefact_database)
+@onready var meta_progression: MetaProgression = MetaProgression.new(database)
+@onready var meta_ui = preload("res://scene/UI/meta/meta.tscn")
+@onready var loot_manager: LootManager = LootManager.new()
 
 
 func _ready():
@@ -36,6 +37,7 @@ func _ready():
 	add_child(artefact_database)
 	add_child(inventory)
 	add_child(meta_progression)
+	add_child(loot_manager)
 
 
 func _notification(what):
@@ -53,7 +55,6 @@ func _save():
 
 func request_quit():
 	_notification(NOTIFICATION_WM_CLOSE_REQUEST)
-
 
 
 #TODO ADD TRANSACTION CHECK BEFORE QUITING
