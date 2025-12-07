@@ -1,4 +1,4 @@
-[gd_scene load_steps=104 format=3 uid="uid://dpvptcshibxt0"]
+[gd_scene load_steps=106 format=3 uid="uid://dpvptcshibxt0"]
 
 [ext_resource type="Script" uid="uid://d2bd4ujy5qv0c" path="res://scene/game_objects/player/src/player.gd" id="1_heqc5"]
 [ext_resource type="PackedScene" uid="uid://b0xrjstrhdb1c" path="res://scene/abilities/dash_attack/dash_attack_controller.tscn" id="2_jxsrc"]
@@ -27,9 +27,11 @@
 [ext_resource type="Texture2D" uid="uid://dkvphisbmripg" path="res://assets/player/PARRY/PARRY6.png" id="15_dhf6o"]
 [ext_resource type="Texture2D" uid="uid://diqwg6d0ptgyu" path="res://assets/player/PARRY/PARRY4.png" id="15_k07tp"]
 [ext_resource type="Texture2D" uid="uid://brnm2qsp0tqmt" path="res://assets/player/ATTACK/ATTACK6.png" id="15_lduo2"]
+[ext_resource type="PackedScene" uid="uid://dp3g1t6m35rea" path="res://scene/components/flash_component/flash_component.tscn" id="16_38wc0"]
 [ext_resource type="Texture2D" uid="uid://v4l5c74drq5n" path="res://assets/player/ATTACK/ATTACK7.png" id="16_hfat0"]
 [ext_resource type="Texture2D" uid="uid://6racty2bovb6" path="res://assets/player/PARRY/PARRY7.png" id="16_pi2fi"]
 [ext_resource type="PackedScene" uid="uid://csmleslly1twg" path="res://scene/components/hurt_box_component/hurt_box.tscn" id="16_wfn55"]
+[ext_resource type="Material" uid="uid://b6fuw4bjgqkof" path="res://scene/components/flash_component/flash_material.tres" id="17_2cies"]
 [ext_resource type="Texture2D" uid="uid://biaod0xrnq5p1" path="res://assets/player/ATTACK/ATTACK8.png" id="17_38wc0"]
 [ext_resource type="Texture2D" uid="uid://bq5i7g8qqkr6o" path="res://assets/player/IDLE/IDLE1.png" id="17_a8ci5"]
 [ext_resource type="Texture2D" uid="uid://bahe2wgws7cu4" path="res://assets/player/ATTACK/ATTACK9.png" id="18_2cies"]
@@ -457,6 +459,11 @@ resonance_stat_data = SubResource("Resource_38wc0")
 player_state_machine = NodePath("../PlayerStateMachine")
 trail_color = Color(1.5547132, 3.0505266, 6.810317, 1)
 trail_width = 2
+
+[node name="FlashComponent" parent="." node_paths=PackedStringArray("health_component", "sprite") instance=ExtResource("16_38wc0")]
+health_component = NodePath("../HealthComponent")
+sprite = NodePath("../AnimatedSprite2D")
+flash_material = ExtResource("17_2cies")
 
 [node name="GracePeriod" type="Timer" parent="."]
 unique_name_in_owner = true

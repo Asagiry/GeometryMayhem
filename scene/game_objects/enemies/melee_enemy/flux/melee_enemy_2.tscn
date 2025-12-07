@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://ddyr6ppwg1vc5"]
+[gd_scene load_steps=40 format=3 uid="uid://ddyr6ppwg1vc5"]
 
 [ext_resource type="Script" uid="uid://c1gjmkoe3un7b" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy.gd" id="1_jvc2f"]
 [ext_resource type="Script" uid="uid://cyitjknl16852" path="res://scripts/data/damage/damage_data.gd" id="2_icobv"]
@@ -15,6 +15,8 @@
 [ext_resource type="Script" uid="uid://da0h753mk80to" path="res://scene/game_objects/enemies/melee_enemy/melee_src/melee_enemy_2_attack_scene.gd" id="10_hinnt"]
 [ext_resource type="PackedScene" uid="uid://8vhamnx2bxc5" path="res://scene/game_objects/enemies/components/enemy_attack_controller/enemy_melee_attack_controller/enemy_attack_controller_2.tscn" id="11_sjf8k"]
 [ext_resource type="PackedScene" uid="uid://cffktb7uj82qv" path="res://scene/components/hit_box_component/hit_box_component.tscn" id="11_wkc5w"]
+[ext_resource type="PackedScene" uid="uid://dp3g1t6m35rea" path="res://scene/components/flash_component/flash_component.tscn" id="12_wkc5w"]
+[ext_resource type="Shader" uid="uid://dr8g2h3oov65t" path="res://scene/components/flash_component/flash_material.gdshader" id="13_wkc5w"]
 
 [sub_resource type="Resource" id="Resource_icobv"]
 script = ExtResource("2_icobv")
@@ -52,6 +54,11 @@ _bundled = {
 "variants": [ExtResource("10_hinnt"), true, false, 1, 2, 3.46, 42.0, Vector2(0, 0), 100.0, 49.7, 0.0, 2.0, SubResource("Gradient_m0y62"), ExtResource("11_wkc5w"), 0, 256],
 "version": 3
 }
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1466x"]
+resource_local_to_scene = true
+shader = ExtResource("13_wkc5w")
+shader_parameter/percent = 0.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8tafr"]
 atlas = ExtResource("5_d3jdp")
@@ -205,6 +212,11 @@ metadata/_custom_type_script = "uid://d0iyojlfkjpup"
 unique_name_in_owner = true
 attack_scene = SubResource("PackedScene_hinnt")
 
+[node name="FlashComponent" parent="." node_paths=PackedStringArray("health_component", "sprite") instance=ExtResource("12_wkc5w")]
+health_component = NodePath("../HealthComponent")
+sprite = NodePath("../AnimatedSprite2D")
+flash_material = SubResource("ShaderMaterial_1466x")
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_d4hd6")
@@ -233,6 +245,7 @@ collision_mask = 256
 
 [node name="AggroZone" type="Area2D" parent="."]
 unique_name_in_owner = true
+visible = false
 collision_layer = 0
 collision_mask = 256
 

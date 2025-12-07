@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://cu58eoeg0bvxb"]
+[gd_scene load_steps=37 format=3 uid="uid://cu58eoeg0bvxb"]
 
 [ext_resource type="Script" uid="uid://c1gjmkoe3un7b" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy.gd" id="1_iiu1m"]
 [ext_resource type="Script" uid="uid://vean0446eao1" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_stat_data.gd" id="2_uj4o8"]
@@ -28,6 +28,8 @@
 [ext_resource type="Texture2D" uid="uid://bj8i1a2qxlkqg" path="res://assets/mobs/bomb/EASY/1/IDLE/IDLE2.png" id="24_i0uqm"]
 [ext_resource type="Texture2D" uid="uid://c5rq14mee2nj0" path="res://assets/mobs/bomb/EASY/1/IDLE/IDLE3.png" id="25_ag2dp"]
 [ext_resource type="Texture2D" uid="uid://ceoax0n18nu0o" path="res://assets/mobs/bomb/EASY/1/IDLE/IDLE4.png" id="26_wq80g"]
+[ext_resource type="PackedScene" uid="uid://dp3g1t6m35rea" path="res://scene/components/flash_component/flash_component.tscn" id="29_gua6m"]
+[ext_resource type="Shader" uid="uid://dr8g2h3oov65t" path="res://scene/components/flash_component/flash_material.gdshader" id="30_gua6m"]
 
 [sub_resource type="Resource" id="Resource_gua6m"]
 script = ExtResource("2_y8ni5")
@@ -50,6 +52,11 @@ aggro_range = 200.0
 attack_range_zone = 20.0
 explosion_delay = 0.5
 metadata/_custom_type_script = "uid://vean0446eao1"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vgq5c"]
+resource_local_to_scene = true
+shader = ExtResource("30_gua6m")
+shader_parameter/percent = 0.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_dlte1"]
 animations = [{
@@ -157,6 +164,11 @@ metadata/_custom_type_script = "uid://d0iyojlfkjpup"
 
 [node name="EnemyAttackController" parent="." instance=ExtResource("9_y8ni5")]
 unique_name_in_owner = true
+
+[node name="FlashComponent" parent="." node_paths=PackedStringArray("health_component", "sprite") instance=ExtResource("29_gua6m")]
+health_component = NodePath("../HealthComponent")
+sprite = NodePath("../AnimatedSprite2D")
+flash_material = SubResource("ShaderMaterial_vgq5c")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
