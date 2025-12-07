@@ -14,6 +14,5 @@ func set_value(p_value: int):
 		var digit =  p_value / int(pow(10,i))
 		if digit!=0:
 			count+=1
-	print(count)
 	real_label.text = str(p_value)
 	ghost_label.text = "0".repeat(count)

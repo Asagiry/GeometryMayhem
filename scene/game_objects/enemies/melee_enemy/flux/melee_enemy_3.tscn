@@ -172,7 +172,6 @@ effect_receiver = NodePath("EffectReceiver")
 [node name="EnemyStateMachine" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("2_0l81t")
-is_log_enabled = true
 
 [node name="EffectReceiver" parent="." instance=ExtResource("3_fn51p")]
 unique_name_in_owner = true

@@ -35,25 +35,12 @@ func _ready() -> void:
 
 
 func perform_attack() -> void:
-	# --- ОТЛАДКА ---
-	print("ATTACK START DEBUG:")
-	print(" > Range: ", _attack_range)
-	print(" > Duration: ", _attack_duration)
-	print(" > Speed (Const): ", FIRE_SPEED)
-	print(" > Calc Lifetime: ", _attack_range / FIRE_SPEED)
 	if _attack_range <= 0.0:
 		push_warning("MeleeAttack: Radius is 0!")
 		_finish_attack()
 		return
-
-	# --- ИЗМЕНЕННАЯ ЛОГИКА ---
-
-	# 1. Задаем постоянную скорость
 	fire_particles.initial_velocity_min = FIRE_SPEED
 	fire_particles.initial_velocity_max = FIRE_SPEED
-
-	# 2. Вычисляем время жизни: Время = Расстояние / Скорость
-	# Теперь частица исчезнет ровно тогда, когда пролетит _attack_range пикселей
 	fire_particles.lifetime = _attack_range / FIRE_SPEED
 	fire_particles.emitting = true
 	collision_polygon_2d.disabled = false

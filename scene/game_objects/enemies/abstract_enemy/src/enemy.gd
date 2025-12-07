@@ -7,6 +7,7 @@ signal enemy_died()
 @export var effects: Array[Effect]
 @export var effect_receiver: EffectReceiver
 
+var enemy_type: Util.EnemyType = Util.EnemyType.NORMAL
 var is_stunned: bool = false
 var get_back: bool = false
 

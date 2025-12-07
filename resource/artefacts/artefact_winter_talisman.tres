@@ -13,9 +13,8 @@ icon = ExtResource("1_qt50t")
 behavior_script = ExtResource("1_y2k07")
 base_params = {
 0: {
-"duration": [1.0, 2.0, 3.0],
-"effect_name": ["SLOW", "SLOW", "SLOW"],
-"speed_multiplier": [0.5, 0.4, 0.3]
+"duration": [1.0, 2.0, 3.0, 4.0],
+"speed_multiplier": [0.7, 0.5, 0.4, 0.2]
 }
 }
 metadata/_custom_type_script = "uid://b5uac14bnb7s2"
