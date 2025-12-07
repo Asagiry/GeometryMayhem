@@ -79,6 +79,11 @@ func transition_to_aggro_state():
 	state_machine.transition(EnemyAggroState.state_name)
 
 
+func apply_knockback(force: Vector2):
+	if movement_component:
+		movement_component.apply_knockback(force)
+
+
 func _on_died():
 	enemy_died.emit()
 	Global.enemy_died.emit(stats)

@@ -48,11 +48,10 @@ func handle_input(_event: InputEvent):
 
 
 func is_no_input_pressed() -> bool:
-	# Проверяем все разрешенные действия
 	for action in ALLOWED_ACTIONS:
 		if Input.is_action_pressed(action):
-			return false  # Если хоть одна кнопка нажата - возвращаем false
-	return true  # Все кнопки отпущены
+			return false
+	return true
 
 
 func is_input_attack(_event: InputEvent):
