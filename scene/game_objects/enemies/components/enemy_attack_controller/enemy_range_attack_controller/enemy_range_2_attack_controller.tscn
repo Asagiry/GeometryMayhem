@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://6l7mbytbtjjd"]
+
+[ext_resource type="Script" uid="uid://cd4xw4ngfunr8" path="res://scene/game_objects/enemies/components/enemy_attack_controller/enemy_range_attack_controller/enemy_range_2_attack_controller.gd" id="1_f83sv"]
+
+[node name="EnemyRange2AttackController" type="Node"]
+script = ExtResource("1_f83sv")
+
+[node name="CooldownTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+
+[connection signal="timeout" from="CooldownTimer" to="." method="_on_timer_timeout"]

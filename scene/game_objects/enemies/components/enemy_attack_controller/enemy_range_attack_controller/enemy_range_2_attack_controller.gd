@@ -1,6 +1,8 @@
-class_name EnemyRangeAttackController
+class_name EnemyRangeAttackController2
 
 extends EnemyAttackController
+
+@onready var attack_spawn_point: Node2D = %AttackSpawnPoint
 
 const DELAY_BETWEEN_PROJECTILES: float = 0.1
 
@@ -9,9 +11,13 @@ var chance_to_deploy_additional_projectile: float
 
 func activate_attack():
 	attack_started.emit()
+	print("атака началась")
+
 	chance_to_deploy_additional_projectile = get_chance_to_additional_projectile()
 	await _spawn_attack_instance()
+
 	attack_finished.emit()
+	print("атака закончилась")
 	start_cooldown()
 
 
@@ -30,7 +36,10 @@ func _create_and_setup_attack_instance():
 
 func _setup_attack_instance(attack_instance, direction_to_player):
 	var dir = direction_to_player.normalized()
-	attack_instance.global_position = owner.global_position
+
+	if owner is EnemyController:
+		owner.set_facing_direction(dir,attack_spawn_point)
+	attack_instance.global_position = attack_spawn_point.global_position
 	attack_instance.rotation += direction_to_player.angle()
 	attack_instance.set_direction(direction_to_player)
 	attack_instance.set_enemy(owner)
@@ -45,4 +54,8 @@ func _create_attack_instance():
 
 
 func _on_cooldown_timer_timeout() -> void:
+	attack_cd_timeout.emit()
+
+
+func _on_timer_timeout() -> void:
 	attack_cd_timeout.emit()

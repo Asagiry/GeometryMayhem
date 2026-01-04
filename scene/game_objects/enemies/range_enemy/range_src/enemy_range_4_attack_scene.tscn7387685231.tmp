@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://bu1qiac7acgpo"]
+
+[ext_resource type="Script" uid="uid://3qmschunyhrr" path="res://scene/game_objects/enemies/range_enemy/range_src/enemy_range_4_attack_scene.gd" id="1_2ndy1"]
+[ext_resource type="Texture2D" uid="uid://3gavcqib4m6c" path="res://assets/mobs/range/Easy/4/ATTACK/лазер_для_павука.png" id="2_w6x1r"]
+[ext_resource type="PackedScene" uid="uid://cffktb7uj82qv" path="res://scene/components/hit_box_component/hit_box_component.tscn" id="3_orptn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2ndy1"]
+size = Vector2(7, 9)
+
+[node name="EnemyRange4AttackScene" type="Node2D"]
+script = ExtResource("1_2ndy1")
+
+[node name="QueueFreeTimer" type="Timer" parent="."]
+
+[node name="SegmentsRoot" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="SegmentTemplate" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+visible = false
+texture = ExtResource("2_w6x1r")
+region_enabled = true
+region_rect = Rect2(235, 0, 21.3, 32)
+
+[node name="HitBoxComponent" parent="." groups=["projectile"] instance=ExtResource("3_orptn")]
+unique_name_in_owner = true
+position = Vector2(16, 0)
+collision_layer = 32
+collision_mask = 256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxComponent"]
+position = Vector2(-12.5, -0.5)
+shape = SubResource("RectangleShape2D_2ndy1")
+
+[connection signal="timeout" from="QueueFreeTimer" to="." method="_on_queue_free_timer_timeout"]
+[connection signal="area_entered" from="HitBoxComponent" to="." method="_on_hit_box_component_area_entered"]
