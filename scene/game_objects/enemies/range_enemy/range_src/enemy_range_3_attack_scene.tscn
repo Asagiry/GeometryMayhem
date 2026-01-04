@@ -1,0 +1,61 @@
+[gd_scene load_steps=9 format=3 uid="uid://dkinlouj6kat0"]
+
+[ext_resource type="Script" uid="uid://b623jm1v7t2bg" path="res://scene/game_objects/enemies/range_enemy/range_src/enemy_range_3_attack_scene.gd" id="1_amay7"]
+[ext_resource type="Texture2D" uid="uid://d32a7yfagyfjx" path="res://assets/mobs/range/Easy/3/ATTACK/огоньракета.png" id="2_4doj7"]
+[ext_resource type="PackedScene" uid="uid://cffktb7uj82qv" path="res://scene/components/hit_box_component/hit_box_component.tscn" id="3_tl6ak"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gghvi"]
+atlas = ExtResource("2_4doj7")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ew8d5"]
+atlas = ExtResource("2_4doj7")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_km670"]
+atlas = ExtResource("2_4doj7")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_00p4k"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gghvi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ew8d5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_km670")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_amay7"]
+radius = 7.9999995
+height = 26.0
+
+[node name="EnemyRange3AttackScene" type="Node2D"]
+script = ExtResource("1_amay7")
+
+[node name="QueueFreeTimer" type="Timer" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-5, 5)
+sprite_frames = SubResource("SpriteFrames_00p4k")
+animation = &"idle"
+
+[node name="HitBoxComponent" parent="AnimatedSprite2D" groups=["projectile"] instance=ExtResource("3_tl6ak")]
+unique_name_in_owner = true
+collision_layer = 32
+collision_mask = 256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/HitBoxComponent"]
+position = Vector2(-1, -5)
+rotation = -1.5707964
+shape = SubResource("CapsuleShape2D_amay7")
+
+[connection signal="timeout" from="QueueFreeTimer" to="." method="_on_queue_free_timer_timeout"]
+[connection signal="area_entered" from="AnimatedSprite2D/HitBoxComponent" to="." method="_on_hit_box_component_area_entered"]

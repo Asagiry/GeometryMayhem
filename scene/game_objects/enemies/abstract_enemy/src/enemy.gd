@@ -47,7 +47,6 @@ func _enter_stats():
 		aggro_shape.radius = stats.aggro_range
 	aggro_collision.shape = aggro_shape
 	aggro_zone.add_child(aggro_collision)
-
 	var attack_collision = CollisionShape2D.new()
 	var attack_shape = CircleShape2D.new()
 	if attack_zone_radius != null:
@@ -106,3 +105,23 @@ func get_stats():
 
 func get_effect_receiver():
 	return effect_receiver
+	
+func set_facing_direction(dir: Vector2,attack_spawn_point : Node2D) -> void:
+	if abs(dir.x) < 0.01:
+		return
+	var facing_left := dir.x < 0
+	animated_sprite_2d.flip_h = facing_left
+	var p = attack_spawn_point.position
+	var sign = -1.0 if facing_left else 1.0
+	p.x = abs(p.x) * sign
+	attack_spawn_point.position = p
+
+
+func set_facing_direction_360(dir: Vector2, attack_spawn_point: Node2D) -> void:
+	# угол направления до игрока
+	var target_dir_angle := dir.angle()
+	var angle := target_dir_angle - PI / 2.0
+	animated_sprite_2d.rotation = angle
+	hurt_box_shape.rotation = angle
+	var dist_to_mouth := 20.0 
+	attack_spawn_point.position = Vector2.DOWN * dist_to_mouth

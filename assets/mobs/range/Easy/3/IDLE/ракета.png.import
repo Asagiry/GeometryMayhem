@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://mssqksikb6ij"
-path="res://.godot/imported/павук_атака.png-789d06f4a13734e3b7dc992d48cb1f38.ctex"
+uid="uid://bckqgpixrh54b"
+path="res://.godot/imported/ракета.png-4305f6360d62265bfffa8de90e52093d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/mobs/range/Easy/2/ATTACK/павук_атака.png"
-dest_files=["res://.godot/imported/павук_атака.png-789d06f4a13734e3b7dc992d48cb1f38.ctex"]
+source_file="res://assets/mobs/range/Easy/3/IDLE/ракета.png"
+dest_files=["res://.godot/imported/ракета.png-4305f6360d62265bfffa8de90e52093d.ctex"]
 
 [params]
 

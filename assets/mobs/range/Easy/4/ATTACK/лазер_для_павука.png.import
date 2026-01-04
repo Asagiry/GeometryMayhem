@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://3gavcqib4m6c"
-path="res://.godot/imported/лазер_для_павука.png-76fa6f5eefb354742d28f118e30ff31b.ctex"
+path="res://.godot/imported/лазер_для_павука.png-a80515f12e00e77c4afc85eb0229df1d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/mobs/range/Easy/2/ATTACK/лазер_для_павука.png"
-dest_files=["res://.godot/imported/лазер_для_павука.png-76fa6f5eefb354742d28f118e30ff31b.ctex"]
+source_file="res://assets/mobs/range/Easy/4/ATTACK/лазер_для_павука.png"
+dest_files=["res://.godot/imported/лазер_для_павука.png-a80515f12e00e77c4afc85eb0229df1d.ctex"]
 
 [params]
 

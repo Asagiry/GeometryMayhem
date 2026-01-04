@@ -1,0 +1,43 @@
+[gd_scene load_steps=7 format=3 uid="uid://8l3yriljko4r"]
+
+[ext_resource type="Script" uid="uid://0strpnswl2gw" path="res://scene/game_objects/enemies/range_enemy/range_src/enemy_range_2_attack_scene.gd" id="1_nww6l"]
+[ext_resource type="Texture2D" uid="uid://cl65n4beunuf2" path="res://assets/mobs/range/Easy/3/ATTACK/мячкидок.png" id="2_kx80a"]
+[ext_resource type="PackedScene" uid="uid://cffktb7uj82qv" path="res://scene/components/hit_box_component/hit_box_component.tscn" id="3_nww6l"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tsveg"]
+atlas = ExtResource("2_kx80a")
+region = Rect2(6, 12, 19, 19)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_n8wqf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tsveg")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kx80a"]
+
+[node name="EnemyRange2AttackScene" type="Node2D"]
+script = ExtResource("1_nww6l")
+
+[node name="QueueFreeTimer" type="Timer" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_n8wqf")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="HitBoxComponent" parent="AnimatedSprite2D" groups=["projectile"] instance=ExtResource("3_nww6l")]
+unique_name_in_owner = true
+collision_layer = 32
+collision_mask = 256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/HitBoxComponent"]
+shape = SubResource("CircleShape2D_kx80a")
+
+[connection signal="timeout" from="QueueFreeTimer" to="." method="_on_queue_free_timer_timeout"]
+[connection signal="area_entered" from="AnimatedSprite2D/HitBoxComponent" to="." method="_on_hit_box_component_area_entered"]
