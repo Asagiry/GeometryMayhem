@@ -141,3 +141,4 @@ text = "v 0.1a"
 [connection signal="pressed" from="MainMarginContainer/ButtonMarginContainer/VBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="MainMarginContainer/ButtonMarginContainer/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
 [connection signal="pressed" from="MainMarginContainer/ButtonMarginContainer2/VBoxContainer/StatisticButton" to="." method="_on_statistic_button_pressed"]
+[connection signal="pressed" from="MainMarginContainer/ButtonMarginContainer2/VBoxContainer/AchievementsButton" to="." method="_on_achievements_button_pressed"]

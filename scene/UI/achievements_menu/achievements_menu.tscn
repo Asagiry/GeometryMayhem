@@ -1,0 +1,70 @@
+[gd_scene load_steps=3 format=3 uid="uid://bxjnw16p1f5q8"]
+
+[ext_resource type="Script" uid="uid://d1oa5qc5mf8bj" path="res://scene/UI/achievements_menu/achievements_menu.gd" id="1_ylq4i"]
+[ext_resource type="Texture2D" uid="uid://dwl5hmbdn5dct" path="res://scene/UI/statistics/Background.png" id="2_cx4ch"]
+
+[node name="AchievementsMenu" type="CanvasLayer"]
+script = ExtResource("1_ylq4i")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_cx4ch")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchor_left = 0.05
+anchor_top = 0.1
+anchor_right = 0.98100007
+anchor_bottom = 0.906
+offset_right = 0.3199463
+offset_bottom = -0.32000732
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ToolbarContainer" type="PanelContainer" parent="Control/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/VBoxContainer/ToolbarContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer/ToolbarContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="MenuName" type="Label" parent="Control/VBoxContainer/ToolbarContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Achievements"
+
+[node name="QuitButton" type="Button" parent="Control/VBoxContainer/ToolbarContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "X"
+
+[node name="PanelContainer" type="PanelContainer" parent="Control/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/VBoxContainer/PanelContainer"]
+layout_mode = 2
+follow_focus = true
+
+[node name="AchievementsList" type="VBoxContainer" parent="Control/VBoxContainer/PanelContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[connection signal="pressed" from="Control/VBoxContainer/ToolbarContainer/MarginContainer/HBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
