@@ -1,4 +1,4 @@
-[gd_scene load_steps=106 format=3 uid="uid://dpvptcshibxt0"]
+[gd_scene load_steps=107 format=3 uid="uid://dpvptcshibxt0"]
 
 [ext_resource type="Script" uid="uid://d2bd4ujy5qv0c" path="res://scene/game_objects/player/src/player.gd" id="1_heqc5"]
 [ext_resource type="PackedScene" uid="uid://b0xrjstrhdb1c" path="res://scene/abilities/dash_attack/dash_attack_controller.tscn" id="2_jxsrc"]
@@ -27,6 +27,7 @@
 [ext_resource type="Texture2D" uid="uid://dkvphisbmripg" path="res://assets/player/PARRY/PARRY6.png" id="15_dhf6o"]
 [ext_resource type="Texture2D" uid="uid://diqwg6d0ptgyu" path="res://assets/player/PARRY/PARRY4.png" id="15_k07tp"]
 [ext_resource type="Texture2D" uid="uid://brnm2qsp0tqmt" path="res://assets/player/ATTACK/ATTACK6.png" id="15_lduo2"]
+[ext_resource type="PackedScene" uid="uid://csqggxijq322b" path="res://scene/components/vfx_effect_component/vfx_effect_component.tscn" id="16_2cies"]
 [ext_resource type="PackedScene" uid="uid://dp3g1t6m35rea" path="res://scene/components/flash_component/flash_component.tscn" id="16_38wc0"]
 [ext_resource type="Texture2D" uid="uid://v4l5c74drq5n" path="res://assets/player/ATTACK/ATTACK7.png" id="16_hfat0"]
 [ext_resource type="Texture2D" uid="uid://6racty2bovb6" path="res://assets/player/PARRY/PARRY7.png" id="16_pi2fi"]
@@ -101,7 +102,7 @@
 
 [sub_resource type="Resource" id="Resource_itr6r"]
 script = ExtResource("4_1tyhs")
-amount = 10000.0
+amount = 25.0
 damage_category = 1
 metadata/_custom_type_script = "uid://cyitjknl16852"
 
@@ -112,7 +113,7 @@ metadata/_custom_type_script = "uid://cyitjknl16852"
 
 [sub_resource type="Resource" id="Resource_lduo2"]
 script = ExtResource("3_3v612")
-max_health = 10000.0
+max_health = 100.0
 regeneration = 0.001
 armor = 1.0
 max_speed = 200.0
@@ -131,7 +132,6 @@ parry_radius = 80.0
 parry_duration = 0.3
 parry_push_force = 2000.0
 grace_period_time = 0.5
-magic_find = 100.0
 metadata/_custom_type_script = "uid://cyhnm76rkr2ny"
 
 [sub_resource type="Resource" id="Resource_hfat0"]
@@ -460,6 +460,9 @@ resonance_stat_data = SubResource("Resource_38wc0")
 player_state_machine = NodePath("../PlayerStateMachine")
 trail_color = Color(1.5547132, 3.0505266, 6.810317, 1)
 trail_width = 2
+
+[node name="VFXEffectComponent" parent="." node_paths=PackedStringArray("effect_receiver") instance=ExtResource("16_2cies")]
+effect_receiver = NodePath("../EffectReceiver")
 
 [node name="FlashComponent" parent="." node_paths=PackedStringArray("health_component", "sprite") instance=ExtResource("16_38wc0")]
 health_component = NodePath("../HealthComponent")

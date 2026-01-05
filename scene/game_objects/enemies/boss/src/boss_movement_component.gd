@@ -12,6 +12,8 @@ func _ready():
 
 
 func chase_player(delta: float = 0):
+	if not is_instance_valid(player):
+		return
 	var direction = _get_direction_to_player()
 	if direction != Vector2.ZERO:
 		last_direction = direction

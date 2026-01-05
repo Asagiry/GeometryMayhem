@@ -5,5 +5,6 @@ func apply(receiver: EffectReceiver, effect: Effect) -> void:
 	receiver.owner.collision_layer |= 1 << 0
 
 func end() -> void:
+	_receiver.effect_ended.emit(Util.EffectType.COLLIDER)
 	_receiver.owner.collision_layer &= ~(1 << 0)
 	super.end()

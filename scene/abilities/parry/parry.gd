@@ -5,14 +5,13 @@ var parry_angle: float
 var parry_radius: float
 var collision_sector: CollisionShape2D
 
-# Списки активных целей внутри зоны
+
 var enemies_in_range: Array[CharacterBody2D] = []
 var projectiles_in_range: Array[Area2D] = []
 
 @onready var parry_area: Area2D = %ParryArea
 
 func _ready() -> void:
-	# Подключаем сигналы для мониторинга
 	parry_area.body_entered.connect(_on_body_entered)
 	parry_area.body_exited.connect(_on_body_exited)
 	parry_area.area_entered.connect(_on_area_entered)
@@ -50,7 +49,6 @@ func _refresh_targets():
 
 
 func _on_body_entered(body: Node2D):
-	# Проверяем, враг ли это (по классу или группе)
 	if body is EnemyController:
 		if not enemies_in_range.has(body):
 			enemies_in_range.append(body)
@@ -70,10 +68,8 @@ func _on_area_exited(area: Area2D):
 	if projectiles_in_range.has(area):
 		projectiles_in_range.erase(area)
 
-# --- Обновление Коллизии (без изменений логики) ---
 func _update_collision_shape() -> void:
 	if not parry_area: return
-
 	_remove_old_collision_shape()
 	collision_sector = CollisionShape2D.new()
 

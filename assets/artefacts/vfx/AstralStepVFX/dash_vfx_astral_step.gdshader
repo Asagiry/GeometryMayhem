@@ -1,64 +1,47 @@
 shader_type canvas_item;
 
-// Основные параметры
-uniform float fade_time : hint_range(0.0, 1.0) = 1.0;
-uniform float intensity : hint_range(0.0, 1.0) = 1.0;
-uniform vec4 trail_color : source_color = vec4(0.4, 0.8, 1.2, 0.6);
-uniform vec4 core_color : source_color = vec4(0.8, 1.0, 1.5, 1.0);
+// Настройки цвета
+uniform vec4 core_color : source_color = vec4(0.5, 0.8, 1.0, 1.0);
+uniform vec4 edge_color : source_color = vec4(0.2, 0.0, 0.5, 1.0);
+uniform float brightness : hint_range(1.0, 10.0) = 5.0; // Твой множитель яркость
 
-// Эффекты
-uniform sampler2D noise_tex : hint_default_black;
-uniform float pulse_speed = 3.0;
+// Настройки эффекта
+uniform float beam_width : hint_range(0.0, 1.0) = 0.4;
+uniform float glow_intensity : hint_range(0.0, 5.0) = 2.0;
 
-// Параметры формы
-uniform float core_width = 0.05;
-uniform float glow_width = 0.4;
-uniform float edge_softness = 0.5;
+// Технические параметры
+uniform sampler2D noise_texture : repeat_enable, filter_linear;
+uniform float aspect_ratio = 1.0;
+uniform float progress : hint_range(0.0, 1.0) = 0.0;
 
 void fragment() {
-    vec2 uv = vec2(UV.y, UV.x);
+	vec2 uv = UV;
+	
+	// 1. Корректируем UV и Шум
+	vec2 noise_uv = vec2(uv.x, uv.y * aspect_ratio);
+	noise_uv.y -= TIME * 0.5;
+	float noise_val = texture(noise_texture, noise_uv * 0.5).r;
+	
+	// 2. Форма луча
+	float dist_from_center = abs(uv.x - 0.5);
+	float beam_mask = smoothstep(0.5, beam_width, dist_from_center);
+	
+	// 3. Растворение (Erosion)
+	float erosion = smoothstep(progress, progress + 0.2, noise_val * beam_mask);
+	erosion *= smoothstep(0.5, 0.0, dist_from_center * progress * 2.0);
+	
+	// 4. Расчет ЦВЕТА (RGB)
+	// Смешиваем цвета
+	vec3 mixed_rgb = mix(edge_color.rgb, core_color.rgb, erosion);
+	
+	// Применяем все усилители яркости сразу
+	// glow_intensity - для базового свечения
+	// brightness - для "взрыва" в HDR (чтобы пробить белый фон)
+	vec3 final_rgb = mixed_rgb * glow_intensity * brightness;
+	
+	// 5. Расчет ПРОЗРАЧНОСТИ (Alpha)
+	float final_alpha = erosion * (1.0 - progress);
 
-    // --- ЭФФЕКТ ВТЯГИВАНИЯ ---
-    // Чем меньше fade_time, тем ближе uv.y стягивается к центру
-    float pull_strength = pow(1.0 - fade_time, 1.2) * 0.45; // регулируй силу "втягивания"
-    uv.y = mix(uv.y, 0.5, pull_strength);
-
-    // Расстояние до центра
-    float dist_to_center = abs(uv.y - 0.5);
-
-    // Мягкая пульсация
-    float pulse = sin(TIME * pulse_speed) * 0.2 + 0.8;
-
-    // Очень плавное затухание (дольше держится, медленно гаснет)
-    float smooth_fade = pow(fade_time, 1.5); // замедляем исчезновение
-    float reverse_fade = 1.0 - smooth_fade;
-
-    // Схлопывание градиентов
-    float glow_shrink = mix(glow_width, 0.0, pow(reverse_fade, 0.5));
-    float core_shrink = mix(core_width, 0.001, pow(reverse_fade, 1.4));
-
-    // Маски для ядра и свечения
-    float core_mask = 1.0 - smoothstep(0.0, core_shrink, dist_to_center);
-    float glow_mask = 1.0 - smoothstep(core_shrink, glow_shrink, dist_to_center);
-
-    // Мягкость краёв полигона
-    float edge_fade = smoothstep(0.5, 0.5 - edge_softness, dist_to_center);
-
-    // Шумовое движение
-    vec2 noise_uv = uv * vec2(6.0, 16.0) + TIME * 1.5;
-    float noise = texture(noise_tex, noise_uv).r * 0.3 + 0.7;
-
-    // Цветовая смесь
-    vec4 final_color = vec4(0.0);
-    final_color += core_color * core_mask * pulse * intensity * noise;
-    final_color += trail_color * glow_mask * pulse * 0.9 * intensity * noise * smooth_fade;
-
-    // Затухание по длине (вдоль X)
-    float length_fade = smoothstep(0.0, 0.05, uv.x) * smoothstep(1.0, 0.95, uv.x);
-
-    // Альфа — очень мягкое исчезновение
-    float alpha = smoothstep(0.0, 0.8, smooth_fade) * length_fade * edge_fade;
-    final_color.a *= alpha;
-
-    COLOR = final_color;
+	// 6. ИТОГ: Собираем vec3 и float в один vec4
+	COLOR = vec4(final_rgb, final_alpha);
 }

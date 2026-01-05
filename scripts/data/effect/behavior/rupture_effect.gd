@@ -17,5 +17,6 @@ func tick(_delta: float) -> void:
 		last_position = current_position
 
 func end() -> void:
+	_receiver.effect_ended.emit(Util.EffectType.RUPTURE)
 	_receiver.active_special_states.erase(_effect.effect_type)
 	super.end()

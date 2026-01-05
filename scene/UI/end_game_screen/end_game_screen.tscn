@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://dhjgcauyebhkx"]
+[gd_scene load_steps=4 format=3 uid="uid://dhjgcauyebhkx"]
 
 [ext_resource type="Script" uid="uid://dqxjxn3wx0rl6" path="res://scene/UI/end_game_screen/end_game_screen.gd" id="1_uxcox"]
 [ext_resource type="PackedScene" uid="uid://nsiig3ea8c3r" path="res://scene/UI/transition_screen/transition_screen.tscn" id="2_2rxlo"]
-[ext_resource type="Texture2D" uid="uid://iv3nuycmos6x" path="res://icon.svg" id="2_yf3nm"]
 [ext_resource type="PackedScene" uid="uid://ndi3eyvfibw0" path="res://scene/UI/main_menu/main_menu.tscn" id="3_rgidp"]
 
 [node name="EndGameScreen" type="CanvasLayer"]
@@ -53,20 +52,76 @@ grow_vertical = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer"]
 layout_mode = 2
+theme_override_constants/separation = 12
 
-[node name="PanelContainer" type="PanelContainer" parent="CenterContainer/HBoxContainer"]
+[node name="StatsPanel" type="PanelContainer" parent="CenterContainer/HBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 400)
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/HBoxContainer/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/HBoxContainer/StatsPanel"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CenterContainer/HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="CenterContainer/HBoxContainer/StatsPanel/VBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Статистика"
+
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/HBoxContainer/StatsPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="CenterContainer/HBoxContainer/StatsPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 24
+columns = 2
+
+[node name="Label" type="Label" parent="CenterContainer/HBoxContainer/StatsPanel/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Убито врагов:"
+horizontal_alignment = 2
+
+[node name="KillsValue" type="Label" parent="CenterContainer/HBoxContainer/StatsPanel/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="CenterContainer/HBoxContainer/StatsPanel/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Рывков:"
+horizontal_alignment = 2
+
+[node name="DashesValue" type="Label" parent="CenterContainer/HBoxContainer/StatsPanel/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="CenterContainer/HBoxContainer/StatsPanel/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Парирований:"
+horizontal_alignment = 2
+
+[node name="ParriesValue" type="Label" parent="CenterContainer/HBoxContainer/StatsPanel/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="RewardsPanel" type="PanelContainer" parent="CenterContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 400)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/HBoxContainer/RewardsPanel"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/HBoxContainer/RewardsPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
 text = "Награды"
 
-[node name="TextureRect" type="TextureRect" parent="CenterContainer/HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/HBoxContainer/RewardsPanel/VBoxContainer"]
 layout_mode = 2
-texture = ExtResource("2_yf3nm")
+
+[node name="ArtifactsGrid" type="GridContainer" parent="CenterContainer/HBoxContainer/RewardsPanel/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 3
 
 [connection signal="pressed" from="MarginContainer2/OkButton" to="." method="_on_ok_button_pressed"]

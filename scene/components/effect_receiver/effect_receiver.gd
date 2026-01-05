@@ -299,13 +299,10 @@ func _should_replace_modifier(
 	) -> bool:
 	match behavior:
 		Util.EffectBehavior.DEBUFF:
-			# Для дебаффов – чем меньше множитель, тем сильнее эффект
 			return _is_new_debuff_stronger(old_mod, new_mod)
 		Util.EffectBehavior.BUFF:
-			# Для баффов – чем больше множитель, тем сильнее эффект
 			return _is_new_buff_stronger(old_mod, new_mod)
 		_:
-			# Для прочих эффектов можно всегда обновлять
 			return true
 
 
@@ -328,7 +325,6 @@ func _is_new_debuff_stronger(old_mod: StatModifierData, new_mod: StatModifierDat
 		(MAXIMUM_MULTIPLIER - new_mod.attack_cd_multiplier)
 	) / NUMBER_OF_BUFFS_AND_DEBUFFS
 
-	# Чем меньше средний множитель — тем сильнее дебафф
 	return new_total < old_total
 
 
@@ -351,7 +347,6 @@ func _is_new_buff_stronger(old_mod: StatModifierData, new_mod: StatModifierData)
 		(1.0 - new_mod.attack_cd_multiplier)
 	) / NUMBER_OF_BUFFS_AND_DEBUFFS
 
-	# Чем больше средний множитель — тем сильнее бафф
 	return new_total > old_total
 #endregion stat_modifiers
 

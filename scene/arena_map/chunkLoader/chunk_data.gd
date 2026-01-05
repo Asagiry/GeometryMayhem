@@ -26,8 +26,6 @@ p_chunk_size
 
 func _create_area():
 	var chunk_size_px = chunk_size * TILE_PIXEL_SIZE
-
-	# --- Area2D (оставляем как есть) ---
 	area = Area2D.new()
 	area.name = "ChunkArea_%d_%d" % [chunk_coord.x, chunk_coord.y]
 	area.z_index = 1
@@ -53,16 +51,12 @@ func load_chunk() -> void:
 	if is_loaded:
 		return
 
-	# Загружаем тайлы
 	for entry in tile_array:
 		var pos: Vector2i = entry.pos
 		var data: Dictionary = entry.data
 		arena_zone.set_cell(pos, data.source, data.atlas, data.alt)
-
-	# Добавляем Area2D в сцену
 	if area and area.get_parent() != chunks_folder:
 		chunks_folder.add_child(area)
-
 	is_loaded = true
 
 
@@ -70,10 +64,8 @@ func unload_chunk() -> void:
 	if not is_loaded:
 		return
 
-	# Удаляем тайлы
 	_unload_chunk_to_tilemap()
 
-	# Убираем Area2D из сцены
 	if area and area.get_parent() == chunks_folder:
 		chunks_folder.remove_child(area)
 

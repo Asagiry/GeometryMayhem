@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://ddyr6ppwg1vc5"]
+[gd_scene load_steps=41 format=3 uid="uid://ddyr6ppwg1vc5"]
 
 [ext_resource type="Script" uid="uid://c1gjmkoe3un7b" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy.gd" id="1_jvc2f"]
 [ext_resource type="Script" uid="uid://cyitjknl16852" path="res://scripts/data/damage/damage_data.gd" id="2_icobv"]
@@ -15,6 +15,7 @@
 [ext_resource type="Script" uid="uid://da0h753mk80to" path="res://scene/game_objects/enemies/melee_enemy/melee_src/melee_enemy_2_attack_scene.gd" id="10_hinnt"]
 [ext_resource type="PackedScene" uid="uid://8vhamnx2bxc5" path="res://scene/game_objects/enemies/components/enemy_attack_controller/enemy_melee_attack_controller/enemy_attack_controller_2.tscn" id="11_sjf8k"]
 [ext_resource type="PackedScene" uid="uid://cffktb7uj82qv" path="res://scene/components/hit_box_component/hit_box_component.tscn" id="11_wkc5w"]
+[ext_resource type="PackedScene" uid="uid://csqggxijq322b" path="res://scene/components/vfx_effect_component/vfx_effect_component.tscn" id="12_1466x"]
 [ext_resource type="PackedScene" uid="uid://dp3g1t6m35rea" path="res://scene/components/flash_component/flash_component.tscn" id="12_wkc5w"]
 [ext_resource type="Shader" uid="uid://dr8g2h3oov65t" path="res://scene/components/flash_component/flash_material.gdshader" id="13_wkc5w"]
 
@@ -41,7 +42,7 @@ metadata/_custom_type_script = "uid://vean0446eao1"
 offsets = PackedFloat32Array(0, 0.24475524, 0.5979021, 0.8496503, 0.9685315)
 colors = PackedColorArray(1, 0.1882353, 0, 1, 1, 0.2784314, 0.11372549, 1, 1, 0.42745098, 0.32941177, 1, 1, 0.7372549, 0.52156866, 1, 1, 0.63529414, 0.45882353, 1)
 
-[sub_resource type="PackedScene" id="PackedScene_hinnt"]
+[sub_resource type="PackedScene" id="PackedScene_vwfp3"]
 resource_local_to_scene = true
 _bundled = {
 "conn_count": 1,
@@ -55,7 +56,7 @@ _bundled = {
 "version": 3
 }
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_1466x"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_v3p33"]
 resource_local_to_scene = true
 shader = ExtResource("13_wkc5w")
 shader_parameter/percent = 0.0
@@ -210,12 +211,15 @@ metadata/_custom_type_script = "uid://d0iyojlfkjpup"
 
 [node name="EnemyAttackController" parent="." instance=ExtResource("11_sjf8k")]
 unique_name_in_owner = true
-attack_scene = SubResource("PackedScene_hinnt")
+attack_scene = SubResource("PackedScene_vwfp3")
+
+[node name="VFXEffectComponent" parent="." node_paths=PackedStringArray("effect_receiver") instance=ExtResource("12_1466x")]
+effect_receiver = NodePath("../EffectReceiver")
 
 [node name="FlashComponent" parent="." node_paths=PackedStringArray("health_component", "sprite") instance=ExtResource("12_wkc5w")]
 health_component = NodePath("../HealthComponent")
 sprite = NodePath("../AnimatedSprite2D")
-flash_material = SubResource("ShaderMaterial_1466x")
+flash_material = SubResource("ShaderMaterial_v3p33")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true

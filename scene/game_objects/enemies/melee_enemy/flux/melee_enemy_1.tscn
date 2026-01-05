@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://8adv387ncikr"]
+[gd_scene load_steps=32 format=3 uid="uid://8adv387ncikr"]
 
 [ext_resource type="Script" uid="uid://c1gjmkoe3un7b" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy.gd" id="1_w1pxg"]
 [ext_resource type="Script" uid="uid://vean0446eao1" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_stat_data.gd" id="2_4shhi"]
@@ -20,6 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://btqf2ccgwuqnq" path="res://assets/mobs/melee/Easy/1/IDLE/IDLE3.png" id="10_irisk"]
 [ext_resource type="PackedScene" uid="uid://ccs08skqkvv8u" path="res://scene/game_objects/enemies/components/enemy_attack_controller/enemy_melee_attack_controller/enemy_melee_attack_controller.tscn" id="10_xbs3f"]
 [ext_resource type="PackedScene" uid="uid://dp3g1t6m35rea" path="res://scene/components/flash_component/flash_component.tscn" id="11_cohu2"]
+[ext_resource type="PackedScene" uid="uid://csqggxijq322b" path="res://scene/components/vfx_effect_component/vfx_effect_component.tscn" id="11_qxsay"]
 [ext_resource type="Texture2D" uid="uid://dmph28rhwq6m6" path="res://assets/mobs/melee/Easy/1/IDLE/IDLE4.png" id="11_v18kr"]
 [ext_resource type="Shader" uid="uid://dr8g2h3oov65t" path="res://scene/components/flash_component/flash_material.gdshader" id="12_cohu2"]
 [ext_resource type="PackedScene" uid="uid://csmleslly1twg" path="res://scene/components/hurt_box_component/hurt_box.tscn" id="12_yggd7"]
@@ -47,7 +48,7 @@ aggro_range = 150.0
 attack_range_zone = 40.0
 metadata/_custom_type_script = "uid://vean0446eao1"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_cohu2"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y00rh"]
 resource_local_to_scene = true
 shader = ExtResource("12_cohu2")
 shader_parameter/percent = 0.0
@@ -139,10 +140,13 @@ metadata/_custom_type_script = "uid://d0iyojlfkjpup"
 unique_name_in_owner = true
 attack_scene = ExtResource("9_v18kr")
 
+[node name="VFXEffectComponent" parent="." node_paths=PackedStringArray("effect_receiver") instance=ExtResource("11_qxsay")]
+effect_receiver = NodePath("../EffectReceiver")
+
 [node name="FlashComponent" parent="." node_paths=PackedStringArray("health_component", "sprite") instance=ExtResource("11_cohu2")]
 health_component = NodePath("../HealthComponent")
 sprite = NodePath("../AnimatedSprite2D")
-flash_material = SubResource("ShaderMaterial_cohu2")
+flash_material = SubResource("ShaderMaterial_y00rh")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true

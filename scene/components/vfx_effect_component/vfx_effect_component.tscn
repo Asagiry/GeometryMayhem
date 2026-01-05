@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://csqggxijq322b"]
+
+[ext_resource type="Script" uid="uid://bobju87pngnel" path="res://scene/components/vfx_effect_component/vfx_effect_component.gd" id="1_xpkdm"]
+
+[node name="VFXEffectComponent" type="Node"]
+script = ExtResource("1_xpkdm")

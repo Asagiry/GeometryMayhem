@@ -20,5 +20,6 @@ func tick(_delta: float) -> void:
 
 
 func end() -> void:
+	_receiver.effect_ended.emit(Util.EffectType.WOUNDED)
 	_receiver.active_special_states.erase(_effect.effect_type)
 	super.end()
