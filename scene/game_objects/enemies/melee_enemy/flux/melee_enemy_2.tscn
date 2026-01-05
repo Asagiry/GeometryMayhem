@@ -1,8 +1,7 @@
-[gd_scene load_steps=41 format=3 uid="uid://ddyr6ppwg1vc5"]
+[gd_scene load_steps=38 format=3 uid="uid://ddyr6ppwg1vc5"]
 
 [ext_resource type="Script" uid="uid://c1gjmkoe3un7b" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy.gd" id="1_jvc2f"]
-[ext_resource type="Script" uid="uid://cyitjknl16852" path="res://scripts/data/damage/damage_data.gd" id="2_icobv"]
-[ext_resource type="Script" uid="uid://vean0446eao1" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_stat_data.gd" id="2_rrxn3"]
+[ext_resource type="Resource" uid="uid://b6tljx3dti3i3" path="res://resource/creep/melee_enemy_2.tres" id="2_wkc5w"]
 [ext_resource type="PackedScene" uid="uid://bl380xv78onc8" path="res://scene/components/effect_receiver/effect_receiver.tscn" id="3_gtcfh"]
 [ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="4_76m35"]
 [ext_resource type="Script" uid="uid://bph7rgfajg2et" path="res://scene/game_objects/enemies/abstract_enemy/src/states/enemy_state_machine.gd" id="4_icobv"]
@@ -19,30 +18,11 @@
 [ext_resource type="PackedScene" uid="uid://dp3g1t6m35rea" path="res://scene/components/flash_component/flash_component.tscn" id="12_wkc5w"]
 [ext_resource type="Shader" uid="uid://dr8g2h3oov65t" path="res://scene/components/flash_component/flash_material.gdshader" id="13_wkc5w"]
 
-[sub_resource type="Resource" id="Resource_icobv"]
-script = ExtResource("2_icobv")
-amount = 100.0
-metadata/_custom_type_script = "uid://cyitjknl16852"
-
-[sub_resource type="Resource" id="Resource_hinnt"]
-script = ExtResource("2_rrxn3")
-max_health = 1000.0
-max_speed = 100.0
-acceleration = 9.0
-rotation_speed = 9.0
-attack_damage = SubResource("Resource_icobv")
-attack_cd = 0.5
-attack_duration = 1.0
-attack_range = 100.0
-aggro_range = 200.0
-attack_range_zone = 100.0
-metadata/_custom_type_script = "uid://vean0446eao1"
-
 [sub_resource type="Gradient" id="Gradient_m0y62"]
 offsets = PackedFloat32Array(0, 0.24475524, 0.5979021, 0.8496503, 0.9685315)
 colors = PackedColorArray(1, 0.1882353, 0, 1, 1, 0.2784314, 0.11372549, 1, 1, 0.42745098, 0.32941177, 1, 1, 0.7372549, 0.52156866, 1, 1, 0.63529414, 0.45882353, 1)
 
-[sub_resource type="PackedScene" id="PackedScene_vwfp3"]
+[sub_resource type="PackedScene" id="PackedScene_1466x"]
 resource_local_to_scene = true
 _bundled = {
 "conn_count": 1,
@@ -56,7 +36,7 @@ _bundled = {
 "version": 3
 }
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_v3p33"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vwfp3"]
 resource_local_to_scene = true
 shader = ExtResource("13_wkc5w")
 shader_parameter/percent = 0.0
@@ -187,7 +167,7 @@ radius = 20.0
 collision_layer = 4
 collision_mask = 5
 script = ExtResource("1_jvc2f")
-stats = SubResource("Resource_hinnt")
+stats = ExtResource("2_wkc5w")
 effect_receiver = NodePath("EffectReceiver")
 
 [node name="EnemyStateMachine" type="Node" parent="."]
@@ -211,7 +191,7 @@ metadata/_custom_type_script = "uid://d0iyojlfkjpup"
 
 [node name="EnemyAttackController" parent="." instance=ExtResource("11_sjf8k")]
 unique_name_in_owner = true
-attack_scene = SubResource("PackedScene_vwfp3")
+attack_scene = SubResource("PackedScene_1466x")
 
 [node name="VFXEffectComponent" parent="." node_paths=PackedStringArray("effect_receiver") instance=ExtResource("12_1466x")]
 effect_receiver = NodePath("../EffectReceiver")
@@ -219,7 +199,7 @@ effect_receiver = NodePath("../EffectReceiver")
 [node name="FlashComponent" parent="." node_paths=PackedStringArray("health_component", "sprite") instance=ExtResource("12_wkc5w")]
 health_component = NodePath("../HealthComponent")
 sprite = NodePath("../AnimatedSprite2D")
-flash_material = SubResource("ShaderMaterial_v3p33")
+flash_material = SubResource("ShaderMaterial_vwfp3")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true

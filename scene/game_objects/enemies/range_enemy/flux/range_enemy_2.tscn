@@ -1,10 +1,9 @@
-[gd_scene load_steps=35 format=3 uid="uid://dy5a7qdjjd6c1"]
+[gd_scene load_steps=33 format=3 uid="uid://batkg57lcmcwo"]
 
 [ext_resource type="Script" uid="uid://c1gjmkoe3un7b" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy.gd" id="1_xb8bl"]
 [ext_resource type="Script" uid="uid://bph7rgfajg2et" path="res://scene/game_objects/enemies/abstract_enemy/src/states/enemy_state_machine.gd" id="2_0crcr"]
-[ext_resource type="Script" uid="uid://cyitjknl16852" path="res://scripts/data/damage/damage_data.gd" id="2_y4p3r"]
+[ext_resource type="Resource" uid="uid://b8ewkrq0trb56" path="res://resource/creep/range_enemy_2.tres" id="2_y2qhq"]
 [ext_resource type="PackedScene" uid="uid://bl380xv78onc8" path="res://scene/components/effect_receiver/effect_receiver.tscn" id="3_glb4b"]
-[ext_resource type="Script" uid="uid://vean0446eao1" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_stat_data.gd" id="3_y2qhq"]
 [ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="4_kf1dk"]
 [ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component/armor_component.tscn" id="5_etc76"]
 [ext_resource type="Script" uid="uid://b845xc5y43cwr" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_movement_component.gd" id="6_4rlcg"]
@@ -12,27 +11,9 @@
 [ext_resource type="PackedScene" uid="uid://csmleslly1twg" path="res://scene/components/hurt_box_component/hurt_box.tscn" id="7_y4p3r"]
 [ext_resource type="Texture2D" uid="uid://dhbiuqh80pwtp" path="res://assets/mobs/range/Easy/2/ATTACK/кидок(атака)aseprite.png" id="8_etc76"]
 [ext_resource type="Texture2D" uid="uid://dkfbinexoawbg" path="res://assets/mobs/range/Easy/2/IDLE/кидок.png" id="9_4rlcg"]
-[ext_resource type="PackedScene" uid="uid://6l7mbytbtjjd" path="res://scene/game_objects/enemies/components/enemy_attack_controller/enemy_range_attack_controller/enemy_range_2_attack_controller.tscn" id="9_y4p3r"]
-[ext_resource type="PackedScene" uid="uid://8l3yriljko4r" path="res://scene/game_objects/enemies/range_enemy/range_src/enemy_range_2_attack_scene.tscn" id="10_y2qhq"]
-
-[sub_resource type="Resource" id="Resource_4bii7"]
-script = ExtResource("2_y4p3r")
-amount = 5.0
-metadata/_custom_type_script = "uid://cyitjknl16852"
-
-[sub_resource type="Resource" id="Resource_hjs42"]
-script = ExtResource("3_y2qhq")
-max_health = 500000.0
-max_speed = 100.0
-acceleration = 9.0
-rotation_speed = 9.0
-attack_damage = SubResource("Resource_4bii7")
-attack_cd = 5.0
-attack_range = 100.0
-aggro_range = 400.0
-attack_range_zone = 180.0
-projectile_speed = 125.0
-metadata/_custom_type_script = "uid://vean0446eao1"
+[ext_resource type="PackedScene" path="res://scene/game_objects/enemies/components/enemy_attack_controller/enemy_range_attack_controller/enemy_range_2_attack_controller.tscn" id="9_y4p3r"]
+[ext_resource type="PackedScene" path="res://scene/game_objects/enemies/range_enemy/range_src/enemy_range_2_attack_scene.tscn" id="10_y2qhq"]
+[ext_resource type="PackedScene" uid="uid://csqggxijq322b" path="res://scene/components/vfx_effect_component/vfx_effect_component.tscn" id="11_4bii7"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y4p3r"]
 atlas = ExtResource("7_kf1dk")
@@ -167,7 +148,7 @@ size = Vector2(36.75, 42)
 collision_layer = 4
 collision_mask = 5
 script = ExtResource("1_xb8bl")
-stats = SubResource("Resource_hjs42")
+stats = ExtResource("2_y2qhq")
 effect_receiver = NodePath("EffectReceiver")
 
 [node name="EnemyStateMachine" type="Node" parent="."]
@@ -193,6 +174,9 @@ metadata/_custom_type_script = "uid://d0iyojlfkjpup"
 [node name="EnemyAttackController" parent="." instance=ExtResource("9_y4p3r")]
 unique_name_in_owner = true
 attack_scene = ExtResource("10_y2qhq")
+
+[node name="VFXEffectComponent" parent="." node_paths=PackedStringArray("effect_receiver") instance=ExtResource("11_4bii7")]
+effect_receiver = NodePath("../EffectReceiver")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true

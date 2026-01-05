@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="EnemyStatData" load_steps=4 format=3 uid="uid://b6tljx3dti3i3"]
+
+[ext_resource type="Script" uid="uid://cyitjknl16852" path="res://scripts/data/damage/damage_data.gd" id="1_y1haj"]
+[ext_resource type="Script" uid="uid://vean0446eao1" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_stat_data.gd" id="2_u6x08"]
+
+[sub_resource type="Resource" id="Resource_icobv"]
+script = ExtResource("1_y1haj")
+amount = 25.0
+metadata/_custom_type_script = "uid://cyitjknl16852"
+
+[resource]
+script = ExtResource("2_u6x08")
+max_health = 80.0
+regeneration = 0.01
+max_speed = 100.0
+acceleration = 9.0
+rotation_speed = 9.0
+attack_damage = SubResource("Resource_icobv")
+attack_cd = 0.5
+attack_duration = 1.0
+attack_range = 100.0
+knowledge_count = 10
+echo_chance = 0.25
+echo_count = 15
+impulse_count = 30
+aggro_range = 200.0
+attack_range_zone = 100.0
+metadata/_custom_type_script = "uid://vean0446eao1"

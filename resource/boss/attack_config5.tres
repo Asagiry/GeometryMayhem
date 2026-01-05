@@ -1,0 +1,86 @@
+[gd_resource type="Resource" script_class="AttackStageConfig" load_steps=21 format=3 uid="uid://7elqxjmhyrt4"]
+
+[ext_resource type="Script" uid="uid://vkk4bo4ep10v" path="res://scene/game_objects/enemies/boss/attacks/base_attack_config.gd" id="1_kpjkn"]
+[ext_resource type="Script" uid="uid://cyitjknl16852" path="res://scripts/data/damage/damage_data.gd" id="2_nxdb6"]
+[ext_resource type="Script" uid="uid://bnfpbrwhqmj37" path="res://scene/game_objects/enemies/boss/attacks/awp_attack/awp_attack_config.gd" id="3_ww21x"]
+[ext_resource type="Script" uid="uid://cel4xkiy42tsa" path="res://scene/game_objects/enemies/boss/attacks/concentric_rings_attack/concentric_rings_attack_config.gd" id="4_sd36i"]
+[ext_resource type="Script" uid="uid://l473rm4vhlp8" path="res://scene/game_objects/enemies/boss/attacks/gif_glove_attack/gif_glove_attack_config.gd" id="5_amyju"]
+[ext_resource type="Script" uid="uid://cq2wm3wsfoeac" path="res://scene/game_objects/enemies/boss/attacks/false_base_mutation_attack/false_mutation_attack_config.gd" id="6_besnl"]
+[ext_resource type="Script" uid="uid://b2ytap7aa6alp" path="res://scene/game_objects/enemies/boss/attacks/sawed_off_attack/sawed_off_attack_config.gd" id="7_c2w1o"]
+[ext_resource type="Script" uid="uid://oej7hugfqkd5" path="res://scene/game_objects/enemies/boss/attacks/summon_attack_controller/summon_attack_config.gd" id="8_1l35h"]
+[ext_resource type="Script" uid="uid://bkyhk82rimhn0" path="res://scene/game_objects/enemies/boss/attacks/attack_stage_config.gd" id="9_i4e2l"]
+
+[sub_resource type="Resource" id="Resource_now76"]
+script = ExtResource("2_nxdb6")
+amount = 15.0
+metadata/_custom_type_script = "uid://cyitjknl16852"
+
+[sub_resource type="Resource" id="Resource_boop6"]
+script = ExtResource("3_ww21x")
+damage = SubResource("Resource_now76")
+aim_duration = 3.0
+number_of_shots = 6
+metadata/_custom_type_script = "uid://bnfpbrwhqmj37"
+
+[sub_resource type="Resource" id="Resource_1u74f"]
+script = ExtResource("2_nxdb6")
+amount = 10.0
+metadata/_custom_type_script = "uid://cyitjknl16852"
+
+[sub_resource type="Resource" id="Resource_xf2ve"]
+script = ExtResource("4_sd36i")
+damage = SubResource("Resource_1u74f")
+rings_speed = Array[float]([100.0, 150.0, 200.0])
+projectiles_per_ring = Array[int]([20, 30, 40])
+number_of_rings = 3
+projectile_size = 2.5
+metadata/_custom_type_script = "uid://cel4xkiy42tsa"
+
+[sub_resource type="Resource" id="Resource_iyaqj"]
+script = ExtResource("2_nxdb6")
+amount = 9.0
+metadata/_custom_type_script = "uid://cyitjknl16852"
+
+[sub_resource type="Resource" id="Resource_kcqv0"]
+script = ExtResource("5_amyju")
+damage = SubResource("Resource_iyaqj")
+projectile_speed = 450.0
+projectile_size = 2.0
+shots_per_burst = 8
+metadata/_custom_type_script = "uid://l473rm4vhlp8"
+
+[sub_resource type="Resource" id="Resource_bgqf7"]
+script = ExtResource("2_nxdb6")
+amount = 18.0
+metadata/_custom_type_script = "uid://cyitjknl16852"
+
+[sub_resource type="Resource" id="Resource_paeit"]
+script = ExtResource("6_besnl")
+damage = SubResource("Resource_bgqf7")
+initial_radius = 100.0
+final_radius = 300.0
+expansion_time = 1.6
+metadata/_custom_type_script = "uid://cq2wm3wsfoeac"
+
+[sub_resource type="Resource" id="Resource_oduyu"]
+script = ExtResource("2_nxdb6")
+amount = 10.0
+metadata/_custom_type_script = "uid://cyitjknl16852"
+
+[sub_resource type="Resource" id="Resource_oq0qp"]
+script = ExtResource("7_c2w1o")
+damage = SubResource("Resource_oduyu")
+projectile_size = 2.0
+shots_per_burst = 18
+metadata/_custom_type_script = "uid://b2ytap7aa6alp"
+
+[sub_resource type="Resource" id="Resource_4xh18"]
+script = ExtResource("8_1l35h")
+number_of_enemies = 5
+metadata/_custom_type_script = "uid://oej7hugfqkd5"
+
+[resource]
+script = ExtResource("9_i4e2l")
+stage_name = "stage5"
+attacks = Array[ExtResource("1_kpjkn")]([SubResource("Resource_boop6"), SubResource("Resource_xf2ve"), SubResource("Resource_kcqv0"), SubResource("Resource_paeit"), SubResource("Resource_oq0qp"), SubResource("Resource_4xh18")])
+metadata/_custom_type_script = "uid://bkyhk82rimhn0"

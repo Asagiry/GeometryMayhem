@@ -1,0 +1,67 @@
+[gd_resource type="Resource" script_class="AttackStageConfig" load_steps=17 format=3 uid="uid://don2dcbufqd5q"]
+
+[ext_resource type="Script" uid="uid://vkk4bo4ep10v" path="res://scene/game_objects/enemies/boss/attacks/base_attack_config.gd" id="1_yddnv"]
+[ext_resource type="Script" uid="uid://cyitjknl16852" path="res://scripts/data/damage/damage_data.gd" id="2_k1hb6"]
+[ext_resource type="Script" uid="uid://bnfpbrwhqmj37" path="res://scene/game_objects/enemies/boss/attacks/awp_attack/awp_attack_config.gd" id="3_ejry5"]
+[ext_resource type="Script" uid="uid://cq2wm3wsfoeac" path="res://scene/game_objects/enemies/boss/attacks/false_base_mutation_attack/false_mutation_attack_config.gd" id="4_p33ve"]
+[ext_resource type="Script" uid="uid://b2ytap7aa6alp" path="res://scene/game_objects/enemies/boss/attacks/sawed_off_attack/sawed_off_attack_config.gd" id="5_p3thc"]
+[ext_resource type="Script" uid="uid://djkwg18t0akth" path="res://scene/game_objects/enemies/boss/attacks/spiral_attack/spiral_attack_config.gd" id="6_udasx"]
+[ext_resource type="Script" uid="uid://oej7hugfqkd5" path="res://scene/game_objects/enemies/boss/attacks/summon_attack_controller/summon_attack_config.gd" id="7_la4b5"]
+[ext_resource type="Script" uid="uid://bkyhk82rimhn0" path="res://scene/game_objects/enemies/boss/attacks/attack_stage_config.gd" id="8_k6e8r"]
+
+[sub_resource type="Resource" id="Resource_msdne"]
+script = ExtResource("2_k1hb6")
+amount = 25.0
+metadata/_custom_type_script = "uid://cyitjknl16852"
+
+[sub_resource type="Resource" id="Resource_to8cl"]
+script = ExtResource("3_ejry5")
+damage = SubResource("Resource_msdne")
+aim_duration = 3.0
+number_of_shots = 3
+metadata/_custom_type_script = "uid://bnfpbrwhqmj37"
+
+[sub_resource type="Resource" id="Resource_kafij"]
+script = ExtResource("2_k1hb6")
+amount = 25.0
+metadata/_custom_type_script = "uid://cyitjknl16852"
+
+[sub_resource type="Resource" id="Resource_s4aa8"]
+script = ExtResource("4_p33ve")
+damage = SubResource("Resource_kafij")
+initial_radius = 60.0
+final_radius = 200.0
+expansion_time = 1.1
+metadata/_custom_type_script = "uid://cq2wm3wsfoeac"
+
+[sub_resource type="Resource" id="Resource_3l3yj"]
+script = ExtResource("2_k1hb6")
+metadata/_custom_type_script = "uid://cyitjknl16852"
+
+[sub_resource type="Resource" id="Resource_chy0r"]
+script = ExtResource("5_p3thc")
+damage = SubResource("Resource_3l3yj")
+projectile_speed = 500.0
+projectile_size = 3.0
+shots_per_burst = 12
+shots_angle = 45.0
+cooldown_time = 1.5
+metadata/_custom_type_script = "uid://b2ytap7aa6alp"
+
+[sub_resource type="Resource" id="Resource_j7okq"]
+script = ExtResource("6_udasx")
+rotation_speed = 350.0
+cooldown_time = 5.0
+metadata/_custom_type_script = "uid://djkwg18t0akth"
+
+[sub_resource type="Resource" id="Resource_pqw0j"]
+script = ExtResource("7_la4b5")
+cooldown_time = 45.0
+metadata/_custom_type_script = "uid://oej7hugfqkd5"
+
+[resource]
+script = ExtResource("8_k6e8r")
+stage_name = "stage3"
+attack_cooldown = 1.25
+attacks = Array[ExtResource("1_yddnv")]([SubResource("Resource_to8cl"), SubResource("Resource_s4aa8"), SubResource("Resource_chy0r"), SubResource("Resource_j7okq"), SubResource("Resource_pqw0j")])
+metadata/_custom_type_script = "uid://bkyhk82rimhn0"

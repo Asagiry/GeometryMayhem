@@ -73,4 +73,5 @@ func _on_boss_health_changed(current_health, max_health):
 
 
 func _on_died():
+	Global.boss_died.emit()
 	queue_free()

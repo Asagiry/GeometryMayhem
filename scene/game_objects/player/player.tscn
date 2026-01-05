@@ -1,10 +1,9 @@
-[gd_scene load_steps=107 format=3 uid="uid://dpvptcshibxt0"]
+[gd_scene load_steps=101 format=3 uid="uid://dpvptcshibxt0"]
 
 [ext_resource type="Script" uid="uid://d2bd4ujy5qv0c" path="res://scene/game_objects/player/src/player.gd" id="1_heqc5"]
+[ext_resource type="Resource" uid="uid://c508gajd06mk7" path="res://resource/player/player.tres" id="2_38wc0"]
 [ext_resource type="PackedScene" uid="uid://b0xrjstrhdb1c" path="res://scene/abilities/dash_attack/dash_attack_controller.tscn" id="2_jxsrc"]
-[ext_resource type="Script" uid="uid://cyhnm76rkr2ny" path="res://scene/game_objects/player/src/player_stat_data.gd" id="3_3v612"]
 [ext_resource type="PackedScene" uid="uid://brb3xhgavq8gl" path="res://scene/abilities/parry/parry_controller.tscn" id="3_tyng1"]
-[ext_resource type="Script" uid="uid://cyitjknl16852" path="res://scripts/data/damage/damage_data.gd" id="4_1tyhs"]
 [ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="4_48qb4"]
 [ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component/armor_component.tscn" id="5_ju00n"]
 [ext_resource type="PackedScene" uid="uid://b4wk63m80ss3y" path="res://scene/abilities/dash_attack/dash_attack.tscn" id="6_cykr3"]
@@ -15,13 +14,13 @@
 [ext_resource type="Texture2D" uid="uid://dpt52h75g2kh4" path="res://assets/player/ATTACK/ATTACK1.png" id="10_ddgj3"]
 [ext_resource type="Texture2D" uid="uid://dmayqab17g1bo" path="res://assets/player/ATTACK/ATTACK2.png" id="11_kl1g4"]
 [ext_resource type="Texture2D" uid="uid://tp54cpr3amvt" path="res://assets/player/ATTACK/ATTACK3.png" id="12_3v612"]
+[ext_resource type="Resource" uid="uid://1ila6y8wir8d" path="res://resource/player/player_resonance_data.tres" id="12_38wc0"]
 [ext_resource type="PackedScene" uid="uid://b8xw4qop64jn4" path="res://scene/components/resonance_component/resonance_component.tscn" id="12_itr6r"]
 [ext_resource type="Texture2D" uid="uid://c3vrnnkjdkgpq" path="res://assets/player/PARRY/PARRY1.png" id="12_vedbf"]
-[ext_resource type="Script" uid="uid://dqdjr57cibah6" path="res://scene/components/resonance_component/resonance_component_data.gd" id="13_cykr3"]
+[ext_resource type="Resource" uid="uid://dqai2snh5thl5" path="res://resource/player/player_resonance_stat_data.tres" id="13_2cies"]
 [ext_resource type="Texture2D" uid="uid://bmgf2qqytpcy6" path="res://assets/player/ATTACK/ATTACK4.png" id="13_itr6r"]
 [ext_resource type="Texture2D" uid="uid://hib2onicd37g" path="res://assets/player/PARRY/PARRY2.png" id="13_siiro"]
 [ext_resource type="Texture2D" uid="uid://cfagdgdmyo2hj" path="res://assets/player/ATTACK/ATTACK5.png" id="14_cykr3"]
-[ext_resource type="Script" uid="uid://dc7q0l0m185nd" path="res://scene/components/resonance_component/resonance_stat_data.gd" id="14_lduo2"]
 [ext_resource type="Texture2D" uid="uid://c5qdj70a3of2i" path="res://assets/player/PARRY/PARRY5.png" id="14_nafj1"]
 [ext_resource type="Texture2D" uid="uid://tfwj6f4hhwg4" path="res://assets/player/PARRY/PARRY3.png" id="14_rlg5u"]
 [ext_resource type="Texture2D" uid="uid://dkvphisbmripg" path="res://assets/player/PARRY/PARRY6.png" id="15_dhf6o"]
@@ -99,61 +98,6 @@
 [ext_resource type="Texture2D" uid="uid://tose632d1w67" path="res://assets/player/MOVEMENT/MOVEMENT30.png" id="74_nafj1"]
 [ext_resource type="Texture2D" uid="uid://b7j3vh43qtvy8" path="res://assets/player/PARRY/PARRY8.png" id="91_3v612"]
 [ext_resource type="Script" uid="uid://bub7yrv7om30g" path="res://scene/game_objects/player/animated_sprite_2d.gd" id="94_cykr3"]
-
-[sub_resource type="Resource" id="Resource_itr6r"]
-script = ExtResource("4_1tyhs")
-amount = 25.0
-damage_category = 1
-metadata/_custom_type_script = "uid://cyitjknl16852"
-
-[sub_resource type="Resource" id="Resource_cykr3"]
-script = ExtResource("4_1tyhs")
-damage_category = 1
-metadata/_custom_type_script = "uid://cyitjknl16852"
-
-[sub_resource type="Resource" id="Resource_lduo2"]
-script = ExtResource("3_3v612")
-max_health = 100.0
-regeneration = 0.001
-armor = 1.0
-max_speed = 200.0
-acceleration = 9.0
-rotation_speed = 9.0
-attack_damage = SubResource("Resource_itr6r")
-attack_cd = 0.1
-attack_duration = 0.2
-attack_width = 32.0
-attack_range = 200.0
-parry_damage = SubResource("Resource_cykr3")
-parry_cd = 0.01
-parry_push_distance = 80.0
-parry_angle = 110.0
-parry_radius = 80.0
-parry_duration = 0.3
-parry_push_force = 2000.0
-grace_period_time = 0.5
-metadata/_custom_type_script = "uid://cyhnm76rkr2ny"
-
-[sub_resource type="Resource" id="Resource_hfat0"]
-script = ExtResource("13_cykr3")
-impulse_multiplier = 1.0
-max_level = 10
-safe_level = 5
-impulse_percent_decrease_for_hit = 0.01
-addition_percent = 0.01
-min_decrease_percent = 0.01
-max_decrease_percent = 0.1
-impulse_loss_delay = 7.0
-impulse_loss_timer_tick = 1.0
-metadata/_custom_type_script = "uid://dqdjr57cibah6"
-
-[sub_resource type="Resource" id="Resource_38wc0"]
-script = ExtResource("14_lduo2")
-max_health_multiplier = 2.0
-max_speed_multiplier = 1.1
-attack_cd_multiplier = 0.9
-attack_range_multiplier = 2.0
-metadata/_custom_type_script = "uid://dc7q0l0m185nd"
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_heqc5"]
 animations = [{
@@ -422,7 +366,7 @@ radius = 20.0
 collision_layer = 2
 collision_mask = 3077
 script = ExtResource("1_heqc5")
-stats = SubResource("Resource_lduo2")
+stats = ExtResource("2_38wc0")
 effect_receiver = NodePath("EffectReceiver")
 
 [node name="PlayerStateMachine" type="Node" parent="."]
@@ -453,8 +397,8 @@ unique_name_in_owner = true
 [node name="ResonanceComponent" parent="." node_paths=PackedStringArray("player") instance=ExtResource("12_itr6r")]
 unique_name_in_owner = true
 player = NodePath("..")
-resonance_data = SubResource("Resource_hfat0")
-resonance_stat_data = SubResource("Resource_38wc0")
+resonance_data = ExtResource("12_38wc0")
+resonance_stat_data = ExtResource("13_2cies")
 
 [node name="VFXComponent" parent="." node_paths=PackedStringArray("player_state_machine") instance=ExtResource("10_3v612")]
 player_state_machine = NodePath("../PlayerStateMachine")
