@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ResonanceComponentData" load_steps=2 format=3 uid="uid://1ila6y8wir8d"]
+
+[ext_resource type="Script" uid="uid://dqdjr57cibah6" path="res://scene/components/resonance_component/resonance_component_data.gd" id="1_qoqwj"]
+
+[resource]
+script = ExtResource("1_qoqwj")
+impulse_multiplier = 1.1
+max_level = 10
+safe_level = 5
+impulse_percent_decrease_for_hit = 0.15
+addition_percent = 0.02
+min_decrease_percent = 0.01
+max_decrease_percent = 0.15
+impulse_loss_delay = 7.0
+impulse_loss_timer_tick = 1.0
+metadata/_custom_type_script = "uid://dqdjr57cibah6"

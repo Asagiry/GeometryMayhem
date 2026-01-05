@@ -1,0 +1,94 @@
+[gd_resource type="Resource" script_class="AttackStageConfig" load_steps=23 format=3 uid="uid://dsq3s71cpqush"]
+
+[ext_resource type="Script" uid="uid://vkk4bo4ep10v" path="res://scene/game_objects/enemies/boss/attacks/base_attack_config.gd" id="1_vbtuj"]
+[ext_resource type="Script" uid="uid://cyitjknl16852" path="res://scripts/data/damage/damage_data.gd" id="2_5hosh"]
+[ext_resource type="Script" uid="uid://bnfpbrwhqmj37" path="res://scene/game_objects/enemies/boss/attacks/awp_attack/awp_attack_config.gd" id="3_320yn"]
+[ext_resource type="Script" uid="uid://cel4xkiy42tsa" path="res://scene/game_objects/enemies/boss/attacks/concentric_rings_attack/concentric_rings_attack_config.gd" id="4_ppysi"]
+[ext_resource type="Script" uid="uid://l473rm4vhlp8" path="res://scene/game_objects/enemies/boss/attacks/gif_glove_attack/gif_glove_attack_config.gd" id="5_nov3g"]
+[ext_resource type="Script" uid="uid://cq2wm3wsfoeac" path="res://scene/game_objects/enemies/boss/attacks/false_base_mutation_attack/false_mutation_attack_config.gd" id="6_uy1gp"]
+[ext_resource type="Script" uid="uid://b2ytap7aa6alp" path="res://scene/game_objects/enemies/boss/attacks/sawed_off_attack/sawed_off_attack_config.gd" id="7_jcd5t"]
+[ext_resource type="Script" uid="uid://djkwg18t0akth" path="res://scene/game_objects/enemies/boss/attacks/spiral_attack/spiral_attack_config.gd" id="8_um7sv"]
+[ext_resource type="Script" uid="uid://oej7hugfqkd5" path="res://scene/game_objects/enemies/boss/attacks/summon_attack_controller/summon_attack_config.gd" id="9_veufo"]
+[ext_resource type="Script" uid="uid://bkyhk82rimhn0" path="res://scene/game_objects/enemies/boss/attacks/attack_stage_config.gd" id="10_j7sep"]
+
+[sub_resource type="Resource" id="Resource_now76"]
+script = ExtResource("2_5hosh")
+amount = 15.0
+metadata/_custom_type_script = "uid://cyitjknl16852"
+
+[sub_resource type="Resource" id="Resource_boop6"]
+script = ExtResource("3_320yn")
+damage = SubResource("Resource_now76")
+aim_duration = 3.0
+number_of_shots = 6
+metadata/_custom_type_script = "uid://bnfpbrwhqmj37"
+
+[sub_resource type="Resource" id="Resource_1u74f"]
+script = ExtResource("2_5hosh")
+amount = 10.0
+metadata/_custom_type_script = "uid://cyitjknl16852"
+
+[sub_resource type="Resource" id="Resource_xf2ve"]
+script = ExtResource("4_ppysi")
+damage = SubResource("Resource_1u74f")
+rings_speed = Array[float]([100.0, 150.0, 150.0, 150.0, 150.0])
+projectiles_per_ring = Array[int]([20, 30, 40, 30, 30])
+number_of_rings = 5
+distance_between_rings = 150.0
+projectile_size = 2.5
+metadata/_custom_type_script = "uid://cel4xkiy42tsa"
+
+[sub_resource type="Resource" id="Resource_iyaqj"]
+script = ExtResource("2_5hosh")
+amount = 9.0
+metadata/_custom_type_script = "uid://cyitjknl16852"
+
+[sub_resource type="Resource" id="Resource_kcqv0"]
+script = ExtResource("5_nov3g")
+damage = SubResource("Resource_iyaqj")
+projectile_speed = 450.0
+projectile_size = 2.0
+shots_per_burst = 10
+metadata/_custom_type_script = "uid://l473rm4vhlp8"
+
+[sub_resource type="Resource" id="Resource_bgqf7"]
+script = ExtResource("2_5hosh")
+amount = 18.0
+metadata/_custom_type_script = "uid://cyitjknl16852"
+
+[sub_resource type="Resource" id="Resource_paeit"]
+script = ExtResource("6_uy1gp")
+damage = SubResource("Resource_bgqf7")
+initial_radius = 100.0
+final_radius = 300.0
+expansion_time = 1.6
+metadata/_custom_type_script = "uid://cq2wm3wsfoeac"
+
+[sub_resource type="Resource" id="Resource_oduyu"]
+script = ExtResource("2_5hosh")
+amount = 10.0
+metadata/_custom_type_script = "uid://cyitjknl16852"
+
+[sub_resource type="Resource" id="Resource_oq0qp"]
+script = ExtResource("7_jcd5t")
+damage = SubResource("Resource_oduyu")
+projectile_speed = 400.0
+projectile_size = 2.0
+shots_per_burst = 18
+metadata/_custom_type_script = "uid://b2ytap7aa6alp"
+
+[sub_resource type="Resource" id="Resource_72hi0"]
+script = ExtResource("8_um7sv")
+rotation_speed = 350.0
+metadata/_custom_type_script = "uid://djkwg18t0akth"
+
+[sub_resource type="Resource" id="Resource_4xh18"]
+script = ExtResource("9_veufo")
+number_of_enemies = 5
+metadata/_custom_type_script = "uid://oej7hugfqkd5"
+
+[resource]
+script = ExtResource("10_j7sep")
+stage_name = "stage4"
+attacks = Array[ExtResource("1_vbtuj")]([SubResource("Resource_boop6"), SubResource("Resource_xf2ve"), SubResource("Resource_kcqv0"), SubResource("Resource_paeit"), SubResource("Resource_oq0qp"), SubResource("Resource_72hi0"), SubResource("Resource_4xh18")])
+metadata/_custom_type_script = "uid://bkyhk82rimhn0"

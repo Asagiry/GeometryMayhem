@@ -8,6 +8,7 @@ signal impulse_amount_changed(
 	requirment_impulse: int
 	)
 
+signal boss_died
 signal player_died
 signal player_spawned(player: PlayerController)
 signal player_damage_done
@@ -42,8 +43,10 @@ func _ready():
 	add_child(meta_progression)
 	add_child(loot_manager)
 	game_started.connect(_on_game_started)
+	boss_died.connect(_on_boss_died)
 
-
+func _on_boss_died():
+	get_tree().change_scene_to_file("res://scene/UI/end_game_screen/end_game_screen.tscn")
 
 func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:

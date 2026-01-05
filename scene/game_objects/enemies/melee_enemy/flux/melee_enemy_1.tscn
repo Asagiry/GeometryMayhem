@@ -1,9 +1,8 @@
-[gd_scene load_steps=32 format=3 uid="uid://8adv387ncikr"]
+[gd_scene load_steps=29 format=3 uid="uid://8adv387ncikr"]
 
 [ext_resource type="Script" uid="uid://c1gjmkoe3un7b" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy.gd" id="1_w1pxg"]
-[ext_resource type="Script" uid="uid://vean0446eao1" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_stat_data.gd" id="2_4shhi"]
+[ext_resource type="Resource" uid="uid://i32hamrlt30" path="res://resource/creep/melee_enemy_1.tres" id="2_cohu2"]
 [ext_resource type="Texture2D" uid="uid://b8e756uh8l7wr" path="res://assets/mobs/melee/Easy/1/AGGRO/AGGRO1.png" id="2_xvgj7"]
-[ext_resource type="Script" uid="uid://cyitjknl16852" path="res://scripts/data/damage/damage_data.gd" id="2_yggd7"]
 [ext_resource type="Texture2D" uid="uid://b8up831hux8i0" path="res://assets/mobs/melee/Easy/1/AGGRO/AGGRO2.png" id="3_cb8vt"]
 [ext_resource type="Texture2D" uid="uid://baxjtia34up47" path="res://assets/mobs/melee/Easy/1/AGGRO/AGGRO3.png" id="4_a0f03"]
 [ext_resource type="Script" uid="uid://bph7rgfajg2et" path="res://scene/game_objects/enemies/abstract_enemy/src/states/enemy_state_machine.gd" id="4_xbs3f"]
@@ -25,30 +24,7 @@
 [ext_resource type="Shader" uid="uid://dr8g2h3oov65t" path="res://scene/components/flash_component/flash_material.gdshader" id="12_cohu2"]
 [ext_resource type="PackedScene" uid="uid://csmleslly1twg" path="res://scene/components/hurt_box_component/hurt_box.tscn" id="12_yggd7"]
 
-[sub_resource type="Resource" id="Resource_s0nn8"]
-script = ExtResource("2_yggd7")
-amount = 10.0
-metadata/_custom_type_script = "uid://cyitjknl16852"
-
-[sub_resource type="Resource" id="Resource_ykpwj"]
-script = ExtResource("2_4shhi")
-max_health = 2000.0
-max_speed = 100.0
-acceleration = 9.0
-rotation_speed = 9.0
-attack_damage = SubResource("Resource_s0nn8")
-attack_cd = 0.5
-attack_duration = 1.0
-attack_range = 20.0
-knowledge_count = 10
-echo_chance = 0.2
-echo_count = 10
-impulse_count = 110
-aggro_range = 150.0
-attack_range_zone = 40.0
-metadata/_custom_type_script = "uid://vean0446eao1"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_y00rh"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qxsay"]
 resource_local_to_scene = true
 shader = ExtResource("12_cohu2")
 shader_parameter/percent = 0.0
@@ -114,7 +90,7 @@ radius = 19.0
 collision_layer = 4
 collision_mask = 5
 script = ExtResource("1_w1pxg")
-stats = SubResource("Resource_ykpwj")
+stats = ExtResource("2_cohu2")
 effect_receiver = NodePath("EffectReceiver")
 
 [node name="EnemyStateMachine" type="Node" parent="."]
@@ -146,7 +122,7 @@ effect_receiver = NodePath("../EffectReceiver")
 [node name="FlashComponent" parent="." node_paths=PackedStringArray("health_component", "sprite") instance=ExtResource("11_cohu2")]
 health_component = NodePath("../HealthComponent")
 sprite = NodePath("../AnimatedSprite2D")
-flash_material = SubResource("ShaderMaterial_y00rh")
+flash_material = SubResource("ShaderMaterial_qxsay")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true

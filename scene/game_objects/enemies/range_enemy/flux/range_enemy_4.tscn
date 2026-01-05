@@ -1,9 +1,8 @@
-[gd_scene load_steps=60 format=3 uid="uid://brnn3l24s17an"]
+[gd_scene load_steps=58 format=3 uid="uid://bw4hxrv8ls50y"]
 
 [ext_resource type="Script" uid="uid://c1gjmkoe3un7b" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy.gd" id="1_0mxiq"]
+[ext_resource type="Resource" uid="uid://d1flldsdj1pb2" path="res://resource/creep/range_enemy_4.tres" id="2_8gien"]
 [ext_resource type="Script" uid="uid://bph7rgfajg2et" path="res://scene/game_objects/enemies/abstract_enemy/src/states/enemy_state_machine.gd" id="2_kdawi"]
-[ext_resource type="Script" uid="uid://cyitjknl16852" path="res://scripts/data/damage/damage_data.gd" id="2_wt1cy"]
-[ext_resource type="Script" uid="uid://vean0446eao1" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_stat_data.gd" id="3_4ge13"]
 [ext_resource type="PackedScene" uid="uid://bl380xv78onc8" path="res://scene/components/effect_receiver/effect_receiver.tscn" id="3_12baf"]
 [ext_resource type="PackedScene" uid="uid://ylbo2us2j26j" path="res://scene/components/health_component/health_component.tscn" id="4_aq7u5"]
 [ext_resource type="PackedScene" uid="uid://cy5ulo0hqp2s1" path="res://scene/components/armor_component/armor_component.tscn" id="5_5onmj"]
@@ -14,26 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://bu1qiac7acgpo" path="res://scene/game_objects/enemies/range_enemy/range_src/enemy_range_4_attack_scene.tscn" id="10_6banm"]
 [ext_resource type="Texture2D" uid="uid://mssqksikb6ij" path="res://assets/mobs/range/Easy/4/ATTACK/павук_атака.png" id="10_i802t"]
 [ext_resource type="Texture2D" uid="uid://bhlodhmo1x6ya" path="res://assets/mobs/range/Easy/4/IDLE/павук.png" id="11_6banm"]
-
-[sub_resource type="Resource" id="Resource_cttgw"]
-script = ExtResource("2_wt1cy")
-amount = 5.0
-metadata/_custom_type_script = "uid://cyitjknl16852"
-
-[sub_resource type="Resource" id="Resource_7hxmp"]
-script = ExtResource("3_4ge13")
-max_health = 50000.0
-max_speed = 150.0
-acceleration = 9.0
-rotation_speed = 9.0
-attack_damage = SubResource("Resource_cttgw")
-attack_cd = 1.5
-attack_duration = 0.5
-attack_range = 150.0
-aggro_range = 300.0
-attack_range_zone = 150.0
-projectile_speed = 125.0
-metadata/_custom_type_script = "uid://vean0446eao1"
+[ext_resource type="PackedScene" uid="uid://csqggxijq322b" path="res://scene/components/vfx_effect_component/vfx_effect_component.tscn" id="11_i802t"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_c63e1"]
 atlas = ExtResource("9_8gien")
@@ -343,13 +323,12 @@ size = Vector2(30, 31)
 collision_layer = 4
 collision_mask = 5
 script = ExtResource("1_0mxiq")
-stats = SubResource("Resource_7hxmp")
+stats = ExtResource("2_8gien")
 effect_receiver = NodePath("EffectReceiver")
 
 [node name="EnemyStateMachine" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("2_kdawi")
-is_log_enabled = true
 
 [node name="EffectReceiver" parent="." instance=ExtResource("3_12baf")]
 unique_name_in_owner = true
@@ -369,6 +348,9 @@ metadata/_custom_type_script = "uid://d0iyojlfkjpup"
 [node name="EnemyAttackController" parent="." instance=ExtResource("9_i802t")]
 unique_name_in_owner = true
 attack_scene = ExtResource("10_6banm")
+
+[node name="VFXEffectComponent" parent="." node_paths=PackedStringArray("effect_receiver") instance=ExtResource("11_i802t")]
+effect_receiver = NodePath("../EffectReceiver")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true

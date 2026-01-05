@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ResonanceStatData" load_steps=2 format=3 uid="uid://dqai2snh5thl5"]
+
+[ext_resource type="Script" uid="uid://dc7q0l0m185nd" path="res://scene/components/resonance_component/resonance_stat_data.gd" id="1_a2v51"]
+
+[resource]
+script = ExtResource("1_a2v51")
+max_health_multiplier = 1.05
+max_speed_multiplier = 1.05
+attack_damage_multiplier = 1.08
+attack_cd_multiplier = 0.95
+attack_range_multiplier = 1.05
+metadata/_custom_type_script = "uid://dc7q0l0m185nd"
