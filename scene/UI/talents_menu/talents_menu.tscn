@@ -46,6 +46,7 @@ layout_mode = 2
 [node name="MenuName" type="Label" parent="Control/VBoxContainer/ToolbarContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
 text = "Talents menu"
 
 [node name="QuitButton" type="Button" parent="Control/VBoxContainer/ToolbarContainer/MarginContainer/HBoxContainer"]

@@ -1,3 +1,52 @@
-[gd_resource type="Theme" format=3 uid="uid://caj3ydm5u76vh"]
+[gd_resource type="Theme" load_steps=10 format=3 uid="uid://caj3ydm5u76vh"]
+
+[ext_resource type="Texture2D" uid="uid://ckukcs710qyam" path="res://assets/UI/Buttons/btn_hover-removebg-preview.png" id="4_4rcv5"]
+[ext_resource type="Texture2D" uid="uid://f6ufvdcqijgu" path="res://assets/UI/PanelContainer/panel_container-removebg-preview.png" id="4_v7jkx"]
+[ext_resource type="Texture2D" uid="uid://dov4ll87q2eco" path="res://assets/UI/Buttons/btn_normal-removebg-preview.png" id="5_2ckmg"]
+[ext_resource type="Texture2D" uid="uid://5jyxa1pvgxdc" path="res://assets/UI/Buttons/btn_pressed-removebg-preview.png" id="6_idqky"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_v7jkx"]
+texture = ExtResource("6_idqky")
+texture_margin_left = 18.0
+texture_margin_top = 18.0
+texture_margin_right = 18.0
+texture_margin_bottom = 18.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_idqky"]
+texture = ExtResource("4_4rcv5")
+texture_margin_left = 18.0
+texture_margin_top = 18.0
+texture_margin_right = 18.0
+texture_margin_bottom = 18.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2n3hl"]
+texture = ExtResource("5_2ckmg")
+texture_margin_left = 22.0
+texture_margin_top = 22.0
+texture_margin_right = 22.0
+texture_margin_bottom = 22.0
+axis_stretch_horizontal = 1
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kh017"]
+texture = ExtResource("6_idqky")
+texture_margin_left = 18.0
+texture_margin_top = 18.0
+texture_margin_right = 18.0
+texture_margin_bottom = 18.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4rcv5"]
+texture = ExtResource("4_v7jkx")
+texture_margin_left = 18.0
+texture_margin_top = 25.0
+texture_margin_right = 31.0
+texture_margin_bottom = 31.0
 
 [resource]
+Button/constants/outline_size = 10
+Button/styles/focus = SubResource("StyleBoxTexture_v7jkx")
+Button/styles/hover = SubResource("StyleBoxTexture_idqky")
+Button/styles/normal = SubResource("StyleBoxTexture_2n3hl")
+Button/styles/pressed = SubResource("StyleBoxTexture_kh017")
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/constants/outline_size = 10
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_4rcv5")

@@ -7,8 +7,11 @@
 script = ExtResource("1_ylq4i")
 
 [node name="TextureRect" type="TextureRect" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("2_cx4ch")
 
 [node name="Control" type="Control" parent="."]
@@ -47,6 +50,7 @@ layout_mode = 2
 [node name="MenuName" type="Label" parent="Control/VBoxContainer/ToolbarContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
 text = "Achievements"
 
 [node name="QuitButton" type="Button" parent="Control/VBoxContainer/ToolbarContainer/MarginContainer/HBoxContainer"]

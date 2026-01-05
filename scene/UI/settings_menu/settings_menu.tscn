@@ -129,7 +129,7 @@ theme_override_constants/separation = 12
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PanelContainer2/VBoxContainer/MarginContainer/PanelContainer/TabContainer/VideoTab/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
-text = "Экран"
+text = "Display"
 
 [node name="ResolutionHBox" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PanelContainer2/VBoxContainer/MarginContainer/PanelContainer/TabContainer/VideoTab/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -137,7 +137,7 @@ script = ExtResource("2_c0ko5")
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PanelContainer2/VBoxContainer/MarginContainer/PanelContainer/TabContainer/VideoTab/MarginContainer/VBoxContainer/ResolutionHBox"]
 layout_mode = 2
-text = "Разрешение"
+text = "Resolution"
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/PanelContainer2/VBoxContainer/MarginContainer/PanelContainer/TabContainer/VideoTab/MarginContainer/VBoxContainer/ResolutionHBox"]
 layout_mode = 2
@@ -157,7 +157,7 @@ theme_override_constants/separation = 50
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PanelContainer2/VBoxContainer/MarginContainer/PanelContainer/TabContainer/VideoTab/MarginContainer/VBoxContainer/ResolutionModeHBox"]
 layout_mode = 2
-text = "Режим отображения"
+text = "Display Mode"
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/PanelContainer2/VBoxContainer/MarginContainer/PanelContainer/TabContainer/VideoTab/MarginContainer/VBoxContainer/ResolutionModeHBox"]
 layout_mode = 2

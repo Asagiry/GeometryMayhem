@@ -5,11 +5,13 @@
 [ext_resource type="PackedScene" uid="uid://d3vhitwmdlmwa" path="res://scene/UI/artefacts_inventory/artefact_slot.tscn" id="1_15igh"]
 [ext_resource type="Texture2D" uid="uid://dgoc374vsftf0" path="res://assets/mobs/melee/Easy/1/IDLE/IDLE1.png" id="2_jk8qr"]
 [ext_resource type="Texture2D" uid="uid://3jn3afb3rwqj" path="res://scene/UI/loading_screen/loading_sprite.png" id="3_a4ecu"]
-[ext_resource type="Texture2D" uid="uid://bq5i7g8qqkr6o" path="res://assets/player/IDLE/Idle1.png" id="6_a4ecu"]
+[ext_resource type="Texture2D" uid="uid://bq5i7g8qqkr6o" path="res://assets/player/IDLE/IDLE1.png" id="6_a4ecu"]
 [ext_resource type="PackedScene" uid="uid://b8bcfd1s8lrai" path="res://scene/UI/artefacts_inventory/radial_container.tscn" id="6_dkvfy"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_w4oxd"]
 font_size = 30
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
 
 [node name="ArtefactsInventory" type="CanvasLayer"]
 script = ExtResource("1_3fi1b")
@@ -54,6 +56,7 @@ layout_mode = 2
 [node name="MenuName" type="Label" parent="Control/VBoxContainer/ToolbarContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
 text = "Artefacts inventory"
 
 [node name="QuitButton" type="Button" parent="Control/VBoxContainer/ToolbarContainer/MarginContainer/HBoxContainer"]
@@ -217,6 +220,7 @@ layout_mode = 2
 [node name="Label" type="Label" parent="Control/VBoxContainer/HBoxContainer/EquipContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
+theme_override_font_sizes/font_size = 14
 text = "Equiped"
 label_settings = SubResource("LabelSettings_w4oxd")
 horizontal_alignment = 1
