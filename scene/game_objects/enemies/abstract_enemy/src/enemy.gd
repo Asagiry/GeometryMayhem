@@ -105,7 +105,7 @@ func get_stats():
 
 func get_effect_receiver():
 	return effect_receiver
-	
+
 func set_facing_direction(dir: Vector2,attack_spawn_point : Node2D) -> void:
 	if abs(dir.x) < 0.01:
 		return
@@ -123,5 +123,5 @@ func set_facing_direction_360(dir: Vector2, attack_spawn_point: Node2D) -> void:
 	var angle := target_dir_angle - PI / 2.0
 	animated_sprite_2d.rotation = angle
 	hurt_box_shape.rotation = angle
-	var dist_to_mouth := 20.0 
+	var dist_to_mouth := 20.0
 	attack_spawn_point.position = Vector2.DOWN * dist_to_mouth

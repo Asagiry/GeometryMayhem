@@ -15,7 +15,7 @@ var max: bool = false
 @onready var free_timer: Timer = $QueueFreeTimer
 
 func _ready():
-	sprite.play("idle")   
+	sprite.play("idle")
 	free_timer.start(LIFETIME_OF_PROJECTILE)
 	_update_hitbox(sprite.frame)
 
@@ -35,8 +35,8 @@ func _update_hitbox(frame: int) -> void:
 			2:
 				collision_shape.scale = Vector2(1,1)
 				max = true
-				sprite.stop() 
-				sprite.frame = 2 
+				sprite.stop()
+				sprite.frame = 2
 
 
 func _on_hit_box_component_area_entered(area: Area2D):

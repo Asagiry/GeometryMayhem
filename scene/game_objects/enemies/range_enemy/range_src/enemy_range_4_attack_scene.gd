@@ -1,6 +1,8 @@
 class_name EnemyRange4AttackScene
 extends Node2D
 
+@export var segment_length: float = 16.0
+
 const LIFETIME_OF_PROJECTILE: float = 6.0
 const PHASE_GROW := 0
 const PHASE_STAY := 1
@@ -12,9 +14,6 @@ var max_distance: float = 200.0
 var total_attack_duration: float = 0.5
 var grow_time: float = 0.3
 var stay_time: float = 0.2
-
-@export var segment_length: float = 16.0
-
 var phase: int = PHASE_GROW
 var phase_timer: float = 0.0
 var segments: Array[Sprite2D] = []
@@ -55,7 +54,7 @@ func _build_segments() -> void:
 		total_segments = 1
 	for i in range(total_segments):
 		var s: Sprite2D = segment_template.duplicate() as Sprite2D
-		s.visible = false         
+		s.visible = false
 		s.centered = true
 		var dist := segment_length * (i + 0.5)
 		s.position = Vector2.RIGHT * dist
