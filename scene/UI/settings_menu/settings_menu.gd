@@ -13,10 +13,10 @@ func _ready() -> void:
 
 
 func _enter_variables():
-	tabs.set_tab_title(0, "Игра")
-	tabs.set_tab_title(1, "Видео")
-	tabs.set_tab_title(2, "Управление")
-	tabs.set_tab_title(3, "Звук")
+	tabs.set_tab_title(0, "Game")
+	tabs.set_tab_title(1, "Video")
+	tabs.set_tab_title(2, "Controls")
+	tabs.set_tab_title(3, "Sound")
 
 
 func _connect_signals():

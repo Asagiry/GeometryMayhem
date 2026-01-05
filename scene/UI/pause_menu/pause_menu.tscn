@@ -109,6 +109,7 @@ theme_override_constants/separation = 100
 
 [node name="Label" type="Label" parent="MarginContainer/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 30
 text = "PAUSED"
 horizontal_alignment = 1
 
@@ -119,14 +120,17 @@ alignment = 1
 
 [node name="ResumeButton" type="Button" parent="MarginContainer/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "Продолжить"
 
 [node name="SettingsButton" type="Button" parent="MarginContainer/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "Настройки"
 
 [node name="MainMenuButton" type="Button" parent="MarginContainer/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "Главное Меню"
 
 [connection signal="pressed" from="MarginContainer/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]

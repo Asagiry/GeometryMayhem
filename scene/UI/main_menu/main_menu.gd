@@ -6,6 +6,19 @@ var talants_menu = preload("res://scene/UI/talents_menu/talents_menu.tscn")
 var statistics = preload("res://scene/UI/statistics/statistics.tscn")
 var achievements_menu = preload("res://scene/UI/achievements_menu/achievements_menu.tscn")
 
+@onready var play_btn: Control = %PlayButton 
+
+
+func _ready():
+	var rt = get_tree().root.theme
+	print("Root theme path:", rt.resource_path if rt else "NULL")
+
+	print("play_btn class:", play_btn.get_class())
+	print("play_btn.theme path:", play_btn.theme.resource_path if play_btn.theme else "NULL")
+	print("override normal stylebox?:", play_btn.has_theme_stylebox_override("normal"))
+	print("theme variation:", play_btn.theme_type_variation)
+
+
 func _on_play_button_pressed() -> void:
 	Global.game_started.emit()
 	get_tree().change_scene_to_file("res://scene/UI/loading_screen/loading_screen.tscn")
