@@ -1,11 +1,13 @@
 class_name EnemyRange4AttackScene
 extends Node2D
 
-@export var segment_length: float = 16.0
-
 const LIFETIME_OF_PROJECTILE: float = 6.0
 const PHASE_GROW := 0
 const PHASE_STAY := 1
+
+@export var segment_length: float = 16.0
+
+
 var projectile_speed: float = 200.0
 var direction: Vector2 = Vector2.ZERO
 var effects: Array[Effect] = []

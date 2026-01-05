@@ -1,5 +1,4 @@
 class_name EnemyRangeAttackController4
-
 extends EnemyAttackController
 
 const DELAY_BETWEEN_PROJECTILES: float = 0.1
