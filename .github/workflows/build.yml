@@ -21,13 +21,16 @@ jobs:
           godot_export_templates_download_url: https://github.com/godotengine/godot/releases/download/4.5-stable/Godot_v4.5-stable_export_templates.tpz
           presets_to_export: "Windows Desktop"
           cache: true
-          output_folder: build
 
       - name: Clean up and Archive
         run: |
-          rm -f build/Windows\ Desktop/*.console.exe
+          BUILD_DIR="$HOME/.local/share/godot/builds/Windows Desktop"
+
+          rm -f "$BUILD_DIR"/*.console.exe
+
           mkdir -p dist
-          zip -j -r dist/GeometryMayhem_Windows.zip build/Windows\ Desktop/*
+
+          zip -j -r dist/GeometryMayhem_Windows.zip "$BUILD_DIR"/*
 
       - name: Upload to GitHub Release
         uses: softprops/action-gh-release@v1
