@@ -28,6 +28,7 @@ func _on_enemy_died(enemy_stats: EnemyStatData) -> void:
 		var artefact = Global.artefact_database.get_random_accessible_artefact(rarity)
 		if artefact:
 			Global.inventory.add_artefact(artefact.id)
+			Global.runtime_script._on_artefact_is_given(artefact)
 			print("Drop! Rarity: ", Util.ArtefactRarity.keys()[rarity])
 			return
 	if rarity == null:

@@ -7,7 +7,7 @@ var effect_receiver: EffectReceiver
 
 
 func _ready():
-	super._ready()  # Вызовет _setup_owner_reference() и _setup_stat_subscriptions()
+	super._ready()
 	_connect_signals()
 
 
@@ -35,15 +35,14 @@ func _setup_owner_reference():
 
 
 func _apply_armor_formula(damage: float, _armor: float) -> float:
-	# 🔧 Здесь можно реализовать любую формулу снижения урона
-	# Пример 1: Процентное снижение (максимум 80%)
+	# Процентное снижение (максимум 80%)
 	# var damage_reduction = min(armor / (armor + 100), 0.8)
 	# return damage * (1.0 - damage_reduction)
 
-	# Пример 2: Плоское снижение
+	#Плоское снижение
 	# return max(damage - armor, damage * 0.1)  # Минимум 10% урона
 
-	# Пример 3: Гибридная формула
+	#Гибридная формула
 	#var flat_reduction = get_armor() * 0.5
 	#var percentage_reduction = min(armor * 0.01, 0.6)  # Максимум 60%
 	#var after_flat = max(damage - flat_reduction, 0)

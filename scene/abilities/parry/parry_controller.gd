@@ -62,7 +62,6 @@ func activate_parry(input_state: bool):
 	if parry_instance:
 		parry_instance.update_parameters(get_angle(), get_radius())
 
-	# 1. Поворот
 	if input_state and player:
 		var mouse_pos = player.get_global_mouse_position()
 		var direction = (mouse_pos - player.global_position).normalized()
@@ -72,14 +71,11 @@ func activate_parry(input_state: bool):
 		if player.movement_component:
 			player.movement_component.last_direction = direction
 
-	# 2. ДВОЙНОЕ ОЖИДАНИЕ (для гарантии обновления Area2D)
 	await get_tree().physics_frame
 	await get_tree().physics_frame
 
-	# 3. Логика (передаем input_state, чтобы вызвать force_refresh)
 	_parry_logic(input_state)
 
-	# 4. Ждем длительность анимации
 	await get_tree().create_timer(get_duration()).timeout
 
 	is_parrying = false
@@ -107,7 +103,6 @@ func _parry_logic(input_state):
 	if successful_parry:
 		Global.player_successful_parry.emit()
 
-# Геттеры (без изменений)
 func get_cooldown() -> float: return get_stat("parry_cd") * cooldown_multiplier
 func get_angle() -> float: return get_stat("parry_angle")
 func get_radius() -> float: return get_stat("parry_radius")

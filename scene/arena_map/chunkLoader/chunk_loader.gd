@@ -47,6 +47,14 @@ func setup():
 		_get_tile_data(arena_zone)
 		arena_zone.clear()
 		_create_chunk_areas(arena_zone)
+	if Global.has_signal("player_died"):
+		if not Global.player_died.is_connected(_on_player_died):
+			Global.player_died.connect(_on_player_died)
+
+func _on_player_died():
+	is_enabled = false
+	frequency_timer.stop()
+	query_timer.stop()
 
 
 func _get_tile_data(arena_zone: ArenaZone):
@@ -121,19 +129,17 @@ func _on_frequency_timer_timeout() -> void:
 		return
 
 	var current_chunk = get_current_chunk()
+	if current_chunk == null:
+		return
 
 	if current_chunk == last_chunk:
 		return
-
 	last_chunk = current_chunk
-
 	_handle_chunks(current_chunk)
-
 	query_timer.start(query_wait_time)
 
 
 func _handle_chunks(current_chunk: ChunkData):
-
 	chunks_to_load = []
 
 	var chunks_in_radius: Array[ChunkData] = get_disk_chunks_around_chunk(current_chunk)
@@ -153,12 +159,13 @@ func _handle_chunks(current_chunk: ChunkData):
 
 
 func get_current_chunk() -> ChunkData:
-	const TILE_SIZE = 16  # пикселей на тайл
+	if not is_instance_valid(player):
+		return null
 
-	# Позиция игрока в тайлах
+	const TILE_SIZE = 16
+
 	var player_tile = Vector2i(player.global_position) / TILE_SIZE
 
-	# Позиция чанка = тайлы / chunk_size
 	var chunk_coord = Vector2i(
 		floor(player_tile.x / chunk_size),
 		floor(player_tile.y / chunk_size)

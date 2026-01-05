@@ -30,4 +30,5 @@ func end() -> void:
 	_receiver.set_attack_duration_multiplier(DEFAULT_MULTIPLIER)
 	_receiver.owner.movement_component.set_freeze_multiplier(DEFAULT_MULTIPLIER)
 	_receiver.active_special_states.erase(_effect.effect_type)
+	_receiver.effect_ended.emit(Util.EffectType.FREEZE)
 	super.end()

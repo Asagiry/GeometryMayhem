@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://cu58eoeg0bvxb"]
+[gd_scene load_steps=38 format=3 uid="uid://cu58eoeg0bvxb"]
 
 [ext_resource type="Script" uid="uid://c1gjmkoe3un7b" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy.gd" id="1_iiu1m"]
 [ext_resource type="Script" uid="uid://vean0446eao1" path="res://scene/game_objects/enemies/abstract_enemy/src/enemy_stat_data.gd" id="2_uj4o8"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://csmleslly1twg" path="res://scene/components/hurt_box_component/hurt_box.tscn" id="8_fgrwm"]
 [ext_resource type="Texture2D" uid="uid://dpk5xg7owvym0" path="res://assets/mobs/bomb/EASY/1/AGGRO/AGGRO1.png" id="9_iiu1m"]
 [ext_resource type="PackedScene" uid="uid://0ea6np48h42c" path="res://scene/game_objects/enemies/components/enemy_attack_controller/enemy_bomb_attack_controller/enemy_bomb_attack_controller.tscn" id="9_y8ni5"]
+[ext_resource type="PackedScene" uid="uid://csqggxijq322b" path="res://scene/components/vfx_effect_component/vfx_effect_component.tscn" id="10_vgq5c"]
 [ext_resource type="Texture2D" uid="uid://lh5s5j316kd" path="res://assets/mobs/bomb/EASY/1/AGGRO/AGGRO2.png" id="10_y8ni5"]
 [ext_resource type="Texture2D" uid="uid://b8eew0pdnjgiv" path="res://assets/mobs/bomb/EASY/1/AGGRO/AGGRO3.png" id="11_gua6m"]
 [ext_resource type="Texture2D" uid="uid://w51y2mu8kyxs" path="res://assets/mobs/bomb/EASY/1/AGGRO/AGGRO4.png" id="12_vgq5c"]
@@ -53,7 +54,7 @@ attack_range_zone = 20.0
 explosion_delay = 0.5
 metadata/_custom_type_script = "uid://vean0446eao1"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_vgq5c"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iyidb"]
 resource_local_to_scene = true
 shader = ExtResource("30_gua6m")
 shader_parameter/percent = 0.0
@@ -165,10 +166,13 @@ metadata/_custom_type_script = "uid://d0iyojlfkjpup"
 [node name="EnemyAttackController" parent="." instance=ExtResource("9_y8ni5")]
 unique_name_in_owner = true
 
+[node name="VFXEffectComponent" parent="." node_paths=PackedStringArray("effect_receiver") instance=ExtResource("10_vgq5c")]
+effect_receiver = NodePath("../EffectReceiver")
+
 [node name="FlashComponent" parent="." node_paths=PackedStringArray("health_component", "sprite") instance=ExtResource("29_gua6m")]
 health_component = NodePath("../HealthComponent")
 sprite = NodePath("../AnimatedSprite2D")
-flash_material = SubResource("ShaderMaterial_vgq5c")
+flash_material = SubResource("ShaderMaterial_iyidb")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true

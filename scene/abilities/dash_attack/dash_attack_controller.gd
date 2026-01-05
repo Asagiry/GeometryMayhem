@@ -59,7 +59,7 @@ func activate_dash(input_state: bool):
 	_disable_player_hurt_box(true)
 
 
-
+	Global.player_successful_dash.emit()
 	is_dash_from_mouse = input_state
 	if is_dash_from_mouse:
 		_activate_mouse_click_dash(dash_attack_instance)

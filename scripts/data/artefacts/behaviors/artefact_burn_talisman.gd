@@ -8,16 +8,16 @@ func apply_to_player(player: PlayerController, _params: Dictionary) -> void:
 			Util.EffectType.BURN,
 			Util.EffectBehavior.DOT,
 			Util.EffectPositivity.NEGATIVE,
-			_params.get("duration")
+			_params.get(0).get("duration")
 		) \
 		.with_damage(
-			_params.get("damage")
+			_params.get(0).get("damage")
 		) \
 		.with_tick_interval(
-			_params.get("tick_interval")
+			_params.get(0).get("tick_interval")
 		) \
 		.with_chance(
-			_params.get("chance")
+			_params.get(0).get("chance")
 		) \
 		.build()
 	player.effects.append(effect)

@@ -13,6 +13,7 @@ signal player_spawned(player: PlayerController)
 signal player_damage_done
 signal player_successful_parry
 signal player_stats_changed(updated_stats)
+signal player_successful_dash
 
 signal game_timer_timeout
 signal player_pulled
@@ -22,7 +23,9 @@ signal game_ended
 
 
 const DELAY_IN_CLOSING: float = 0.5
+
 var meta_ui_instance
+var runtime_script: RuntimeScript
 
 @onready var database: DatabaseManager = DatabaseManager.new()
 @onready var artefact_database: ArtefactDatabase = ArtefactDatabase.new()
@@ -38,12 +41,23 @@ func _ready():
 	add_child(inventory)
 	add_child(meta_progression)
 	add_child(loot_manager)
+	game_started.connect(_on_game_started)
+
 
 
 func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		get_tree().set_auto_accept_quit(false)
 		save_and_quit()
+
+
+func _on_game_started():
+	runtime_script = RuntimeScript.new()
+	add_child(runtime_script)
+
+
+func _on_game_ended():
+	runtime_script.queue_free()
 
 
 func _save():
