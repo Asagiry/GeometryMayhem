@@ -2,13 +2,13 @@ name: Build and Release
 
 on:
   push:
-    tags: [ "v*" ] 
+    tags: [ "v*" ]
 
 permissions:
   contents: write
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -17,31 +17,21 @@ jobs:
       - name: Export Windows build
         uses: firebelley/godot-export@v7.0.0
         with:
-          godot_executable_download_url: https://github.com/godotengine/godot-builds/releases/download/4.5-stable/Godot_v4.5-stable_linux.x86_64.zip
-          godot_export_templates_download_url: https://github.com/godotengine/godot-builds/releases/download/4.5-stable/Godot_v4.5-stable_export_templates.tpz
+          godot_executable_download_url: https://github.com/godotengine/godot/releases/download/4.5-stable/Godot_v4.5-stable_linux.x86_64.zip
+          godot_export_templates_download_url: https://github.com/godotengine/godot/releases/download/4.5-stable/Godot_v4.5-stable_export_templates.tpz
           presets_to_export: "Windows Desktop"
           cache: true
+          output_folder: build
 
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
-        with:
-            name: windows-build
-            path: ~/.local/share/godot/builds/Windows Desktop/*
-
-
-  release:
-    needs: build        
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: windows-build
-          path: ./Windows
+      - name: Clean up and Archive
+        run: |
+          rm -f build/Windows\ Desktop/*.console.exe
+          mkdir -p dist
+          zip -j -r dist/GeometryMayhem_Windows.zip build/Windows\ Desktop/*
 
       - name: Upload to GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: ./Windows/*
+          files: dist/GeometryMayhem_Windows.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
