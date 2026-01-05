@@ -2,8 +2,8 @@ class_name EnemyRangeAttackController4
 
 extends EnemyAttackController
 
-
 const DELAY_BETWEEN_PROJECTILES: float = 0.1
+
 var chance_to_deploy_additional_projectile: float
 
 @onready var attack_spawn_point: Node2D = %AttackSpawnPoint
