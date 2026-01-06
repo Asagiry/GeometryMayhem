@@ -131,6 +131,6 @@ grow_vertical = 0
 pivot_offset = Vector2(64, 15)
 size_flags_horizontal = 4
 size_flags_vertical = 8
-text = "Подтвердить"
+text = "Continue"
 
 [connection signal="pressed" from="ColorRect/OkButton" to="." method="_on_ok_button_pressed"]
