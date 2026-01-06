@@ -18,7 +18,6 @@ signal player_successful_dash
 
 signal game_timer_timeout
 signal player_pulled
- 
 signal game_started
 signal game_ended
 
@@ -126,8 +125,6 @@ func save_and_quit():
 	_save()
 	await get_tree().create_timer(DELAY_IN_CLOSING).timeout
 	get_tree().quit()
-	
-	
 
 func _save_stats_to_db_once():
 	var new_total_kills = base_total_kills + session_total_kills_add
