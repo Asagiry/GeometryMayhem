@@ -95,7 +95,8 @@ layout_mode = 2
 text = "Runs"
 horizontal_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/VBoxContainer/VBoxContainer/MarginContainer/GridContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Runs" type="Label" parent="Control/VBoxContainer/VBoxContainer/MarginContainer/GridContainer/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="PanelContainer2" type="PanelContainer" parent="Control/VBoxContainer/VBoxContainer/MarginContainer/GridContainer"]
@@ -118,7 +119,8 @@ layout_mode = 2
 text = "Kills"
 horizontal_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/VBoxContainer/VBoxContainer/MarginContainer/GridContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+[node name="Kills" type="Label" parent="Control/VBoxContainer/VBoxContainer/MarginContainer/GridContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="PanelContainer3" type="PanelContainer" parent="Control/VBoxContainer/VBoxContainer/MarginContainer/GridContainer"]
@@ -141,7 +143,8 @@ layout_mode = 2
 text = "Best score"
 horizontal_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/VBoxContainer/VBoxContainer/MarginContainer/GridContainer/PanelContainer3/MarginContainer/VBoxContainer"]
+[node name="BestScore" type="Label" parent="Control/VBoxContainer/VBoxContainer/MarginContainer/GridContainer/PanelContainer3/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="PanelContainer4" type="PanelContainer" parent="Control/VBoxContainer/VBoxContainer/MarginContainer/GridContainer"]
@@ -161,10 +164,11 @@ theme_override_constants/separation = 6
 
 [node name="Label" type="Label" parent="Control/VBoxContainer/VBoxContainer/MarginContainer/GridContainer/PanelContainer4/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Time played"
+text = "Bosses killed"
 horizontal_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/VBoxContainer/VBoxContainer/MarginContainer/GridContainer/PanelContainer4/MarginContainer/VBoxContainer"]
+[node name="BossesKilled" type="Label" parent="Control/VBoxContainer/VBoxContainer/MarginContainer/GridContainer/PanelContainer4/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 
 [connection signal="pressed" from="Control/VBoxContainer/ToolbarContainer/MarginContainer/HBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

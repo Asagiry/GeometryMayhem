@@ -33,6 +33,8 @@ func _init_database():
 
 	_create_tables_if_needed()
 	_create_player_record_if_needed()
+	_create_player_stats_record_if_needed()
+	print("DB path: ", ProjectSettings.globalize_path(_DATABASE_PATH))
 	print("Успешная инициализация БД")
 
 
@@ -55,6 +57,17 @@ func _create_tables_if_needed():
 		);
 	""")
 
+	_database.query("""
+		CREATE TABLE IF NOT EXISTS player_stats (
+			id TEXT PRIMARY KEY UNIQUE,
+			total_kills INTEGER DEFAULT 0,
+			max_kills_in_game INTEGER DEFAULT 0,
+			games_played INTEGER DEFAULT 0,
+			boss_killed INTEGER DEFAULT 0
+		);
+	""")
+
+
 
 func _create_player_record_if_needed():
 	_database.query(
@@ -65,6 +78,15 @@ func _create_player_record_if_needed():
 	if _database.query_result.is_empty():
 		_database.query("INSERT INTO player_meta (id) VALUES('%s')" % [PLAYER_ID])
 
+func _create_player_stats_record_if_needed():
+	_database.query(
+		"""SELECT * FROM player_stats WHERE id = '%s'""" % [PLAYER_ID]
+	)
+
+	if _database.query_result.is_empty():
+		_database.query(
+			"""INSERT INTO player_stats (id) VALUES ('%s')""" % [PLAYER_ID]
+		)
 
 func insert_player_artefact(player_arts: Array[PlayerArtefact]):
 	var ok: bool = false
@@ -104,6 +126,30 @@ func insert_player_data(player_data: PlayerData):
 	if !ok:
 		push_warning("Ошибка при сохранении player_meta")
 
+func insert_player_stats(
+	total_kills: int,
+	max_kills_in_game: int,
+	games_played: int,
+	boss_killed: int
+):
+	var ok := _database.query("""
+	INSERT INTO player_stats (id, total_kills, max_kills_in_game, games_played, boss_killed)
+	VALUES ('%s', %d, %d, %d, %d)
+	ON CONFLICT(id) DO UPDATE SET
+		total_kills = excluded.total_kills,
+		max_kills_in_game = excluded.max_kills_in_game,
+		games_played = excluded.games_played,
+		boss_killed = excluded.boss_killed;
+	""" % [
+		PLAYER_ID,
+		total_kills,
+		max_kills_in_game,
+		games_played,
+		boss_killed
+	])
+
+	if !ok:
+		push_warning("Ошибка при сохранении player_stats")
 
 #возвращает массив словарей такого вида { "id":..., "equipped": 1/0, "level": 1-4}
 func get_player_artefacts():
@@ -113,4 +159,13 @@ func get_player_artefacts():
 
 func get_player_meta():
 	_database.query("""SELECT level, currency, talent_points, knowledge_count FROM player_meta;""")
+	return _database.query_result
+
+
+func get_player_stats():
+	_database.query("""
+		SELECT total_kills, max_kills_in_game, games_played, boss_killed
+		FROM player_stats
+		WHERE id = '%s';
+	""" % [PLAYER_ID])
 	return _database.query_result
