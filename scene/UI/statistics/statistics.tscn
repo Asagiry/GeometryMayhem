@@ -98,6 +98,8 @@ horizontal_alignment = 1
 [node name="Runs" type="Label" parent="Control/VBoxContainer/VBoxContainer/MarginContainer/GridContainer/PanelContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
 
 [node name="PanelContainer2" type="PanelContainer" parent="Control/VBoxContainer/VBoxContainer/MarginContainer/GridContainer"]
 custom_minimum_size = Vector2(360, 140)
@@ -122,6 +124,8 @@ horizontal_alignment = 1
 [node name="Kills" type="Label" parent="Control/VBoxContainer/VBoxContainer/MarginContainer/GridContainer/PanelContainer2/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
 
 [node name="PanelContainer3" type="PanelContainer" parent="Control/VBoxContainer/VBoxContainer/MarginContainer/GridContainer"]
 custom_minimum_size = Vector2(360, 140)
@@ -146,6 +150,8 @@ horizontal_alignment = 1
 [node name="BestScore" type="Label" parent="Control/VBoxContainer/VBoxContainer/MarginContainer/GridContainer/PanelContainer3/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
 
 [node name="PanelContainer4" type="PanelContainer" parent="Control/VBoxContainer/VBoxContainer/MarginContainer/GridContainer"]
 custom_minimum_size = Vector2(360, 140)
@@ -170,5 +176,7 @@ horizontal_alignment = 1
 [node name="BossesKilled" type="Label" parent="Control/VBoxContainer/VBoxContainer/MarginContainer/GridContainer/PanelContainer4/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
 
 [connection signal="pressed" from="Control/VBoxContainer/ToolbarContainer/MarginContainer/HBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

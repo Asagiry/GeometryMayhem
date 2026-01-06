@@ -35,7 +35,7 @@ theme_override_constants/margin_bottom = 40
 
 [node name="OkButton" type="Button" parent="MarginContainer2"]
 layout_mode = 2
-text = "Подтвердить"
+text = "Confirm"
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchors_preset = 8
@@ -65,20 +65,21 @@ layout_mode = 2
 [node name="Label" type="Label" parent="CenterContainer/HBoxContainer/StatsPanel/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
-text = "Статистика"
+text = "Statistics"
 
 [node name="HSeparator" type="HSeparator" parent="CenterContainer/HBoxContainer/StatsPanel/VBoxContainer"]
 layout_mode = 2
 
 [node name="GridContainer" type="GridContainer" parent="CenterContainer/HBoxContainer/StatsPanel/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/h_separation = 4
-theme_override_constants/v_separation = 24
+theme_override_constants/h_separation = 2
+theme_override_constants/v_separation = 80
 columns = 2
 
 [node name="Label" type="Label" parent="CenterContainer/HBoxContainer/StatsPanel/VBoxContainer/GridContainer"]
 layout_mode = 2
-text = "Убито врагов:"
+theme_override_font_sizes/font_size = 19
+text = "Enemies killed:"
 horizontal_alignment = 2
 
 [node name="KillsValue" type="Label" parent="CenterContainer/HBoxContainer/StatsPanel/VBoxContainer/GridContainer"]
@@ -87,8 +88,8 @@ layout_mode = 2
 
 [node name="Label2" type="Label" parent="CenterContainer/HBoxContainer/StatsPanel/VBoxContainer/GridContainer"]
 layout_mode = 2
-text = "Рывков:"
-horizontal_alignment = 2
+theme_override_font_sizes/font_size = 19
+text = "Dashes:"
 
 [node name="DashesValue" type="Label" parent="CenterContainer/HBoxContainer/StatsPanel/VBoxContainer/GridContainer"]
 unique_name_in_owner = true
@@ -96,8 +97,8 @@ layout_mode = 2
 
 [node name="Label3" type="Label" parent="CenterContainer/HBoxContainer/StatsPanel/VBoxContainer/GridContainer"]
 layout_mode = 2
-text = "Парирований:"
-horizontal_alignment = 2
+theme_override_font_sizes/font_size = 19
+text = "Parries:"
 
 [node name="ParriesValue" type="Label" parent="CenterContainer/HBoxContainer/StatsPanel/VBoxContainer/GridContainer"]
 unique_name_in_owner = true
@@ -114,7 +115,7 @@ layout_mode = 2
 [node name="Label" type="Label" parent="CenterContainer/HBoxContainer/RewardsPanel/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
-text = "Награды"
+text = "Awards"
 
 [node name="HSeparator" type="HSeparator" parent="CenterContainer/HBoxContainer/RewardsPanel/VBoxContainer"]
 layout_mode = 2
